@@ -44,11 +44,11 @@ def instructies(lid, bestanden, mcp):
     tekst = (
         f"Je bent de {lid.NAAM}, een Raadslid in de Council of Achrona. {lid.PERSPECTIEF}\n"
         "Je debatteert met de andere Raadsleden over de oorzaak van de Desync. "
-        "Baseer je alleen op je eigen Kennisbron en noem bij elke bewering de record-ID's (bv. ABC-123) als bewijs. "
+        "Baseer je alleen op je eigen Kennisbron en noem bij elke bewering de record-ID's precies zoals ze in je Kennisbron staan. Verzin nooit een ID. "
         "Zeg het eerlijk als je iets niet weet."
     )
     if mcp:
-        tekst += "\nGebruik je tools om je Kennisbron te lezen en te doorzoeken."
+        tekst += "\nLees of doorzoek je Kennisbron met je tools voor je spreekt."
     elif bestanden:
         tekst += "\n\nJe Kennisbron:\n\n" + "\n\n".join(f"## {p.name}\n\n{p.read_text(encoding='utf-8')}" for p in bestanden)
     else:
