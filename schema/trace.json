@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Debat-trace",
-  "description": "Ongewijzigde uitvoer van de run die het Council Verdict maakte: wie wat inbracht, welke bronnen werden gelezen en hoe geschillen werden beslecht. Extra velden mogen.",
+  "description": "Ongewijzigde uitvoer van de run die het Council Verdict maakte: wie wie aan het woord liet en waarom (routering), wie wat inbracht, welke bronnen werden gelezen en hoe geschillen werden beslecht. Extra velden mogen.",
   "type": "object",
   "required": [
     "run_id",
@@ -76,6 +76,7 @@
             {
               "enum": [
                 "voorzitter",
+                "orchestrator",
                 "mens"
               ]
             }
@@ -85,12 +86,20 @@
           "enum": [
             "bericht",
             "toolcall",
-            "bestand"
+            "bestand",
+            "routering"
           ]
         },
         "aan": {
-          "$ref": "#/$defs/rol",
-          "description": "Optioneel (Extra uitdaging): aan welke Rol deze beurt een gerichte vraag stelt."
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rol"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Bij een routering: aan welke Rol de beurt gaat; null = de Orchestrator stopt het debat."
         }
       },
       "allOf": [
@@ -158,6 +167,43 @@
               "bestand": {
                 "type": "string",
                 "description": "Kennisbron-bestand dat in de prompt ging (fallback zonder MCP), bv. oracle/visioenendagboek.md."
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "soort": {
+                "const": "routering"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "aan",
+              "vraag",
+              "reden"
+            ],
+            "properties": {
+              "vraag": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "De vraag aan die Rol; null als het debat stopt."
+              },
+              "reden": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Waarom de Orchestrator deze keuze maakt."
+              },
+              "open_vragen": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Optioneel (Extra uitdaging): de open vragen van de Orchestrator na deze keuze."
               }
             }
           }

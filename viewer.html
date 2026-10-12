@@ -9,14 +9,14 @@
     --bg: #f6f5f2; --paneel: #ffffff; --tekst: #1d1d1f; --zacht: #6b6b70; --lijn: #e3e1dc;
     --waarschuwing: #b45309; --fout: #b91c1c; --ok: #15803d;
     --archmage: #6d4aff; --engineer: #c2780a; --guardian_keeper: #0b84c4; --historian: #8a5a12;
-    --oracle: #c0266d; --beast_master: #15803d; --voorzitter: #475569; --mens: #b91c1c;
+    --oracle: #c0266d; --beast_master: #15803d; --voorzitter: #475569; --mens: #b91c1c; --orchestrator: #0f766e;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #141416; --paneel: #1d1d21; --tekst: #ececef; --zacht: #9a9aa3; --lijn: #2e2e34;
       --waarschuwing: #f59e0b; --fout: #f87171; --ok: #4ade80;
       --archmage: #a28bff; --engineer: #fbbf24; --guardian_keeper: #38bdf8; --historian: #d6a35c;
-      --oracle: #f472b6; --beast_master: #4ade80; --voorzitter: #a3b1c6; --mens: #f87171;
+      --oracle: #f472b6; --beast_master: #4ade80; --voorzitter: #a3b1c6; --mens: #f87171; --orchestrator: #2dd4bf;
     }
   }
   * { box-sizing: border-box; }
@@ -76,7 +76,8 @@
 </main>
 <script>
 const NAMEN = { archmage: "Archmage", engineer: "Engineer", guardian_keeper: "Guardian Keeper", historian: "Historian",
-  oracle: "Oracle", beast_master: "Beast Master", voorzitter: "Voorzitter", mens: "Mens" };
+  oracle: "Oracle", beast_master: "Beast Master", voorzitter: "Voorzitter", mens: "Mens", orchestrator: "Orchestrator" };
+const BEURTENBUDGET = 10;
 const PREFIX = { ARC: "archmage", ENG: "engineer", GUA: "guardian_keeper", HIS: "historian", ORA: "oracle", BEA: "beast_master" };
 const ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)([-\u2010-\u2015\u2212])(\d{3})\b/g;
 let vorige = "";
@@ -109,7 +110,8 @@ function render(trace, verdict) {
   // Debat per ronde
   const beurten = trace.beurten || [];
   let html = "", ronde = null;
-  const telling = {}, padfouten = [], voorzitterTools = [], vreemdeIds = [];
+  const telling = {}, padfouten = [], voorzitterTools = [], vreemdeIds = [], zonderRoutering = [];
+  let toegewezen = null, raadslidBeurten = 0;
   for (const b of beurten) {
     if (b.ronde !== ronde) {
       ronde = b.ronde;
@@ -117,6 +119,20 @@ function render(trace, verdict) {
     }
     const t = telling[b.spreker] ??= { berichten: 0, tools: 0, ids: new Set() };
     const stijl = `style="--kleur:${kleur(b.spreker)}"`;
+    if (b.soort === "routering") {
+      toegewezen = b.aan;
+      const wie = `<span style="color:${kleur(b.spreker)}">${esc(NAMEN[b.spreker] || b.spreker)}</span>`;
+      const open = (b.open_vragen || []).length ? `<br>Open vragen: ${b.open_vragen.map(v => opmaak(v)).join(" · ")}` : "";
+      html += b.aan
+        ? `<div class="beurt klein" ${stijl}>${wie} → <b style="color:${kleur(b.aan)}">${esc(NAMEN[b.aan] || b.aan)}</b>: ${opmaak(b.vraag)}<br>Waarom: ${opmaak(b.reden)}${open}</div>`
+        : `<div class="beurt klein" ${stijl}>${wie} stopt het debat. Waarom: ${opmaak(b.reden)}${open}</div>`;
+      continue;
+    }
+    if (b.soort === "bericht" && NAMEN[b.spreker] && !["voorzitter", "mens", "orchestrator"].includes(b.spreker)) {
+      raadslidBeurten++;
+      if (toegewezen !== b.spreker) zonderRoutering.push(b.nr);
+      toegewezen = null;
+    }
     if (b.soort === "bericht") {
       t.berichten++;
       for (const x of ids(b.tekst)) { t.ids.add(x.id); if (x.raar) vreemdeIds.push(x.id); }
@@ -160,6 +176,8 @@ function render(trace, verdict) {
     [zonderBron.length ? "let" : "ok", zonderBron.length ? `Zonder bron: ${zonderBron.map(r => NAMEN[r] || r).join(", ")}` : "Elk Raadslid raadpleegde een bron"],
     [vreemdeIds.length ? "let" : "ok", vreemdeIds.length ? `ID's met een vreemd koppelteken: ${[...new Set(vreemdeIds)].join(", ")}` : "ID's in de juiste vorm"],
     [(trace.raadsleden || []).length >= 3 ? "ok" : "let", `${(trace.raadsleden || []).length} Rollen (minimum 3)`],
+    [raadslidBeurten > BEURTENBUDGET ? "fout" : "ok", `${raadslidBeurten} van ${BEURTENBUDGET} Raadslid-beurten (Beurtenbudget)`],
+    [zonderRoutering.length ? "fout" : "ok", zonderRoutering.length ? `Raadslid-beurt zonder Routering ervoor (beurt ${zonderRoutering.join(", ")})` : "Elke Raadslid-beurt had een Routering"],
   ];
   document.getElementById("checks").innerHTML = checks.map(([k, t]) => `<div class="check ${k}">${esc(t)}</div>`).join("");
 

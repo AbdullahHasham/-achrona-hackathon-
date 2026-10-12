@@ -9,6 +9,24 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).parent
 # Modellen schrijven ID's soms met een speciaal koppelteken (bv. U+2011): dat faalt op het schema.
 RARE_STREEP = re.compile("(ARC|ENG|GUA|HIS|ORA|BEA)[‐‑‒–—―−][0-9]{3}")
+ROLLEN = ("archmage", "engineer", "guardian_keeper", "historian", "oracle", "beast_master")
+BEURTENBUDGET = 10
+
+
+def spelregels(trace):
+    """Beurtenbudget en een Routering vóór elke Raadslid-beurt (spelregels, ticket 20)."""
+    fout, toegewezen, aantal = [], None, 0
+    for b in trace.get("beurten") or []:
+        if b.get("soort") == "routering":
+            toegewezen = b.get("aan")
+        elif b.get("soort") == "bericht" and b.get("spreker") in ROLLEN:
+            aantal += 1
+            if toegewezen != b["spreker"]:
+                fout.append(f"trace.json: beurt {b.get('nr')} ({b['spreker']}) heeft geen Routering naar die Rol ervoor")
+            toegewezen = None
+    if aantal > BEURTENBUDGET:
+        fout.append(f"trace.json: {aantal} Raadslid-beurten, het Beurtenbudget is {BEURTENBUDGET}")
+    return fout
 
 
 def fouten(naam):
@@ -25,7 +43,7 @@ def main():
     sys.stdout.reconfigure(encoding="utf-8")
     verdict, f1 = fouten("verdict.json")
     trace, f2 = fouten("trace.json")
-    alle = f1 + f2
+    alle = f1 + f2 + (spelregels(trace) if trace else [])
     if verdict and trace and verdict.get("run_id") != trace.get("run_id"):
         alle.append("run_id van verdict.json en trace.json verschilt: ze moeten uit dezelfde run komen")
     if verdict and RARE_STREEP.search(json.dumps(verdict, ensure_ascii=False)):

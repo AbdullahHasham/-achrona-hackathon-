@@ -1,6 +1,7 @@
-"""Council of Achrona: een mini-Council met round-robin debat en een Voorzitter.
+"""Council of Achrona: een mini-Council met een Orchestrator, Raadsleden en een Voorzitter.
 
 Start met `uv run council`. Schrijft verdict.json en trace.json in de root van de repo.
+De Orchestrator zit in `kies_volgende()`: die beslist wie spreekt, met welke vraag en waarom.
 """
 import asyncio
 import json
@@ -21,6 +22,24 @@ import raadsleden
 ROOT = Path(__file__).parent
 KENNISBRONNEN = ROOT / "kennisbronnen"
 ROLLEN = ("archmage", "engineer", "guardian_keeper", "historian", "oracle", "beast_master")
+BEURTENBUDGET = 10  # spelregel: maximaal 10 Raadslid-beurten (berichten van Raadsleden) per run
+
+
+def kies_volgende(beurten, leden):
+    """De Orchestrator: beslist wie nu spreekt, met welke vraag en waarom.
+
+    `beurten` is het debat tot nu toe (dezelfde lijst als in trace.json), `leden` de Raadsleden.
+    Geef `(rol, vraag, reden)` terug, of `(None, None, reden)` om het debat te stoppen.
+
+    TODO voor jullie team: dit is een vaste volgorde (round-robin). Vervang ze door een eigen
+    Orchestrator, bv. een agent (de Voorzitter) of regels die kijken naar wat er gezegd is.
+    """
+    rondes = int(os.getenv("RONDES", "2"))
+    gesproken = sum(1 for b in beurten if b["soort"] == "bericht" and b["spreker"] in ROLLEN)
+    if gesproken >= rondes * len(leden):
+        return None, None, "vaste volgorde: alle rondes gespeeld"
+    lid = leden[gesproken % len(leden)]
+    return lid.ROL, "Geef je inbreng in hoogstens 150 woorden. Reageer op wat de anderen zeiden.", "vaste volgorde"
 
 
 def controleer(leden):
@@ -90,7 +109,6 @@ def toolcalls(response):
 
 async def run():
     load_dotenv(ROOT / ".env")
-    rondes = int(os.getenv("RONDES", "2"))
     opties = {"reasoning_effort": os.environ["REASONING"]} if os.getenv("REASONING") else None  # minder denkwerk = minder tokens
     run_id = f"{datetime.now().astimezone().isoformat(timespec='seconds')}_{uuid.uuid4().hex[:8]}"
     leden = raadsleden.alle()
@@ -128,23 +146,35 @@ async def run():
 
         (ROOT / "verdict.json").unlink(missing_ok=True)  # setup gelukt: geen Verdict van een vorige run laten staan
         bewaar("trace.json", trace)
-        debat = []
-        for ronde in range(1, rondes + 1):
-            for lid, mcp_url, agent in agents:
-                vraag = (
-                    "Debat tot nu toe:\n\n" + ("\n\n".join(debat) or "(nog niets)")
-                    + f"\n\nRonde {ronde} van {rondes}. Geef je inbreng in hoogstens 150 woorden. "
-                    "Reageer op wat de anderen zeiden."
-                )
-                trace["aan_het_woord"] = lid.ROL
-                bewaar("trace.json", trace)
-                r = await agent.run(vraag, options=opties)
-                tel(verbruik, "klein", r.usage_details)
-                for tool, args in toolcalls(r):
-                    beurt(ronde, lid.ROL, "toolcall", tool=tool, argumenten=args, pad=mcp_url)
-                beurt(ronde, lid.ROL, "bericht", tekst=r.text)
-                debat.append(f"{lid.NAAM}: {r.text}")
-                print(f"\n[ronde {ronde}] {lid.NAAM}:\n{r.text}")
+        per_rol = {lid.ROL: (lid, mcp_url, agent) for lid, mcp_url, agent in agents}
+        debat, ronde = [], 1
+        while True:
+            gesproken = sum(1 for b in beurten if b["soort"] == "bericht" and b["spreker"] in per_rol)
+            if gesproken >= BEURTENBUDGET:
+                rol, vraag, reden = None, None, f"Beurtenbudget op ({BEURTENBUDGET} Raadslid-beurten)"
+            else:
+                rol, vraag, reden = kies_volgende(beurten, leden)
+            if rol is not None and rol not in per_rol:
+                sys.exit(f"kies_volgende() koos {rol!r}, maar die Rol zit niet in raadsleden/.")
+            if rol is not None:
+                ronde = gesproken // len(leden) + 1
+            # Elke keuze van de Orchestrator staat in de trace: aan wie, welke vraag en waarom.
+            beurt(ronde, "orchestrator", "routering", aan=rol, vraag=vraag, reden=reden)
+            print(f"\n[Orchestrator] {'stopt' if rol is None else '→ ' + per_rol[rol][0].NAAM}: {reden}")
+            if rol is None:
+                break
+            lid, mcp_url, agent = per_rol[rol]
+            # Wie ziet wat? Hier ziet elk Raadslid het hele debat (broadcast). Ook dat is een keuze.
+            prompt = "Debat tot nu toe:\n\n" + ("\n\n".join(debat) or "(nog niets)") + f"\n\nVraag aan jou: {vraag}"
+            trace["aan_het_woord"] = rol
+            bewaar("trace.json", trace)
+            r = await agent.run(prompt, options=opties)
+            tel(verbruik, "klein", r.usage_details)
+            for tool, args in toolcalls(r):
+                beurt(ronde, rol, "toolcall", tool=tool, argumenten=args, pad=mcp_url)
+            beurt(ronde, rol, "bericht", tekst=r.text)
+            debat.append(f"{lid.NAAM}: {r.text}")
+            print(f"\n[ronde {ronde}] {lid.NAAM}:\n{r.text}")
 
     # De Voorzitter heeft geen Rol en geen Kennisbron: hij kent alleen wat de Raadsleden inbrachten.
     trace["aan_het_woord"] = "voorzitter"
@@ -156,7 +186,7 @@ async def run():
         + "\n\nVat samen: waarover zijn de Raadsleden het eens, waarover niet, en welk bewijs (record-ID's) noemden ze?",
     )
     tel(verbruik, "groot", r.usage_details)
-    beurt(rondes + 1, "voorzitter", "bericht", tekst=r.text)
+    beurt(ronde + 1, "voorzitter", "bericht", tekst=r.text)
     print(f"\n[Voorzitter]:\n{r.text}")
 
     # TODO voor jullie team: laat de Council dit Verdict zelf invullen (zie schema/verdict.json).
