@@ -6,6 +6,7 @@ requires-python = ">=3.12"
 dependencies = [
     "agent-framework-core>=1.21",
     "agent-framework-openai>=1.16",
+    "mcp>=1.30,<2",
     "python-dotenv>=1.0",
     "jsonschema>=4.23",
 ]
