@@ -14,6 +14,7 @@ from pathlib import Path
 from agent_framework import Agent, MCPStreamableHTTPTool
 from agent_framework.openai import OpenAIChatCompletionClient
 from dotenv import load_dotenv
+from openai import AsyncOpenAI
 
 import raadsleden
 
@@ -25,9 +26,12 @@ def client(model_env):
     key = os.environ["OPENAI_API_KEY"]
     return OpenAIChatCompletionClient(
         model=os.environ[model_env],
-        base_url=os.environ["OPENAI_BASE_URL"],
-        api_key=key,
-        default_headers={"api-key": key},  # het Roboest-endpoint leest de key uit deze header
+        async_client=AsyncOpenAI(
+            base_url=os.environ["OPENAI_BASE_URL"],
+            api_key=key,
+            default_headers={"api-key": key},  # het Roboest-endpoint leest de key uit deze header
+            max_retries=8,  # bij een rate limit (429) wacht de client en probeert opnieuw
+        ),
     )
 
 
