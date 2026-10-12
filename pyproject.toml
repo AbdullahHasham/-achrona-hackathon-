@@ -1,0 +1,23 @@
+[project]
+name = "council-of-achrona-starter-kit"
+version = "0.1.0"
+description = "Starter kit voor de Council of Achrona (Hack The Future 2026, challenge 113)"
+requires-python = ">=3.12"
+dependencies = [
+    "agent-framework-core>=1.21",
+    "agent-framework-openai>=1.16",
+    "python-dotenv>=1.0",
+    "jsonschema>=4.23",
+]
+
+[project.scripts]
+council = "council:main"
+validate = "validate:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["council", "validate"]
+packages = ["raadsleden"]
