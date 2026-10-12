@@ -78,7 +78,7 @@
 const NAMEN = { archmage: "Archmage", engineer: "Engineer", guardian_keeper: "Guardian Keeper", historian: "Historian",
   oracle: "Oracle", beast_master: "Beast Master", voorzitter: "Voorzitter", mens: "Mens" };
 const PREFIX = { ARC: "archmage", ENG: "engineer", GUA: "guardian_keeper", HIS: "historian", ORA: "oracle", BEA: "beast_master" };
-const ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)([-‐‑‒–])(\d{3})\b/g;
+const ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)([-\u2010-\u2015\u2212])(\d{3})\b/g;
 let vorige = "";
 
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -166,7 +166,7 @@ function render(trace, verdict) {
   // Verbruik
   const v = trace.verbruik || {};
   document.getElementById("verbruik").innerHTML = Object.keys(v).length
-    ? `<table>${Object.entries(v).map(([m, x]) => `<tr><td>${esc(m)} · ${x.calls} calls</td><td>${(x.invoer || 0).toLocaleString("nl-BE")} in · ${(x.uitvoer || 0).toLocaleString("nl-BE")} uit</td></tr>`).join("")}</table>`
+    ? `<table>${Object.entries(v).map(([m, x]) => `<tr><td>${esc(m)} · ${x.beurten ?? x.calls} beurten</td><td>${(x.invoer || 0).toLocaleString("nl-BE")} in · ${(x.uitvoer || 0).toLocaleString("nl-BE")} uit</td></tr>`).join("")}</table>`
     : '<span class="leeg">nog geen calls</span>';
 
   // Verdict

@@ -20,6 +20,20 @@ import raadsleden
 
 ROOT = Path(__file__).parent
 KENNISBRONNEN = ROOT / "kennisbronnen"
+ROLLEN = ("archmage", "engineer", "guardian_keeper", "historian", "oracle", "beast_master")
+
+
+def controleer(leden):
+    """Duidelijke melding in plaats van een traceback bij de meest voorkomende fouten."""
+    mist = [v for v in ("OPENAI_BASE_URL", "OPENAI_API_KEY", "MODEL_KLEIN", "MODEL_GROOT") if not os.getenv(v)]
+    if mist:
+        sys.exit(f"In .env ontbreekt: {', '.join(mist)}. Kopieer .env.example naar .env en vul het in, of gebruik de .env van je Teamkaartje.")
+    for lid in leden:
+        if lid.ROL not in ROLLEN:
+            sys.exit(f"raadsleden/: ROL = {lid.ROL!r} is ongeldig. Gebruik de mapnaam van de Rol: {', '.join(ROLLEN)}.")
+    dubbel = {l.ROL for l in leden if [x.ROL for x in leden].count(l.ROL) > 1}
+    if dubbel:
+        sys.exit(f"Eén Raadslid per Rol: {', '.join(dubbel)} komt meer dan eens voor in raadsleden/.")
 
 
 def client(model_env):
@@ -59,8 +73,8 @@ def instructies(lid, bestanden, mcp):
 def tel(verbruik, model, usage):
     if not usage:
         return
-    v = verbruik.setdefault(model, {"calls": 0, "invoer": 0, "gecached": 0, "uitvoer": 0})
-    v["calls"] += 1
+    v = verbruik.setdefault(model, {"beurten": 0, "invoer": 0, "gecached": 0, "uitvoer": 0})
+    v["beurten"] += 1  # één beurt = één agent-run (met MCP soms meerdere model-requests)
     v["invoer"] += usage.get("input_token_count") or 0
     v["gecached"] += usage.get("cache_read_input_token_count") or 0
     v["uitvoer"] += usage.get("output_token_count") or 0
@@ -80,6 +94,7 @@ async def run():
     opties = {"reasoning_effort": os.environ["REASONING"]} if os.getenv("REASONING") else None  # minder denkwerk = minder tokens
     run_id = f"{datetime.now().astimezone().isoformat(timespec='seconds')}_{uuid.uuid4().hex[:8]}"
     leden = raadsleden.alle()
+    controleer(leden)
     beurten, verbruik = [], {}
     trace = {"run_id": run_id, "status": "bezig", "raadsleden": [l.ROL for l in leden], "beurten": beurten, "geschillen": [], "verbruik": verbruik}
 
@@ -90,7 +105,6 @@ async def run():
         beurten.append({"nr": len(beurten) + 1, "ronde": ronde, "spreker": spreker, "soort": soort, **velden})
         bewaar("trace.json", trace)  # na elke beurt: de viewer (`uv run viewer`) toont het debat live
 
-    (ROOT / "verdict.json").unlink(missing_ok=True)  # geen Verdict van een vorige run laten staan
     klein = client("MODEL_KLEIN")
 
     async with AsyncExitStack() as stack:
@@ -100,11 +114,20 @@ async def run():
             bestanden = [] if mcp_url else kennisbron_bestanden(lid.ROL)
             tools = []
             if mcp_url:
-                tools.append(await stack.enter_async_context(MCPStreamableHTTPTool(name=f"kennisbron_{lid.ROL}", url=mcp_url)))
+                try:
+                    tools.append(await stack.enter_async_context(MCPStreamableHTTPTool(name=f"kennisbron_{lid.ROL}", url=mcp_url)))
+                except Exception as e:
+                    sys.exit(f"MCP voor {lid.NAAM} ({mcp_url}) is onbereikbaar: {e}\n"
+                             f"Is de server al open (vanaf 10:00)? Klopt het pad /{lid.ROL}/mcp? "
+                             f"Of laat MCP_{lid.ROL.upper()} leeg om de bestanden uit kennisbronnen/{lid.ROL}/ te gebruiken.")
+            elif not bestanden:
+                print(f"LET OP: {lid.NAAM} heeft geen Kennisbron (MCP_{lid.ROL.upper()} is leeg en kennisbronnen/{lid.ROL}/ ook).")
             for p in bestanden:  # fallback zonder MCP: welke bestanden gingen in de prompt
                 beurt(0, lid.ROL, "bestand", bestand=f"{lid.ROL}/{p.name}")
             agents.append((lid, mcp_url, Agent(klein, instructies(lid, bestanden, mcp_url), name=lid.ROL, tools=tools)))
 
+        (ROOT / "verdict.json").unlink(missing_ok=True)  # setup gelukt: geen Verdict van een vorige run laten staan
+        bewaar("trace.json", trace)
         debat = []
         for ronde in range(1, rondes + 1):
             for lid, mcp_url, agent in agents:
@@ -150,7 +173,7 @@ async def run():
 
     print(f"\nKlaar: verdict.json en trace.json geschreven (run_id {run_id}).")
     for model, v in verbruik.items():
-        print(f"Verbruik {model}: {v['calls']} calls, {v['invoer']} tokens in ({v['gecached']} gecached), {v['uitvoer']} tokens uit")
+        print(f"Verbruik {model}: {v['beurten']} beurten, {v['invoer']} tokens in ({v['gecached']} gecached), {v['uitvoer']} tokens uit")
 
 
 def main():

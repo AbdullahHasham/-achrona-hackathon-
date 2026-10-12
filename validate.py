@@ -32,6 +32,8 @@ def main():
         alle.append("verdict.json bevat ID's met een speciaal koppelteken (bv. ORA‑101): vervang het door een gewoon '-'")
     for f in alle:
         print("FOUT", f)
+    if verdict and verdict.get("samenvatting") == "TODO":
+        print("LET OP: verdict.json is nog het lege sjabloon uit de kit (TODO). Geldig, maar levert geen punten op.")
     print("GROEN: verdict.json en trace.json zijn geldig." if not alle else f"ROOD: {len(alle)} fout(en).")
     sys.exit(1 if alle else 0)
 
