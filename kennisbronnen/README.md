@@ -1,6 +1,6 @@
 # Kennisbronnen
 
-Deze map is leeg. De Kennisbronnen komen uit het Challenge pack (om 10:00 op de dag).
+Deze map is leeg. De Kennisbronnen zitten in het Challenge pack: `https://<mcp-host>/pack.zip`, open vanaf 10:00. Pak de map `kennisbronnen/` uit de zip hier uit.
 
 Werk je zonder MCP, zet dan de bestanden van elke Rol in een eigen map:
 

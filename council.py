@@ -79,12 +79,18 @@ async def run():
     rondes = int(os.getenv("RONDES", "2"))
     opties = {"reasoning_effort": os.environ["REASONING"]} if os.getenv("REASONING") else None  # minder denkwerk = minder tokens
     run_id = f"{datetime.now().astimezone().isoformat(timespec='seconds')}_{uuid.uuid4().hex[:8]}"
+    leden = raadsleden.alle()
     beurten, verbruik = [], {}
+    trace = {"run_id": run_id, "status": "bezig", "raadsleden": [l.ROL for l in leden], "beurten": beurten, "geschillen": [], "verbruik": verbruik}
+
+    def bewaar(naam, data):
+        (ROOT / naam).write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
     def beurt(ronde, spreker, soort, **velden):
         beurten.append({"nr": len(beurten) + 1, "ronde": ronde, "spreker": spreker, "soort": soort, **velden})
+        bewaar("trace.json", trace)  # na elke beurt: de viewer (`uv run viewer`) toont het debat live
 
-    leden = raadsleden.alle()
+    (ROOT / "verdict.json").unlink(missing_ok=True)  # geen Verdict van een vorige run laten staan
     klein = client("MODEL_KLEIN")
 
     async with AsyncExitStack() as stack:
@@ -107,6 +113,8 @@ async def run():
                     + f"\n\nRonde {ronde} van {rondes}. Geef je inbreng in hoogstens 150 woorden. "
                     "Reageer op wat de anderen zeiden."
                 )
+                trace["aan_het_woord"] = lid.ROL
+                bewaar("trace.json", trace)
                 r = await agent.run(vraag, options=opties)
                 tel(verbruik, "klein", r.usage_details)
                 for tool, args in toolcalls(r):
@@ -116,6 +124,8 @@ async def run():
                 print(f"\n[ronde {ronde}] {lid.NAAM}:\n{r.text}")
 
     # De Voorzitter heeft geen Rol en geen Kennisbron: hij kent alleen wat de Raadsleden inbrachten.
+    trace["aan_het_woord"] = "voorzitter"
+    bewaar("trace.json", trace)
     voorzitter = Agent(client("MODEL_GROOT"), "Je bent de Voorzitter van de Council of Achrona. Je hebt geen Kennisbron.", name="voorzitter")
     r = await voorzitter.run(
         options=opties,
@@ -134,9 +144,9 @@ async def run():
         "acties": [{"actie": "TODO", "reden": "TODO"}],
         "risicos": [{"risico": "TODO", "mitigatie": "TODO"}],
     }
-    trace = {"run_id": run_id, "raadsleden": [l.ROL for l in leden], "beurten": beurten, "geschillen": [], "verbruik": verbruik}
-    for naam, data in (("verdict.json", verdict), ("trace.json", trace)):
-        (ROOT / naam).write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    trace["status"], trace["aan_het_woord"] = "klaar", None
+    bewaar("trace.json", trace)
+    bewaar("verdict.json", verdict)
 
     print(f"\nKlaar: verdict.json en trace.json geschreven (run_id {run_id}).")
     for model, v in verbruik.items():

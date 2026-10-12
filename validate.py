@@ -1,11 +1,14 @@
 """Toetst verdict.json en trace.json aan de schema's in schema/. Start met `uv run validate`."""
 import json
+import re
 import sys
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).parent
+# Modellen schrijven ID's soms met een speciaal koppelteken (bv. U+2011): dat faalt op het schema.
+RARE_STREEP = re.compile("(ARC|ENG|GUA|HIS|ORA|BEA)[‐‑‒–—―−][0-9]{3}")
 
 
 def fouten(naam):
@@ -25,6 +28,8 @@ def main():
     alle = f1 + f2
     if verdict and trace and verdict.get("run_id") != trace.get("run_id"):
         alle.append("run_id van verdict.json en trace.json verschilt: ze moeten uit dezelfde run komen")
+    if verdict and RARE_STREEP.search(json.dumps(verdict, ensure_ascii=False)):
+        alle.append("verdict.json bevat ID's met een speciaal koppelteken (bv. ORA‑101): vervang het door een gewoon '-'")
     for f in alle:
         print("FOUT", f)
     print("GROEN: verdict.json en trace.json zijn geldig." if not alle else f"ROOD: {len(alle)} fout(en).")
