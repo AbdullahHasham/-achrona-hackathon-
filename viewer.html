@@ -9,14 +9,14 @@
     --bg: #f6f5f2; --paneel: #ffffff; --tekst: #1d1d1f; --zacht: #6b6b70; --lijn: #e3e1dc;
     --waarschuwing: #b45309; --fout: #b91c1c; --ok: #15803d;
     --archmage: #6d4aff; --engineer: #c2780a; --guardian_keeper: #0b84c4; --historian: #8a5a12;
-    --oracle: #c0266d; --beast_master: #15803d; --voorzitter: #475569; --mens: #b91c1c; --orchestrator: #0f766e;
+    --oracle: #c0266d; --beast_master: #15803d; --koning: #475569; --mens: #b91c1c; --orchestrator: #0f766e;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #141416; --paneel: #1d1d21; --tekst: #ececef; --zacht: #9a9aa3; --lijn: #2e2e34;
       --waarschuwing: #f59e0b; --fout: #f87171; --ok: #4ade80;
       --archmage: #a28bff; --engineer: #fbbf24; --guardian_keeper: #38bdf8; --historian: #d6a35c;
-      --oracle: #f472b6; --beast_master: #4ade80; --voorzitter: #a3b1c6; --mens: #f87171; --orchestrator: #2dd4bf;
+      --oracle: #f472b6; --beast_master: #4ade80; --koning: #a3b1c6; --mens: #f87171; --orchestrator: #2dd4bf;
     }
   }
   * { box-sizing: border-box; }
@@ -76,14 +76,14 @@
 </main>
 <script>
 const NAMEN = { archmage: "Archmage", engineer: "Engineer", guardian_keeper: "Guardian Keeper", historian: "Historian",
-  oracle: "Oracle", beast_master: "Beast Master", voorzitter: "Voorzitter", mens: "Mens", orchestrator: "Orchestrator" };
+  oracle: "Oracle", beast_master: "Beast Master", koning: "Koning", mens: "Mens", orchestrator: "Orchestrator" };
 const BEURTENBUDGET = 10;
 const PREFIX = { ARC: "archmage", ENG: "engineer", GUA: "guardian_keeper", HIS: "historian", ORA: "oracle", BEA: "beast_master" };
 const ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)([-\u2010-\u2015\u2212])(\d{3})\b/g;
 let vorige = "";
 
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const kleur = rol => `var(--${NAMEN[rol] ? rol : "voorzitter"})`;
+const kleur = rol => `var(--${NAMEN[rol] ? rol : "koning"})`;
 
 function opmaak(tekst) {
   return esc(tekst)
@@ -110,12 +110,12 @@ function render(trace, verdict) {
   // Debat per ronde
   const beurten = trace.beurten || [];
   let html = "", ronde = null;
-  const telling = {}, padfouten = [], voorzitterTools = [], vreemdeIds = [], zonderRoutering = [];
+  const telling = {}, padfouten = [], koningTools = [], vreemdeIds = [], zonderRoutering = [];
   let toegewezen = null, raadslidBeurten = 0;
   for (const b of beurten) {
     if (b.ronde !== ronde) {
       ronde = b.ronde;
-      html += `<div class="ronde">${ronde === 0 ? "Voorbereiding" : b.spreker === "voorzitter" ? "Voorzitter" : "Ronde " + ronde}</div>`;
+      html += `<div class="ronde">${ronde === 0 ? "Voorbereiding" : b.spreker === "koning" ? "Koning" : "Ronde " + ronde}</div>`;
     }
     const t = telling[b.spreker] ??= { berichten: 0, tools: 0, ids: new Set() };
     const stijl = `style="--kleur:${kleur(b.spreker)}"`;
@@ -128,7 +128,7 @@ function render(trace, verdict) {
         : `<div class="beurt klein" ${stijl}>${wie} stopt het debat. Waarom: ${opmaak(b.reden)}${open}</div>`;
       continue;
     }
-    if (b.soort === "bericht" && NAMEN[b.spreker] && !["voorzitter", "mens", "orchestrator"].includes(b.spreker)) {
+    if (b.soort === "bericht" && NAMEN[b.spreker] && !["koning", "mens", "orchestrator"].includes(b.spreker)) {
       raadslidBeurten++;
       if (toegewezen !== b.spreker) zonderRoutering.push(b.nr);
       toegewezen = null;
@@ -141,7 +141,7 @@ function render(trace, verdict) {
       t.tools++;
       let vlag = "";
       if (b.soort === "toolcall") {
-        if (b.spreker === "voorzitter") { voorzitterTools.push(b.nr); vlag = ` <span class="vlag">Voorzitter leest een Kennisbron</span>`; }
+        if (b.spreker === "koning") { koningTools.push(b.nr); vlag = ` <span class="vlag">Koning leest een Kennisbron</span>`; }
         else if (b.pad && !b.pad.includes(`/${b.spreker}/`)) { padfouten.push(b.nr); vlag = ` <span class="vlag">pad van een andere Rol</span>`; }
       }
       if (b.soort === "bestand" && b.bestand && !b.bestand.startsWith(b.spreker + "/")) { padfouten.push(b.nr); vlag = ` <span class="vlag">bestand van een andere Rol</span>`; }
@@ -155,7 +155,7 @@ function render(trace, verdict) {
     html += `<div class="beurt denkt" style="--kleur:${kleur(trace.aan_het_woord)}"><div class="wie">${esc(NAMEN[trace.aan_het_woord] || trace.aan_het_woord)}</div><div class="tekst leeg">denkt na…</div></div>`;
   }
   for (const g of trace.geschillen || []) {
-    html += `<div class="ronde">Geschil</div><div class="beurt" style="--kleur:var(--voorzitter)"><div class="wie">${esc(g.onderwerp)}</div><div class="tekst">${Object.entries(g.standpunten || {}).map(([r, s]) => `<b style="color:${kleur(r)}">${esc(NAMEN[r] || r)}</b>: ${opmaak(s)}`).join("<br>")}<br><b>Uitkomst:</b> ${g.uitkomst ? opmaak(g.uitkomst) : '<span class="leeg">niet beslecht</span>'} ${(g.bewijs || []).map(i => opmaak(i)).join(" ")}</div></div>`;
+    html += `<div class="ronde">Geschil</div><div class="beurt" style="--kleur:var(--koning)"><div class="wie">${esc(g.onderwerp)}</div><div class="tekst">${Object.entries(g.standpunten || {}).map(([r, s]) => `<b style="color:${kleur(r)}">${esc(NAMEN[r] || r)}</b>: ${opmaak(s)}`).join("<br>")}<br><b>Uitkomst:</b> ${g.uitkomst ? opmaak(g.uitkomst) : '<span class="leeg">niet beslecht</span>'} ${(g.bewijs || []).map(i => opmaak(i)).join(" ")}</div></div>`;
   }
   const debat = document.getElementById("debat");
   const onderaan = window.innerHeight + window.scrollY >= document.body.scrollHeight - 80;
@@ -163,7 +163,7 @@ function render(trace, verdict) {
   if (bezig && onderaan) window.scrollTo(0, document.body.scrollHeight);
 
   // Raadsleden
-  document.getElementById("leden").innerHTML = [...(trace.raadsleden || []), "voorzitter"].map(r => {
+  document.getElementById("leden").innerHTML = [...(trace.raadsleden || []), "koning"].map(r => {
     const t = telling[r] || { berichten: 0, tools: 0, ids: new Set() };
     return `<div class="lid" style="--kleur:${kleur(r)}"><span class="stip"></span><span>${esc(NAMEN[r] || r)}</span><span class="getal">${t.berichten} ber · ${t.tools} bron · ${t.ids.size} ID's</span></div>`;
   }).join("");
@@ -172,7 +172,7 @@ function render(trace, verdict) {
   const zonderBron = (trace.raadsleden || []).filter(r => !(telling[r]?.tools));
   const checks = [
     [padfouten.length ? "fout" : "ok", padfouten.length ? `Kennisbron van een andere Rol gelezen (beurt ${padfouten.join(", ")})` : "Elk Raadslid las alleen de eigen Kennisbron"],
-    [voorzitterTools.length ? "fout" : "ok", voorzitterTools.length ? `Voorzitter las een Kennisbron (beurt ${voorzitterTools.join(", ")})` : "Voorzitter las geen Kennisbron"],
+    [koningTools.length ? "fout" : "ok", koningTools.length ? `Koning las een Kennisbron (beurt ${koningTools.join(", ")})` : "Koning las geen Kennisbron"],
     [zonderBron.length ? "let" : "ok", zonderBron.length ? `Zonder bron: ${zonderBron.map(r => NAMEN[r] || r).join(", ")}` : "Elk Raadslid raadpleegde een bron"],
     [vreemdeIds.length ? "let" : "ok", vreemdeIds.length ? `ID's met een vreemd koppelteken: ${[...new Set(vreemdeIds)].join(", ")}` : "ID's in de juiste vorm"],
     [(trace.raadsleden || []).length >= 3 ? "ok" : "let", `${(trace.raadsleden || []).length} Rollen (minimum 3)`],
@@ -190,7 +190,7 @@ function render(trace, verdict) {
   // Verdict
   const vd = document.getElementById("verdict");
   if (!verdict || verdict.run_id !== trace.run_id) {
-    vd.innerHTML = `<span class="leeg">${verdict ? "verdict.json hoort bij een andere run" : bezig ? "komt na de Voorzitter" : "geen verdict.json"}</span>`;
+    vd.innerHTML = `<span class="leeg">${verdict ? "verdict.json hoort bij een andere run" : bezig ? "komt na de Koning" : "geen verdict.json"}</span>`;
   } else {
     const slot = (naam, s) => `<div class="slot"><b>${naam}</b>${s?.bewering ? opmaak(s.bewering) + " " + (s.bewijs || []).map(i => opmaak(i)).join(" ") : '<span class="leeg">onbekend (null)</span>'}</div>`;
     const o = verdict.oorzaak || {};

@@ -1,4 +1,4 @@
-"""Council of Achrona: een mini-Council met een Orchestrator, Raadsleden en een Voorzitter.
+"""Council of Achrona: een mini-Council met een Orchestrator, Raadsleden en een Koning.
 
 Start met `uv run council`. Schrijft verdict.json en trace.json in de root van de repo.
 De Orchestrator zit in `kies_volgende()`: die beslist wie spreekt, met welke vraag en waarom.
@@ -32,7 +32,7 @@ def kies_volgende(beurten, leden):
     Geef `(rol, vraag, reden)` terug, of `(None, None, reden)` om het debat te stoppen.
 
     TODO voor jullie team: dit is een vaste volgorde (round-robin). Vervang ze door een eigen
-    Orchestrator, bv. een agent (de Voorzitter) of regels die kijken naar wat er gezegd is.
+    Orchestrator, bv. een agent (de Koning) of regels die kijken naar wat er gezegd is.
     """
     rondes = int(os.getenv("RONDES", "2"))
     gesproken = sum(1 for b in beurten if b["soort"] == "bericht" and b["spreker"] in ROLLEN)
@@ -176,18 +176,18 @@ async def run():
             debat.append(f"{lid.NAAM}: {r.text}")
             print(f"\n[ronde {ronde}] {lid.NAAM}:\n{r.text}")
 
-    # De Voorzitter heeft geen Rol en geen Kennisbron: hij kent alleen wat de Raadsleden inbrachten.
-    trace["aan_het_woord"] = "voorzitter"
+    # De Koning heeft geen Rol en geen Kennisbron: hij kent alleen wat de Raadsleden inbrachten.
+    trace["aan_het_woord"] = "koning"
     bewaar("trace.json", trace)
-    voorzitter = Agent(client("MODEL_GROOT"), "Je bent de Voorzitter van de Council of Achrona. Je hebt geen Kennisbron.", name="voorzitter")
-    r = await voorzitter.run(
+    koning = Agent(client("MODEL_GROOT"), "Je bent de Koning van de Council of Achrona. Je hebt geen Kennisbron.", name="koning")
+    r = await koning.run(
         options=opties,
         messages="Debat:\n\n" + "\n\n".join(debat)
         + "\n\nVat samen: waarover zijn de Raadsleden het eens, waarover niet, en welk bewijs (record-ID's) noemden ze?",
     )
     tel(verbruik, "groot", r.usage_details)
-    beurt(ronde + 1, "voorzitter", "bericht", tekst=r.text)
-    print(f"\n[Voorzitter]:\n{r.text}")
+    beurt(ronde + 1, "koning", "bericht", tekst=r.text)
+    print(f"\n[Koning]:\n{r.text}")
 
     # TODO voor jullie team: laat de Council dit Verdict zelf invullen (zie schema/verdict.json).
     verdict = {

@@ -75,7 +75,7 @@
             },
             {
               "enum": [
-                "voorzitter",
+                "koning",
                 "orchestrator",
                 "mens"
               ]
