@@ -9,14 +9,14 @@
     --bg: #f6f5f2; --paneel: #ffffff; --tekst: #1d1d1f; --zacht: #6b6b70; --lijn: #e3e1dc;
     --waarschuwing: #b45309; --fout: #b91c1c; --ok: #15803d;
     --archmage: #6d4aff; --engineer: #c2780a; --guardian_keeper: #0b84c4; --historian: #8a5a12;
-    --oracle: #c0266d; --beast_master: #15803d; --koning: #475569; --mens: #b91c1c; --orchestrator: #0f766e;
+    --oracle: #c0266d; --beast_master: #15803d; --koning: #475569; --mens: #b91c1c;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #141416; --paneel: #1d1d21; --tekst: #ececef; --zacht: #9a9aa3; --lijn: #2e2e34;
       --waarschuwing: #f59e0b; --fout: #f87171; --ok: #4ade80;
       --archmage: #a28bff; --engineer: #fbbf24; --guardian_keeper: #38bdf8; --historian: #d6a35c;
-      --oracle: #f472b6; --beast_master: #4ade80; --koning: #a3b1c6; --mens: #f87171; --orchestrator: #2dd4bf;
+      --oracle: #f472b6; --beast_master: #4ade80; --koning: #a3b1c6; --mens: #f87171;
     }
   }
   * { box-sizing: border-box; }
@@ -76,7 +76,7 @@
 </main>
 <script>
 const NAMEN = { archmage: "Archmage", engineer: "Engineer", guardian_keeper: "Guardian Keeper", historian: "Historian",
-  oracle: "Oracle", beast_master: "Beast Master", koning: "Koning", mens: "Mens", orchestrator: "Orchestrator" };
+  oracle: "Oracle", beast_master: "Beast Master", koning: "Koning", mens: "Mens" };
 const BEURTENBUDGET = 10;
 const PREFIX = { ARC: "archmage", ENG: "engineer", GUA: "guardian_keeper", HIS: "historian", ORA: "oracle", BEA: "beast_master" };
 const ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)([-\u2010-\u2015\u2212])(\d{3})\b/g;
@@ -115,7 +115,7 @@ function render(trace, verdict) {
   for (const b of beurten) {
     if (b.ronde !== ronde) {
       ronde = b.ronde;
-      html += `<div class="ronde">${ronde === 0 ? "Voorbereiding" : b.spreker === "koning" ? "Koning" : "Ronde " + ronde}</div>`;
+      html += `<div class="ronde">${ronde === 0 ? "Voorbereiding" : b.spreker === "koning" && b.soort === "bericht" ? "Koning" : "Ronde " + ronde}</div>`;
     }
     const t = telling[b.spreker] ??= { berichten: 0, tools: 0, ids: new Set() };
     const stijl = `style="--kleur:${kleur(b.spreker)}"`;
@@ -128,7 +128,7 @@ function render(trace, verdict) {
         : `<div class="beurt klein" ${stijl}>${wie} stopt het debat. Waarom: ${opmaak(b.reden)}${open}</div>`;
       continue;
     }
-    if (b.soort === "bericht" && NAMEN[b.spreker] && !["koning", "mens", "orchestrator"].includes(b.spreker)) {
+    if (b.soort === "bericht" && NAMEN[b.spreker] && !["koning", "mens"].includes(b.spreker)) {
       raadslidBeurten++;
       if (toegewezen !== b.spreker) zonderRoutering.push(b.nr);
       toegewezen = null;

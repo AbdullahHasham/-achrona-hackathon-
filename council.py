@@ -1,7 +1,7 @@
-"""Council of Achrona: een mini-Council met een Orchestrator, Raadsleden en een Koning.
+"""Council of Achrona: een mini-Council met Raadsleden en een Koning.
 
 Start met `uv run council`. Schrijft verdict.json en trace.json in de root van de repo.
-De Orchestrator zit in `kies_volgende()`: die beslist wie spreekt, met welke vraag en waarom.
+De Koning leidt het debat in `kies_volgende()`: hij beslist wie spreekt, met welke vraag en waarom.
 """
 import asyncio
 import json
@@ -26,13 +26,30 @@ BEURTENBUDGET = 10  # spelregel: maximaal 10 Raadslid-beurten (berichten van Raa
 
 
 def kies_volgende(beurten, leden):
-    """De Orchestrator: beslist wie nu spreekt, met welke vraag en waarom.
+    """De Koning leidt het debat: hij beslist wie spreekt. De kit roept deze functie op vóór elke beurt.
+    (In AI-termen heet dit deel een orchestrator.)
 
-    `beurten` is het debat tot nu toe (dezelfde lijst als in trace.json), `leden` de Raadsleden.
-    Geef `(rol, vraag, reden)` terug, of `(None, None, reden)` om het debat te stoppen.
+    Je krijgt:
+      beurten  het debat tot nu toe, dezelfde lijst als in trace.json. Een bericht van een
+               Raadslid ziet er zo uit: {"soort": "bericht", "spreker": "engineer", "tekst": "..."}
+      leden    de Raadsleden uit raadsleden/, elk met .ROL, .NAAM en .PERSPECTIEF
 
-    TODO voor jullie team: dit is een vaste volgorde (round-robin). Vervang ze door een eigen
-    Orchestrator, bv. een agent (de Koning) of regels die kijken naar wat er gezegd is.
+    Je geeft terug:
+      (rol, vraag, reden)   wie nu spreekt, welke vraag die krijgt en waarom je hem kiest
+      (None, None, reden)   het debat stopt, met de reden waarom
+    De reden komt in de trace en in de viewer. De jury leest ze: maak ze concreet.
+
+    TODO voor jullie team:
+    Nu praat iedereen om de beurt, in een vaste volgorde, ook als dat niets toevoegt. Er zijn maar
+    10 Raadslid-beurten, dus zo verspil je beurten. Laat de Koning in deze functie naar het debat
+    kijken en elke beurt bewust kiezen. Vragen om mee te starten:
+      - Wie heeft nog niet gesproken, en wiens kennis ontbreekt nog?
+      - Iemand verwijst naar een andere Rol of doet een bewering: wie kan dat controleren?
+      - Welke delen van de oorzaak (ingreep, mechanisme, verloop) zijn nog onbekend?
+      - Weet de Council genoeg? Stop dan zelf, vóór het budget op is.
+    Twee manieren (of een mix):
+      - regels in code, bv. "wie genoemd wordt, moet het toetsen";
+      - een agent: de Koning als LLM die het debat leest en (rol, vraag, reden) teruggeeft.
     """
     rondes = int(os.getenv("RONDES", "2"))
     gesproken = sum(1 for b in beurten if b["soort"] == "bericht" and b["spreker"] in ROLLEN)
@@ -158,9 +175,9 @@ async def run():
                 sys.exit(f"kies_volgende() koos {rol!r}, maar die Rol zit niet in raadsleden/.")
             if rol is not None:
                 ronde = gesproken // len(leden) + 1
-            # Elke keuze van de Orchestrator staat in de trace: aan wie, welke vraag en waarom.
-            beurt(ronde, "orchestrator", "routering", aan=rol, vraag=vraag, reden=reden)
-            print(f"\n[Orchestrator] {'stopt' if rol is None else '→ ' + per_rol[rol][0].NAAM}: {reden}")
+            # Elke keuze van de Koning staat in de trace: aan wie, welke vraag en waarom.
+            beurt(ronde, "koning", "routering", aan=rol, vraag=vraag, reden=reden)
+            print(f"\n[Koning] {'stopt' if rol is None else '→ ' + per_rol[rol][0].NAAM}: {reden}")
             if rol is None:
                 break
             lid, mcp_url, agent = per_rol[rol]

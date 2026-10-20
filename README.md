@@ -4,7 +4,7 @@ Starter kit voor challenge 113 van Hack The Future 2026, aangeboden door Roboest
 
 De Desync heeft de herinneringen en systemen van Achrona versnipperd. Jullie bouwen een **Council**: een zwerm van samenwerkende AI-agenten (Raadsleden) die elk één Rol vertolken, debatteren, verspreide kennis analyseren en samen tot een **Council Verdict** komen: wat is de oorzaak, wat is het herstelplan, welke risico's zijn er.
 
-Deze kit geeft jullie binnen het eerste halfuur een draaiende mini-Council die je live in je browser ziet debatteren. Het echte werk is aan jullie: een **Orchestrator** ontwerpen, het deel van de Council dat beslist welk Raadslid spreekt, met welke vraag en waarom.
+Deze kit geeft jullie binnen het eerste halfuur een draaiende mini-Council die je live in je browser ziet debatteren. Het echte werk is aan jullie: de **Koning** het debat laten leiden. Hij beslist welk Raadslid spreekt, met welke vraag en waarom. (In AI-termen heet dat deel een orchestrator.)
 
 ## Wat je krijgt op de dag
 
@@ -38,7 +38,7 @@ Maak thuis al je repo aan (stap 1–2 hieronder) en draai daarin `uv sync` (en `
    ```
    uv run council
    ```
-   In de viewer zie je live wie de Orchestrator aan het woord laat en waarom, wat elk Raadslid zegt, welke Kennisbron het leest en hoeveel tokens het kost.
+   In de viewer zie je live wie de Koning aan het woord laat en waarom, wat elk Raadslid zegt, welke Kennisbron het leest en hoeveel tokens het kost.
 6. Controleer de uitvoer:
    ```
    uv run validate
@@ -53,10 +53,9 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
 
 ```
              ┌────────────── jouw laptop ──────────────┐
- Teamkaartje │  council.py ── Orchestrator             │
+ Teamkaartje │  council.py ── Koning (leidt, geen bron)│
    (.env) ──►│      │      ── Raadslid (Oracle) ───────┼──► MCP  /oracle/mcp
              │      │      ── Raadslid (Beast Master) ─┼──► MCP  /beast_master/mcp
-             │      │      ── Koning (geen bron)   │
              │      ▼                                   │
              │  trace.json + verdict.json ──► viewer    │──► LLM via Roboest-endpoint
              └──────────────────────────────────────────┘
@@ -64,7 +63,7 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
 
 | Bestand | Wat |
 |---|---|
-| `council.py` | De Orchestrator (`kies_volgende()`, nu een vaste volgorde), het debat en de Koning. Schrijft `trace.json` na elke beurt en `verdict.json` aan het einde. |
+| `council.py` | De Koning die het debat leidt (`kies_volgende()`, nu een vaste volgorde), het debat zelf en het Verdict van de Koning. Schrijft `trace.json` na elke beurt en `verdict.json` aan het einde. |
 | `raadsleden/<rol>.py` | Eén bestand per Raadslid: Rol, naam en publiek perspectief. |
 | `viewer.py` + `viewer.html` | De debatviewer (`uv run viewer`). Leest alleen `trace.json` en `verdict.json`, dus werkt ook als je een ander platform kiest. |
 | `voorbeelden/devui_debat.py` | Dezelfde Raadsleden als MAF-group chat in de DevUI van Microsoft (zie "Volgende stappen"). |
@@ -83,18 +82,18 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
 
 **Verbruik**: je Teamkaartje heeft een limiet. De viewer en de terminal tonen per run hoeveel tokens het kleine en het grote model gebruikten; het staat ook in `trace.json` onder `verbruik`. Bij een rate limit (429) wacht de kit en probeert opnieuw.
 
-## De Orchestrator
+## De Koning leidt het debat
 
 `kies_volgende(beurten, leden)` in `council.py` beslist voor elke beurt wie spreekt. De functie krijgt het debat tot nu toe (dezelfde `beurten` als in `trace.json`) en de Raadsleden, en geeft `(rol, vraag, reden)` terug, of `(None, None, reden)` om te stoppen. De kit schrijft elke keuze als `routering`-beurt in de trace (`aan`, `vraag`, `reden`) en stopt zelf na 10 Raadslid-beurten.
 
-Standaard is het een vaste volgorde met `reden: "vaste volgorde"`. Vervang die door jullie eigen Orchestrator: een agent (bv. de Koning), regels in code, of een mix. Vragen om mee te starten: wie moet een bewering toetsen? Welke Rol ontbreekt nog? Wanneer weet je genoeg? Wat moet elk Raadslid van het debat zien?
+Standaard is het een vaste volgorde met `reden: "vaste volgorde"`. Laat jullie Koning beter kiezen: als agent (een LLM die het debat leest), met regels in code, of een mix. Vragen om mee te starten: wie moet een bewering toetsen? Welke Rol ontbreekt nog? Wanneer weet je genoeg? Wat moet elk Raadslid van het debat zien?
 
 ## Spelregels
 
 - Eén Raadslid per Rol. Elk Raadslid leest alleen de Kennisbron van zijn eigen Rol. De viewer en de jury kijken dat na in de trace.
-- Een Koning mag het debat leiden en het Verdict opstellen, maar leest zelf geen Kennisbron.
+- De Koning leidt het debat en stelt het Verdict op, maar leest zelf geen Kennisbron.
 - Maximaal 10 Raadslid-beurten per run (het **Beurtenbudget**). Alleen berichten van Raadsleden tellen; toolcalls, Routeringen en berichten van de Koning niet.
-- Vóór elke Raadslid-beurt staat een `routering` in de trace: aan wie, welke vraag en waarom. `spreker` is `orchestrator` (code), `koning`, een Rol (handoff) of `mens`.
+- Vóór elke Raadslid-beurt staat een `routering` in de trace: aan wie, welke vraag en waarom. `spreker` is `koning` (in code of als agent), een Rol (handoff) of `mens`.
 - Prompts en code bevatten geen inhoud uit de Kennisbronnen (geen record-ID's of feiten). Wat de Council weet, komt uit het debat.
 - Menselijke tussenkomst mag, maar staat in de trace als `spreker: "mens"`. Een Routering door een mens telt niet mee voor de Council-score.
 - `trace.json` is de ongewijzigde uitvoer van de run die het Verdict maakte. Niet achteraf bewerken.
@@ -102,7 +101,7 @@ Standaard is het een vaste volgorde met `reden: "vaste volgorde"`. Vervang die d
 
 ## Wat moet je zelf bouwen?
 
-- Een eigen **Orchestrator** in plaats van de vaste volgorde, met een reden bij elke keuze.
+- Een **Koning** die het debat leidt in plaats van de vaste volgorde, met een reden bij elke keuze.
 - Meer Raadsleden (minstens 3 Rollen). Meer Rollen geven meer kennis, maar elke beurt telt. De Kennisbronnen verwijzen soms naar andere Rollen: dat zegt je welke Rol je nog mist.
 - Een Koning die het `verdict.json` echt invult: de oorzaak in drie delen (`ingreep`, `mechanisme`, `verloop`), elk met een bewering en record-ID's als bewijs, een geordend herstelplan (`acties`) en minstens één risico. Weet je een deel niet, laat dan `bewering: null`.
 - `geschillen` in de trace: waarover waren de Raadsleden het oneens, en hoe werd het beslecht?
@@ -113,7 +112,7 @@ Standaard is het een vaste volgorde met `reden: "vaste volgorde"`. Vervang die d
 Drie criteria, elk 0–10: **Verdict** (40%), **Council** (40%: hoe goed orchestreert jullie Council, zichtbaar in de Routeringen van de trace) en **Presentatie** (20%, met de vraag: waarom werkt jullie Council hier beter dan één agent?). Zonder Extra uitdaging haal je per criterium hoogstens 8 op 10. Voor wie sneller klaar is:
 
 - **Verdict**: voorspel wanneer de Desync opnieuw toeslaat als niemand ingrijpt (optioneel veld `voorspelling {dag, bewering, bewijs[]}`) · geef je zekerheid per deel van de oorzaak (optioneel veld `zekerheid`, 0–1, per slot).
-- **Council**: laat je Orchestrator zelf beslissen wanneer het debat klaar is, en waarom (een `routering` met `aan: null` vóór het budget op is) · laat je Orchestrator een lijst open vragen bijhouden en na elke beurt bijwerken (optioneel veld `open_vragen` in de `routering`).
+- **Council**: laat je Koning zelf beslissen wanneer het debat klaar is, en waarom (een `routering` met `aan: null` vóór het budget op is) · laat je Koning een lijst open vragen bijhouden en na elke beurt bijwerken (optioneel veld `open_vragen` in de `routering`).
 - **Presentatie**: draai de Council live tijdens de pitch · bouw een eigen, rijkere visualisatie van het debat (bovenop of in plaats van de viewer) of geef de Rollen avatars.
 
 ## Volgende stappen

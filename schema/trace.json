@@ -76,7 +76,6 @@
             {
               "enum": [
                 "koning",
-                "orchestrator",
                 "mens"
               ]
             }
@@ -99,7 +98,7 @@
               "type": "null"
             }
           ],
-          "description": "Bij een routering: aan welke Rol de beurt gaat; null = de Orchestrator stopt het debat."
+          "description": "Bij een routering: aan welke Rol de beurt gaat; null = de Koning stopt het debat."
         }
       },
       "allOf": [
@@ -196,14 +195,14 @@
               "reden": {
                 "type": "string",
                 "minLength": 1,
-                "description": "Waarom de Orchestrator deze keuze maakt."
+                "description": "Waarom de Koning deze keuze maakt."
               },
               "open_vragen": {
                 "type": "array",
                 "items": {
                   "type": "string"
                 },
-                "description": "Optioneel (Extra uitdaging): de open vragen van de Orchestrator na deze keuze."
+                "description": "Optioneel (Extra uitdaging): de open vragen van de Koning na deze keuze."
               }
             }
           }
