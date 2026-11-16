@@ -12,7 +12,7 @@ Deze kit geeft jullie binnen het eerste halfuur een draaiende mini-Council die j
 |---|---|---|
 | Deze repo (GitHub-template) | vooraf | GitHub |
 | LLM-toegang: je eigen FreeLLMAPI (gratis, zie "Vooraf installeren") | vooraf | je laptop |
-| Teamkaartje: QR-code naar een `.env` met een back-up-key voor het Roboest-endpoint (tot 18:00), alleen te gebruiken als coaches dat zeggen | 9:30 | briefing |
+| Back-up: noodkey voor OpenRouter in een gesloten envelop (tot 18:00), alleen als FreeLLMAPI niet werkt | op vraag | coaches |
 | Challenge pack: Rolkaarten + Kennisbronnen (bestanden) | 10:00 | `https://<mcp-host>/pack.zip` |
 | MCP-server: één pad per Rol, `https://<mcp-host>/<rol>/mcp` | antwoordt vanaf 10:00 (daarvoor geeft `uv run council` een MCP-fout) | in je `.env` |
 | Coaches | de hele dag | in de zaal |
@@ -34,7 +34,7 @@ FreeLLMAPI bundelt de gratis tiers van veel LLM-providers achter één OpenAI-co
 3. Kopieer de **unified key** bovenaan de Keys-pagina naar `OPENAI_API_KEY` in je `.env` (blok 1 van `.env.example`).
 4. Test: `uv run council` moet een debat tonen. Krijg je vaak 429-fouten, voeg dan nog een provider-key toe.
 
-Lukt het niet? Op de dag helpen coaches, en als back-up is er het Roboest-endpoint via je Teamkaartje.
+Lukt het niet? Op de dag helpen coaches, en als back-up krijg je van een coach een OpenRouter-noodkey (blok 2 in `.env.example`).
 
 Maak thuis al je repo aan (stap 1–2 hieronder) en draai daarin `uv sync` (en `uv sync --extra devui` als je de DevUI wil). Dan staat alles al geïnstalleerd en verlies je op de dag geen tijd op de wifi.
 
@@ -89,11 +89,11 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
 
 - **Welke Rollen** meedoen: kopieer `raadsleden/oracle.py` naar bv. `raadsleden/engineer.py` en pas aan: `ROL` = de mapnaam van de Rol in kleine letters (`archmage`, `engineer`, `guardian_keeper`, `historian`, `oracle`, `beast_master`); `NAAM` en `PERSPECTIEF` haal je van de Rolkaart. Het nieuwe bestand doet vanzelf mee; de volgorde in het debat is alfabetisch op bestandsnaam. Voeg in `.env` een regel `MCP_<ROL>=https://<mcp-host>/<rol>/mcp` toe.
 - **Kennisbronnen**: standaard leest elk Raadslid via MCP. Laat je `MCP_<ROL>` leeg, dan plakt de kit de bestanden uit `kennisbronnen/<rol>/` (uit `pack.zip`) in de prompt van dat Raadslid. Heeft een Raadslid geen van beide, dan meldt de kit dat bij de start.
-- **Modellen**: `MODEL_KLEIN` voor de Raadsleden, `MODEL_GROOT` voor de Koning, `REASONING` voor het denkwerk. Een andere provider kies je alleen via `.env` (blokken voor FreeLLMAPI, het Roboest-endpoint als back-up, OpenRouter en Ollama). Met FreeLLMAPI kies je `auto:fast`/`auto:smartest` of een vast model uit de catalogus op http://localhost:3001. Support geven we op FreeLLMAPI en het Roboest-endpoint; andere eigen modellen mogen, zonder support.
+- **Modellen**: `MODEL_KLEIN` voor de Raadsleden, `MODEL_GROOT` voor de Koning, `REASONING` voor het denkwerk. Een andere provider kies je alleen via `.env` (blokken voor FreeLLMAPI, OpenRouter als back-up en Ollama). Met FreeLLMAPI kies je `auto:fast`/`auto:smartest` of een vast model uit de catalogus op http://localhost:3001. Support geven we op FreeLLMAPI en OpenRouter; andere eigen modellen mogen, zonder support.
 - **Rondes**: `RONDES` in `.env` geldt alleen voor de vaste volgorde van de kit. Het Beurtenbudget (10 Raadslid-beurten) geldt altijd.
 - **Het debat zelf**: de instructies, wie wie aan het woord laat (`kies_volgende()`), wat elk Raadslid van het debat ziet, en hoe de Koning het Verdict invult. Dat staat allemaal in `council.py`.
 
-**Verbruik**: gratis tiers hebben limieten per provider (en de back-up-key op je Teamkaartje ook). De viewer en de terminal tonen per run hoeveel tokens het kleine en het grote model gebruikten; het staat ook in `trace.json` onder `verbruik`. Bij een rate limit (429) wacht de kit en probeert opnieuw.
+**Verbruik**: gratis tiers hebben limieten per provider (en de OpenRouter-noodkey ook). De viewer en de terminal tonen per run hoeveel tokens het kleine en het grote model gebruikten; het staat ook in `trace.json` onder `verbruik`. Bij een rate limit (429) wacht de kit en probeert opnieuw.
 
 ## De Koning leidt het debat
 
@@ -132,7 +132,7 @@ Drie criteria, elk 0–10: **Verdict** (40%), **Council** (40%: hoe goed orchest
 
 - **DevUI**: `uv run --extra devui python voorbeelden/devui_debat.py` opent de DevUI van [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) met dezelfde Raadsleden als group chat. Het gebruikt de bestanden uit `kennisbronnen/<rol>/` (geen MCP: pak eerst `pack.zip` uit) en schrijft geen trace. Handig om orchestratie te verkennen.
 - MAF heeft patronen voor orchestratie: een group chat met een manager die de spreker kiest, Handoff (een agent geeft het woord door) en Magentic (een manager met een plan en open vragen). Gebruik ze, of kies een eigen platform: zolang je `verdict.json` en `trace.json` in dit formaat oplevert, met een `routering` vóór elke Raadslid-beurt, mag alles.
-- Bouw RAG op de Kennisbronnen: FreeLLMAPI biedt ook `/v1/embeddings` aan (net als het Roboest-endpoint).
+- Bouw RAG op de Kennisbronnen: FreeLLMAPI biedt ook `/v1/embeddings` aan.
 
 ## Inleveren (om 16:00)
 

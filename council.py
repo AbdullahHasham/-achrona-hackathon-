@@ -63,7 +63,7 @@ def controleer(leden):
     """Duidelijke melding in plaats van een traceback bij de meest voorkomende fouten."""
     mist = [v for v in ("OPENAI_BASE_URL", "OPENAI_API_KEY", "MODEL_KLEIN", "MODEL_GROOT") if not os.getenv(v)]
     if mist:
-        sys.exit(f"In .env ontbreekt: {', '.join(mist)}. Kopieer .env.example naar .env en vul het in, of gebruik de .env van je Teamkaartje.")
+        sys.exit(f"In .env ontbreekt: {', '.join(mist)}. Kopieer .env.example naar .env en vul het in, of zie 'Vooraf installeren' in de README.")
     for lid in leden:
         if lid.ROL not in ROLLEN:
             sys.exit(f"raadsleden/: ROL = {lid.ROL!r} is ongeldig. Gebruik de mapnaam van de Rol: {', '.join(ROLLEN)}.")
@@ -79,7 +79,6 @@ def client(model_env):
         async_client=AsyncOpenAI(
             base_url=os.environ["OPENAI_BASE_URL"],
             api_key=key,
-            default_headers={"api-key": key},  # het Roboest-endpoint leest de key uit deze header
             max_retries=8,  # bij een rate limit (429) wacht de client en probeert opnieuw
         ),
     )
