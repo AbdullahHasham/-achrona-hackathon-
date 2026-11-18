@@ -13,7 +13,8 @@ Deze kit geeft jullie binnen het eerste halfuur een draaiende mini-Council die j
 | Deze repo (GitHub-template) | vooraf | GitHub |
 | LLM-toegang: je eigen FreeLLMAPI (gratis, zie "Vooraf installeren") | vooraf | je laptop |
 | Back-up: noodkey voor OpenRouter in een gesloten envelop (tot 18:00), alleen als FreeLLMAPI niet werkt | op vraag | coaches |
-| Challenge pack: Rolkaarten + Kennisbronnen (bestanden) | 10:00 | `https://<mcp-host>/pack.zip` |
+| Rolkaarten: perspectief, Belang en Kennisbron per Rol | in deze repo | `rolkaarten.md` |
+| Challenge pack: Kennisbronnen (bestanden) | 10:00 | `https://<mcp-host>/pack.zip` |
 | MCP-server: één pad per Rol, `https://<mcp-host>/<rol>/mcp` | antwoordt vanaf 10:00 (daarvoor geeft `uv run council` een MCP-fout) | in je `.env` |
 | Coaches | de hele dag | in de zaal |
 
@@ -78,6 +79,7 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
 |---|---|
 | `council.py` | De Koning die het debat leidt (`kies_volgende()`, nu een vaste volgorde), het debat zelf en het Verdict van de Koning. Schrijft `trace.json` na elke beurt en `verdict.json` aan het einde. |
 | `raadsleden/<rol>.py` | Eén bestand per Raadslid: Rol, naam en publiek perspectief. |
+| `rolkaarten.md` | De zes Rolkaarten: perspectief, publiek Belang en soort Kennisbron per Rol. Begin hier om je Rollen te kiezen. |
 | `viewer.py` + `viewer.html` | De debatviewer (`uv run viewer`). Leest alleen `trace.json` en `verdict.json`, dus werkt ook als je een ander platform kiest. |
 | `voorbeelden/devui_debat.py` | Dezelfde Raadsleden als MAF-group chat in de DevUI van Microsoft (zie "Volgende stappen"). |
 | `kennisbronnen/` | Leeg (op een LEESMIJ na). Pak `pack.zip` uit in de root van de repo; dan staan de bronnen in `kennisbronnen/<rol>/`. Staat in `.gitignore`. |
@@ -87,7 +89,7 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
 
 ## Wat stel je zelf in?
 
-- **Welke Rollen** meedoen: kopieer `raadsleden/oracle.py` naar bv. `raadsleden/engineer.py` en pas aan: `ROL` = de mapnaam van de Rol in kleine letters (`archmage`, `engineer`, `guardian_keeper`, `historian`, `oracle`, `beast_master`); `NAAM` en `PERSPECTIEF` haal je van de Rolkaart. Het nieuwe bestand doet vanzelf mee; de volgorde in het debat is alfabetisch op bestandsnaam. Voeg in `.env` een regel `MCP_<ROL>=https://<mcp-host>/<rol>/mcp` toe.
+- **Welke Rollen** meedoen: kopieer `raadsleden/oracle.py` naar bv. `raadsleden/engineer.py` en pas aan: `ROL` = de mapnaam van de Rol in kleine letters (`archmage`, `engineer`, `guardian_keeper`, `historian`, `oracle`, `beast_master`); `NAAM` en `PERSPECTIEF` haal je van de Rolkaart in `rolkaarten.md`. Het nieuwe bestand doet vanzelf mee; de volgorde in het debat is alfabetisch op bestandsnaam. Voeg in `.env` een regel `MCP_<ROL>=https://<mcp-host>/<rol>/mcp` toe.
 - **Kennisbronnen**: standaard leest elk Raadslid via MCP. Laat je `MCP_<ROL>` leeg, dan plakt de kit de bestanden uit `kennisbronnen/<rol>/` (uit `pack.zip`) in de prompt van dat Raadslid. Heeft een Raadslid geen van beide, dan meldt de kit dat bij de start.
 - **Modellen**: `MODEL_KLEIN` voor de Raadsleden, `MODEL_GROOT` voor de Koning, `REASONING` voor het denkwerk. Een andere provider kies je alleen via `.env` (blokken voor FreeLLMAPI, OpenRouter als back-up en Ollama). Met FreeLLMAPI kies je `auto:fast`/`auto:smartest` of een vast model uit de catalogus op http://localhost:3001. Support geven we op FreeLLMAPI en OpenRouter; andere eigen modellen mogen, zonder support.
 - **Rondes**: `RONDES` in `.env` geldt alleen voor de vaste volgorde van de kit. Het Beurtenbudget (10 Raadslid-beurten) geldt altijd.
