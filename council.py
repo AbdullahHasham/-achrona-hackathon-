@@ -50,6 +50,7 @@ def kies_volgende(beurten, leden):
     Twee manieren (of een mix):
       - regels in code, bv. "wie genoemd wordt, moet het toetsen";
       - een agent: de Koning als LLM die het debat leest en (rol, vraag, reden) teruggeeft.
+        Meestal sneller gebouwd en slimmer dan regels: zie "Regels of een agent?" in de README.
     """
     rondes = int(os.getenv("RONDES", "2"))
     gesproken = sum(1 for b in beurten if b["soort"] == "bericht" and b["spreker"] in ROLLEN)
