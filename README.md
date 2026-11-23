@@ -11,8 +11,8 @@ Deze kit geeft jullie binnen het eerste halfuur een draaiende mini-Council die j
 | Wat | Wanneer | Waar |
 |---|---|---|
 | Deze repo (GitHub-template) | vooraf | GitHub |
-| LLM-toegang: je eigen FreeLLMAPI (gratis, zie "Vooraf installeren") | vooraf | je laptop |
-| Back-up: noodkey voor OpenRouter in een gesloten envelop (tot 18:00), alleen als FreeLLMAPI niet werkt | op vraag | coaches |
+| LLM-toegang: Teamkaartje met je teamkey voor het Roboest-endpoint ($5 budget, tot 18:00) | 10:00 | coaches |
+| Optioneel: je eigen FreeLLMAPI (gratis, zie "FreeLLMAPI (optioneel)") | vooraf | je laptop |
 | Rolkaarten: perspectief, Belang en Kennisbron per Rol | in deze repo | `rolkaarten.md` |
 | Challenge pack: Kennisbronnen (bestanden) | 10:00 | `https://<mcp-host>/pack.zip` |
 | MCP-server: één pad per Rol, `https://<mcp-host>/<rol>/mcp` | antwoordt vanaf 10:00 (daarvoor geeft `uv run council` een MCP-fout) | in je `.env` |
@@ -24,18 +24,18 @@ Deze kit geeft jullie binnen het eerste halfuur een draaiende mini-Council die j
 - [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - git en een GitHub-account
 - een code-editor
-- [FreeLLMAPI](https://github.com/tashfeenahmed/freellmapi): je eigen gratis LLM-toegang (zie hieronder)
 
-### FreeLLMAPI (LLM-toegang, thuis te doen)
+### LLM-toegang
 
-FreeLLMAPI bundelt de gratis tiers van veel LLM-providers achter één OpenAI-compatibel endpoint op je eigen laptop. Elk teamlid zet het op zijn eigen laptop, met eigen keys: deel keys niet met andere teams.
+Op de dag krijgt elk team om 10:00 een **Teamkaartje** met een teamkey voor het Roboest-endpoint (`https://roboest.findingsolutions.be/v1`, OpenAI-compatibel). Je kiest er twee modellen mee: `achrona` (klein, voor de Raadsleden) en `achrona-groot` (voor de Koning). Achter die namen wisselt het endpoint zelf tussen providers. De key heeft een budget van $5 en werkt tot 18:00. Je hoeft vooraf niets te installeren.
+
+### FreeLLMAPI (optioneel)
+
+Wil je een back-up als je budget op is, of zelf modellen kiezen? [FreeLLMAPI](https://github.com/tashfeenahmed/freellmapi) bundelt de gratis tiers van veel LLM-providers achter één OpenAI-compatibel endpoint op je eigen laptop.
 
 1. Installeer het: op Windows de desktop-app uit de [Microsoft Store](https://apps.microsoft.com/detail/9PBN6G8K2B7F); op macOS de app uit [Releases](https://github.com/tashfeenahmed/freellmapi/releases/latest); met Docker `curl -fsSL https://freellmapi.co/install.sh | bash`.
 2. Open http://localhost:3001 en voeg op de **Keys**-pagina minstens 2 gratis provider-keys toe (bv. Google AI Studio en Groq). Aanmelden bij een provider vraagt soms een telefoonverificatie: doe dit thuis, niet op de dag.
-3. Kopieer de **unified key** bovenaan de Keys-pagina naar `OPENAI_API_KEY` in je `.env` (blok 1 van `.env.example`).
-4. Test: `uv run council` moet een debat tonen. Krijg je vaak 429-fouten, voeg dan nog een provider-key toe.
-
-Lukt het niet? Op de dag helpen coaches, en als back-up krijg je van een coach een OpenRouter-noodkey (blok 2 in `.env.example`).
+3. Zet blok 2 van `.env.example` in je `.env` (in plaats van blok 1) met de **unified key** bovenaan de Keys-pagina.
 
 Maak thuis al je repo aan (stap 1–2 hieronder) en draai daarin `uv sync` (en `uv sync --extra devui` als je de DevUI wil). Dan staat alles al geïnstalleerd en verlies je op de dag geen tijd op de wifi.
 
@@ -43,7 +43,7 @@ Maak thuis al je repo aan (stap 1–2 hieronder) en draai daarin `uv sync` (en `
 
 1. Klik op **Use this template** en maak een eigen repo aan. Zet die **openbaar**: zo lever je in (zie onderaan).
 2. Clone je repo en ga erin staan.
-3. Maak je `.env`: kopieer het voorbeeld (`copy .env.example .env` op Windows, `cp .env.example .env` op macOS/Linux), vul in blok 1 je FreeLLMAPI-key in en vul de `MCP_<ROL>`-regels in.
+3. Maak je `.env`: kopieer het voorbeeld (`copy .env.example .env` op Windows, `cp .env.example .env` op macOS/Linux), vul in blok 1 de teamkey van je Teamkaartje in en vul de `MCP_<ROL>`-regels in.
 4. Open de debatviewer in een tweede terminal:
    ```
    uv run viewer
@@ -71,7 +71,7 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
    (.env) ──►│      │      ── Raadslid (Oracle) ───────┼──► MCP  /oracle/mcp
              │      │      ── Raadslid (Beast Master) ─┼──► MCP  /beast_master/mcp
              │      ▼                                   │
-             │  trace.json + verdict.json ──► viewer    │──► LLM via FreeLLMAPI
+             │  trace.json + verdict.json ──► viewer    │──► LLM via Roboest-endpoint
              └──────────────────────────────────────────┘
 ```
 
@@ -91,11 +91,11 @@ Viewer op een andere poort: zet `VIEWER_PORT=8101` als omgevingsvariabele. Een a
 
 - **Welke Rollen** meedoen: kopieer `raadsleden/oracle.py` naar bv. `raadsleden/engineer.py` en pas aan: `ROL` = de mapnaam van de Rol in kleine letters (`archmage`, `engineer`, `guardian_keeper`, `historian`, `oracle`, `beast_master`); `NAAM` en `PERSPECTIEF` haal je van de Rolkaart in `rolkaarten.md`. Het nieuwe bestand doet vanzelf mee; de volgorde in het debat is alfabetisch op bestandsnaam. Voeg in `.env` een regel `MCP_<ROL>=https://<mcp-host>/<rol>/mcp` toe.
 - **Kennisbronnen**: standaard leest elk Raadslid via MCP. Laat je `MCP_<ROL>` leeg, dan plakt de kit de bestanden uit `kennisbronnen/<rol>/` (uit `pack.zip`) in de prompt van dat Raadslid. Heeft een Raadslid geen van beide, dan meldt de kit dat bij de start.
-- **Modellen**: `MODEL_KLEIN` voor de Raadsleden, `MODEL_GROOT` voor de Koning, `REASONING` voor het denkwerk. Een andere provider kies je alleen via `.env` (blokken voor FreeLLMAPI, OpenRouter als back-up en Ollama). Met FreeLLMAPI kies je `auto:fast`/`auto:smartest` of een vast model uit de catalogus op http://localhost:3001. Support geven we op FreeLLMAPI en OpenRouter; andere eigen modellen mogen, zonder support.
+- **Modellen**: `MODEL_KLEIN` voor de Raadsleden, `MODEL_GROOT` voor de Koning, `REASONING` voor het denkwerk. Op het Roboest-endpoint zijn dat `achrona` en `achrona-groot`. Een andere provider kies je alleen via `.env` (blokken voor het Roboest-endpoint, FreeLLMAPI en Ollama). Met FreeLLMAPI kies je `auto:fast`/`auto:smartest` of een vast model uit de catalogus op http://localhost:3001. Support geven we op het Roboest-endpoint en FreeLLMAPI; andere eigen modellen mogen, zonder support.
 - **Rondes**: `RONDES` in `.env` geldt alleen voor de vaste volgorde van de kit. Het Beurtenbudget (10 Raadslid-beurten) geldt altijd.
 - **Het debat zelf**: de instructies, wie wie aan het woord laat (`kies_volgende()`), wat elk Raadslid van het debat ziet, en hoe de Koning het Verdict invult. Dat staat allemaal in `council.py`.
 
-**Verbruik**: gratis tiers hebben limieten per provider (en de OpenRouter-noodkey ook). De viewer en de terminal tonen per run hoeveel tokens het kleine en het grote model gebruikten; het staat ook in `trace.json` onder `verbruik`. Bij een rate limit (429) wacht de kit en probeert opnieuw.
+**Verbruik**: je teamkey heeft $5 budget en maximaal 60 calls per minuut; dat volstaat voor tientallen volledige runs. Gratis tiers van FreeLLMAPI hebben eigen limieten per provider. De viewer en de terminal tonen per run hoeveel tokens het kleine en het grote model gebruikten; het staat ook in `trace.json` onder `verbruik`. Bij een rate limit (429) wacht de kit en probeert opnieuw. Budget op? Dan geeft het endpoint een fout over het budget: schakel over op FreeLLMAPI (blok 2) of vraag een coach.
 
 ## De Koning leidt het debat
 
@@ -158,7 +158,7 @@ Drie criteria, elk 0–10: **Verdict** (40%), **Council** (40%: hoe goed orchest
 
 - **DevUI**: `uv run --extra devui python voorbeelden/devui_debat.py` opent de DevUI van [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) met dezelfde Raadsleden als group chat. Het gebruikt de bestanden uit `kennisbronnen/<rol>/` (geen MCP: pak eerst `pack.zip` uit) en schrijft geen trace. Handig om orchestratie te verkennen.
 - MAF heeft patronen voor orchestratie: een group chat met een manager die de spreker kiest, Handoff (een agent geeft het woord door) en Magentic (een manager met een plan en open vragen). Gebruik ze, of kies een eigen platform: zolang je `verdict.json` en `trace.json` in dit formaat oplevert, met een `routering` vóór elke Raadslid-beurt, mag alles.
-- Bouw RAG op de Kennisbronnen: FreeLLMAPI biedt ook `/v1/embeddings` aan.
+- Bouw RAG op de Kennisbronnen: het Roboest-endpoint biedt geen embeddings aan, FreeLLMAPI wel (`/v1/embeddings`).
 
 ## Inleveren (om 16:00)
 
