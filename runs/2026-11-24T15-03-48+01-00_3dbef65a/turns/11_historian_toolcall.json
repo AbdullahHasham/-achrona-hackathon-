@@ -1,0 +1,10 @@
+{
+  "nr": 11,
+  "ronde": 1,
+  "spreker": "historian",
+  "soort": "toolcall",
+  "tijdstip": "2026-11-24T15:05:27+01:00",
+  "tool": "lees_kennisbron",
+  "argumenten": {},
+  "pad": "https://mcp.findingsolutions.be/historian/mcp"
+}

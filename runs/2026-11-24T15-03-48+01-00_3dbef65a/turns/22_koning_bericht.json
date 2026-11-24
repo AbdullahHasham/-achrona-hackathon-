@@ -1,0 +1,9 @@
+{
+  "nr": 22,
+  "ronde": 3,
+  "spreker": "koning",
+  "soort": "bericht",
+  "tijdstip": "2026-11-24T15:09:18+01:00",
+  "tekst": "Council consensus: an irregular disturbance series recurs every four days from day 10 through day 42 (days 10, 14, 18, 22, 26, 30, 34, 38 and 42). The 02:40 hulpslag activation on day 10 (ENG-011) rests on a single source and is not corroborated; the corroborated sequence starts at 04:40 to 04:50 on day 10. Resolved: the day-22 intrusion claim is unsupported (GUA-043, GUA-044), and the Wachtsterren theory is unsupported because onset on day 10 precedes the day-33 conjunction (ORA-133). The day-14 disturbance is settled by three roles. Unresolved: the hogerhand authorization (ENG-105), the datanet pacing change claimed in ARC-106, and the outcome of the day-24 switch-off request (ARC-112). Recovery sequence: copy the register first, verify the activation and authorization, hold versterking and tempo and change them only in 0.1 percent steps, and take the shutdown decision to the council. Forecast: next incident day 46.",
+  "duur_ms": 131390
+}

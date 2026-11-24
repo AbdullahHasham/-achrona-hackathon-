@@ -1,0 +1,10 @@
+{
+  "nr": 17,
+  "ronde": 1,
+  "spreker": "oracle",
+  "soort": "toolcall",
+  "tijdstip": "2026-11-24T15:06:25+01:00",
+  "tool": "lees_kennisbron",
+  "argumenten": {},
+  "pad": "https://mcp.findingsolutions.be/oracle/mcp"
+}

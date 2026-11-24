@@ -1,0 +1,18 @@
+{
+  "nr": 4,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T15:04:14+01:00",
+  "aan": "archmage",
+  "vraag": "The Engineer states the hulpslag was activated on day 10 at 02:40 (ENG-011) and that its versterking and tempo are governed by the fijnregeling in 0.1% steps (ENG-114, ENG-061). The Engineer's source does not use the term Desync and names only 'hogerhand' as authorizer (ENG-105). Please provide: (1) the exact governing rules, charters, or magical specifications that permit or forbid bypassing the Kroonklok pacing with a separate pulse, each cited by its own record ID (the Engineer cites ENG-102 alone); (2) the exact dates and times on which you recorded any leyline disturbance or magical aantasting, with a numerical measurement or observation per date, and the record IDs; (3) the name or office of the person who authorized the hulpslag, and whether your records confirm or contradict 'hogerhand' with a record ID.",
+  "reden": "Pillar 2 requires each governing rule cited individually, and the Engineer's ID ranges and single-ID references are insufficient. The Engineer's claim that the hulpslag bypasses Kroonklok pacing touches magical domain (leylines) and the Archmage is the only source able to confirm or refute whether the Desync is a magical aantasting or a technical event. The authorization ('hogerhand') is unverified across roles and must be cross-checked against the Archmage's authorization records.",
+  "open_vragen": [
+    "Which exact governing rules, charters, or specifications permit or forbid bypassing Kroonklok pacing, each with its own record ID (Engineer cites only ENG-102)?",
+    "What exact dates, times, and numerical per-date measurements of leyline or magical disturbance are recorded, with record IDs?",
+    "Who authorized the hulpslag, by name or office, and does the Archmage's record confirm or contradict 'hogerhand' (ENG-105)?",
+    "Does the Engineer's day 22 firewall intrusion claim (ENG-027) match any magical or protective record of breach, and what are the exact times?",
+    "What operational constraints or safety controls govern remediation order and shutdown of the hulpslag, each with its own record ID (Engineer notes ENG-111 opposes shutdown but records no decision)?"
+  ],
+  "duur_ms": 5553
+}

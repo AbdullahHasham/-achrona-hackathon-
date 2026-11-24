@@ -1,0 +1,18 @@
+{
+  "nr": 10,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T15:05:05+01:00",
+  "aan": "historian",
+  "vraag": "Historian, Engineer's ENG-105 says the hulpslag was authorized as 'hogerhand' on day 9, and ENG-027 reports a firewall tightening at 04:20 on day 22 after a suspected intrusion. Guardian Keeper's GUA-043 and GUA-044 show the poort oost opening at 04:15 for 3 minutes with no outside entry, and GUA-115 has an archive entry timed 01:50 on day 22. Please check your archive for: (1) any record of who authorized a hulpslag or a 'hogerhand' approval on or before day 9, with exact dates and record IDs; (2) the outcome of ARC-112, the day-24 request to switch the datanet off, and whether any council decision was recorded; (3) any earlier occurrence of pre-dawn inside openings, leyline lows before sunrise, or datanet pacing changes, with exact day numbers and record IDs, so we can test whether the day-10, day-22, day-14, and day-42 events form a recurring pattern.",
+  "reden": "Engineer's authorization and firewall claims cannot be checked from Engineer's own source, and Guardian Keeper's shield log contradicts an intrusion. Historian is the only unspoken role that can verify past authorizations, council outcomes, and earlier recurrences from the archive. Its findings are needed for Pillar 1 (authorization and trigger) and Pillar 3 (recurrence and next-occurrence prediction).",
+  "open_vragen": [
+    "Who authorized the hulpslag, and is 'hogerhand' (ENG-105) confirmed or contradicted by any archive or council record?",
+    "What was the outcome of ARC-112 (day 24 request to switch the datanet off), and is there a decision record?",
+    "Do the archive records confirm or contradict the day-22 firewall intrusion claim (ENG-027) at 04:20, given GUA-043, GUA-044, and GUA-115?",
+    "Which individual governing rules or charters govern the hulpslag shutdown and remediation order, each with its own record ID?",
+    "Do earlier archive records show recurring pre-dawn inside openings, leyline lows, or pacing changes that would allow the next occurrence day to be calculated?"
+  ],
+  "duur_ms": 9226
+}

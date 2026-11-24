@@ -1,0 +1,18 @@
+{
+  "nr": 7,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T15:04:40+01:00",
+  "aan": "guardian_keeper",
+  "vraag": "The Engineer states that the hulpslag was activated on day 10 at 02:40 (ENG-011), that a firewall was tightened at 04:20 on day 22 after a suspected intrusion (ENG-027), and that the Engineer's source has no evidence of an intrusion. Please report: (1) any protective, shield, or ward records for day 10 at 02:40 and for day 22 between 04:00 and 04:30, with exact times and record IDs; (2) any breach, intrusion, or shield-strength measurements with per-date numeric values across days 9 to 24, each with its own record ID; (3) the specific rules or charters governing shield activation and breach reporting, each cited individually with its own record ID, not as a range.",
+  "reden": "Pillar 1 and Pillar 2 need an independent protective record. The Archmage's source has no ENG-series records and cannot confirm the day 22 intrusion, so the Guardian Keeper is the only remaining source that could confirm or contradict an intrusion and its timing. The Archmage also flagged that leyline lows on day 14 and day 42 have no clock times, so protective timing records may close that gap.",
+  "open_vragen": [
+    "Does any protective or shield record confirm or contradict the day 22 firewall intrusion claim (ENG-027) and its exact times?",
+    "Does any shield or ward record show a disturbance at day 10 02:40 (ENG-011) or in the day 14 and day 42 low leyline windows?",
+    "Which exact governing rules or charters govern hulpslag shutdown and remediation order, each with its own record ID?",
+    "Who authorized the hulpslag, and is 'hogerhand' (ENG-105) confirmed or contradicted by any protective or council record?",
+    "Did the council decide on the datanet shutdown requested on day 24 (ARC-112), and what is the outcome record?"
+  ],
+  "duur_ms": 6017
+}
