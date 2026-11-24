@@ -1501,6 +1501,20 @@ def test_council_member_retry_on_hallucinated_id_and_skipped_mcp(
     assert ("engineer", "lees_kennisbron") in toolcall_speakers
     assert ("archmage", "lees_kennisbron") in toolcall_speakers
 
+    # Timing telemetry & per-turn archive contract
+    assert isinstance(trace.get("gestart_op"), str) and trace["gestart_op"].strip()
+    assert isinstance(trace.get("voltooid_op"), str) and trace["voltooid_op"].strip()
+    assert isinstance(trace.get("duur_s"), (int, float)) and trace["duur_s"] >= 0
+    for b in trace["beurten"]:
+        assert isinstance(b.get("tijdstip"), str) and b["tijdstip"].strip()
+        if b["soort"] in ("routering", "bericht"):
+            assert isinstance(b.get("duur_ms"), int) and b["duur_ms"] >= 0
+
+    archived_runs = list((tmp_path / "runs").iterdir())
+    assert len(archived_runs) == 1
+    archived_turns = sorted((archived_runs[0] / "turns").glob("*.json"))
+    assert len(archived_turns) == len(trace["beurten"])
+
     # Full validation contract
     assert trace["status"] == "klaar"
     assert trace["aan_het_woord"] is None
@@ -1605,3 +1619,113 @@ def test_validate_catches_rule_violations() -> None:
     for dash in UNICODE_DASHES:
         assert validate.RARE_STREEP.search(f"Check ENG{dash}901 and ORA{dash}906.")
     assert not validate.RARE_STREEP.search("Check ENG-901 and ORA-906.")
+
+
+def test_archiveer_run_and_timing_telemetry_schema(tmp_path: Path) -> None:
+    """archiveer_run writes trace, verdict, and per-turn JSON files; timing fields pass trace schema."""
+    trace_payload = {
+        "run_id": "2026-11-24T12:00:00+01:00_abcd1234",
+        "gestart_op": "2026-11-24T12:00:00+01:00",
+        "voltooid_op": "2026-11-24T12:00:12+01:00",
+        "duur_s": 12.34,
+        "status": "klaar",
+        "aan_het_woord": None,
+        "raadsleden": ["engineer", "archmage"],
+        "beurten": [
+            {
+                "nr": 1,
+                "ronde": 1,
+                "spreker": "koning",
+                "soort": "routering",
+                "tijdstip": "2026-11-24T12:00:01+01:00",
+                "aan": "engineer",
+                "vraag": "Check synthetic waterwheel rpm.",
+                "reden": "Start with baseline mechanical readings.",
+                "open_vragen": ["Did sluice flow drop?"],
+                "duur_ms": 842,
+            },
+            {
+                "nr": 2,
+                "ronde": 1,
+                "spreker": "engineer",
+                "soort": "toolcall",
+                "tijdstip": "2026-11-24T12:00:03+01:00",
+                "tool": "lees_kennisbron",
+                "argumenten": {},
+                "pad": "https://mock.local/engineer/mcp",
+            },
+            {
+                "nr": 3,
+                "ronde": 1,
+                "spreker": "engineer",
+                "soort": "bericht",
+                "tijdstip": "2026-11-24T12:00:05+01:00",
+                "tekst": "ENG-901 confirms wheel rpm dropped on day 2.",
+                "duur_ms": 3910,
+            },
+            {
+                "nr": 4,
+                "ronde": 1,
+                "spreker": "koning",
+                "soort": "routering",
+                "tijdstip": "2026-11-24T12:00:06+01:00",
+                "aan": None,
+                "vraag": None,
+                "reden": "Sufficient evidence for synthetic check.",
+                "open_vragen": [],
+                "duur_ms": 610,
+            },
+            {
+                "nr": 5,
+                "ronde": 2,
+                "spreker": "koning",
+                "soort": "bericht",
+                "tijdstip": "2026-11-24T12:00:12+01:00",
+                "tekst": "Consensus: ENG-901 explains the wheel slowdown.",
+                "duur_ms": 5800,
+            },
+        ],
+        "geschillen": [],
+        "verbruik": {},
+    }
+    verdict_payload = {
+        "run_id": trace_payload["run_id"],
+        "samenvatting": "Synthetic waterwheel slowed due to a sluice offset.",
+        "oorzaak": {
+            "ingreep": {"bewering": "Sluice offset on day 2.", "bewijs": ["ENG-901"], "zekerheid": 0.75},
+            "mechanisme": {"bewering": "Reduced head pressure.", "bewijs": ["ENG-901"], "zekerheid": 0.75},
+            "verloop": {"bewering": "Started day 2.", "bewijs": ["ENG-901"], "zekerheid": 0.75},
+        },
+        "acties": [{"actie": "Restore sluice gradually.", "reden": "Protect paddles.", "bewijs": ["ENG-901"]}],
+        "risicos": [{"risico": "Surge shock.", "mitigatie": "Step by 10%."}],
+    }
+
+    # (b) Timing telemetry trace validates cleanly against schema/trace.json and spelregels
+    assert _schema_errors(trace_payload, TRACE_SCHEMA) == []
+    assert validate.spelregels(trace_payload) == []
+
+    # (a) archiveer_run writes trace.json, verdict.json, and per-turn JSON files
+    archived_dir = council.archiveer_run(trace_payload, verdict_payload, base_dir=tmp_path)
+    assert archived_dir == tmp_path / "runs" / "2026-11-24T12-00-00+01-00_abcd1234"
+    assert json.loads((archived_dir / "trace.json").read_text(encoding="utf-8")) == trace_payload
+    assert json.loads((archived_dir / "verdict.json").read_text(encoding="utf-8")) == verdict_payload
+
+    expected_turn_files = [
+        "01_koning_routering.json",
+        "02_engineer_toolcall.json",
+        "03_engineer_bericht.json",
+        "04_koning_routering.json",
+        "05_koning_bericht.json",
+    ]
+    turns_dir = archived_dir / "turns"
+    assert sorted(p.name for p in turns_dir.glob("*.json")) == expected_turn_files
+    for filename, expected_turn in zip(expected_turn_files, trace_payload["beurten"], strict=True):
+        assert json.loads((turns_dir / filename).read_text(encoding="utf-8")) == expected_turn
+
+    # Also handles verdict_data=None without creating verdict.json
+    no_verdict_trace = {**trace_payload, "run_id": "2026-11-24T12:05:00+01:00_novrd001"}
+    no_verdict_dir = council.archiveer_run(no_verdict_trace, None, base_dir=tmp_path)
+    assert no_verdict_dir is not None
+    assert (no_verdict_dir / "trace.json").exists()
+    assert not (no_verdict_dir / "verdict.json").exists()
+    assert len(list((no_verdict_dir / "turns").glob("*.json"))) == len(no_verdict_trace["beurten"])

@@ -5,14 +5,21 @@ Poort via VIEWER_PORT (standaard 8100).
 """
 import http.server
 import json
+import math
 import os
 import re
 import sys
+import urllib.parse
 import webbrowser
 from pathlib import Path
 
 ROOT = Path(__file__).parent
 _SAFE_RUN_RE = re.compile(r"^[A-Za-z0-9_+.-]+$")
+_SAFE_TURN_RE = re.compile(r"^[0-9]{2}_[a-z0-9_]+\.json$")
+
+
+def _is_safe_run_folder(name: str) -> bool:
+    return bool(_SAFE_RUN_RE.match(name)) and name not in (".", "..")
 
 
 def _summarize_run(folder_id: str, trace_path: Path, verdict_path: Path) -> dict | None:
@@ -42,6 +49,16 @@ def _summarize_run(folder_id: str, trace_path: Path, verdict_path: Path) -> dict
         for v in verbruik.values()
         if isinstance(v, dict)
     )
+    duur_s_raw = trace.get("duur_s")
+    duur_s = (
+        float(duur_s_raw)
+        if isinstance(duur_s_raw, (int, float))
+        and not isinstance(duur_s_raw, bool)
+        and math.isfinite(duur_s_raw)
+        else None
+    )
+    turns_dir = trace_path.parent / "turns"
+    turns_files = len(list(turns_dir.glob("*.json"))) if turns_dir.is_dir() else 0
     return {
         "id": folder_id,
         "run_id": trace.get("run_id") or folder_id,
@@ -52,6 +69,8 @@ def _summarize_run(folder_id: str, trace_path: Path, verdict_path: Path) -> dict
         "forecast_day": forecast_day,
         "tokens_total": tokens_total,
         "has_verdict": verdict is not None,
+        "duur_s": duur_s,
+        "turns_files": turns_files,
     }
 
 
@@ -92,8 +111,21 @@ def main():
                 return self.stuur_bytes(payload, "application/json; charset=utf-8")
             if pad.startswith("/api/runs/"):
                 parts = pad[len("/api/runs/"):].split("/")
-                if len(parts) == 2 and _SAFE_RUN_RE.match(parts[0]) and parts[1] in ("trace.json", "verdict.json"):
-                    return self.stuur(map_ / "runs" / parts[0] / parts[1], "application/json; charset=utf-8")
+                runs_root = (map_ / "runs").resolve()
+                if len(parts) == 2:
+                    folder = urllib.parse.unquote(parts[0])
+                    fname = urllib.parse.unquote(parts[1])
+                    if _is_safe_run_folder(folder) and fname in ("trace.json", "verdict.json"):
+                        target = (runs_root / folder / fname).resolve()
+                        if target.is_relative_to(runs_root):
+                            return self.stuur(target, "application/json; charset=utf-8")
+                elif len(parts) == 3 and parts[1] == "turns":
+                    folder = urllib.parse.unquote(parts[0])
+                    fname = urllib.parse.unquote(parts[2])
+                    if _is_safe_run_folder(folder) and _SAFE_TURN_RE.match(fname):
+                        target = (runs_root / folder / "turns" / fname).resolve()
+                        if target.is_relative_to(runs_root):
+                            return self.stuur(target, "application/json; charset=utf-8")
             self.send_error(404)
 
         def stuur_bytes(self, data: bytes, soort: str):

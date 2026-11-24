@@ -718,7 +718,7 @@
     border: 1px solid var(--line-hi);
     background: var(--bg-panel);
     color: var(--text);
-    max-width: 245px;
+    max-width: 268px;
     cursor: pointer;
     outline: none;
     transition: border-color 0.14s, background 0.14s, color 0.14s;
@@ -1395,6 +1395,20 @@
     font-weight: 900;
     box-shadow: 0 0 12px rgba(255, 184, 0, 0.4);
   }
+  .codec-tag.is-time {
+    color: var(--muted);
+    border-color: var(--line);
+    background: var(--bg-deep);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .codec-tag.is-latency {
+    color: var(--mint);
+    border-color: rgba(0, 229, 139, 0.45);
+    background: rgba(0, 229, 139, 0.08);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+  }
 
   .codec-speech {
     font-size: 14.5px;
@@ -1724,6 +1738,22 @@
     font-size: 10.5px;
     color: var(--muted);
     font-weight: 600;
+  }
+  .log-time-pill,
+  .log-latency-pill {
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 1px 6px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-panel);
+    color: var(--muted);
+  }
+  .log-latency-pill {
+    border-color: rgba(0, 229, 139, 0.45);
+    background: rgba(0, 229, 139, 0.08);
+    color: var(--mint);
   }
   .log-card-flag {
     font-family: var(--font-hud);
@@ -2078,6 +2108,40 @@
     color: var(--amber);
     font-weight: 800;
     padding-top: 7px;
+  }
+  .telemetry-time-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--line-hi);
+  }
+  .telemetry-time-item {
+    flex: 1 1 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 5px 8px;
+    background: var(--bg-deep);
+    border: 1px solid var(--line);
+    font-family: var(--font-hud);
+  }
+  .telemetry-time-lbl {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .telemetry-time-val {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--amber);
+  }
+  .telemetry-time-val.is-mint {
+    color: var(--mint);
   }
 
   .muted-note {
@@ -2748,6 +2812,41 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "
 const roleName = rol => ROLE_INFO[rol]?.name || rol || "Unknown";
 const roleCode = rol => ROLE_INFO[rol]?.code || "SYS";
 const kleur = rol => `var(--${ROLE_INFO[rol] ? rol : "koning"})`;
+
+function formatTimeShort(iso) {
+  if (!iso || typeof iso !== "string") return "";
+  const m = iso.match(/T(\d{2}:\d{2}:\d{2})/);
+  if (m) return m[1];
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return [d.getHours(), d.getMinutes(), d.getSeconds()]
+    .map(n => String(n).padStart(2, "0"))
+    .join(":");
+}
+
+function formatDurationMs(ms) {
+  if (ms === null || ms === undefined || ms === "") return "";
+  const n = Number(ms);
+  if (!Number.isFinite(n) || n < 0) return "";
+  if (n >= 1000) return `${(n / 1000).toFixed(1)}s`;
+  return `${Math.round(n)}ms`;
+}
+
+function formatDurationSec(s) {
+  if (s === null || s === undefined || s === "") return "";
+  const n = Number(s);
+  if (!Number.isFinite(n) || n < 0) return "";
+  if (n >= 60) {
+    let mins = Math.floor(n / 60);
+    let secs = Math.round(n % 60);
+    if (secs === 60) {
+      mins += 1;
+      secs = 0;
+    }
+    return `${mins}m ${String(secs).padStart(2, "0")}s`;
+  }
+  return `${n.toFixed(1)}s`;
+}
 
 /* =========================================================
    CUSTOM GEOMETRIC ARCADE SVG CHARACTER PORTRAITS
@@ -3451,7 +3550,10 @@ function renderStage() {
         isConcession ? "CONCESSION" : "",
         isEarlyStopSeg ? "EARLY STOP" : ""
       ].filter(Boolean).join(" // ");
-      const tip = `Step #${b.nr} — ${roleName(b.spreker)} (${b.soort})${flags ? ` [${flags}]` : ""}`;
+      const segTime = formatTimeShort(b.tijdstip ?? b.timestamp);
+      const segDur = formatDurationMs(b.duur_ms ?? b.duration_ms);
+      const segMeta = [segTime, segDur].filter(Boolean).join(" / ");
+      const tip = `Step #${b.nr} — ${roleName(b.spreker)} (${b.soort})${segMeta ? ` (${segMeta})` : ""}${flags ? ` [${flags}]` : ""}`;
       return `<button type="button" class="${cls}" data-step-idx="${i}" style="--seg-hue:${kleur(b.spreker)}" title="${esc(tip)}"></button>`;
     }).join("");
   }
@@ -3592,6 +3694,11 @@ function renderSpotlight(step, lastRoutingStep, upToStats, trace, bezig) {
   const concessionBadge = hasConcession
     ? `<span class="codec-tag is-concession">${ICONS.concession}<span>CONCESSION</span></span>`
     : "";
+  const stepTime = formatTimeShort(step.tijdstip ?? step.timestamp);
+  const stepDur = formatDurationMs(step.duur_ms ?? step.duration_ms);
+  const stepTimingBadges =
+    (stepTime ? `<span class="codec-tag is-time" title="Turn timestamp">${esc(stepTime)}</span>` : "") +
+    (stepDur ? `<span class="codec-tag is-latency" title="Turn latency">${esc(stepDur)}</span>` : "");
 
   shell.innerHTML = `
     ${summonsHtml}
@@ -3610,6 +3717,7 @@ function renderSpotlight(step, lastRoutingStep, upToStats, trace, bezig) {
         <div class="codec-meta-bar">
           <span class="codec-tag">STEP #${step.nr}</span>
           <span class="codec-tag">ROUND ${step.ronde}</span>
+          ${stepTimingBadges}
           <span class="codec-tag" style="border-color:var(--hue);color:var(--hue)">${esc(kindLabel)}</span>
           ${concessionBadge}
           ${liveThinkingBadge}
@@ -3668,6 +3776,11 @@ function render(trace, verdict) {
     }
     const t = telling[b.spreker] ??= { berichten: 0, tools: 0, ids: new Set() };
     const hueStyle = `style="--hue:${kleur(b.spreker)}"`;
+    const bTime = formatTimeShort(b.tijdstip ?? b.timestamp);
+    const bDur = formatDurationMs(b.duur_ms ?? b.duration_ms);
+    const logTimePills =
+      (bTime ? `<span class="log-time-pill" title="Turn timestamp">${esc(bTime)}</span>` : "") +
+      (bDur ? `<span class="log-latency-pill" title="Turn latency">${esc(bDur)}</span>` : "");
 
     if (b.soort === "routering") {
       toegewezen = b.aan;
@@ -3677,11 +3790,11 @@ function render(trace, verdict) {
         : "";
       logHtml += b.aan
         ? `<div class="log-card is-compact" data-idx="${idx}" ${hueStyle}>
-             <div class="log-card-head"><span>KING ROUTING -&gt; ${esc(roleName(b.aan).toUpperCase())}</span><span class="log-card-nr">#${b.nr}</span></div>
+             <div class="log-card-head"><span>KING ROUTING -&gt; ${esc(roleName(b.aan).toUpperCase())}</span><span class="log-card-nr">#${b.nr}</span>${logTimePills}</div>
              <div class="log-card-text">${formatCompactText(b.vraag)}<div style="color:var(--muted);margin-top:2px"><b>Rationale:</b> ${formatCompactText(b.reden)}</div>${open}</div>
            </div>`
         : `<div class="log-card is-compact" data-idx="${idx}" ${hueStyle}>
-             <div class="log-card-head"><span>KING CLOSES DEBATE</span><span class="log-card-nr">#${b.nr}</span></div>
+             <div class="log-card-head"><span>KING CLOSES DEBATE</span><span class="log-card-nr">#${b.nr}</span>${logTimePills}</div>
              <div class="log-card-text"><b>Rationale:</b> ${formatCompactText(b.reden)}${open}</div>
            </div>`;
       return;
@@ -3704,6 +3817,7 @@ function render(trace, verdict) {
           <div class="log-card-head">
             <span>${esc(roleName(b.spreker).toUpperCase())}</span>
             <span class="log-card-nr">#${b.nr}${b.aan ? " -&gt; " + esc(roleName(b.aan).toUpperCase()) : ""}</span>
+            ${logTimePills}
           </div>
           <div class="log-card-text">${formatDebateBody(b.tekst)}</div>
         </div>`;
@@ -3737,6 +3851,7 @@ function render(trace, verdict) {
           <div class="log-card-head">
             <span>${esc(roleName(b.spreker).toUpperCase())}</span>
             <span class="log-card-nr">#${b.nr}</span>
+            ${logTimePills}
             ${flagHtml}
           </div>
           <div class="log-card-text"><code class="fmt-code">${cmd}</code></div>
@@ -3868,6 +3983,35 @@ function render(trace, verdict) {
   // Token Telemetry
   const v = trace.verbruik || {};
   const vEntries = Object.entries(v);
+  const runDurText = formatDurationSec(trace.duur_s);
+  let stepDurMsTotal = 0;
+  let hasStepDur = false;
+  for (const b of beurten) {
+    const rawDur = b.duur_ms ?? b.duration_ms;
+    if (rawDur !== null && rawDur !== undefined && rawDur !== "") {
+      const n = Number(rawDur);
+      if (Number.isFinite(n) && n >= 0) {
+        stepDurMsTotal += n;
+        hasStepDur = true;
+      }
+    }
+  }
+  const stepDurText = hasStepDur ? formatDurationSec(stepDurMsTotal / 1000) : "";
+  const timingSummaryItems = [];
+  if (runDurText) {
+    timingSummaryItems.push(
+      `<div class="telemetry-time-item"><span class="telemetry-time-lbl">RUN DURATION</span><span class="telemetry-time-val">${esc(runDurText)}</span></div>`
+    );
+  }
+  if (stepDurText) {
+    timingSummaryItems.push(
+      `<div class="telemetry-time-item"><span class="telemetry-time-lbl">TOTAL STEP TIME</span><span class="telemetry-time-val is-mint">${esc(stepDurText)}</span></div>`
+    );
+  }
+  const timingReadoutHtml = timingSummaryItems.length
+    ? `<div class="telemetry-time-strip">${timingSummaryItems.join("")}</div>`
+    : "";
+
   if (vEntries.length) {
     let totCalls = 0, totIn = 0, totOut = 0;
     const rows = vEntries.map(([tier, x]) => {
@@ -3879,7 +4023,9 @@ function render(trace, verdict) {
       totOut += out;
       return `<tr><td>${esc(tier.toUpperCase())}</td><td>${calls}</td><td>${inp.toLocaleString("en-US")}</td><td>${out.toLocaleString("en-US")}</td></tr>`;
     }).join("");
-    document.getElementById("token-total-meta").textContent = `${(totIn + totOut).toLocaleString("en-US")} TOKENS`;
+    const metaDur = runDurText || stepDurText;
+    document.getElementById("token-total-meta").textContent =
+      `${(totIn + totOut).toLocaleString("en-US")} TOKENS${metaDur ? " // " + metaDur : ""}`;
     document.getElementById("verbruik").innerHTML = `
       <table class="telemetry-tbl">
         <thead><tr><th>TIER</th><th>CALLS</th><th>IN</th><th>OUT</th></tr></thead>
@@ -3887,10 +4033,11 @@ function render(trace, verdict) {
           ${rows}
           <tr class="total-row"><td>TOTAL</td><td>${totCalls}</td><td>${totIn.toLocaleString("en-US")}</td><td>${totOut.toLocaleString("en-US")}</td></tr>
         </tbody>
-      </table>`;
+      </table>${timingReadoutHtml}`;
   } else {
-    document.getElementById("token-total-meta").textContent = "0 TOKENS";
-    document.getElementById("verbruik").innerHTML = `<div class="muted-note">No model calls recorded yet.</div>`;
+    const metaDur = runDurText || stepDurText;
+    document.getElementById("token-total-meta").textContent = metaDur ? `0 TOKENS // ${metaDur}` : "0 TOKENS";
+    document.getElementById("verbruik").innerHTML = `<div class="muted-note">No model calls recorded yet.</div>${timingReadoutHtml}`;
   }
 
   // Final Council Verdict
@@ -4488,14 +4635,16 @@ function formatRunLabel(item) {
   const early = item.early_stop ? " · EARLY" : "";
   const disp = Number.isFinite(item.disputes) ? ` · ${item.disputes}D` : "";
   const day = item.forecast_day != null ? ` · D${item.forecast_day}` : "";
+  const durNum = item.duur_s != null ? Number(item.duur_s) : NaN;
+  const dur = Number.isFinite(durNum) ? ` · ${Math.round(durNum)}s` : "";
   if (item.id === "latest") {
-    return `LATEST (LIVE) · ${turns}${early}${day}`;
+    return `LATEST (LIVE) · ${turns}${early}${day}${dur}`;
   }
   const raw = String(item.run_id || item.id);
   const timeMatch = raw.match(/T(\d{2}[:-]\d{2}[:-]\d{2})/);
   const shortTime = timeMatch ? timeMatch[1].replace(/-/g, ":") : raw.slice(0, 16);
   const hashTail = raw.includes("_") ? raw.split("_").pop().slice(0, 6) : "";
-  return `${shortTime}${hashTail ? " #" + hashTail : ""} · ${turns}${early}${disp}${day}`;
+  return `${shortTime}${hashTail ? " #" + hashTail : ""} · ${turns}${early}${disp}${day}${dur}`;
 }
 
 async function refreshRunsCatalog() {

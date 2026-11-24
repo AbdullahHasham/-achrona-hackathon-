@@ -12,6 +12,7 @@ import json
 import os
 import re
 import sys
+import time
 import uuid
 from contextlib import AsyncExitStack
 from datetime import datetime
@@ -225,17 +226,56 @@ def _is_truthy_env(name: str) -> bool:
     return os.getenv(name, "").strip().lower() in {"1", "true", "yes", "on"}
 
 
+def archiveer_run(
+    trace_data: dict, verdict_data: dict | None, base_dir: Path = ROOT
+) -> Path | None:
+    """Save an immutable snapshot of a run into runs/<safe_run_id>/ including per-turn JSON files."""
+    try:
+        safe_id = re.sub(r"[^A-Za-z0-9_+.-]", "-", str(trace_data.get("run_id") or "run"))
+        doel = Path(base_dir) / "runs" / safe_id
+        doel.mkdir(parents=True, exist_ok=True)
+        (doel / "trace.json").write_text(
+            json.dumps(trace_data, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+        if verdict_data is not None:
+            (doel / "verdict.json").write_text(
+                json.dumps(verdict_data, indent=2, ensure_ascii=False), encoding="utf-8"
+            )
+        turns_dir = doel / "turns"
+        turns_dir.mkdir(parents=True, exist_ok=True)
+        for idx, item in enumerate(trace_data.get("beurten") or [], start=1):
+            nr_raw = item.get("nr", idx)
+            nr = (
+                nr_raw
+                if isinstance(nr_raw, int)
+                else int(nr_raw)
+                if isinstance(nr_raw, str) and nr_raw.isdigit()
+                else idx
+            )
+            safe_speaker = re.sub(r"[^A-Za-z0-9_-]", "-", str(item.get("spreker") or "onbekend"))
+            safe_kind = re.sub(r"[^A-Za-z0-9_-]", "-", str(item.get("soort") or "beurt"))
+            (turns_dir / f"{nr:02d}_{safe_speaker}_{safe_kind}.json").write_text(
+                json.dumps(item, indent=2, ensure_ascii=False), encoding="utf-8"
+            )
+        return doel
+    except Exception:
+        return None
+
+
 async def run():
     load_dotenv(ROOT / ".env")
     language = os.getenv("COUNCIL_LANGUAGE", "English").strip() or "English"
     dev_cheap = _is_truthy_env("COUNCIL_DEV_CHEAP")
     opties = {"reasoning_effort": os.environ["REASONING"]} if os.getenv("REASONING") else None  # minder denkwerk = minder tokens
-    run_id = f"{datetime.now().astimezone().isoformat(timespec='seconds')}_{uuid.uuid4().hex[:8]}"
+    gestart_op = datetime.now().astimezone().isoformat(timespec="seconds")
+    run_t0 = time.perf_counter()
+    run_id = f"{gestart_op}_{uuid.uuid4().hex[:8]}"
     leden = raadsleden.alle()
     controleer(leden)
     beurten, verbruik = [], {}
     trace = {
         "run_id": run_id,
+        "gestart_op": gestart_op,
         "status": "bezig",
         "raadsleden": [l.ROL for l in leden],
         "beurten": beurten,
@@ -246,24 +286,12 @@ async def run():
     def bewaar(naam, data):
         (ROOT / naam).write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    def archiveer_run(trace_data, verdict_data):
-        """Save an immutable snapshot of every completed run into runs/<safe_run_id>/."""
-        try:
-            safe_id = re.sub(r"[^A-Za-z0-9_+.-]", "-", str(trace_data.get("run_id") or "run"))
-            doel = ROOT / "runs" / safe_id
-            doel.mkdir(parents=True, exist_ok=True)
-            (doel / "trace.json").write_text(
-                json.dumps(trace_data, indent=2, ensure_ascii=False), encoding="utf-8"
-            )
-            if verdict_data is not None:
-                (doel / "verdict.json").write_text(
-                    json.dumps(verdict_data, indent=2, ensure_ascii=False), encoding="utf-8"
-                )
-        except Exception:
-            pass
-
     def beurt(ronde, spreker, soort, **velden):
-        beurten.append({"nr": len(beurten) + 1, "ronde": ronde, "spreker": spreker, "soort": soort, **velden})
+        entry = {"nr": len(beurten) + 1, "ronde": ronde, "spreker": spreker, "soort": soort}
+        if "tijdstip" not in velden:
+            entry["tijdstip"] = datetime.now().astimezone().isoformat(timespec="seconds")
+        entry.update(velden)
+        beurten.append(entry)
         bewaar("trace.json", trace)  # na elke beurt: de viewer (`uv run viewer`) toont het debat live
 
     klein = client("MODEL_KLEIN")
@@ -330,7 +358,9 @@ async def run():
             trace["aan_het_woord"] = "koning"
             bewaar("trace.json", trace)
 
+            king_t0 = time.perf_counter()
             decision, king_usage = await king.decide_next(beurten, debat, max_turns=BEURTENBUDGET)
+            king_ms = int(round((time.perf_counter() - king_t0) * 1000))
             tel(verbruik, "groot", king_usage)
 
             rol, vraag, reden = decision.aan, decision.vraag, decision.reden
@@ -348,6 +378,7 @@ async def run():
                 vraag=vraag,
                 reden=reden,
                 open_vragen=decision.open_vragen,
+                duur_ms=king_ms,
             )
             print(f"\n[Koning] {'stopt' if rol is None else '→ ' + per_rol[rol][0].NAAM}: {reden}")
             if rol is None:
@@ -370,6 +401,7 @@ async def run():
             trace["aan_het_woord"] = rol
             bewaar("trace.json", trace)
 
+            member_t0 = time.perf_counter()
             r = await agent.run(prompt, options=opties)
             tel(verbruik, "klein", r.usage_details)
             for tool, args in toolcalls(r):
@@ -415,8 +447,9 @@ async def run():
                         f"unspoken_foreign={retry_report.unspoken_foreign_ids})"
                     )
 
+            member_ms = int(round((time.perf_counter() - member_t0) * 1000))
             final_text = normalize_hyphens(r.text)
-            beurt(ronde, rol, "bericht", tekst=final_text)
+            beurt(ronde, rol, "bericht", tekst=final_text, duur_ms=member_ms)
             spoken_member_ids.update(extract_ids(final_text))
             debat.append(f"{lid.NAAM} ({lid.ROL}): {final_text}")
             print(f"\n[ronde {ronde}] {lid.NAAM}:\n{final_text}")
@@ -424,6 +457,7 @@ async def run():
     # De Koning heeft geen Rol en geen Kennisbron: hij synthetiseert uitsluitend uit het debat.
     trace["aan_het_woord"] = "koning"
     bewaar("trace.json", trace)
+    synth_t0 = time.perf_counter()
     closing_text, verdict, clean_geschillen, repair_warnings, synth_usage = (
         await synthesize_verdict_and_geschillen(
             king_client,
@@ -436,15 +470,18 @@ async def run():
             options=opties,
         )
     )
+    synth_ms = int(round((time.perf_counter() - synth_t0) * 1000))
     tel(verbruik, "groot", synth_usage)
-    beurt(ronde + 1, "koning", "bericht", tekst=closing_text)
+    beurt(ronde + 1, "koning", "bericht", tekst=closing_text, duur_ms=synth_ms)
     print(f"\n[Koning]:\n{closing_text}")
 
     trace["geschillen"] = clean_geschillen
     trace["status"], trace["aan_het_woord"] = "klaar", None
+    trace["voltooid_op"] = datetime.now().astimezone().isoformat(timespec="seconds")
+    trace["duur_s"] = round(time.perf_counter() - run_t0, 2)
     bewaar("trace.json", trace)
     bewaar("verdict.json", verdict)
-    archiveer_run(trace, verdict)
+    archiveer_run(trace, verdict, base_dir=ROOT)
 
     if citation_warnings:
         print("\nCitation gate warnings:")
