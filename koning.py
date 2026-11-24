@@ -25,7 +25,7 @@ INSTRUCTIE = """Je bent de Koning van de Council of Achrona. Je leidt het debat 
 Je hebt geen Kennisbron: je weet alleen wat de Raadsleden in dit debat inbrengen. Verzin niets en vul niets aan met eigen kennis.
 
 De Council moet vinden:
-- ingreep: wie deed wat, en wanneer precies;
+- ingreep: wie deed wat, en wanneer precies. Een ingreep is een handeling of een verandering door iemand, vóór de symptomen. Een storing, uitval of melding is een symptoom en hoort bij het mechanisme;
 - mechanisme: hoe die ingreep stap voor stap tot de symptomen leidt;
 - verloop: het patroon in de tijd (dagen, aantallen, regelmaat) en wanneer het opnieuw toeslaat;
 - een herstelplan in de juiste volgorde, met de risico's ervan."""
@@ -33,38 +33,58 @@ De Council moet vinden:
 KIES = """Beslis nu wie spreekt, of stop het debat.
 
 Zo leid je goed:
-1. Werk met een hypothese. Zodra er een kandidaat-ingreep is, schrijf je zelf de hele keten op: ingreep, dan stap voor stap het mechanisme, dan waarom het patroon in de tijd er zo uitziet. Zet er een tweede verklaring naast zolang die niet weerlegd is.
-2. Test de zwakste schakel. Vraag aan de Rol wiens soort bron dat kan: als de hypothese klopt, wat moet jouw bron dan tonen, en wanneer? Een vraag die de hypothese kan omverwerpen is beter dan een die ze enkel herhaalt.
-3. Een bewering van één Rol is een vermoeden. Ze is getoetst als een andere Rol ze uit een eigen bron draagt. Verwijst een bron naar een andere Rol of een ander record, volg dan dat spoor.
-4. Leg een tegenspraak met de record-ID's voor aan wie ze kan beslechten.
-5. Elke Rol heeft een Belang en niet elke conclusie klopt, ook niet van iemand met gezag. Een meting of logregel blijft wel bewijs: het Belang maakt de conclusie verdacht, niet de waarneming. Samenvallen in de tijd is nog geen oorzaak, maar wat vlak vóór het begin veranderde is een kandidaat.
-6. Leg de reeksen van verschillende Rollen naast elkaar. Waar ze samenvallen ligt het patroon. Reken zelf na: verschillen, perioden, verhoudingen, eenheden. Wat een getal uit de ene bron verklaart in een andere bron, is een sterke schakel.
-7. Zoek de gemeenschappelijke afhankelijkheid: wat hebben alle getroffen systemen gemeen dat door de ingreep veranderde? Eén oorzaak die elk symptoom apart verklaart is sterker dan een losse verklaring per symptoom. Vraag na hoe elk getroffen systeem daarvan afhangt.
-8. Blijf niet hangen bij één vraag: wie het deed, hoe het werkt en wanneer het terugkomt tellen even zwaar. Levert een spoor na één vervolgvraag niets op, noteer het als onbekend en ga naar een ander deel. Stel nooit een vraag die al beantwoord is.
-9. Verdeel de beurten over ingreep, mechanisme, verloop en herstel. Een Rol die nog niet sprak brengt meestal meer dan een volgende vraag aan dezelfde Rol. Bracht een Rol in haar laatste beurt weinig nieuwe records, kies haar dan niet opnieuw zonder nieuw spoor. Een meting die niet bestaat, komt er niet door ze opnieuw te vragen.
-10. Herstel: weet je welke voorwaarden, volgorde en waarschuwingen er zijn, en of Rollen elkaar daarin tegenspreken?
-11. Stel één scherpe, controleerbare vraag, hoogstens met twee deelvragen. Vraag geen samenvatting.
-12. Stand: 'vermoeden' = één Rol draagt het met records, 'getoetst' = minstens twee Rollen dragen het met eigen records. Een stand zakt alleen als een record hem weerlegt.
-13. Jij beslist wanneer het genoeg is, niet het budget. Stop zodra de drie delen getoetst zijn en het herstel bekend is, of zodra geen enkele vraag het Verdict nog kan veranderen. Beurt 10 is een noodreserve.
+1. Houd een bord bij met 2 of 3 verklaringen die elk een handeling als begin hebben. Zet bij elke hoogstens 3 punten voor en 3 tegen, elk een record-ID en hoogstens 10 woorden. Alleen een record weerlegt een verklaring. Leidend is de verklaring die de meeste symptomen van verschillende Rollen verklaart, niet de eerste die genoemd werd.
+2. Begin breed: vraag over de hele periode wat er werkt, wat er veranderde en welke storingen er staan. Het begin van de Desync is waar symptomen van meerdere Rollen samenvallen, niet de eerste melding in één bron. Vraag pas naar smalle tijdvensters als de volledige reeks bekend is.
+3. Kies de vraag die de verklaringen het best van elkaar scheidt: als verklaring X klopt, wat moet deze bron dan tonen, en wanneer? Een vraag die je leidende verklaring kan omverwerpen is beter dan een die ze herhaalt.
+4. Een bewering van één Rol is een vermoeden. Ze is getoetst als een andere Rol ze uit een eigen bron draagt. Verwijst een bron naar een andere Rol, volg dan dat spoor.
+5. Elke Rol ziet alleen haar eigen bron. Vraag een Rol nooit om een record van een andere Rol te bevestigen; vraag wat haar eigen bron zegt over hetzelfde moment, dezelfde plaats, persoon of zaak. Records uit verschillende bronnen verbinden (zelfde dag, uur, naam, getal of woorden) is jouw werk.
+6. Kruis-zoeken: geef bij de vraag 2 tot 6 zoektermen mee uit getuigenissen van ándere Rollen: namen, zaken, dagen of letterlijke woorden. De Rol zoekt ze op in haar eigen bron. Zo vind je wat een Rol uit zichzelf niet zou noemen.
+7. Elke Rol heeft een Belang en niet elke conclusie klopt, ook niet van iemand met gezag. Een meting of logregel blijft bewijs: het Belang maakt de conclusie verdacht, niet de waarneming. Samenvallen in de tijd is nog geen oorzaak, maar wat vlak vóór een verandering gebeurde is een kandidaat.
+8. Leg de reeksen van verschillende Rollen naast elkaar. Reken zelf na: verschillen, perioden, verhoudingen, eenheden. Kijk waar ze samenvallen, waar ze beginnen en waar ze veranderen.
+9. Zoek de gemeenschappelijke afhankelijkheid: wat hebben alle getroffen systemen gemeen? Eén oorzaak die elk symptoom apart verklaart is sterker dan een losse verklaring per symptoom.
+10. Leg een tegenspraak met de record-ID's voor aan wie ze kan beslechten.
+11. Blijf niet hangen bij één vraag: wie het deed, hoe het werkt en wanneer het terugkomt tellen even zwaar. Een meting die volgens de Rol niet bestaat, komt er niet door ze opnieuw te vragen: noteer ze als grens van het bewijs.
+12. Verdeel de beurten over ingreep, mechanisme, verloop en herstel. Een Rol die nog niet sprak brengt meestal meer dan een volgende vraag aan dezelfde Rol. Bracht een Rol in haar laatste beurt weinig nieuwe records, kies haar dan niet opnieuw zonder nieuw spoor.
+13. Herstel: weet je welke voorwaarden, volgorde en waarschuwingen er zijn, en of Rollen elkaar daarin tegenspreken?
+14. Een vraag heeft één doel, 2 of 3 concrete deelvragen en hoogstens 70 woorden. Vraag dagen, uren, getallen, regels en record-ID's. Vraag geen samenvatting.
+15. Open vragen: schrap wat beantwoord is en wat volgens de Rollen niemand kan beantwoorden. Houd alleen over wat het Verdict nog kan veranderen.
+16. Stand: 'vermoeden' = één Rol draagt het met records, 'getoetst' = minstens twee Rollen dragen het met eigen records. Een stand zakt alleen als een record hem weerlegt.
+17. Jij beslist wanneer het genoeg is, niet het budget. Stop zodra de drie delen getoetst zijn en het herstel bekend is, of zodra geen enkele vraag het Verdict nog kan veranderen. Beurt 10 is een noodreserve.
 
 Antwoord met alleen dit JSON-object:
 {
-  "hypothese": "je beste verklaring nu, in 2 tot 4 zinnen: ingreep, mechanisme stap voor stap, patroon; en welke schakel het zwakst is",
+  "verklaringen": [{"naam": "de handeling, in hoogstens 8 woorden", "voor": ["XXX-000: waarom"], "tegen": ["XXX-000: waarom"], "stand": "leidend|open|weerlegd"}],
+  "hypothese": "je leidende verklaring in 2 tot 4 zinnen: ingreep, mechanisme stap voor stap, patroon; en welke schakel het zwakst is",
   "stand": {"ingreep": "onbekend|vermoeden|getoetst", "mechanisme": "...", "verloop": "..."},
-  "open_vragen": ["hoogstens 5 open vragen die het Verdict nog kunnen veranderen; schrap wat beantwoord of onbeantwoordbaar is, zodat de lijst korter wordt naarmate je meer weet"],
+  "open_vragen": ["hoogstens 5"],
   "toetst": ["rollen wiens bewering je met deze vraag laat toetsen, leeg als het om iets nieuws gaat"],
   "rol": "archmage|engineer|guardian_keeper|historian|oracle|beast_master of null om te stoppen",
   "vraag": "de vraag aan die Rol, of null",
-  "reden": "waarom deze Rol en deze vraag nu (of waarom je stopt): noem concreet welke bewering, welk record of welke schakel je daartoe brengt. Hoogstens 60 woorden."
+  "zoektermen": ["2 tot 6 termen uit getuigenissen van andere Rollen, leeg bij de eerste vraag of als je stopt"],
+  "reden": "waarom deze Rol en deze vraag nu (of waarom je stopt): noem concreet welke verklaringen je scheidt of welke bewering, welk record of welke schakel je toetst. Hoogstens 60 woorden."
 }"""
 
+UITDAAG = """De Koning wil het debat nu sluiten. Zijn reden: {reden}
+
+Jij bent de Uitdager. Probeer de conclusie onderuit te halen vóór het debat sluit. Zoek in het debat, en alleen daar:
+- een waarneming die de leidende verklaring niet verklaart;
+- een andere verklaring die nog door geen record weerlegd is;
+- een bewering van één Rol waarop veel steunt en die een andere Rol nog kan toetsen;
+- uitspraken van verschillende Rollen over hetzelfde die niemand naast elkaar legde;
+- een stap van het herstel waarvan voorwaarde, volgorde of waarschuwing onbekend is.
+Noem een gat alleen als een Rol het met haar eigen soort bron nog kan vullen. Zei een Rol al dat haar bron iets niet bevat, dan is dat geen gat maar een grens van het bewijs: noem het niet. Weeg of het gat het Verdict zou veranderen, niet of er nog iets te meten valt.
+
+Antwoord met alleen dit JSON-object, met hoogstens 2 gaten, het ernstigste eerst. Geen gaten: lege lijst.
+{{"gaten": [{{"gat": "wat ontbreekt en waarom het telt", "rol": "wie het kan vullen", "vraag": "de vraag"}}]}}"""
+
 OORDEEL = """Het debat is gesloten. Weeg het bewijs voor je het Verdict schrijft, in hoogstens 500 woorden:
-1. Schrijf twee of drie volledige verklaringen op die op tafel lagen (ingreep, mechanisme, patroon). Welke waarnemingen van welke Rollen verklaart elke verklaring, en welke spreken ze tegen? Kies.
-2. Het mechanisme: wat hebben alle getroffen systemen gemeen dat door de ingreep veranderde? Schrijf de keten stap voor stap, met per stap het record, en verklaar daarna elk symptoom apart met diezelfde oorzaak. Verbind regels en ontwerpbeschrijvingen uit de ene bron met waarnemingen uit een andere; reken na of hun getallen bij elkaar passen.
-3. Het patroon: schrijf de volledige reeks dagen en uren uit, met de bronnen die samenvallen, en reken voor wanneer het opnieuw toeslaat als niemand ingrijpt.
-4. De tegenspraken: wie zei wat, en welk record beslecht het? Welke conclusie van een Rol bleek fout?
-5. Het herstel in volgorde: wat stopt de schade eerst, wat moet daarvoor klaar zijn, hoe maak je de ingreep veilig ongedaan, wat mag zeker niet, wie wordt geschaad?
-6. Wat weet de Council niet?
+1. Loop je bord met verklaringen af. Welke waarnemingen van welke Rollen verklaart elke verklaring, en welk record spreekt haar tegen? Kies.
+2. Verbind de bronnen: waar noemen verschillende Rollen dezelfde dag, hetzelfde uur, dezelfde zaak, hetzelfde getal of dezelfde woorden? Wat volgt daaruit dat geen enkele Rol alleen kon zeggen?
+3. Het mechanisme: wat hebben alle getroffen systemen gemeen? Schrijf de keten stap voor stap, met per stap het record, en verklaar elk symptoom apart met diezelfde oorzaak. Reken na of de getallen bij elkaar passen.
+4. Het patroon: schrijf de volledige reeks dagen, uren en waarden uit. Wanneer begint ze, waar verandert ze, en wat gebeurde er vlak daarvoor? Reken voor wanneer het opnieuw toeslaat als niemand ingrijpt.
+5. De tegenspraken: wie zei wat, en welk record beslecht het? Welke conclusie van een Rol bleek fout?
+6. Het herstel in volgorde: wat stopt de schade eerst, wat moet daarvoor klaar zijn, wat mag zeker niet, wie wordt geschaad?
+7. Wat weet de Council niet?
 Baseer je alleen op wat in het debat gezegd is."""
 
 TEGENLEES = """Lees je eigen Verdict nu kritisch tegen het debat, alsof een ander het schreef:
@@ -80,13 +100,14 @@ VERDICT = """Schrijf nu het Council Verdict. Gebruik alleen feiten uit het debat
 {toegelaten}
 
 Regels:
-- Elk deel van de oorzaak is één duidelijke bewering van 1 tot 3 zinnen, met namen, dagen en getallen zoals ze in het debat stonden. Kies de verklaring die de meeste onafhankelijke waarnemingen verklaart en schrijf ze beslist op; je twijfel zet je in zekerheid, niet in woorden als 'mogelijk', 'hypothese' of 'niet getoetst'. Zet een deel alleen op null als geen enkel record een stap ervan draagt; draagt het debat het gedeeltelijk, schrijf dan wat gedragen is en geef een lage zekerheid.
-- bewijs: de 2 tot 6 records die de bewering echt dragen. Loop het register hierboven na en kies records van verschillende Rollen waar het kan. Geen opvulling.
+- ingreep is de handeling waarmee het begon en wie ze deed, geen symptoom. mechanisme legt uit hoe die handeling tot elk symptoom leidt. verloop is de reeks in de tijd.
+- Elk deel van de oorzaak staat op zichzelf: 2 tot 4 duidelijke zinnen, in tijdsvolgorde, met alle betrokkenen, tijdstippen, getallen en veranderingen die het debat met records draagt. Kies de verklaring die de meeste onafhankelijke waarnemingen verklaart en schrijf ze beslist op; je twijfel zet je in zekerheid, niet in woorden als 'mogelijk', 'hypothese' of 'niet getoetst'. Zet een deel alleen op null als geen enkel record een stap ervan draagt; draagt het debat het gedeeltelijk, schrijf dan wat gedragen is en geef een lage zekerheid.
+- bewijs: de records die de bewering echt dragen, hoogstens 10. Loop de bewijslijst hierboven na en kies records van zoveel verschillende Rollen als het debat geeft. Elk ID dat je in de bewering noemt, staat ook in bewijs. Geen opvulling.
 - zekerheid (0-1): 0.9 = meerdere onafhankelijke bronnen en geen tegenspraak; 0.6 = één bron of een open tegenspraak; 0.3 = een vermoeden.
-- acties: het herstelplan in uitvoeringsvolgorde, 4 tot 7 stappen. Eerst wat verdere schade stopt of verlies voorkomt, dan de ingreep veilig ongedaan maken, dan herstellen, dan controleren. Gebruik elke voorwaarde, volgorde en waarschuwing voor het herstel uit het debat. Zeg per actie wie ze uitvoert. Het Verdict is een beslissing op de best gedragen verklaring: stel het herstel niet uit tot alles gemeten is. Onderzoek is alleen een actie als het herstel zonder die stap onveilig is.
+- acties: het herstelplan in uitvoeringsvolgorde, 4 tot 7 stappen. Eerst wat verdere schade stopt, dan de oorzaak wegnemen, dan herstellen, dan controleren. Gebruik elke voorwaarde, volgorde en waarschuwing voor het herstel uit het debat. Zeg per actie wie ze uitvoert. Het Verdict is een beslissing op de best gedragen verklaring: stel het herstel niet uit tot alles gemeten is. Onderzoek is alleen een actie als het herstel zonder die stap onveilig is.
 - risicos: wat kan misgaan bij het herstel, ook de verleidelijke maar verkeerde oplossing, en wie er schade van heeft.
 - voorspelling: de dag (geheel getal) waarop de Desync opnieuw toeslaat als niemand ingrijpt, met de berekening uit het patroon. Laat het veld weg als het debat dat niet onderbouwt.
-- geschillen: elke echte tegenspraak, met het standpunt per Rol (alleen Rollen uit het debat), hoe ze beslecht werd en met welk bewijs. Niet beslecht: uitkomst null.
+- geschillen: elke echte tegenspraak en elke verworpen verklaring, met het standpunt per Rol, hoe ze beslecht werd en met welk bewijs. Geef een Rol alleen een standpunt dat zij zelf in het debat innam; 'geen record van' is iets anders dan 'ontkend'. Niet beslecht: uitkomst null.
 
 Antwoord met alleen dit JSON-object:
 {{
@@ -108,7 +129,7 @@ class Keuze:
     rol: str | None
     vraag: str | None
     reden: str
-    extra: dict = field(default_factory=dict)  # open_vragen, stand, toetst: gaan mee in de routering
+    extra: dict = field(default_factory=dict)  # verklaringen, hypothese, stand, open_vragen, ...: gaan mee in de routering
 
 
 def json_uit(tekst):
@@ -159,8 +180,24 @@ def dossier(beurten, leden, budget):
     if vorige:
         regels += ["", "Jouw notities van vóór de laatste beurt:", "Stand: " + ", ".join(f"{k} {v}" for k, v in vorige["stand"].items())]
         regels += [f"Hypothese: {vorige['hypothese']}"] if vorige.get("hypothese") else []
+        for v in vorige.get("verklaringen") or []:
+            regels.append(f"Verklaring '{v['naam']}' ({v['stand']}). Voor: {'; '.join(v['voor']) or 'niets'}. Tegen: {'; '.join(v['tegen']) or 'niets'}.")
         regels += ["Open vragen:"] + [f"- {v}" for v in vorige.get("open_vragen") or ["(geen)"]]
     return "\n".join(regels)
+
+
+def _regels(x, hoogstens, lengte=240):
+    return [bewijs.normaliseer(str(v).strip())[:lengte] for v in (x if isinstance(x, list) else []) if str(v).strip()][:hoogstens]
+
+
+def lees_bord(x):
+    bord = []
+    for v in x if isinstance(x, list) else []:
+        if isinstance(v, dict) and str(v.get("naam") or "").strip():
+            stand = str(v.get("stand") or "").strip().lower()
+            bord.append({"naam": bewijs.normaliseer(str(v["naam"]).strip())[:120], "voor": _regels(v.get("voor"), 3), "tegen": _regels(v.get("tegen"), 3),
+                         "stand": stand if stand in ("leidend", "open", "weerlegd") else "open"})
+    return bord[:3]
 
 
 def lees_keuze(data, leden):
@@ -180,6 +217,8 @@ def lees_keuze(data, leden):
     open_vragen = data.get("open_vragen") if isinstance(data.get("open_vragen"), list) else []
     toetst = data.get("toetst") if isinstance(data.get("toetst"), list) else []
     return Keuze(rol, vraag, reden, {
+        "verklaringen": lees_bord(data.get("verklaringen")),
+        "zoektermen": _regels(data.get("zoektermen"), 6, 60) if rol else [],
         "hypothese": bewijs.normaliseer(str(data.get("hypothese") or "").strip()),
         "open_vragen": [bewijs.normaliseer(str(v).strip()) for v in open_vragen if str(v).strip()][:5],
         "stand": {s: stand.get(s) if stand.get(s) in STANDEN else "onbekend" for s in SLOTS},
@@ -210,6 +249,7 @@ class Koning:
     def __init__(self, vraag_model, leden, budget):
         self.vraag_model, self.leden, self.budget = vraag_model, leden, budget
         self.namen = {l.ROL: l.NAAM for l in leden}
+        self.uitdagingen = 0
 
     async def _json(self, prompt, lees, pogingen=3):
         fout, tekst = None, prompt
@@ -236,17 +276,36 @@ class Koning:
                        "Gebruik de noodreserve alleen als één concrete vraag het Verdict nog kan omkeren.")
         try:
             keuze = await self._json(prompt, lambda d: lees_keuze(d, self.leden))
-            over = self.budget - len(bewijs.berichten(beurten))
-            zwak = [s for s, v in keuze.extra["stand"].items() if v == "onbekend"]
-            if keuze.rol is None and zwak and over > 2:
-                # Geen verbod: de Koning beslist zelf, maar moet een te vroege stop één keer heroverwegen.
-                prompt += (f"\n\nJe wil stoppen, maar dit deel noem je zelf nog onbekend: {', '.join(zwak)}. Er zijn nog {over} beurten. "
-                           "Heroverweeg: kies een Rol, of stop alsnog en leg in de reden uit waarom geen enkele Rol dit kan beantwoorden.")
-                keuze = await self._json(prompt, lambda d: lees_keuze(d, self.leden))
+            if keuze.rol is None and len(bewijs.berichten(beurten)) < WERKPLAN and self.uitdagingen < 1:
+                keuze = await self._uitgedaagd(beurten, prompt, keuze)
             return keuze
         except Exception as e:  # een haperend model mag de run nooit breken
             print(f"LET OP: noodregel voor de Koning ({type(e).__name__}: {str(e)[:160]})")
             return regel_keuze(beurten, self.leden, self.budget)
+
+    async def _uitgedaagd(self, beurten, prompt, keuze):
+        """Vóór de Koning sluit, valt een Uitdager de conclusie aan. De Koning beslist daarna zelf: doorvragen of toch sluiten."""
+        self.uitdagingen += 1
+        rollen = {l.ROL for l in self.leden}
+        try:
+            data = await self._json(f"{self._context(beurten)}\n\n{UITDAAG.format(reden=keuze.reden)}", lambda d: d, pogingen=2)
+            gaten = [g for g in data.get("gaten") or [] if isinstance(g, dict) and str(g.get("gat") or "").strip()
+                     and str(g.get("rol") or "").strip().lower().replace(" ", "_") in rollen][:2]
+        except Exception as e:
+            print(f"LET OP: de Uitdager antwoordde niet ({type(e).__name__}: {str(e)[:120]})")
+            return keuze
+        if not gaten:
+            keuze.extra["uitdaging"] = []
+            return keuze
+        tekst = "\n".join(f"- {g['gat']} (kan gevuld worden door {g['rol']}: {g.get('vraag') or ''})" for g in gaten)
+        try:
+            nieuw = await self._json(f"{prompt}\n\nJe wilde sluiten met deze reden: {keuze.reden}\nDe Uitdager noemt deze gaten:\n{tekst}\n"
+                                     "Beslis opnieuw: geef een Rol het woord om het ernstigste gat te vullen, of sluit toch en leg in de reden uit waarom geen van deze gaten het Verdict verandert.",
+                                     lambda d: lees_keuze(d, self.leden))
+        except ValueError:
+            nieuw = keuze
+        nieuw.extra["uitdaging"] = [bewijs.normaliseer(str(g["gat"]).strip())[:300] for g in gaten]
+        return nieuw
 
     async def oordeel(self, beurten):
         return bewijs.normaliseer(await self.vraag_model(f"{self._context(beurten)}\n\n{OORDEEL}"))
@@ -254,7 +313,7 @@ class Koning:
     async def verdict(self, beurten, oordeel, run_id):
         """Geeft (verdict, geschillen). Code toetst elk ID aan het debat; het model mag één keer verbeteren."""
         bekend = bewijs.ingebracht(beurten)
-        toegelaten = "\n".join(f"- {i} ({bekend[i]}): {zin[:260]}" for i, zin in bewijs.register(beurten).items()) or "- (geen)"
+        toegelaten = "\n".join(f"- {i} ({bekend[i]}): {zin[:260]}" for i, zin in bewijs.bewijslijst(beurten).items()) or "- (geen)"
         prompt = f"{self._context(beurten)}\n\nJOUW OORDEEL\n\n{oordeel}\n\n{VERDICT.format(toegelaten=toegelaten)}"
         ruw = await self._json(prompt, lambda d: d)
         klachten = bezwaren(ruw, bekend)
@@ -325,6 +384,8 @@ def schoon(ruw, bekend, run_id):
     for s in SLOTS:
         stuk = oorzaak.get(s) if isinstance(oorzaak.get(s), dict) else {}
         bewering, ids_ = _tekst(stuk.get("bewering")), _bewijs(stuk.get("bewijs"), bekend)
+        if bewering and ids_:  # elk record dat in de bewering staat, hoort ook in het bewijs
+            ids_ = list(dict.fromkeys(ids_ + [i for i in bewijs.ids(bewering) if i in bekend]))
         if not bewering or not ids_:  # zonder bewijs is het eerlijk onbekend
             slots[s] = {"bewering": None, "bewijs": []}
             continue

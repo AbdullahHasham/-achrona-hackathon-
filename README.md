@@ -6,11 +6,13 @@ Onze inzending voor challenge 113 (Roboest) van Hack The Future 2026, gebouwd op
 
 | Deel | Hoe |
 |---|---|
-| **Koning** (`koning.py`) | Een agent die vóór elke beurt het hele debat leest en kiest: wie, welke vraag, waarom. Hij houdt open vragen bij, geeft per deel van de oorzaak aan of het onbekend, een vermoeden of getoetst is, en stopt zelf. Hij heeft geen tools en geen Kennisbron. |
+| **Koning** (`koning.py`) | Een agent die vóór elke beurt het hele debat leest en kiest: wie, welke vraag, waarom. Hij houdt een **bord met verklaringen** bij (voor en tegen, met records), open vragen en een stand per deel van de oorzaak. Hij geeft een Raadslid **zoektermen uit andere getuigenissen** mee (kruis-zoeken) en stopt zelf. Hij heeft geen tools en geen Kennisbron. |
+| **Uitdager** | Wil de Koning sluiten, dan valt een tweede oproep zijn conclusie aan. De gaten staan als `uitdaging` in de trace; de Koning beslist zelf of hij doorvraagt. |
 | **Regels eromheen** (`bewijs.py`) | Code telt beurten, volgt verwijzingen naar records van andere Rollen als open sporen, en keurt ID's af die niet in de gelezen bron stonden. Het model mag zijn antwoord dan één keer verbeteren; dat staat als `herkansing` in de trace. |
 | **Zes Raadsleden** (`raadsleden/`) | Lezen verplicht eerst hun eigen bron via MCP. Een eerste getuigenis is blind (alleen de vraag van de Koning), zodat ze elkaar niet napraten. Daarna zien ze het debat en kunnen ze bevestigen of weerleggen. |
 | **Verdict** | De Koning weegt eerst, schrijft dan. Code aanvaardt alleen records die hun eigen Rol las én inbracht, en begrenst de zekerheid als een deel op één Rol steunt. Zonder bewijs blijft een deel eerlijk `null`. |
 | **Podium** (`podium.html`) | Eigen visualisatie op `/podium`: live of als opname, met avatars, open vragen en bewijs. Schrap een record en zie meteen welk deel van het Verdict nog staat. |
+| **Arcade** (`arcade.html`) | Tweede visualisatie, gemaakt door Abdullah, op `/arcade`: met keuzelijst van runs. |
 | **Lekcontrole** (`lek.py`) | Kijkt na dat er geen inhoud uit de Kennisbronnen in prompts, code of documenten staat. |
 | **Vergelijking** (`basislijn.py`) | Eén agent die alles tegelijk leest, als maatstaf. Staat los van de Council. |
 
@@ -21,6 +23,8 @@ uv run validate                  # schema en spelregels
 uv run python lek.py             # geen broninhoud in prompts of code
 uv run --group dev pytest        # volledige run met nepmodel, zonder key
 ```
+
+Debat in het Engels: zet `COUNCIL_TAAL=en` in `.env`. Een Nederlandse run in het Engels bekijken: `uv run python vertaal.py <map>` en dan de knop EN.
 
 Live demo zonder de ingeleverde bestanden te overschrijven: zet `COUNCIL_UIT=demo` en start `uv run viewer demo`.
 

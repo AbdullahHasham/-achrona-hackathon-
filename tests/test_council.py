@@ -59,7 +59,8 @@ def mcp_servers():
 class NepModel:
     """Speelt beide modellen. `keuzes` is wat de Koning na n Raadslid-beurten antwoordt."""
 
-    def __init__(self, keuzes, verdict):
+    def __init__(self, keuzes, verdict, gaten=None):
+        self.gaten = gaten or []
         self.keuzes, self.verdict, self.gezien, self.kuren = keuzes, verdict, [], {}
         nep = self
 
@@ -99,10 +100,12 @@ class NepModel:
             assert not body.get("tools"), "de Koning heeft geen tools"
             if "Antwoord met alleen dit JSON-object" in laatste and "Schrijf nu het Council Verdict" in laatste:
                 return zeg(self.verdict)
+            if "Jij bent de Uitdager" in laatste:
+                return zeg(json.dumps({"gaten": self.gaten.pop(0) if self.gaten else []}))
             if "Het debat is gesloten" in laatste:
                 return zeg("Oordeel: het gat in de put (HIS‑903).")
             n = int(re.search(r"gebruikt: (\d+) van", laatste)[1])
-            keuze = self.keuzes[min(n, len(self.keuzes) - 1)]
+            keuze = self.na_uitdaging if "De Uitdager noemt deze gaten" in laatste else self.keuzes[min(n, len(self.keuzes) - 1)]
             return zeg(keuze if isinstance(keuze, str) else "Hier is mijn keuze:\n```json\n" + json.dumps(keuze) + "\n```")
         rol = next(r for r in RECORDS if f"Je bent de {r.title()}" in systeem)
         if laatste_rol != "tool":
@@ -214,10 +217,52 @@ def test_een_koning_die_wartaal_spreekt_breekt_de_run_niet(monkeypatch, tmp_path
     assert all(verdict["oorzaak"][s]["bewering"] is None for s in koning.SLOTS), "liever onbekend dan verzonnen"
 
 
-def test_te_vroeg_stoppen_moet_een_keer_heroverwogen(monkeypatch, tmp_path, mcp_servers):
-    nep = NepModel([keuze(None, reden="Genoeg.", stand="onbekend")], GOED_VERDICT)
-    draai(monkeypatch, tmp_path, mcp_servers, nep)
-    assert sum("Heroverweeg" in l for _, _, l in nep.gezien) == 1
+def test_de_uitdager_kan_het_debat_openhouden(monkeypatch, tmp_path, mcp_servers):
+    gat = {"gat": "Niemand vroeg de Oracle naar dag 9.", "rol": "Oracle", "vraag": "Wat zag je op dag 9?"}
+    stopt = keuze(None, reden="Genoeg.")
+    nep = NepModel([keuze("engineer"), keuze("historian"), stopt, stopt], GOED_VERDICT, gaten=[[gat]])
+    nep.na_uitdaging = keuze("oracle", reden="De Uitdager wijst op dag 9.")
+    trace, _ = draai(monkeypatch, tmp_path, mcp_servers, nep)
+    routes = [x for x in trace["beurten"] if x["soort"] == "routering"]
+    assert [r["aan"] for r in routes] == ["engineer", "historian", "oracle", None]
+    assert routes[2]["uitdaging"] == ["Niemand vroeg de Oracle naar dag 9."], "het gat staat in de trace"
+    assert "uitdaging" not in routes[3], "de Uitdager komt één keer per run"
+
+
+def test_de_koning_mag_na_een_uitdaging_toch_sluiten(monkeypatch, tmp_path, mcp_servers):
+    gat = {"gat": "Iets kleins.", "rol": "oracle", "vraag": "?"}
+    nep = NepModel([keuze("engineer"), keuze(None, reden="Genoeg.")], GOED_VERDICT, gaten=[[gat]])
+    nep.na_uitdaging = keuze(None, reden="Dat gat verandert het Verdict niet.")
+    trace, _ = draai(monkeypatch, tmp_path, mcp_servers, nep)
+    laatste = [x for x in trace["beurten"] if x["soort"] == "routering"][-1]
+    assert laatste["aan"] is None and laatste["reden"] == "Dat gat verandert het Verdict niet." and laatste["uitdaging"] == ["Iets kleins."]
+
+
+def test_zoektermen_en_bord_gaan_mee(monkeypatch, tmp_path, mcp_servers):
+    bord = [{"naam": "Gat", "voor": ["ENG\u2011901: zakt"], "tegen": [], "stand": "leidend"}, {"naam": "Droogte", "voor": [], "tegen": ["x"], "stand": "onzin"}, "kapot"]
+    nep = NepModel([keuze("engineer"), keuze("historian", zoektermen=["smid", "dag 2"], verklaringen=bord), keuze(None)], GOED_VERDICT)
+    trace, _ = draai(monkeypatch, tmp_path, mcp_servers, nep)
+    r = [x for x in trace["beurten"] if x["soort"] == "routering"][1]
+    assert r["zoektermen"] == ["smid", "dag 2"]
+    assert r["verklaringen"] == [{"naam": "Gat", "voor": ["ENG-901: zakt"], "tegen": [], "stand": "leidend"},
+                                 {"naam": "Droogte", "voor": [], "tegen": ["x"], "stand": "open"}]
+    vraag = next(l for _, sys_, l in nep.gezien if "Je bent de Historian" in sys_ and "Vraag van de Koning" in l)
+    assert "smid; dag 2" in vraag and "ENG-901" not in vraag, "wel zoektermen, niet het debat"
+    koning_ziet = [l for _, sys_, l in nep.gezien if "Je bent de Koning" in sys_ and "Verklaring 'Gat' (leidend)" in l]
+    assert koning_ziet, "de Koning ziet zijn eigen bord terug"
+
+
+def test_id_in_de_bewering_hoort_in_het_bewijs():
+    ruw = {"oorzaak": {"ingreep": {"bewering": "De smid (HIS-903) na ENG-901 en BEA-777.", "bewijs": ["HIS-903"], "zekerheid": 0.5}}}
+    v, _ = koning.schoon(ruw, {"HIS-903": "historian", "ENG-901": "engineer"}, "x")
+    assert v["oorzaak"]["ingreep"]["bewijs"] == ["HIS-903", "ENG-901"]
+
+
+def test_debat_in_het_engels(monkeypatch, tmp_path, mcp_servers):
+    nep = NepModel([keuze("engineer"), keuze(None)], GOED_VERDICT)
+    trace, _ = draai(monkeypatch, tmp_path, mcp_servers, nep, COUNCIL_TAAL="en")
+    assert trace["taal"] == "en"
+    assert all("Engels" in s for _, s, _ in nep.gezien), "Koning en Raadsleden weten het allebei"
 
 
 def test_json_uit_tekst():

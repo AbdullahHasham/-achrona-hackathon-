@@ -62,7 +62,7 @@ def opbrengst(beurten):
     return uit
 
 
-def register(beurten):
+def bewijslijst(beurten):
     """Elk ingebracht record met de zin waarin zijn eigen Rol het noemde. Alleen tekst uit het debat."""
     bekend, zinnen = ingebracht(beurten), {}
     for b in berichten(beurten):

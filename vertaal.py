@@ -44,7 +44,9 @@ def verzamel(trace, verdict=None):
                 uit.setdefault(t)
 
     for b in trace.get("beurten") or []:
-        neem(b.get("vraag"), b.get("reden"), b.get("hypothese"), *(b.get("open_vragen") or []), b.get("tekst"))
+        neem(b.get("vraag"), b.get("reden"), b.get("hypothese"), *(b.get("open_vragen") or []), *(b.get("uitdaging") or []), b.get("tekst"))
+        for v in b.get("verklaringen") or []:
+            neem(v.get("naam"))
     for g in trace.get("geschillen") or []:
         neem(g.get("onderwerp"), *(g.get("standpunten") or {}).values(), g.get("uitkomst"))
     if verdict:

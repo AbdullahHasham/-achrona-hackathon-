@@ -40,6 +40,8 @@
   .vraag.nieuw { border-color: var(--kristal); animation: op .5s ease-out; }
   .vraag.weg { color: var(--stil); text-decoration: line-through; background: none; border-style: dashed; }
   .hyp { font-size: 14px; line-height: 1.42; padding: 9px 11px; border-radius: 8px; background: color-mix(in srgb, var(--goud) 9%, var(--vak)); border: 1px solid color-mix(in srgb, var(--goud) 45%, transparent); }
+  .rivaal { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; line-height: 1.35; padding: 5px 9px; margin-top: 5px; border-radius: 7px; border: 1px solid var(--lijn); }
+  .rivaal span { color: var(--zacht); white-space: nowrap; font-variant-numeric: tabular-nums; } .rivaal.leidend { border-color: var(--goud); } .rivaal.weerlegd b { text-decoration: line-through; color: var(--stil); font-weight: 400; }
   .niets { color: var(--stil); font-style: italic; font-size: 14px; }
   .groep { margin-bottom: 11px; } .groep b { display: block; font-size: 13px; color: var(--kleur); margin-bottom: 3px; }
 
@@ -147,7 +149,7 @@ const SLOTS = { ingreep: "Ingreep", mechanisme: "Mechanisme", verloop: "Verloop"
 const BUDGET = 10, ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)[-‐-―−](\d{3})\b/g;
 const WOORD = {
   nl: { wacht: "WACHT", live: "LIVE", opname: "OPNAME VAN DE RUN", beurten: (n, m) => `${n} van ${m} beurten`, vrij: "nog vrij", speel: "Speel af", pauze: "Pauze", volg: "Volg live",
-    hyp: "Hypothese van de Koning", vragen: "Open vragen", bewijs: "Bewijs in het debat", geenhyp: "Nog geen hypothese.", geenvragen: "Geen open vragen.", geenbewijs: "Nog geen records ingebracht.",
+    hyp: "Hypothese van de Koning", vragen: "Open vragen", bewijs: "Bewijs in het debat", geenhyp: "Nog geen hypothese.", leidend: "leidend", open: "open", weerlegd: "weerlegd", zoekt: "Zoekt in de eigen bron naar", daagt: "De Uitdager wierp op", doorstond: "De Uitdager vond geen gat meer.", geenvragen: "Geen open vragen.", geenbewijs: "Nog geen records ingebracht.",
     koningleest: "leest geen Kennisbron", sprak: (n, r) => `${n} ${n === 1 ? "beurt" : "beurten"}, ${r} records`, nietgehoord: "nog niet gehoord", toetst: "toetst",
     zaalwacht: "De zaal wacht", start: "Start de Council met <code>uv run council</code>.", denkt: r => `${r} denkt na…`, weegt: r => `${r} weegt het debat…`, leest: r => `${r} leest de eigen Kennisbron…`,
     woordaan: "geeft het woord aan", waarom: "Waarom", sluit: "sluit het debat", na: (n, m) => `na ${n} van ${m} beurten`, leestbron: "leest de eigen Kennisbron", blind: "onafhankelijke getuigenis, zonder het debat te zien",
@@ -157,7 +159,7 @@ const WOORD = {
     bronvan: r => `Kennisbron van de ${r}`, nietgenoemd: "Niet genoemd in een bericht.", schrap: "Schrap dit record", terug: "Herstel dit record", sluiten: "Sluiten", noot: "",
     ingreep: "Ingreep", mechanisme: "Mechanisme", verloop: "Verloop", onbekend: "onbekend", vermoeden: "vermoeden", getoetst: "getoetst", koning: "Koning", mens: "Mens" },
   en: { wacht: "WAITING", live: "LIVE", opname: "RECORDED RUN", beurten: (n, m) => `${n} of ${m} turns`, vrij: "unused", speel: "Play", pauze: "Pause", volg: "Follow live",
-    hyp: "The King's hypothesis", vragen: "Open questions", bewijs: "Evidence in the debate", geenhyp: "No hypothesis yet.", geenvragen: "No open questions.", geenbewijs: "No records cited yet.",
+    hyp: "The King's hypothesis", vragen: "Open questions", bewijs: "Evidence in the debate", geenhyp: "No hypothesis yet.", leidend: "leading", open: "open", weerlegd: "refuted", zoekt: "Searches their own source for", daagt: "The Challenger objected", doorstond: "The Challenger found no more gaps.", geenvragen: "No open questions.", geenbewijs: "No records cited yet.",
     koningleest: "reads no source", sprak: (n, r) => `${n} ${n === 1 ? "turn" : "turns"}, ${r} records`, nietgehoord: "not heard yet", toetst: "tests",
     zaalwacht: "The chamber waits", start: "Start the Council with <code>uv run council</code>.", denkt: r => `${r} is thinking…`, weegt: r => `${r} weighs the debate…`, leest: r => `${r} reads their own source…`,
     woordaan: "gives the floor to", waarom: "Why", sluit: "closes the debate", na: (n, m) => `after ${n} of ${m} turns`, leestbron: "reads their own source", blind: "independent testimony, without seeing the debate",
@@ -218,6 +220,7 @@ function standTot(tot) {
       s.laatste = x;
       if (x.stand) s.stand = x.stand;
       if (x.hypothese) s.hypothese = x.hypothese;
+      if (x.verklaringen?.length) s.bord = x.verklaringen;
       if (x.open_vragen) { s.vorigeVragen = s.vragen; s.vragen = x.open_vragen; }
     } else if (x.soort === "bericht" && PREFIX_ROL.has(x.spreker)) {
       s.gesproken.push(x.spreker);
@@ -265,7 +268,7 @@ function toon() {
   $("beurttekst").textContent = w("beurten", s.gesproken.length, BUDGET);
   $("teller").textContent = `${nu + 1} / ${scenes.length}`;
   $("volg").setAttribute("aria-pressed", volgt); $("speel").textContent = speelt ? w("pauze") : w("speel");
-  $("volg").textContent = w("volg"); $("taal").textContent = taal === "en" ? "NL" : "EN"; $("taalnoot").textContent = w("noot"); document.documentElement.lang = taal;
+  $("volg").textContent = w("volg"); $("taal").textContent = taal === "en" ? "NL" : "EN"; $("taalnoot").textContent = trace.taal === "en" ? "" : w("noot"); document.documentElement.lang = taal;
   $("k-hyp").textContent = w("hyp"); $("k-vragen").textContent = w("vragen"); $("k-bewijs").textContent = w("bewijs"); $("sluit").textContent = w("sluiten");
 
   // wie doet wat
@@ -298,6 +301,7 @@ function toon() {
     el.querySelector(".st").textContent = w(st); el.querySelector("text").textContent = w(slot);
   }
   $("hypothese").innerHTML = s.hypothese ? `<div class="hyp">${rijk(tr(s.hypothese))}</div>` : `<p class="niets">${w("geenhyp")}</p>`;
+  $("hypothese").innerHTML += (s.bord || []).map(v => `<div class="rivaal ${v.stand}"><b>${esc(tr(v.naam))}</b><span>${w(v.stand)} · +${v.voor.length} −${v.tegen.length}</span></div>`).join("");
   // open vragen
   const weg = s.vorigeVragen.filter(v => !s.vragen.includes(v));
   $("vragen").innerHTML = s.vragen.map(v => `<div class="vraag ${s.vorigeVragen.includes(v) ? "" : "nieuw"}">${rijk(tr(v))}</div>`).join("")
@@ -318,8 +322,10 @@ function voet(sc, s, denkt) {
   const extra = denkt ? `<div class="waarom">${w(denkt === "koning" ? "weegt" : "leest", naam(denkt))}</div>` : "";
   if (sc.soort === "routering") {
     const x = sc.x;
-    return x.aan ? zet("koning", `${naam(x.spreker)} <small>${w("woordaan")}</small> <span style="color:${kleur(x.aan)}">${naam(x.aan)}</span>`, `${rijk(tr(x.vraag))}<div class="waarom">${w("waarom")}: ${rijk(tr(x.reden))}</div>${extra}`)
-      : zet("koning", `${naam(x.spreker)} ${w("sluit")} <small>${w("na", s.gesproken.length, BUDGET)}</small>`, `${rijk(tr(x.reden))}${extra}`);
+    const bij = (x.zoektermen?.length ? `<div class="waarom">${w("zoekt")}: ${x.zoektermen.map(t => `<em>${esc(t)}</em>`).join(", ")}</div>` : "")
+      + (x.uitdaging ? `<div class="merk">${x.uitdaging.length ? `${w("daagt")}: ${x.uitdaging.map(g => rijk(tr(g))).join(" · ")}` : w("doorstond")}</div>` : "");
+    return x.aan ? zet("koning", `${naam(x.spreker)} <small>${w("woordaan")}</small> <span style="color:${kleur(x.aan)}">${naam(x.aan)}</span>`, `${rijk(tr(x.vraag))}<div class="waarom">${w("waarom")}: ${rijk(tr(x.reden))}</div>${bij}${extra}`)
+      : zet("koning", `${naam(x.spreker)} ${w("sluit")} <small>${w("na", s.gesproken.length, BUDGET)}</small>`, `${rijk(tr(x.reden))}${bij}${extra}`);
   }
   if (sc.soort === "lezen") return zet(sc.rol, `${naam(sc.rol)} <small>${w("leestbron")}</small>`, sc.calls.map(c => `<code>${esc(c.tool)}(${esc(Object.values(c.argumenten || {}).map(v => JSON.stringify(v)).join(", "))})</code>`).join(" ") + extra);
   if (sc.soort === "bericht") {
