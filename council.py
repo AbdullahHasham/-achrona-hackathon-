@@ -10,6 +10,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import re
 import sys
 import uuid
 from contextlib import AsyncExitStack
@@ -245,6 +246,22 @@ async def run():
     def bewaar(naam, data):
         (ROOT / naam).write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
+    def archiveer_run(trace_data, verdict_data):
+        """Save an immutable snapshot of every completed run into runs/<safe_run_id>/."""
+        try:
+            safe_id = re.sub(r"[^A-Za-z0-9_+.-]", "-", str(trace_data.get("run_id") or "run"))
+            doel = ROOT / "runs" / safe_id
+            doel.mkdir(parents=True, exist_ok=True)
+            (doel / "trace.json").write_text(
+                json.dumps(trace_data, indent=2, ensure_ascii=False), encoding="utf-8"
+            )
+            if verdict_data is not None:
+                (doel / "verdict.json").write_text(
+                    json.dumps(verdict_data, indent=2, ensure_ascii=False), encoding="utf-8"
+                )
+        except Exception:
+            pass
+
     def beurt(ronde, spreker, soort, **velden):
         beurten.append({"nr": len(beurten) + 1, "ronde": ronde, "spreker": spreker, "soort": soort, **velden})
         bewaar("trace.json", trace)  # na elke beurt: de viewer (`uv run viewer`) toont het debat live
@@ -427,6 +444,7 @@ async def run():
     trace["status"], trace["aan_het_woord"] = "klaar", None
     bewaar("trace.json", trace)
     bewaar("verdict.json", verdict)
+    archiveer_run(trace, verdict)
 
     if citation_warnings:
         print("\nCitation gate warnings:")

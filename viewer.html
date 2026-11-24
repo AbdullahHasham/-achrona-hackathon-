@@ -708,6 +708,37 @@
     color: var(--crimson);
   }
 
+  .hud-select {
+    font-family: var(--font-hud);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-panel);
+    color: var(--text);
+    max-width: 245px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.14s, background 0.14s, color 0.14s;
+  }
+  .hud-select:hover, .hud-select:focus {
+    border-color: var(--amber);
+    background: var(--bg-elev);
+    color: #FFFFFF;
+  }
+  .hud-select.is-archive {
+    border-color: var(--amber);
+    background: var(--amber-dim);
+    color: var(--amber);
+  }
+  .hud-select option {
+    background: var(--bg-panel);
+    color: var(--text);
+    font-family: var(--font-hud);
+  }
+
   .svg-ic {
     width: 13px;
     height: 13px;
@@ -2389,6 +2420,9 @@
     </div>
 
     <div class="hud-actions">
+      <select id="run-selector" class="hud-select" aria-label="Select recorded Council run" title="Switch between LIVE latest run and archived historical runs (each with full trace + verdict)">
+        <option value="latest">RUN: LATEST (LIVE)</option>
+      </select>
       <button id="btn-fullscreen-verdict" class="hud-btn is-mint" type="button" title="Toggle Fullscreen Pitch Verdict Overlay (F)">
         <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 12 L1 4.5 L5 7.5 L8 2.5 L11 7.5 L15 4.5 L14 12 Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
         <span>[ FULLSCREEN VERDICT ]</span>
@@ -2470,7 +2504,7 @@
             <span>LIVE</span>
             <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="1,3 7,8 1,13" fill="currentColor"/><polygon points="6,3 12,8 6,13" fill="currentColor"/><rect x="12" y="3" width="2" height="10" fill="currentColor"/></svg>
           </button>
-          <button id="btn-speed" class="hud-btn" type="button" title="Cycle playback and voice speed (1x / 1.5x / 2x)">[ 1x ]</button>
+          <button id="btn-speed" class="hud-btn" type="button" title="Cycle playback and voice speed (1x / 1.5x / 2x / 2.5x / 3x)">[ 1x ]</button>
         </div>
 
         <div class="scrubber-zone">
@@ -2687,6 +2721,9 @@ const ICONS = {
 const state = {
   trace: null,
   verdict: null,
+  selectedRun: "latest",
+  runsCatalog: [],
+  runsKey: "",
   audit: { passCount: 0, hasFail: false, earlyStop: false, savedTurns: 0, raadslidBeurten: 0 },
   vorige: "",
   liveMode: true,
@@ -2954,7 +2991,7 @@ function speakStep(step, onDone) {
     if (enVoice) u.voice = enVoice;
     u.lang = enVoice ? enVoice.lang : "en-US";
     u.pitch = prof.pitch;
-    u.rate = Math.min(2.2, prof.rate * state.playSpeed);
+    u.rate = Math.min(3.0, prof.rate * state.playSpeed);
 
     let finished = false;
     const finish = () => {
@@ -3213,7 +3250,9 @@ function renderStage() {
   }
 
   document.getElementById("chamber-status-corner").textContent =
-    state.isPlaying ? "MODE: PLAYBACK" : state.liveMode ? "MODE: LIVE STREAM" : "MODE: INSPECT";
+    state.selectedRun !== "latest"
+      ? (state.isPlaying ? "ARCHIVE // PLAYBACK" : "ARCHIVE // INSPECT")
+      : (state.isPlaying ? "MODE: PLAYBACK" : state.liveMode ? "MODE: LIVE STREAM" : "MODE: INSPECT");
 
   // Floor tactical radar geometry
   const kingX = 500, kingY = 92;
@@ -4221,7 +4260,7 @@ function updateSpeedButton() {
 }
 
 function cyclePlaySpeed() {
-  const speeds = [1, 1.5, 2];
+  const speeds = [1, 1.5, 2, 2.5, 3];
   const next = speeds[(speeds.indexOf(state.playSpeed) + 1) % speeds.length];
   state.playSpeed = next;
   updateSpeedButton();
@@ -4284,6 +4323,13 @@ function initControls() {
     goToStep(Math.max(0, len - 1), { live: true, scrollTranscript: true, silent: true });
   });
   document.getElementById("btn-speed").addEventListener("click", cyclePlaySpeed);
+
+  const runSel = document.getElementById("run-selector");
+  if (runSel) {
+    runSel.addEventListener("change", () => {
+      selectRun(runSel.value || "latest");
+    });
+  }
 
   document.getElementById("btn-replay-debate").addEventListener("click", () => {
     const beurten = state.trace?.beurten || [];
@@ -4426,7 +4472,7 @@ function initControls() {
 }
 
 /* =========================================================
-   LIVE POLLING LOOP (trace.json + verdict.json)
+   RUN ARCHIVE CATALOG & LIVE POLLING LOOP
    ========================================================= */
 async function haal(pad) {
   try {
@@ -4437,15 +4483,98 @@ async function haal(pad) {
   }
 }
 
-async function lus() {
-  const [t, v] = await Promise.all([haal("trace.json"), haal("verdict.json")]);
-  if (t && t + (v || "") !== state.vorige) {
-    state.vorige = t + (v || "");
+function formatRunLabel(item) {
+  const turns = `${item.member_turns ?? 0}/10T`;
+  const early = item.early_stop ? " · EARLY" : "";
+  const disp = Number.isFinite(item.disputes) ? ` · ${item.disputes}D` : "";
+  const day = item.forecast_day != null ? ` · D${item.forecast_day}` : "";
+  if (item.id === "latest") {
+    return `LATEST (LIVE) · ${turns}${early}${day}`;
+  }
+  const raw = String(item.run_id || item.id);
+  const timeMatch = raw.match(/T(\d{2}[:-]\d{2}[:-]\d{2})/);
+  const shortTime = timeMatch ? timeMatch[1].replace(/-/g, ":") : raw.slice(0, 16);
+  const hashTail = raw.includes("_") ? raw.split("_").pop().slice(0, 6) : "";
+  return `${shortTime}${hashTail ? " #" + hashTail : ""} · ${turns}${early}${disp}${day}`;
+}
+
+async function refreshRunsCatalog() {
+  const raw = await haal("/api/runs");
+  if (!raw || raw === state.runsKey) return;
+  try {
+    const parsed = JSON.parse(raw);
+    const runs = Array.isArray(parsed.runs) ? parsed.runs : [];
+    state.runsKey = raw;
+    state.runsCatalog = runs;
+    const sel = document.getElementById("run-selector");
+    if (!sel) return;
+    const current = state.selectedRun || "latest";
+    sel.innerHTML = "";
+    if (!runs.length) {
+      const opt = document.createElement("option");
+      opt.value = "latest";
+      opt.textContent = "RUN: LATEST (LIVE)";
+      sel.appendChild(opt);
+    } else {
+      for (const item of runs) {
+        const opt = document.createElement("option");
+        opt.value = item.id;
+        opt.textContent = formatRunLabel(item);
+        sel.appendChild(opt);
+      }
+    }
+    sel.value = runs.some(r => r.id === current) ? current : "latest";
+    sel.className = "hud-select" + (sel.value !== "latest" ? " is-archive" : "");
+  } catch {
+    /* Ignore transient parse error */
+  }
+}
+
+async function loadRunData(runId) {
+  const traceUrl = runId === "latest" ? "trace.json" : `/api/runs/${encodeURIComponent(runId)}/trace.json`;
+  const verdictUrl = runId === "latest" ? "verdict.json" : `/api/runs/${encodeURIComponent(runId)}/verdict.json`;
+  const [t, v] = await Promise.all([haal(traceUrl), haal(verdictUrl)]);
+  if (t && `${runId}::${t}${v || ""}` !== state.vorige) {
+    state.vorige = `${runId}::${t}${v || ""}`;
     try {
       render(JSON.parse(t), v ? JSON.parse(v) : null);
+      return true;
     } catch {
       /* File may be mid-write; retry next poll tick */
     }
+  }
+  return false;
+}
+
+async function selectRun(runId) {
+  stopSpeech();
+  state.isPlaying = false;
+  clearTimeout(state.playTimer);
+  state.pinnedId = null;
+  state.selectedRun = runId || "latest";
+  state.liveMode = state.selectedRun === "latest";
+  state.cursor = -1;
+  state.vorige = "";
+  const sel = document.getElementById("run-selector");
+  if (sel) {
+    sel.value = state.selectedRun;
+    sel.className = "hud-select" + (state.selectedRun !== "latest" ? " is-archive" : "");
+  }
+  const ok = await loadRunData(state.selectedRun);
+  if (ok) {
+    const info = state.runsCatalog.find(r => r.id === state.selectedRun);
+    showToast(
+      state.selectedRun === "latest"
+        ? "SWITCHED TO LIVE / LATEST RUN"
+        : `LOADED ARCHIVE: ${info ? formatRunLabel(info) : state.selectedRun}`
+    );
+  }
+}
+
+async function lus() {
+  await refreshRunsCatalog();
+  if (state.selectedRun === "latest") {
+    await loadRunData("latest");
   }
   setTimeout(lus, 1500);
 }
