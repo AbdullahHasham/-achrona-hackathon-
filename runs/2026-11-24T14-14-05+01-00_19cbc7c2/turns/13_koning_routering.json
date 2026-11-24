@@ -1,0 +1,16 @@
+{
+  "nr": 13,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:15:56+01:00",
+  "aan": "beast_master",
+  "vraag": "Your source is the only independent timing record not yet heard. Please answer three things with exact dates, times and individual record IDs. (1) Does your source record any unrest among animals or the woud before Day 10 02:40, specifically on Day 8, Day 9 (including the Day 9 16:45 proefopstelling, ENG-010) and the early hours of Day 10? (2) Does it record unrest around Day 10 04:45 (HIS-035, Burchtader stall), Day 22 04:15 (ENG-026, ENG-110, HIS-053, timestamp provisional per HIS-116), Day 24 11:00 (ENG-029, ENG-062) and Day 27 10:00 (ENG-034, ENG-124)? (3) Does it record any unrest on Day 14 or Day 42, the two dates where Archmage's low Burchtader readings occur (ARC-015, ARC-071), or any calm stretch between Day 10 and Day 22 covering the Day 16 'still 38% higher' claim (ENG-120)? Please state explicitly where your source is silent.",
+  "reden": "Beast Master has not yet spoken and holds an independent, non-technical observation channel. Its dated animal-unrest records can test whether the Day 10 activation (ENG-011, ENG-106) actually precedes disturbance, or whether unrest began before the claimed trigger, which would undercut the correlational link. Checking Day 14 and Day 42 also tests the Archmage's unexplained low readings against the activation pattern.",
+  "open_vragen": [
+    "Who authorized the Day 10 hulpslag activation (ENG-011, ENG-106) and the Day 24 pulse increase (ENG-029, ENG-062)? Engineer and Archmage report no authorization record; Beast Master or Oracle should confirm whether any other role holds it.",
+    "Did the Council decide on Day 24 to switch off the datanet entirely, as requested in ARC-112 (dag 23)? Archmage reports no record of the outcome; check whether Oracle or Beast Master holds one.",
+    "Do the Day 10 (HIS-035, HIS-036) and Day 22 (HIS-053) timestamps still need correction beyond HIS-112 and HIS-116, or is the provisional status final?"
+  ],
+  "duur_ms": 14736
+}

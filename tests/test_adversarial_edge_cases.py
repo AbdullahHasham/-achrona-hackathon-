@@ -370,7 +370,7 @@ def test_adversarial_empty_member_response_and_double_retry_exhaustion(
     monkeypatch.setattr(council, "client", lambda model_env: SimpleNamespace(model_env=model_env))
 
     class _FakeMCPTool:
-        def __init__(self, name: str, url: str) -> None:
+        def __init__(self, name: str, url: str, **kwargs: Any) -> None:
             self.name = name
             self.url = url
 

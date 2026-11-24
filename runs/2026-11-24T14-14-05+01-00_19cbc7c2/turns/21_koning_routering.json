@@ -1,0 +1,12 @@
+{
+  "nr": 21,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:17:10+01:00",
+  "aan": null,
+  "vraag": null,
+  "reden": "All six roles have spoken and answered the cross-examinations. Rules were cited with individual record IDs (ENG-102, ENG-103, ENG-114, HIS-102, HIS-109, HIS-110, GUA-102 to GUA-108, ORA-110 to ORA-142), so no ID range needs unpacking. The remaining gaps are source-absent: no sync interval or recurrence rule, no Day 10 or Day 24 authorization, no per-day throughput after Day 10, no numeric shield or barrier readings, and no tick-timing measurement. The Day 22 event type (packet loss per ENG-026/ENG-110 versus a gate opening from inside per GUA-043/GUA-044, with HIS-053 calling it a reported leak) and the conflicting 5% descriptions in ENG-029 and ENG-062 are contradictions that each owning role has stated its own source cannot resolve, so another turn would not produce new evidence. Stopping now at 7 of 10 turns.",
+  "open_vragen": [],
+  "duur_ms": 8479
+}

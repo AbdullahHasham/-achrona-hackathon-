@@ -1,0 +1,9 @@
+{
+  "nr": 22,
+  "ronde": 3,
+  "spreker": "koning",
+  "soort": "bericht",
+  "tijdstip": "2026-11-24T14:17:43+01:00",
+  "tekst": "Council consensus: the Desync is a recurring night-time event first recorded on day 10 at 04:15 to 04:50 and repeating every 4 days through day 42. The corroborated sequence is the activation of a separate hulpslag pulse at day 10 02:40, a +38% throughput rise at 03:00, and the night disturbances from 04:15 to 04:50. Withdrawn theories are the hacker explanation, the datanet-pollutes-leylines claim and the Stille Winter analogy. The causal link from the second pulse to the Desync is a timing sequence plus a charter rule, not a demonstrated mechanism. Recovery: freeze pulse changes, copy the register, restore the pols to baseline in 0.1% steps, record latency and sync offset per date, and observe the night window. Forecast: next recurrence expected on day 46 if unaddressed.",
+  "duur_ms": 32516
+}

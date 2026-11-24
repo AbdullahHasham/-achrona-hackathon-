@@ -1,0 +1,183 @@
+{
+  "run_id": "2026-11-24T14:14:05+01:00_19cbc7c2",
+  "samenvatting": "The Desync began after a separate hulpslag pulse was activated on day 10 at 02:40 (ENG-011, ENG-106). Throughput rose 38% at 03:00 (ENG-012), and night disturbances at about 04:15 to 04:50 recur every 4 days from day 10 to day 42 (BEA-019, ORA-110, BEA-092, ORA-142). The 5% pulse increase on day 24 (ENG-029, ENG-062) is part of the sequence but its effect on tempo is unresolved. No role recorded a sync offset or latency baseline, and the authorization of the activation is unrecorded. Recovery should freeze further pulse changes, restore the baseline in fine steps, and begin measuring. Forecast: day 46.",
+  "oorzaak": {
+    "ingreep": {
+      "bewering": "A separate hulpslag pulse was activated on day 10 at 02:40 alongside the Kroonklok pulse, and the pulse was raised by 5% on day 24 at 11:00 and 11:05. No role recorded who authorized either change.",
+      "bewijs": [
+        "ENG-008",
+        "ENG-010",
+        "ENG-011",
+        "ENG-106",
+        "ENG-029",
+        "ENG-062"
+      ],
+      "zekerheid": 0.7
+    },
+    "mechanisme": {
+      "bewering": "The timing sequence links the day 10 02:40 activation to a +38% throughput rise at 03:00 and to the 04:45 to 04:50 disruptions of the Burchtader and the message flow. The charter states that a second pulse brings the system out of step with the Kroonklok. The night pattern then recurs, but no role demonstrated a direct mechanism from pulse to failure.",
+      "bewijs": [
+        "ENG-011",
+        "ENG-012",
+        "ENG-106",
+        "HIS-035",
+        "HIS-036",
+        "ENG-107",
+        "HIS-109",
+        "HIS-110",
+        "GUA-103",
+        "ENG-102"
+      ],
+      "zekerheid": 0.5
+    },
+    "verloop": {
+      "bewering": "Baseline before day 10 has no sync or latency values, only a Burchtader reading of 7.4 on day 7 and normal lines. Onset is day 10 at 02:40. Night disruptions recur at about 04:15 to 04:50 every 4 days from day 10 to day 42. Burchtader readings are low on day 14 (3.6) and day 42 (3.7) but normal on days 21, 28 and 35, so the low readings do not follow the activation cleanly. Poort oost packet loss occurred on day 22 at 04:15 for 3 minutes, and a power dip on day 27 at 10:00. Role sampling was sparse: the Burchtader was sampled every 7 days and the Beast Master has no entries for the day 24 and 27 windows, which explains why individual roles saw only subsets of the pattern.",
+      "bewijs": [
+        "ARC-001",
+        "ENG-008",
+        "ENG-010",
+        "BEA-019",
+        "ENG-012",
+        "ORA-110",
+        "ARC-015",
+        "ENG-120",
+        "BEA-028",
+        "BEA-029",
+        "ORA-114",
+        "ARC-029",
+        "BEA-037",
+        "BEA-038",
+        "ORA-118",
+        "ENG-026",
+        "ENG-110",
+        "BEA-046",
+        "BEA-047",
+        "ORA-122",
+        "ENG-029",
+        "ENG-062",
+        "ENG-034",
+        "ENG-124",
+        "ARC-043",
+        "ORA-126",
+        "ORA-130",
+        "ARC-057",
+        "BEA-091",
+        "BEA-092",
+        "ORA-134",
+        "ARC-071",
+        "ORA-138",
+        "ORA-142",
+        "BEA-113",
+        "BEA-051",
+        "BEA-052"
+      ],
+      "zekerheid": 0.6
+    }
+  },
+  "acties": [
+    {
+      "actie": "Freeze all further hulpslag and pols setting changes until the day 24 5% tempo dispute is resolved.",
+      "reden": "Records ENG-029 and ENG-062 describe the 5% change differently, so the effect is unverified.",
+      "bewijs": [
+        "ENG-029",
+        "ENG-062"
+      ]
+    },
+    {
+      "actie": "Make a copy of the datanet register before any pols change.",
+      "reden": "Charter article HIS-110 requires copying the register before bringing the pols together, because a record on a second pols is lost if that pols drops.",
+      "bewijs": [
+        "HIS-110"
+      ]
+    },
+    {
+      "actie": "Restore the hulpslag pulse to its original setting in 0.1% steps, as tested on day 12.",
+      "reden": "Day 12 fine-adjustment in 0.1% steps was restored to the original setting, and the charter article HIS-109 warns that a second pulse brings the system out of step.",
+      "bewijs": [
+        "ENG-061",
+        "ENG-114",
+        "HIS-109"
+      ]
+    },
+    {
+      "actie": "Record latency and sync offset for every observation date, starting before the next activation window.",
+      "reden": "No role holds any sync offset or latency measurement or baseline, so the effect cannot be quantified.",
+      "bewijs": [
+        "ENG-012",
+        "ENG-120"
+      ]
+    },
+    {
+      "actie": "Schedule observation of the night window from 04:00 to 05:00 every day from day 43 to day 46 with the Beast Master and Oracle.",
+      "reden": "The night pattern recurs every 4 days and the next occurrence falls on day 46, so direct observation can confirm it.",
+      "bewijs": [
+        "BEA-113",
+        "ORA-142",
+        "BEA-092"
+      ]
+    },
+    {
+      "actie": "Keep the 03:00 to 06:00 wachtrondes and report any poort oost opening under meldplicht.",
+      "reden": "Guardian records show poort oost openings from inside during the 04:15 window, and the shield rules govern wachtrondes in that period.",
+      "bewijs": [
+        "GUA-106",
+        "GUA-108",
+        "GUA-043",
+        "GUA-019"
+      ]
+    },
+    {
+      "actie": "Correct the clerk timestamps for days 10 and 22 before using them as evidence.",
+      "reden": "Entries show vastgelegd times before gebeurd times, so the timeline is provisional.",
+      "bewijs": [
+        "HIS-036",
+        "HIS-053",
+        "HIS-112",
+        "HIS-116",
+        "GUA-115"
+      ]
+    },
+    {
+      "actie": "Put the authorization of the day 10 activation and the day 24 increase on the council record, and decide on ARC-112.",
+      "reden": "No role recorded who authorized either change, and ARC-112 asked for a switch-off decision on day 24 that has no recorded outcome.",
+      "bewijs": [
+        "ENG-011",
+        "ENG-029",
+        "ARC-112"
+      ]
+    }
+  ],
+  "risicos": [
+    {
+      "risico": "Second pulse may cause loss of records in the register.",
+      "mitigatie": "Copy the register before any pols change and restore slowly."
+    },
+    {
+      "risico": "Wrong attribution of poort oost events to hackers, as ENG-110 proposed and then withdrew.",
+      "mitigatie": "Treat the hacker explanation as unsupported and examine logs before attributing causes."
+    },
+    {
+      "risico": "Timestamp errors undermine the timeline across roles.",
+      "mitigatie": "Correct and verify the vastgelegd and gebeurd times before relying on the timeline."
+    },
+    {
+      "risico": "Absence of baseline measurements prevents detection of drift.",
+      "mitigatie": "Record latency, sync offset and throughput at every observation date."
+    },
+    {
+      "risico": "Unpublicised permission for the datatoren to run on their own pulse creates governance exposure.",
+      "mitigatie": "Decide openly on the authorization record and the ARC-112 switch-off question."
+    }
+  ],
+  "voorspelling": {
+    "dag": 46,
+    "bewering": "The latest observed recurrence is day 42, and the recurrence period between incidents on days 10, 14, 18 up to 42 is 4 days. Arithmetic: 42 + 4 = 46, which is strictly greater than the latest observed day 42.",
+    "bewijs": [
+      "ARC-071",
+      "BEA-092",
+      "BEA-113",
+      "ORA-142",
+      "ORA-130"
+    ]
+  }
+}

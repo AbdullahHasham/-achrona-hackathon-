@@ -1,0 +1,18 @@
+{
+  "nr": 19,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:30:07+01:00",
+  "aan": "historian",
+  "vraag": "The Engineer states in ENG-011 that the hulpslag was activated day 10 at 02:40 and runs 'los van de Kroonklok', with its own kristalresonator and polsversterker (ENG-102, ENG-103). Your HIS-102 says the Kroonklok has one pols carrying the leylijnen, schilden, archief and datanet. Please answer three points: (a) Does your pols register or any HIS-109 or HIS-110 build-charter article record a second, separate pulse, or any hulpslag, running alongside the Kroonklok pols? Cite each article with its own record ID, not as a range. (b) For day 10, does your source confirm or deny an event at 02:40, and what are the gebeurd_op and vastgelegd_op values for HIS-035 and HIS-036 individually? (c) Which record ID states the timing rule you apply in HIS-103, and does it cover the HIS-036 case where vastgelegd_op (day 9 23:55) precedes gebeurd_op (day 10 04:50)?",
+  "reden": "The Engineer's claim that the hulpslag runs separately from the Kroonklok directly contradicts the Historian's account of a single pols (HIS-102, HIS-110), and it bears on the desync mechanism that the Guardian's tick-timed shields (GUA-103, GUA-104) depend on. The Historian is the only role that can test this against the pols register. The Historian's own timestamp rule HIS-103 is also contradicted by HIS-035, HIS-036 and HIS-053, and the Historian has not yet cited the charter articles individually. The four-day rhythm is resolved: the Beast Master (BEA-113, BEA-017 to BEA-092) and the Oracle (ORA-110 to ORA-142) independently show heavy nights on days 10, 14, 18, 22, 26, 30, 34, 38 and 42, so the next date is day 46. The Oracle's day 33 severity claim is refuted by BEA-071 and ARC-114 (calm conjunction night) and ORA-133 (no onrust recorded).",
+  "open_vragen": [
+    "Does the Historian's pols register or HIS-109 or HIS-110 build charter record a separate hulpslag pulse running independently of the Kroonklok, and which individual article IDs state this?",
+    "What are the gebeurd_op and vastgelegd_op values for HIS-035 and HIS-036 individually, and which record ID states the timing rule that these entries break (HIS-103)?",
+    "Who authorized the hulpslag activation at day 10 02:40? No source names an authorizer; ENG-105 says only 'hogerhand' and the Guardian and Historian cannot confirm the event.",
+    "What do ENG-063, ENG-064, ENG-065 and ENG-066 (routine check logs) and ENG-119 (charter) actually state? The Engineer cited them without giving their content.",
+    "Does the day 22 packet loss at 04:15 (ENG-026) have any independent record in the Guardian or Historian sources, given GUA-043 shows an inside opening at 04:15 on poort oost?"
+  ],
+  "duur_ms": 16970
+}

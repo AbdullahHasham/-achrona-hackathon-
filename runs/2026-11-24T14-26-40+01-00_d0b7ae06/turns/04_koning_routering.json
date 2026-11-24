@@ -1,0 +1,18 @@
+{
+  "nr": 4,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:27:11+01:00",
+  "aan": "beast_master",
+  "vraag": "Engineer reports that your claim in ENG-108 concerns the woudkabels, and that the cables were inspected on day 3 and left unchanged (ENG-003). (1) Which exact dates, times, and measurements in your source support ENG-108, and does your source record any disturbance among the animals on days 9 to 10 or on days 22 and 27? (2) Does your source show any change to the woudkabels or their routing after day 3, and if so, which record IDs document it? (3) Does your source name anyone who approved or was informed of a change affecting the forest or cables before day 10 at 02:40, and if so, which record IDs?",
+  "reden": "The engineer's source places the hulpslag activation on day 10 at 02:40 (ENG-011) and the woudkabel inspection on day 3 (ENG-003). Your ENG-108 claim touches the engineer's domain and conflicts with the engineer's finding that no cable change occurred, so it needs direct cross-examination. The question also tests whether animal unrest preceded the day 10 activation, which would bear on the trigger timeline (Pillar 1 and Pillar 3).",
+  "open_vragen": [
+    "Who authorized the hulpslag activation? ENG-105 only says 'Goedkeuring verkregen van hogerhand' on day 9, with no named authorizer. Does any other role's source name the authorizer, and with which record IDs?",
+    "Which governing technical specifications or charters apply to hulpslag or datanet changes? Each rule must be cited individually by record ID. Engineer cites ENG-103, ENG-102, ENG-114, ENG-061 and ENG-119; ENG-119 and the logs ENG-063 to ENG-066 still need their individual content confirmed.",
+    "Does the hulpslag running 'los van de Kroonklok' (ENG-011) create a timing mismatch that explains the day 10 complaint (ENG-107) and the day 22 packet loss (ENG-026)? Which roles' sources can confirm or refute this with exact timestamps?",
+    "Can the next occurrence day of the day 17, 22, or 27 incidents be calculated from verified dates, and does any observation-schedule gap exist in the routine checks?",
+    "What safe recovery prerequisites, technical controls, and ongoing risks apply to remediation, given the hulpslag's undisclosed status (ENG-105) and the downstream harm noted in ENG-107?"
+  ],
+  "duur_ms": 10193
+}

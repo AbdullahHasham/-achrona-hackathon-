@@ -1,0 +1,19 @@
+{
+  "nr": 4,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:14:33+01:00",
+  "aan": "historian",
+  "vraag": "Engineer reports a hulpslag activation on Day 10 at 02:40 (ENG-011, ENG-106), a throughput rise of +38% at 03:00 (ENG-012), and a 'half aangekomen' complaint at 04:50 (ENG-107), and says a Day 24 pulse increase of 5% (ENG-029, ENG-062) is recorded but not linked to any cause. Please (1) state the pre-incident baseline for sync, latency, or message-arrival behaviour before Day 8, with exact dates and values, and cite each record ID individually; (2) say whether your archive contains any earlier occurrence of a sync offset, 'half aangekomen' message loss, or packet loss on poort oost, with dates and record IDs; (3) state whether any archived rule or charter gives a sync interval or recurrence pattern for the Kroonklok pulse, citing each article's record ID separately.",
+  "reden": "Engineer's source has no baseline and no recurrence rule, and Engineer withdrew the hacker explanation as unsupported. The Pillar 3 baseline and recurrence evidence and the Pillar 2 governing rules must come from the archive, so the Historian is the highest-value next speaker. Their answer will also test whether the hulpslag activation is a first-time event or a repeat.",
+  "open_vragen": [
+    "Pillar 1: Who authorized the hulpslag activation on Day 10 at 02:40 (ENG-011, ENG-106), and who authorized the Day 24 pulse increase (ENG-029, ENG-062)?",
+    "Pillar 2: Which governing rules, charters, or technical specifications explain how the Desync arises, each cited with its own record ID?",
+    "Pillar 3: What is the pre-incident baseline for sync and latency, and what is the exact per-date throughput and packet-loss measurement after Day 10 (Day 16 throughput value not separately recorded in ENG-120)?",
+    "Pillar 3: Is there a recurring pattern or observation-schedule gap, and can the next occurrence be calculated from verified dates?",
+    "Pillar 4: Which operational constraints, safety warnings, and governance gaps govern safe recovery, including the polsversterker restoration (ENG-061, ENG-114) and the Day 22 packet loss (ENG-026, ENG-110)?",
+    "Cross-examination: Does the Day 10 throughput rise (ENG-012) and the Day 10 'half aangekomen' complaint (ENG-107) match Engineer's hulpslag change, or do they point to a separate cause?"
+  ],
+  "duur_ms": 7711
+}

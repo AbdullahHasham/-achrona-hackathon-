@@ -231,52 +231,51 @@ def _build_routing_system_prompt(language: str) -> str:
         "You have NO direct access to any knowledge source or external tool; "
         "you must rely EXCLUSIVELY on facts and record IDs spoken by council members.\n\n"
         "Core forensic orchestration rules:\n"
-        "1. Bias & skepticism: Every council member has a public bias (Belang). "
-        "Members may blame outsiders, conceal embarrassing approvals, misread coincidences, "
-        "or propose reckless drastic fixes. Never accept a single role's theory or drastic remedy unchallenged.\n"
+        "1. Bias & skepticism: Every council member has an institutional interest (Belang) and only sees "
+        "their own department's records. Members may shift blame, omit inconvenient context, misread "
+        "coincidences, or advocate drastic fixes. Never accept a single role's explanation or drastic "
+        "remedy without cross-checking it against other roles' evidence.\n"
         "2. Source isolation awareness (CRITICAL): Every council member can ONLY read their own private "
         "knowledge source and can NEVER inspect foreign-role files or verify foreign record IDs. "
-        "NEVER spend a turn asking Member A whether their record literally cites Member B's ID or whether "
-        "two roles' records sit in the same file. Cross-role triangulation (matching dates, times, and verbatim "
-        "wording across roles) is YOUR job as King during synthesis — do not waste turns chasing impossible "
+        "NEVER spend a turn asking Member A whether their file literally cites Member B's ID or whether "
+        "two roles' records sit in the same file. Cross-role synthesis (connecting matching dates, times, "
+        "wording, and rules across roles) is YOUR job as King — do not waste turns chasing impossible "
         "cross-file confirmations.\n"
         "3. Dynamic routing (NO fixed round-robin): Always pick the single highest-value next speaker "
-        "to close the four forensic pillars:\n"
-        "   - Pillar 1 — Intervention (ingreep): Who acted, who authorized it (watch for private or off-register approvals), "
-        "exact dates/times, and any subsequent adjustments or escalations.\n"
-        "   - Pillar 2 — Mechanism (mechanisme): Shared system synchronization rules/charters, EXACT "
-        "technical/security specification articles (trigger conditions, integrity/seal checks, patrol/shift "
-        "windows — NEVER accept collapsed ID ranges or 'Art. 1–7' summaries; demand each relevant rule "
-        "with its own individual ID!), how the intervention causes ALL cross-domain symptoms (shields/gates, "
-        "energy/lines, archive/logging timestamp anomalies on incident dates, and wildlife/observations), "
-        "and why secondary adjustments affected severity vs. timing.\n"
-        "   - Pillar 3 — Timeline & Forecast (verloop + voorspelling): Pre-incident baseline, exact onset, "
-        "full sequence of recurrence dates/times, EXACT per-date severity/intensity values (never accept pooled "
-        "ranges — probe whether severity stepped up after any secondary adjustment!), true recurrence period vs. "
-        "observational/sampling aliasing gaps, and exact arithmetic prediction of the next occurrence day.\n"
-        "   - Pillar 4 — Safe Recovery & Risks (acties + risicos): Ask archival/historical and technical roles on "
-        "their FIRST turn for foundational charters, synchronization rules, shutdown constraints, required prerequisite "
-        "backups (and any storage/operational limits), gradual/fine-grained technical controls, interim security gaps, "
-        "and concrete mitigations.\n"
-        "4. Information-dense questions (`vraag`) & cross-examination: Pack 2–3 concrete, targeted sub-questions into "
-        "each `vraag` demanding exact dates, times, per-date numbers, rules/charters, cross-role correspondence, and "
-        "exact record IDs. Whenever Member A mentions another role's domain, makes an accusation, or contradicts Member B, "
-        "route directly to Member B quoting Member A's specific claim and record IDs in `vraag`, and explain why in `reden`.\n"
+        "to investigate the four required verdict dimensions from the debate itself:\n"
+        "   - Pillar 1 — Trigger / Intervention (`ingreep`): What concrete action, change, or decision "
+        "initiated or altered the situation, who was involved or authorized it, and on what exact dates and times.\n"
+        "   - Pillar 2 — Causal Mechanism (`mechanisme`): What governing rules, charters, or technical "
+        "specifications explain how the observed failures arise across domains. NEVER accept collapsed "
+        "ID ranges when a member summarizes multiple rules or articles — require each relevant rule to be "
+        "cited individually with its own record ID.\n"
+        "   - Pillar 3 — Timeline & Recurrence (`verloop` & `voorspelling`): Pre-incident baseline, exact "
+        "onset, full sequence of incident dates/times and exact per-date measurements (never accept pooled "
+        "ranges when values change over time), whether any recurring pattern or observation-schedule gap "
+        "exists, and whether the next occurrence day can be calculated from the verified dates.\n"
+        "   - Pillar 4 — Safe Recovery & Risks (`acties` & `risicos`): What operational constraints, "
+        "prerequisites, safety warnings, technical controls, or governance gaps govern remediation order "
+        "and ongoing risks.\n"
+        "4. Information-dense questions (`vraag`) & cross-examination: Pack 2–3 concrete, targeted "
+        "sub-questions into each `vraag` requesting exact dates, times, numerical measurements, governing "
+        "rules/charters, and exact record IDs. Whenever Member A's claim touches Member B's domain, makes "
+        "an accusation, or contradicts Member B, route directly to Member B quoting Member A's specific "
+        "claim and record IDs in `vraag`, and explain why in `reden`.\n"
         "5. Live `open_vragen` pruning & Early Stop discipline (`aan: null`): On EVERY turn, strictly PRUNE "
-        "`open_vragen` by REMOVING (a) any question answered by the latest turn and (b) any question asking for logs "
-        "or metrics that the relevant member explicitly confirmed do not exist in their source (record that as a known "
-        "evidence limit in `werk_hypothese`, NEVER keep unanswerable zombie items in `open_vragen`!). "
-        "You have a maximum budget of 10 member turns, and stopping cleanly BEFORE turn 10 is explicitly rewarded. "
-        "Once at least 6–7 member turns have run and all 4 pillars + major contradictions are evidenced across roles "
-        "with no remaining answerable `open_vragen`, STOP EARLY on turn 7, 8, or 9 (`aan: null`, `vraag: null`, "
-        "`open_vragen: []`) with a concrete `reden` explaining why evidence is complete. "
-        "HOWEVER, NEVER stop early (or claim no source isolates a causal link) if any member collapsed multi-article "
-        "specifications or regulations into an ID range without stating each causal article individually, OR if any "
-        "affected subsystem's failure mode still lacks its protocol-level rule from that role's specification — "
-        "route one targeted follow-up turn to unpack those exact individual articles and IDs first.\n"
+        "`open_vragen` by REMOVING (a) any question answered by the latest turn and (b) any question asking "
+        "for logs or metrics that the relevant member explicitly confirmed do not exist in their source "
+        "(record that as a known evidence limit in `werk_hypothese`, NEVER keep unanswerable zombie items "
+        "in `open_vragen`!). You have a maximum budget of 10 member turns, and stopping cleanly BEFORE turn 10 "
+        "once evidence is complete is explicitly rewarded. Once all active roles have spoken (at least 6–7 "
+        "member turns) and all four verdict dimensions plus major contradictions are substantiated across "
+        "roles with no remaining concrete answerable `open_vragen`, STOP EARLY (`aan: null`, `vraag: null`, "
+        "`open_vragen: []`) with a clear `reden` explaining why evidence is complete. "
+        "HOWEVER, NEVER stop early if any member collapsed multi-article rules or specifications into an ID "
+        "range without citing the relevant articles individually, OR if an unresolved factual contradiction "
+        "still needs a targeted cross-examination turn.\n"
         f"6. Language & ID formatting: Write `vraag`, `reden`, `open_vragen`, and `werk_hypothese` in {language}. "
         "Keep all JSON schema keys verbatim. Always write individual record IDs with a standard ASCII hyphen `-` "
-        "(e.g., separate IDs with commas, NEVER slash-shorthand like `XXX-001/002`); never invent IDs."
+        "(separate IDs with commas, NEVER slash-shorthand like `XXX-001/002`); never invent IDs."
     )
 
 
@@ -505,69 +504,73 @@ def _build_synthesis_system_prompt(language: str) -> str:
         "`oorzaak`, `ingreep`, `mechanisme`, `verloop`, `bewering`, `bewijs`, `zekerheid`, "
         "`acties`, `actie`, `reden`, `risicos`, `risico`, `mitigatie`, `voorspelling`, `dag`, "
         "`geschillen`, `onderwerp`, `standpunten`, `uitkomst`).\n"
-        "2. Cross-role triangulation (YOUR core job as King): Individual council members cannot see "
+        "2. Cross-role synthesis (YOUR core job as King): Individual council members cannot see "
         "each other's private sources and will properly decline to verify foreign-role records. "
-        "YOU see every verified statement across ALL roles. Actively triangulate matching dates, times, "
-        "verbatim phrases, parameter changes, and technical rules across roles to reach decisive, "
-        "cross-corroborated conclusions instead of leaving settled links unresolved.\n"
+        "YOU see every verified statement across ALL roles. Actively synthesize matching dates, times, "
+        "wording, parameter changes, and governing rules across roles to reach clear, cross-corroborated "
+        "conclusions instead of leaving settled links unresolved.\n"
         "3. Strict citation integrity: Cite ONLY exact record IDs from the provided allow-list, "
         "using standard ASCII hyphen `-` (write each ID separately, never slash-shorthand). "
         "NEVER invent, alter, or guess an ID.\n"
         "4. `koning_samenvatting_bericht`: Crisp executive closing statement summarizing consensus, "
-        "resolved disputes, causal findings, recovery order, and forecast.\n"
+        "resolved disputes, root cause, recovery sequence, and forecast (if supported).\n"
         "5. `samenvatting`: Clear, decisive executive summary (never 'TODO').\n"
         "6. `oorzaak.{ingreep, mechanisme, verloop}` — MAKE EACH SLOT SELF-CONTAINED & THOROUGH "
         "(2–4 concrete sentences per slot, backed by multi-role `bewijs` IDs directly in that slot's "
         "`bewijs` array; do NOT leave key findings only in `samenvatting` or `voorspelling`!):\n"
-        "   - `ingreep`: State the primary intervention (who, what, exact day/time), any authorizing "
-        "party or off-register approval triangulated across roles (e.g., matching dates/wording), "
-        "AND any secondary or escalation adjustment (exact day/time, which parameter changed vs. stayed unchanged).\n"
-        "   - `mechanisme`: Explain the full cross-domain causal chain in strict chronological order "
-        "(earlier timestamp before later timestamp!) — the intervention IDs, the shared baseline synchronization "
-        "rule/charter, how introducing an unsynchronized second process disrupts coupled systems, the EXACT "
-        "technical specification trigger/integrity rules explaining how EVERY affected subsystem fails on incident "
-        "dates (shields/gates opening from inside with intact seals, archive/register timestamp rule violations "
-        "and shifts relative to event times, energy lines, wildlife/observations), and how any secondary parameter "
-        "change altered severity/amplitude in the specific subsystem that measured it without changing period/timing. "
+        "   - `ingreep`: State what concrete intervention(s) or subsequent change(s) occurred, who "
+        "carried out or authorized them based on cross-role evidence, and their exact dates and times.\n"
+        "   - `mechanisme`: Explain the complete cross-domain causal chain in strict chronological order "
+        "(earlier timestamps before later timestamps), linking the intervention(s), the governing "
+        "rules/baselines, and the resulting cross-domain failures or anomalies reported in the transcript. "
         "Include every ID referenced in `mechanisme.bewering` inside `mechanisme.bewijs`.\n"
-        "   - `verloop`: Document the complete temporal pattern in strict chronological order — pre-incident "
-        "calm baseline, exact onset relative to intervention, the full recurrence sequence and strict period/time-of-day "
-        "window, exact chronological severity progression (specify WHICH subsystem stepped up vs. stayed unchanged — "
-        "never cite a pre-adjustment record as evidence of a post-adjustment effect, and never contradict your own "
-        "numbers!), AND observational/sampling aliasing (why weekly schedules or unpatrolled shift windows caused "
-        "individual roles to see only subsets of the true cycle). Include every ID referenced in `verloop.bewering` "
-        "inside `verloop.bewijs`.\n"
+        "   - `verloop`: Document the complete temporal pattern in strict chronological order — "
+        "pre-incident baseline, exact onset, full sequence of recurrence dates/times, exact per-date "
+        "measurements (never cite a pre-change record as evidence of a post-change effect, and never "
+        "contradict your own numbers), and any observation or sampling schedule gaps that explain why "
+        "individual roles saw only subsets of the full pattern. Include every ID referenced in "
+        "`verloop.bewering` inside `verloop.bewijs`.\n"
         "   Set honest `zekerheid` (0.0–1.0) reflecting cross-role corroboration. Only set `bewering: null` "
         "if genuinely unknown.\n"
-        "7. `acties`: Strictly ordered remediation plan where list order IS execution order. Keep each action "
-        "step distinct and atomic in strict sequence: (1) explicitly reject unsafe abrupt shutdown / freeze ad-hoc "
-        "changes if warned by any charter/spec, (2) make mandatory complete archive/register and log backups "
-        "(noting any storage limits) BEFORE any system adjustment, (3) execute gradual/fine-grained technical "
-        "re-synchronization (and revert any escalation parameter), (4) deploy interim patrols and cross-domain "
-        "monitoring for the next predicted window, and (5) institute governance safeguards. Every action must have "
-        "a concrete `reden` and supporting `bewijs` (listing every ID cited in `actie` or `reden`).\n"
-        "8. `risicos`: Concrete operational, security (including uninspected internal gate openings during "
-        "unpatrolled pre-dawn windows while desync persists), data-loss/storage, and political/governance risks "
-        "with actionable `mitigatie`.\n"
-        "9. `voorspelling`: If the recurrence period can be established from verified debate dates, "
-        "FIRST find the MAXIMUM (latest) incident day observed across ALL council members' records "
+        "7. `acties`: Strictly ordered remediation plan where list order IS execution order. Derive every "
+        "prerequisite, safety warning, rejected unsafe option, technical step, interim safeguard, and "
+        "governance action strictly from constraints and evidence stated in the transcript. Keep each "
+        "step distinct and atomic, with a concrete `reden` and supporting `bewijs` (listing every ID "
+        "cited in `actie` or `reden`).\n"
+        "8. `risicos`: Concrete operational, security, data/integrity, and governance risks evidenced in "
+        "the transcript, each paired with an actionable `mitigatie`.\n"
+        "9. `voorspelling`: If the verified incident dates establish a clear recurrence period, FIRST "
+        "identify the MAXIMUM (latest) incident day observed across ALL council members' records "
         "(do NOT stop at an earlier mid-series summary record!), verify that `voorspelling.dag` is "
-        "STRICTLY GREATER than the latest observed day in the entire dataset, add the true recurrence "
-        "period to that latest incident day (do NOT mistake a coarser sampling interval for the true "
-        "event period!), show the exact arithmetic in `bewering`, and include the supporting `bewijs` "
-        "IDs (including the latest incident ID). Otherwise set `null`.\n"
-        "10. `geschillen`: Record EVERY major contradiction, cross-role clash, or refuted bias-driven "
-        "hypothesis raised across the debate (typically 4–6 distinct disputes covering rival causal "
-        "theories, blame/attribution clashes, authorization/register disputes, timestamp anomalies, and "
-        "remediation disputes). Every `geschil` MUST have valid council role keys in `standpunten` "
-        "(never empty!), a decisive cross-role evidence-backed `uitkomst` whenever the combined council "
-        "records settle the dispute, and the decisive multi-role `bewijs` IDs. STRICT INTEGRITY: NEVER "
-        "attribute a stance to a role on a topic that role never addressed in the transcript; distinguish "
-        "'role reported no record of X' from 'role denied X'; and do NOT set `uitkomst: null` on a causal "
-        "dispute when cross-role evidence already establishes the shared-rule violation and intervention "
-        "sequence while showing a single role's rival claim is unsupported inference (state the corroborated "
-        "resolution clearly in `uitkomst`!)."
+        "STRICTLY GREATER than the latest observed day in the entire dataset, add the true event "
+        "recurrence period (do NOT mistake a coarser sampling interval for the true event period), "
+        "show the exact arithmetic in `bewering`, and include the supporting `bewijs` IDs (including "
+        "the latest incident ID). Otherwise set `null`.\n"
+        "10. `geschillen`: Record EVERY major contradiction, rival causal theory, attribution clash, "
+        "or disputed claim raised across the debate. Every `geschil` MUST have valid council role keys "
+        "in `standpunten` (never empty!), a decisive evidence-backed `uitkomst` whenever the combined "
+        "cross-role records settle the clash (or `null` if genuinely unresolved), and decisive multi-role "
+        "`bewijs` IDs. STRICT INTEGRITY: NEVER attribute a stance to a role on a topic that role never "
+        "addressed in the transcript; distinguish 'role reported no record of X' from 'role denied X'; "
+        "and do NOT leave a causal dispute as `uitkomst: null` when combined cross-role evidence already "
+        "establishes the corroborated sequence while showing a rival claim is unsupported inference."
     )
+
+
+def _verdict_completeness(verdict: dict[str, Any], geschillen: list[dict[str, Any]]) -> tuple[int, int, int]:
+    """Compare verdict completeness strictly from structural signals (zero domain facts)."""
+    oorzaak = verdict.get("oorzaak") or {}
+    filled_slots = sum(
+        1 for k in ("ingreep", "mechanisme", "verloop")
+        if isinstance(oorzaak.get(k), dict) and bool(oorzaak[k].get("bewering")) and bool(oorzaak[k].get("bewijs"))
+    )
+    has_forecast = 1 if isinstance(verdict.get("voorspelling"), dict) else 0
+    evidence_breadth = sum(
+        len(oorzaak[k].get("bewijs") or [])
+        for k in ("ingreep", "mechanisme", "verloop")
+        if isinstance(oorzaak.get(k), dict)
+    ) + len(geschillen)
+    return (filled_slots + has_forecast, len(verdict.get("acties") or []), evidence_breadth)
 
 
 async def synthesize_verdict_and_geschillen(
@@ -582,7 +585,7 @@ async def synthesize_verdict_and_geschillen(
     options: dict[str, Any] | None = None,
     invoke_structured: StructuredInvoker | None = None,
 ) -> tuple[str, dict[str, Any], list[dict[str, Any]], list[str], dict[str, Any] | None]:
-    """Synthesize, verify, and schema-repair the final verdict and disputes."""
+    """Synthesize, self-critique, verify, and schema-repair the final verdict and disputes."""
     allowed_ids = sorted(
         {
             norm
@@ -632,6 +635,49 @@ async def synthesize_verdict_and_geschillen(
         set(allowed_ids),
     )
 
+    # Pass 2: Critical self-review against the transcript (live runs only; safe fallback to Pass 1)
+    if invoke_structured is None and llm_client is not None:
+        warnings_block = (
+            "Automated verifier notes to resolve:\n" + "\n".join(f"- {w}" for w in repair_warnings) + "\n\n"
+            if repair_warnings
+            else ""
+        )
+        critique_prompt = (
+            f"{user_prompt}\n\n"
+            f"YOUR FIRST DRAFT:\n{json.dumps({'verdict': clean_verdict, 'geschillen': clean_geschillen}, ensure_ascii=False)}\n\n"
+            f"{warnings_block}"
+            "CRITICAL SELF-REVIEW: Audit your draft critically against the full debate transcript above as if someone else wrote it:\n"
+            "1. Does every date, time, name, and number match the transcript verbatim?\n"
+            "2. Did any key corroborated finding (e.g. authorization/approval links, governing rules/articles, "
+            "or cross-domain failure mechanisms mentioned in the transcript or in `acties`/`risicos`) get left out "
+            "of `oorzaak.{ingreep, mechanisme, verloop}`? If so, integrate it cleanly with multi-role `bewijs` IDs.\n"
+            "3. Does `acties` strictly honor every prerequisite, execution order, and safety warning stated in the transcript?\n"
+            "4. If a recurrence pattern exists, is `voorspelling.dag` strictly greater than the latest observed day across all roles, "
+            "using the true event period?\n"
+            "5. Are all major cross-role contradictions accurately captured in `geschillen` with valid role keys?\n"
+            "Return the complete improved VerdictSynthesis JSON citing ONLY IDs from the verified allow-list."
+        )
+        try:
+            synth2, usage2 = await _parse_structured(
+                llm_client,
+                VerdictSynthesis,
+                system_prompt,
+                critique_prompt,
+                options=options,
+            )
+            usage = _merge_usage(usage, usage2)
+            raw_v2 = to_verdict_dict(run_id, synth2)
+            raw_g2 = to_trace_geschillen(synth2.geschillen)
+            clean_v2, clean_g2, warnings2 = verify_and_repair_verdict(
+                raw_v2,
+                raw_g2,
+                set(allowed_ids),
+            )
+            if _verdict_completeness(clean_v2, clean_g2) >= _verdict_completeness(clean_verdict, clean_geschillen):
+                synth, clean_verdict, clean_geschillen, repair_warnings = synth2, clean_v2, clean_g2, warnings2
+        except Exception:
+            pass
+
     closing_text = normalize_hyphens((synth.koning_samenvatting_bericht or "").strip())
     if not closing_text:
         closing_text = normalize_hyphens(
@@ -677,7 +723,7 @@ async def synthesize_verdict_and_geschillen(
         valid_risicos = [
             {
                 "risico": "Incomplete forensic evidence could lead to an unsafe intervention.",
-                "mitigatie": "Verify prerequisites and backups across all council roles before acting.",
+                "mitigatie": "Verify prerequisites and safety constraints across all council roles before acting.",
             }
         ]
         repair_warnings.append("risicos: inserted fallback risk because risicos list was empty")

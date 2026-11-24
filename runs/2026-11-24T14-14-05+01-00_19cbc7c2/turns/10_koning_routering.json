@@ -1,0 +1,17 @@
+{
+  "nr": 10,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:15:27+01:00",
+  "aan": "guardian_keeper",
+  "vraag": "Guardian Keeper, please answer three things. (1) Historian filed HIS-053 (Day 22, 04:15, 'lek bij poort oost gemeld door de wachters, 3 minuten') under schilden, while Engineer reports 3 minutes of packet loss on poort oost in ENG-026 and ENG-110. Do your shield records show a breach, a drop in shield strength, or a sync-related fault at poort oost on Day 22, and which record IDs say so? (2) Do your records show any shield or barrier measurement, before or after Day 10 and Day 22, with exact date, time and value, and which IDs hold them? (3) Do you hold any charter or shield-rule article that governs a second pulse or the restoration of a shield, and if so, please cite each article individually with its own record ID rather than as a range.",
+  "reden": "Pillar 4 (safe recovery and risks) has no shield-side evidence yet. Historian's HIS-053 is the only poort oost entry, and it sits in the schilden domain, so a cross-check against your records is needed to test whether the Day 22 loss is a datanet fault or a shield breach. Historian's charter citations so far are HIS-109 article 1 and HIS-110 article 2 only. Engineer's ENG-114 polsversterker restoration also needs a shield-side safety check. Archmage's answers (dag 7 to dag 42 CSV values, no Day 10 or Day 22 readings) and the earlier 'no baseline' and 'no recurrence rule' answers from Engineer and Historian are recorded as evidence limits, so they are removed from open questions.",
+  "open_vragen": [
+    "Who authorized the Day 10 hulpslag activation (ENG-011, ENG-106) and the Day 24 pulse increase (ENG-029, ENG-062)? Engineer and Archmage report no authorization record; confirm whether any other role holds it.",
+    "Is there any charter article beyond HIS-109 article 1 and HIS-110 article 2 governing the second pulse, cited individually with its own record ID?",
+    "Does the Day 22 poort oost event (ENG-026, ENG-110, HIS-053) involve a shield breach, a datanet packet loss, or both, and what does Guardian Keeper's shield record show?",
+    "Do Guardian Keeper's records show any safety warning or governance gap for the polsversterker restoration (ENG-061, ENG-114) or for the copy-before-restore rule in HIS-110 article 2?"
+  ],
+  "duur_ms": 9874
+}

@@ -32,6 +32,52 @@ ROOT = Path(__file__).parent
 KENNISBRONNEN = ROOT / "kennisbronnen"
 ROLLEN = ("archmage", "engineer", "guardian_keeper", "historian", "oracle", "beast_master")
 BEURTENBUDGET = 10  # spelregel: maximaal 10 Raadslid-beurten (berichten van Raadsleden) per run
+WACHTTIJD = 150  # seconden per agent-run
+
+FIRST_TESTIMONY_GUIDE = (
+    "This is your first testimony; you may use up to 420 words. Answer the King's question first, "
+    "then close with four concise sections (each citing exact individual record IDs, or 'none in my source'):\n"
+    "- **How it works**: how your domain/system operates according to your source — design, governing "
+    "rules/articles (each cited individually by ID), rhythms, and dependencies.\n"
+    "- **Sequence & anomalies**: all recorded disturbances, deviations, or incidents with exact dates, "
+    "times, and per-date measurements (full sequence, not summaries).\n"
+    "- **Recovery & constraints**: prerequisites, ordering rules, safety warnings, or who could be harmed "
+    "by an action.\n"
+    "- **Unasked findings**: up to three other notable records, letters, approvals, or measurements in "
+    "your source that could help explain what happened."
+)
+
+
+def platte_tekst(resultaat):
+    """Return MCP tool output as plain multi-line text so models read tables cleanly."""
+    content = getattr(resultaat, "content", None) or []
+    return "\n".join(c.text for c in content if getattr(c, "text", None))
+
+
+def schrijf_json(doel: Path, data: Any) -> None:
+    """Write JSON atomically via a temporary file so the live viewer never reads partial data."""
+    tijdelijk = doel.with_suffix(".tmp")
+    tijdelijk.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    for poging in range(40):
+        try:
+            tijdelijk.replace(doel)
+            return
+        except PermissionError:
+            if poging == 39:
+                raise
+            time.sleep(0.05)
+
+
+async def met_geduld(maak, pogingen: int = 2):
+    """Guard an async LLM/MCP call with a timeout and one transient retry."""
+    for poging in range(1, pogingen + 1):
+        try:
+            return await asyncio.wait_for(maak(), WACHTTIJD)
+        except Exception as e:
+            if poging == pogingen:
+                raise
+            print(f"LET OP: poging {poging} mislukte ({type(e).__name__}: {str(e)[:160]}), opnieuw.")
+            await asyncio.sleep(2)
 
 
 def kies_volgende(beurten, leden):
@@ -108,7 +154,7 @@ def instructies(lid, bestanden, mcp, language: str = "English"):
         "- NEVER invent, modify, or guess a record ID or number. If something is not in your source, "
         "say honestly that you do not have evidence for it.\n"
         "- Report exact dates, times, exact per-date numerical values/levels (never collapse changing "
-        "measurements into pooled ranges), foundational rules/charters, secondary adjustments, and "
+        "measurements into pooled ranges), foundational rules/charters, changes or follow-up actions, and "
         "cross-role mentions concisely (~200–350 words). Do NOT append wish-lists of external logs you "
         "wish existed; simply state what your source does and does not contain.\n"
         "- Concede honestly if another member's verified evidence contradicts your initial hypothesis.\n"
@@ -284,7 +330,7 @@ async def run():
     }
 
     def bewaar(naam, data):
-        (ROOT / naam).write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+        schrijf_json(ROOT / naam, data)
 
     def beurt(ronde, spreker, soort, **velden):
         entry = {"nr": len(beurten) + 1, "ronde": ronde, "spreker": spreker, "soort": soort}
@@ -312,7 +358,13 @@ async def run():
                 try:
                     tools.append(
                         await stack.enter_async_context(
-                            MCPStreamableHTTPTool(name=f"kennisbron_{lid.ROL}", url=mcp_url)
+                            MCPStreamableHTTPTool(
+                                name=f"kennisbron_{lid.ROL}",
+                                url=mcp_url,
+                                load_prompts=False,
+                                approval_mode="never_require",
+                                parse_tool_results=platte_tekst,
+                            )
                         )
                     )
                 except Exception as e:
@@ -353,13 +405,16 @@ async def run():
         spoken_member_ids: set[str] = set()
         ronde = 1
 
+        zicht_altijd = os.getenv("ZICHT", "blind").strip().lower() == "alles"
         while True:
             gesproken = sum(1 for b in beurten if b["soort"] == "bericht" and b["spreker"] in per_rol)
             trace["aan_het_woord"] = "koning"
             bewaar("trace.json", trace)
 
             king_t0 = time.perf_counter()
-            decision, king_usage = await king.decide_next(beurten, debat, max_turns=BEURTENBUDGET)
+            decision, king_usage = await met_geduld(
+                lambda: king.decide_next(beurten, debat, max_turns=BEURTENBUDGET)
+            )
             king_ms = int(round((time.perf_counter() - king_t0) * 1000))
             tel(verbruik, "groot", king_usage)
 
@@ -385,6 +440,8 @@ async def run():
                 break
 
             lid, mcp_url, agent = per_rol[rol]
+            eerste = not any(b["soort"] == "bericht" and b["spreker"] == rol for b in beurten)
+            blind = eerste and not zicht_altijd
             prior_own_block = ""
             if mcp_url and own_source_texts[rol]:
                 # Strictly isolated: re-supply ONLY this role's own prior MCP retrieval to avoid redundant toolcalls
@@ -392,17 +449,24 @@ async def run():
                     "\n\nYour own previously retrieved knowledge source (already loaded — no need to re-call "
                     "`lees_kennisbron()`):\n" + own_source_texts[rol][0]
                 )
+            if blind:
+                zicht_block = (
+                    "Independent first testimony: you see only the King's question and your own knowledge "
+                    "source, not what other council members said."
+                )
+            else:
+                zicht_block = "Debate so far:\n\n" + ("\n\n".join(debat) or "(no turns yet)")
             prompt = (
-                "Debate so far:\n\n"
-                + ("\n\n".join(debat) or "(no turns yet)")
+                zicht_block
                 + prior_own_block
                 + f"\n\nQuestion for you: {vraag}"
+                + (f"\n\n{FIRST_TESTIMONY_GUIDE}" if eerste else "")
             )
             trace["aan_het_woord"] = rol
             bewaar("trace.json", trace)
 
             member_t0 = time.perf_counter()
-            r = await agent.run(prompt, options=opties)
+            r = await met_geduld(lambda: agent.run(prompt, options=opties))
             tel(verbruik, "klein", r.usage_details)
             for tool, args in toolcalls(r):
                 beurt(ronde, rol, "toolcall", tool=tool, argumenten=args, pad=mcp_url)
@@ -433,7 +497,7 @@ async def run():
                     "knowledge source or IDs already spoken by other members in the debate above. "
                     "Use a standard ASCII hyphen `-`."
                 )
-                r = await agent.run(retry_prompt, options=opties)
+                r = await met_geduld(lambda: agent.run(retry_prompt, options=opties))
                 tel(verbruik, "klein", r.usage_details)
                 for tool, args in toolcalls(r):
                     beurt(ronde, rol, "toolcall", tool=tool, argumenten=args, pad=mcp_url)
@@ -449,7 +513,14 @@ async def run():
 
             member_ms = int(round((time.perf_counter() - member_t0) * 1000))
             final_text = normalize_hyphens(r.text)
-            beurt(ronde, rol, "bericht", tekst=final_text, duur_ms=member_ms)
+            beurt(
+                ronde,
+                rol,
+                "bericht",
+                tekst=final_text,
+                zicht="vraag" if blind else "debat",
+                duur_ms=member_ms,
+            )
             spoken_member_ids.update(extract_ids(final_text))
             debat.append(f"{lid.NAAM} ({lid.ROL}): {final_text}")
             print(f"\n[ronde {ronde}] {lid.NAAM}:\n{final_text}")

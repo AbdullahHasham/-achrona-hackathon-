@@ -1,0 +1,10 @@
+{
+  "nr": 20,
+  "ronde": 2,
+  "spreker": "historian",
+  "soort": "bericht",
+  "tijdstip": "2026-11-24T14:30:15+01:00",
+  "tekst": "**(a) No second pulse is recorded.** My source contains no hulpslag, no second pols, and no alongside pulse. HIS-102 states that the Kroonklok \"heeft één pols.\" HIS-109 gives the build charter's first article: \"Een tweede pols ernaast brengt het uit de maat.\" That is a warning about a second pols, not a record of one. HIS-110 is the second article. It covers records written on another pols, which can be read only there, and the loss of a record if a pols drops out. Neither article mentions a hulpslag or a kristalresonator. ENG-011, ENG-102, and ENG-103 are not in my source, so I cannot confirm or deny the Engineer's account of them.\n\n**(b) Day 10, 02:40:** My source has no entry at 02:40 and therefore neither confirms nor denies it. The nearest entries are:\n- HIS-035: \"de Burchtader stokte even, gemeld door de nachtwake.\" gebeurd_op dag 10 04:45; vastgelegd_op dag 10 07:20.\n- HIS-036: \"klacht uit de benedenstad: berichten half aangekomen.\" gebeurd_op dag 10 04:50; vastgelegd_op dag 9 23:55.\n\n**(c) Timing rule:** The rule is stated in HIS-103: \"vastgelegd_op altijd gelijk aan gebeurd_op.\" It does not cover HIS-036. There, vastgelegd_op (dag 9 23:55) precedes gebeurd_op (dag 10 04:50), and HIS-035 also differs by about 2h35m. HIS-103 is contradicted by these two entries. HIS-112 and HIS-116 attribute timestamp errors on days 10 and 22 to clerks, but that is their attribution, not a verified cause. HIS-053 (dag 22 04:15 gebeurd, dag 22 01:50 vastgelegd) shows the same pattern. I cannot establish from my source whether the register or the clock is at fault. HIS-036 must be checked against the original logs before anyone relies on its timestamps.",
+  "zicht": "debat",
+  "duur_ms": 7816
+}

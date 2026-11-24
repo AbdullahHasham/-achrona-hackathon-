@@ -1,0 +1,17 @@
+{
+  "nr": 16,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:29:31+01:00",
+  "aan": "oracle",
+  "vraag": "The Beast Master (BEA-118) says you named the night of day 33 the most severe 'door de sterren', yet the animals were calm that night (BEA-071). Archmage confirms a Wachtsterren conjunction that night (ARC-111, ARC-114) and a calm Burchtader. (1) Which specific signs or visions did you read for day 33, and what did they predict for the daytime and nighttime onrust? (2) Did any of your visions or signs precede the incidents on days 10, 22, or 27 (ENG-011, ENG-026, ENG-034, BEA-019, BEA-046, BEA-058)? (3) Do your signs support the four-day rhythm in BEA-113 (days 10, 14, 18, 22, 26, 30, 34, 38, 42), and if so, what date do they predict for the next occurrence?",
+  "reden": "The Oracle is the only role that has not spoken, and the Oracle's day 33 claim (BEA-118) is the only account of a 'severe' night that the other evidence contradicts (BEA-071, ARC-114). The Beast Master's four-day rhythm (BEA-113) matches the dated onrust records, so a prediction can be tested against the verified dates. The Oracle's pattern claim must be cross-checked against the record dates before it can count as evidence. The leylijn question is now answered by Archmage (no disturbance, ARC-104, ARC-114) and is removed from the list.",
+  "open_vragen": [
+    "Can the next occurrence of the day 10, 22, or 27 incidents be calculated from verified dates, and does the four-day rhythm in BEA-113 hold against the dates in BEA-017 through BEA-092?",
+    "Which governing charters or specifications apply to the hulpslag and datanet changes? Each rule needs its own record ID; ENG-119 and ENG-063, ENG-064, ENG-065, ENG-066 still need their content confirmed by their source.",
+    "What safe recovery prerequisites, technical controls, and ongoing risks apply, given the hulpslag's undisclosed status (ENG-105) and the downstream harm in ENG-107?",
+    "Does the Oracle's claim about the day 33 night (BEA-118) hold up against Archmage's conjunction record (ARC-111, ARC-114) and the calm animals (BEA-071)?"
+  ],
+  "duur_ms": 10954
+}

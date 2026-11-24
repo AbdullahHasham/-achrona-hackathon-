@@ -1,0 +1,12 @@
+{
+  "nr": 23,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:30:57+01:00",
+  "aan": null,
+  "vraag": null,
+  "reden": "Stopping early. All six roles have spoken, and the four pillars are substantiated as far as the sources allow. Pillar 1: the hulpslag activation at day 10 02:40 is recorded only by the Engineer (ENG-011, ENG-106); no source names an authorizer, and the only pointer is ENG-105 'hogerhand'. Pillar 2: the governing rules are cited individually (HIS-102, HIS-103, HIS-109, HIS-110, GUA-102 to GUA-108, ARC-110), so no range collapse needs unpacking. Pillar 3: the four-day rhythm is confirmed by BEA-113 and ORA-130 with onsets on days 10, 14, 18, 22, 26, 30, 34, 38 and 42, which gives a calculated next date of day 46; the Oracle's day-33 severity claim (ORA-121) is refuted by BEA-071 and ARC-114. Pillar 4: the recovery constraints are in HIS-110, GUA-106 and ARC-109. Contradictions: the Engineer's separate hulpslag versus the Historian's single pols (HIS-102, HIS-109) cannot be verified cross-file, and further turns would only repeat that impasse. The day 10 and day 22 timestamp inversions (HIS-035, HIS-036, HIS-053) are attributed to clerks but unverified. GUA-115 (01:50 archive entry) matches HIS-053 (01:50 vastgelegd) for day 22, which points to a register timing error and needs no further turn. The day 22 packet loss at 04:15 (ENG-026) has no independent record. Source-absent items are pruned.",
+  "open_vragen": [],
+  "duur_ms": 12889
+}

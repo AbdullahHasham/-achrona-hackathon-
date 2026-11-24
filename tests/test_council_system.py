@@ -1284,7 +1284,7 @@ def test_council_member_retry_on_hallucinated_id_and_skipped_mcp(
     monkeypatch.setattr(council, "client", lambda model_env: SimpleNamespace(model_env=model_env))
 
     class _FakeMCPTool:
-        def __init__(self, name: str, url: str) -> None:
+        def __init__(self, name: str, url: str, **kwargs: Any) -> None:
             self.name = name
             self.url = url
 

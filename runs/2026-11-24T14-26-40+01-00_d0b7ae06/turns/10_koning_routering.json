@@ -1,0 +1,21 @@
+{
+  "nr": 10,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:27:59+01:00",
+  "aan": "historian",
+  "vraag": "Historian, please answer three points, each with exact record IDs and dates. (1) The Engineer states the hulpslag was activated on day 10 at 02:40 (ENG-011, ENG-106) and that day 9 approval came from 'hogerhand' (ENG-105, 'Niet ruchtbaar maken tot het draait'). Does your archive contain any earlier hulpslag, Kroonklok, or datanet change record, and does it name an authorizer for day 9 or day 10? (2) Beast Master cites a day 3 cable inspection (BEA-102, 'Controle') and the Engineer cites a woudkabel inspection on day 3 (ENG-003). Does your archive record that inspection, its date and time, and any change to the cables or to the oude eik before day 10? (3) Does your archive hold a per-date baseline series for throughput, shield seals, or animal onrust before day 10, so we can test whether the Beast Master's four-day rhythm (BEA-113) matches the incident dates ENG-026, GUA-043, GUA-019 and BEA-046?",
+  "reden": "Historian is the only unspoken role that can check the authorization gap (ENG-105 names no authorizer, and Engineer, Guardian Keeper and Beast Master each say their own source is silent) and the day 3 cable inspection, which the Engineer (ENG-003) and Beast Master (BEA-102, BEA-109) describe differently. Historian is also the right source for whether a baseline or earlier precedent exists. Engineer confirmed no per-date baseline in its own source, so the archive is the next place to look. Archmage and Oracle remain unspoken and can be questioned next.",
+  "open_vragen": [
+    "Who authorized the hulpslag activation? ENG-105 says only 'Goedkeuring verkregen van hogerhand' on day 9, with no named authorizer. Does any other role's source name the authorizer, with record IDs?",
+    "Does the hulpslag running 'los van de Kroonklok' (ENG-011) create a timing mismatch that explains the day 10 complaint (ENG-107) and the day 22 packet loss (ENG-026)? Which source can confirm or refute this with exact timestamps?",
+    "Which governing technical specifications or charters apply to hulpslag or datanet changes? Each rule must be cited individually by record ID. ENG-119 and the logs ENG-063 to ENG-066 still need their individual content confirmed.",
+    "Can the next occurrence day of the day 17, 22, or 27 incidents be calculated from verified dates, and does any observation-schedule gap exist in the routine checks? Test BEA-113's four-day rhythm against verified dates.",
+    "What safe recovery prerequisites, technical controls, and ongoing risks apply to remediation, given the hulpslag's undisclosed status (ENG-105) and the downstream harm in ENG-107?",
+    "Guardian Keeper GUA-115 has a 01:50 archive entry that predates the 04:15 opening on day 22 (GUA-043). Does the archive timing hold up?",
+    "Guardian Keeper GUA-116 narrates two day 23 inside openings that are absent from GUA-045 and GUA-046. Is there any archival record of them?",
+    "Archmage has not yet addressed whether a Kroonklok desync or magical disturbance (leylijnen) explains the hulpslag timing mismatch."
+  ],
+  "duur_ms": 10669
+}

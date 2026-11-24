@@ -1,0 +1,15 @@
+{
+  "nr": 21,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:30:31+01:00",
+  "aan": "engineer",
+  "vraag": "Please state the content of each record you cited but did not describe, individually: (1) ENG-119, the charter. Quote its article numbers or clauses, and state which one governs hulpslag activation, its authorization, and the tempo rules. (2) ENG-063, ENG-064, ENG-065 and ENG-066, separately. For each, give the date, time, the values recorded, and whether it shows any activation, versterking or fijnregeling change. (3) Does any record in your source name who may authorize a hulpslag activation, or set a condition for it (for example, a requirement to inform the Kroonklok)? Cite the exact record ID for each.",
+  "reden": "The Engineer cited ENG-119 and ENG-063 to ENG-066 as the routine-check and charter basis for the hulpslag but never stated their content, and the activation trigger and authorization rule (Pillar 1 and Pillar 2) remain unsourced. ENG-105's 'hogerhand' is the only authorization hint and no other role can verify it. One targeted turn is needed to unpack these records individually before stopping. The cross-file claim that the hulpslag exists separately from the Kroonklok cannot be resolved by any other role, because the Historian's HIS-109 and HIS-110 are not in the Engineer's source.",
+  "open_vragen": [
+    "Who authorized the hulpslag activation at day 10 02:40? No source names an authorizer; ENG-105 says only 'hogerhand'.",
+    "What do ENG-063, ENG-064, ENG-065, ENG-066 (routine check logs) and ENG-119 (charter) actually state, article by article?"
+  ],
+  "duur_ms": 16261
+}

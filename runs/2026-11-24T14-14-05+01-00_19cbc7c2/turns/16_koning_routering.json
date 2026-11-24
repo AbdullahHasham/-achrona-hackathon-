@@ -1,0 +1,16 @@
+{
+  "nr": 16,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:16:22+01:00",
+  "aan": "oracle",
+  "vraag": "Oracle, Engineer (ENG-011, ENG-106, ENG-029, ENG-062) and Archmage (ARC-112) report no record of who authorized the Day 10 hulpslag activation or the Day 24 pulse increase, and no record of whether the Council decided on Day 24 to switch off the datanet. Please answer three things with exact record IDs and dates: (1) Do your visions or signs name who authorized the Day 10 activation at 02:40 or the Day 24 +5% increase at 11:00 and 11:05? (2) Do you hold any record of the Day 24 decision on ARC-112, including whether the datanet was switched off? (3) Do your signs show a recurrence or next-occurrence day for the night unrest at about 04:15 to 04:50 that Beast Master reports on Days 10, 14, 18, 22, 26, 30, 34, 38 and 42 (BEA-113, BEA-019, BEA-046, BEA-091), and do they match the low Burchtader readings on Days 14 and 42 (ARC-015, ARC-071)? Quote the relevant record IDs individually.",
+  "reden": "Oracle is the only role that has not spoken, and the open authorization and Day 24 decision questions can only be closed by a role outside Engineer and Archmage. Beast Master's 04:15 to 04:50 unrest pattern is the only recurrence evidence we have, and it has not yet been tested against the Archmage's low-reading days, so Oracle is the best remaining check on Pillar 3 (voorspelling) and on the contradiction between the Engineer's activation timeline and the Archmage's CSV data. Historian has already confirmed the timestamp errors are provisional (HIS-112, HIS-116), so that question is removed.",
+  "open_vragen": [
+    "Who authorized the Day 10 hulpslag activation (ENG-011, ENG-106) and the Day 24 pulse increase (ENG-029, ENG-062)?",
+    "Did the Council decide on Day 24 to switch off the datanet, as requested in ARC-112 (dag 23)?",
+    "Is there a recurrence or next-occurrence day for the 04:15 to 04:50 night unrest (BEA-113, BEA-019, BEA-046, BEA-091), and does it match the low Burchtader readings on Days 14 and 42 (ARC-015, ARC-071)?"
+  ],
+  "duur_ms": 9059
+}

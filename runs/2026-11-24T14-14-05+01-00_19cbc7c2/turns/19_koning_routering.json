@@ -1,0 +1,17 @@
+{
+  "nr": 19,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:16:49+01:00",
+  "aan": "engineer",
+  "vraag": "Engineer: Guardian Keeper's GUA-043 (dag 22, 04:15) records poort oost as \"van binnenuit geopend, 3 minuten\" with \"geen sporen van inbraak van buitenaf\", and GUA-044 records the outer seals as intact. Your ENG-026 and ENG-110 describe the same 3-minute window as packet loss. (1) Is the 04:15 event on poort oost in your source a loss of packets or a gate event, and can you cite ENG-026 and ENG-110 individually with their exact wording? (2) Your ENG-102 describes the datanet as running on the Kroonklok's pulse and ENG-114 covers the polsversterker. Please cite each governing rule or specification separately with its own record ID, stating the exact interval or setting it contains for the hulpslag pulse. (3) Do you have any record for the Day 10 Burchtader stall at 04:45 (HIS-035) or the 04:47 benedenstad opening (GUA-019) that would show whether the +38% throughput at 03:00 (ENG-012) was still in effect at those times?",
+  "reden": "The Guardian Keeper's account of poort oost contradicts the Engineer's packet-loss description for the same 04:15 window on Day 22. The Historian's HIS-109 and HIS-110 say a second pulse breaks the maat, and the Engineer is the only role who documents the hulpslag as a second pulse (ENG-011), so the mechanism (Pillar 2) must be tested against the Engineer's own cited rules, each cited individually rather than as a collapsed range. The Engineer's ENG-102 and ENG-114 were cited without individual articles, which is a rule-collapse that must be resolved before the evidence can be considered complete. The Day 10 timing question links the Engineer's +38% at 03:00 to the 04:45 and 04:47 events in other domains (Pillar 3).",
+  "open_vragen": [
+    "Engineer: are ENG-026 and ENG-110 packet-loss records of poort oost on Day 22 at 04:15, and how do they differ from GUA-043 (van binnenuit geopend, 3 minuten)?",
+    "Engineer: cite each governing rule or specification (ENG-102, ENG-114 and any other) separately with its own record ID, including any interval or setting for the hulpslag pulse.",
+    "Engineer: does any record show whether the +38% throughput at Day 10 03:00 (ENG-012) still held at the 04:45 Burchtader stall (HIS-035) or the 04:47 benedenstad opening (GUA-019)?",
+    "Archmage: do the Day 14 (ARC-015) and Day 42 (ARC-071) low Burchtader readings have any time-of-day stamp that would link them to the 04:20 and 04:30 night unrest (BEA-028, BEA-091, ORA-114, ORA-142)?"
+  ],
+  "duur_ms": 15566
+}

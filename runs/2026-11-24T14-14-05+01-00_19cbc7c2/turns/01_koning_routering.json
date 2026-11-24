@@ -1,0 +1,17 @@
+{
+  "nr": 1,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:14:15+01:00",
+  "aan": "engineer",
+  "vraag": "Pillar 1 and 3: Please report the exact dates and times of the datanet configuration changes or maintenance actions that preceded the Desync, and give the per-date measured values from your logs (latency, packet loss, sync offset) for the baseline period and each incident day, citing each relevant record ID individually. Also state whether the next occurrence of the Desync can be calculated from the verified dates, and which operational rules or technical specifications govern the datanet sync intervals, quoting each rule's own record ID.",
+  "reden": "No council member has spoken yet. The Engineer holds the measurable logs and the datanet configuration, which is the most objective starting point for the trigger, timeline, and mechanism pillars. Their institutional bias toward datanet progress means their account must later be cross-checked against the Guardian Keeper, Historian, and Archmage.",
+  "open_vragen": [
+    "Pillar 1: What concrete intervention or configuration change initiated or altered the situation, who authorized it, and on what exact dates and times?",
+    "Pillar 2: Which governing rules, charters, or technical specifications explain how the Desync arises, each cited with its own record ID?",
+    "Pillar 3: What is the pre-incident baseline, the exact onset, and the per-date measurements, and is there a recurring pattern or observation-schedule gap?",
+    "Pillar 4: Which operational constraints, safety warnings, and governance gaps govern safe recovery and ongoing risks?"
+  ],
+  "duur_ms": 4206
+}

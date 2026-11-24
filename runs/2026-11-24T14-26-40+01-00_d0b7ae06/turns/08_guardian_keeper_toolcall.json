@@ -1,0 +1,10 @@
+{
+  "nr": 8,
+  "ronde": 1,
+  "spreker": "guardian_keeper",
+  "soort": "toolcall",
+  "tijdstip": "2026-11-24T14:27:48+01:00",
+  "tool": "lees_kennisbron",
+  "argumenten": {},
+  "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp"
+}

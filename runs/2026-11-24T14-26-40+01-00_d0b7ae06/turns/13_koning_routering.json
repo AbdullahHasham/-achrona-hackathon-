@@ -1,0 +1,18 @@
+{
+  "nr": 13,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:28:24+01:00",
+  "aan": "archmage",
+  "vraag": "Archmage, Historian HIS-106 reports no leylijn hapering in 23 years, while Engineer ENG-011 says the hulpslag runs 'los van de Kroonklok.' (1) Does any leylijn or Kroonklok record in your source show a disturbance on day 9 to 10 around the 02:40 activation (ENG-011) and the 03:00 +38% throughput (ENG-012), or on day 22 around the 04:15 packet loss (ENG-026)? Cite each record ID and exact time. (2) Do any of your records show a magical desync, and if so, which values or timestamps, cited individually by ID? (3) Do the Kroonklok tick (GUA-103) or the pols timestamp rules (HIS-103, HIS-110) you hold match or contradict the hulpslag times in ENG-011 and ENG-026, and which IDs show this?",
+  "reden": "Archmage has not spoken, and the leylijn/desync explanation has been raised by the King but never tested. HIS-106 gives a partial negative, but Archmage holds the leylijn records, so a direct check is needed. Cross-checking against GUA-103 and HIS-103 also tests the timestamp contradictions noted by Historian (HIS-035, HIS-036, HIS-053), which Archmage's domain may explain.",
+  "open_vragen": [
+    "Does a Kroonklok desync or leylijn disturbance explain the hulpslag timing mismatch on day 10 and day 22? Archmage has not yet answered; Historian HIS-106 reports no leylijn hapering.",
+    "Can the next occurrence of the day 17, 22, or 27 incidents be calculated from verified dates, and does the four-day rhythm in BEA-113 hold against those dates?",
+    "Which governing charters or specifications apply to the hulpslag and datanet changes? Each rule needs its own record ID; ENG-119 and ENG-063 to ENG-066 still need their content confirmed.",
+    "What safe recovery prerequisites, technical controls, and ongoing risks apply, given the hulpslag's undisclosed status (ENG-105) and the downstream harm in ENG-107?",
+    "Oracle has not yet been asked about the day 33 'door de sterren' night (BEA-118) or whether any pattern predicts the next occurrence."
+  ],
+  "duur_ms": 13241
+}

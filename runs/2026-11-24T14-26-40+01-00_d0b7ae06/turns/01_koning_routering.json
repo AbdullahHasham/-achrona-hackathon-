@@ -1,0 +1,18 @@
+{
+  "nr": 1,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T14:26:49+01:00",
+  "aan": "engineer",
+  "vraag": "Pillar 1 and 3 opener: Please report the exact datanet change, configuration update, or maintenance action that preceded the Desync, including the exact dates and times it was initiated and who authorized it. Also provide the exact per-date measurements from your meetbare logs for the baseline period and each incident date, not pooled ranges, and cite each log record ID individually.",
+  "reden": "No council member has spoken yet. The Engineer's department holds the measurable logs and is the most direct source for the trigger (ingreep) and the timeline of metrics, which are the foundation the other roles' claims must be cross-checked against. Starting with measurable data reduces the risk of accepting an unverified narrative from a role with institutional bias.",
+  "open_vragen": [
+    "What concrete action, change, or decision initiated the Desync, and on what exact date and time, and who authorized it?",
+    "What were the exact per-date measurements in the datanet logs for the pre-incident baseline and each incident date, with individual record IDs?",
+    "Which governing technical specifications or charters apply to datanet changes, cited individually by record ID?",
+    "Does a recurring pattern or observation-schedule gap exist, and can the next occurrence day be calculated from the verified dates?",
+    "What safe recovery prerequisites, technical controls, and ongoing risks apply to remediation?"
+  ],
+  "duur_ms": 4068
+}
