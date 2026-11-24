@@ -1,7 +1,7 @@
-"""Debatviewer: toont trace.json en verdict.json live in je browser.
+"""Debatviewer en podium: tonen trace.json en verdict.json live in je browser.
 
 Start met `uv run viewer` (leest de root van deze repo) of `uv run viewer <map-of-trace.json>`.
-Poort via VIEWER_PORT (standaard 8100).
+De viewer van de kit staat op /, ons podium op /podium. Poort via VIEWER_PORT (standaard 8100).
 """
 import http.server
 import os
@@ -23,7 +23,9 @@ def main():
             pad = self.path.split("?")[0]
             if pad in ("/", "/index.html"):
                 return self.stuur(ROOT / "viewer.html", "text/html; charset=utf-8")
-            if pad in ("/trace.json", "/verdict.json"):
+            if pad == "/podium":
+                return self.stuur(ROOT / "podium.html", "text/html; charset=utf-8")
+            if pad in ("/trace.json", "/verdict.json", "/vertaling.en.json"):
                 return self.stuur(map_ / pad[1:], "application/json; charset=utf-8")
             self.send_error(404)
 
@@ -43,8 +45,9 @@ def main():
 
     server = http.server.ThreadingHTTPServer(("127.0.0.1", port), Handler)
     url = f"http://127.0.0.1:{port}/"
-    print(f"Debatviewer op {url} (leest {map_}). Stop met Ctrl+C.")
-    webbrowser.open(url)
+    print(f"Debatviewer op {url}, podium op {url}podium (leest {map_}). Stop met Ctrl+C.")
+    if not os.getenv("VIEWER_STIL"):
+        webbrowser.open(url + "podium")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

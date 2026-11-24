@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Council of Achrona: podium</title>
+<style>
+  :root {
+    color-scheme: dark; scrollbar-color: var(--lijn) transparent;
+    --nacht: #0e0a18; --zaal: #171026; --vak: #1c1430; --lijn: #35284f; --tekst: #f1ecfa; --zacht: #b0a5c8; --stil: #7d7198;
+    --kristal: #c44bff; --licht: #f3d9ff; --goud: #f0d48a; --goed: #4ade80; --let: #fbbf24; --fout: #ff7b7b;
+    --archmage: #a28bff; --engineer: #fbbf24; --guardian_keeper: #38bdf8; --historian: #f08a5d;
+    --oracle: #f472b6; --beast_master: #4ade80; --koning: #f0d48a; --mens: #ff7b7b;
+    --titel: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--nacht); color: var(--tekst); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+  button { font: inherit; color: inherit; background: none; border: 1px solid var(--lijn); border-radius: 8px; padding: 4px 11px; cursor: pointer; }
+  button:hover { border-color: var(--kristal); }
+  button:focus-visible, .id:focus-visible { outline: 2px solid var(--kristal); outline-offset: 2px; }
+  button[aria-pressed="true"] { background: color-mix(in srgb, var(--kristal) 28%, transparent); border-color: var(--kristal); }
+
+  header { display: flex; align-items: center; gap: 10px 18px; padding: 10px 18px; border-bottom: 1px solid var(--lijn); flex-wrap: wrap; }
+  header h1 { font: 600 21px/1.1 var(--titel); margin: 0; letter-spacing: .01em; }
+  .badge { font-size: 12px; font-weight: 700; letter-spacing: .08em; padding: 3px 10px; border-radius: 999px; border: 1px solid currentColor; color: var(--zacht); }
+  .badge.live { color: var(--fout); } .badge.live::before { content: "● "; animation: puls 1.3s infinite; }
+  .badge.klaar { color: var(--goed); }
+  .budget { display: flex; gap: 4px; align-items: center; font-size: 13px; color: var(--zacht); }
+  .pit { width: 11px; height: 11px; transform: rotate(45deg); border: 1px solid var(--stil); border-radius: 2px; transition: background .4s; }
+  .pit.op { background: var(--kleur, var(--kristal)); border-color: var(--kleur, var(--kristal)); }
+  .knoppen { margin-left: auto; display: flex; gap: 6px; align-items: center; font-size: 14px; }
+  .teller { color: var(--zacht); font-size: 13px; font-variant-numeric: tabular-nums; min-width: 62px; text-align: center; }
+
+  main { display: grid; grid-template-columns: 320px minmax(0, 1fr) 280px; min-height: 0; position: relative; }
+  aside { padding: 14px 16px; overflow-y: auto; min-height: 0; }
+  aside h2 { font: 600 15px/1.2 var(--titel); color: var(--zacht); margin: 0 0 10px; }
+  .vraag { font-size: 14px; line-height: 1.4; padding: 8px 10px; margin-bottom: 7px; background: var(--vak); border-radius: 8px; border: 1px solid var(--lijn); }
+  .vraag.nieuw { border-color: var(--kristal); animation: op .5s ease-out; }
+  .vraag.weg { color: var(--stil); text-decoration: line-through; background: none; border-style: dashed; }
+  .hyp { font-size: 14px; line-height: 1.42; padding: 9px 11px; border-radius: 8px; background: color-mix(in srgb, var(--goud) 9%, var(--vak)); border: 1px solid color-mix(in srgb, var(--goud) 45%, transparent); }
+  .niets { color: var(--stil); font-style: italic; font-size: 14px; }
+  .groep { margin-bottom: 11px; } .groep b { display: block; font-size: 13px; color: var(--kleur); margin-bottom: 3px; }
+
+  .id { display: inline-block; font: 600 12px/1.55 ui-monospace, Consolas, monospace; padding: 0 5px; margin: 1px; border-radius: 5px; cursor: pointer;
+    color: var(--kleur); background: color-mix(in srgb, var(--kleur) 15%, transparent); border: 1px solid color-mix(in srgb, var(--kleur) 45%, transparent); }
+  .id.vers { animation: flits 1.4s ease-out; }
+  .id.weg { text-decoration: line-through; opacity: .45; }
+
+  svg.zaal { width: 100%; height: 100%; display: block; }
+  .naam { font: 600 19px var(--titel); fill: var(--tekst); text-anchor: middle; }
+  .onder { font-size: 15px; fill: var(--stil); text-anchor: middle; }
+  .lid { transition: opacity .5s; cursor: default; }
+  .lid .schijf { fill: var(--vak); stroke: var(--kleur); stroke-width: 2; transition: stroke-width .3s; }
+  .lid .gloed { fill: var(--kleur); opacity: 0; transition: opacity .5s; }
+  .lid .kop { transition: transform .45s cubic-bezier(.2, .9, .3, 1.2); transform-origin: center; transform-box: fill-box; }
+  .lid.stom { opacity: .46; } .lid.gehoord { opacity: .86; }
+  .lid.spreekt { opacity: 1; } .lid.spreekt .gloed { opacity: .34; } .lid.spreekt .schijf { stroke-width: 4; } .lid.spreekt .kop { transform: scale(1.14); }
+  .lid.gekozen { opacity: 1; } .lid.gekozen .gloed { opacity: .18; }
+  .lid.getoetst { opacity: 1; }
+  .lid.leest .gloed { opacity: .24; animation: puls 1.2s infinite; }
+  .lid.weegt .gloed { opacity: .28; animation: puls 1.2s infinite; }
+  .lid .boek { opacity: 0; transition: opacity .3s; } .lid.leest .boek { opacity: 1; }
+  .draad { fill: none; stroke: var(--kleur); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: teken .8s ease-out forwards; }
+  .draad.toets { stroke-width: 2; opacity: .8; }
+  .draadtekst { font-size: 15px; fill: var(--zacht); text-anchor: middle; }
+  .scherf { transition: transform 1.1s cubic-bezier(.3, .9, .3, 1), opacity .8s; }
+  .scherf polygon { stroke: var(--licht); stroke-opacity: .35; transition: fill 1s, stroke-opacity 1s; }
+  .scherf text { font: 600 14px var(--titel); text-anchor: middle; fill: var(--licht); }
+  .scherf .st { font: 13px system-ui; fill: var(--licht); opacity: .85; }
+  .s-onbekend polygon { fill: #2a1d45; } .s-onbekend { opacity: .75; }
+  .s-vermoeden polygon { fill: #6a2a99; } .s-getoetst polygon { fill: url(#kr); stroke-opacity: 1; }
+
+  footer { border-top: 1px solid var(--lijn); background: var(--zaal); padding: 14px 24px 16px; height: 35vh; min-height: 210px; display: flex; flex-direction: column; gap: 6px; }
+  .wie { display: flex; gap: 10px; align-items: baseline; font: 600 20px/1.2 var(--titel); color: var(--kleur); flex-wrap: wrap; }
+  .wie small { font: 13px system-ui; color: var(--zacht); }
+  .zegt { overflow-y: auto; min-height: 0; font-size: 18px; line-height: 1.5; max-width: 118ch; overflow-wrap: anywhere; }
+  .zegt.lang { font-size: 16px; max-width: none; } .zegt.lang > div { columns: 2; column-gap: 44px; }
+  .wit { display: block; height: .55em; }
+  .waarom { color: var(--zacht); font-size: 16px; max-width: 110ch; margin-top: 6px; }
+  .merk { font-size: 13px; color: var(--let); }
+
+  .vonnis { position: absolute; inset: 0; background: var(--nacht); padding: 18px 24px; overflow-y: auto; display: none; gap: 18px; grid-template-columns: 1.15fr 1.1fr .95fr; align-content: start; }
+  .vonnis.open { display: grid; animation: op .5s ease-out; }
+  .vonnis h2 { font: 600 19px/1.2 var(--titel); margin: 0 0 10px; color: var(--goud); }
+  .kaart { background: var(--vak); border: 1px solid var(--lijn); border-radius: 10px; padding: 11px 14px; margin-bottom: 10px; font-size: 15px; line-height: 1.45; }
+  .kaart .kop { display: flex; justify-content: space-between; gap: 10px; font-weight: 650; margin-bottom: 4px; }
+  .kaart.wankel { border-color: var(--let); } .kaart.valt { border-color: var(--fout); } .kaart.valt .bewering { text-decoration: line-through; opacity: .6; }
+  .balk { height: 5px; border-radius: 3px; background: var(--lijn); margin: 6px 0; } .balk i { display: block; height: 100%; border-radius: 3px; background: var(--kristal); transition: width .5s; }
+  .kaart ol { margin: 0; padding-left: 20px; } .kaart li { margin-bottom: 9px; } .kaart li > span:not(.id) { color: var(--zacht); display: block; font-size: 14px; }
+  .stand-let { color: var(--let); } .stand-fout { color: var(--fout); } .stand-goed { color: var(--goed); }
+  .tip { color: var(--stil); font-size: 13px; }
+  dialog { background: var(--vak); color: var(--tekst); border: 1px solid var(--kristal); border-radius: 12px; max-width: 640px; padding: 18px 20px; }
+  dialog::backdrop { background: rgba(8, 4, 16, .7); }
+  dialog p { font-size: 15px; } dialog .rij { display: flex; gap: 8px; margin-top: 12px; }
+  .wacht { grid-column: 1 / -1; display: grid; place-content: center; text-align: center; color: var(--zacht); gap: 6px; }
+
+  @keyframes puls { 50% { opacity: .35; } }
+  @keyframes op { from { opacity: 0; transform: translateY(6px); } }
+  @keyframes teken { to { stroke-dashoffset: 0; } }
+  @keyframes flits { from { background: var(--kleur); color: var(--nacht); } }
+  @media (prefers-reduced-motion: reduce) { *, *::before { animation-duration: .01s !important; animation-iteration-count: 1 !important; transition-duration: .01s !important; } }
+  @media (max-width: 1050px) {
+    body { overflow: auto; display: block; } main { grid-template-columns: 1fr; } svg.zaal { height: auto; } footer { height: auto; }
+    .vonnis { position: static; grid-template-columns: 1fr; } aside { max-height: 260px; } .knoppen { margin-left: 0; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Council of Achrona</h1><span id="taalnoot" class="tip"></span>
+  <span id="badge" class="badge">WACHT</span>
+  <span class="budget"><span id="pitten" style="display:flex;gap:6px"></span><span id="beurttekst" style="margin-left:6px"></span></span>
+  <div class="knoppen">
+    <button id="terug" title="Vorige (pijl links)">←</button>
+    <span class="teller" id="teller"></span>
+    <button id="verder" title="Volgende (pijl rechts)">→</button>
+    <button id="speel" title="Afspelen of pauzeren (spatie)">Speel af</button>
+    <button id="tempo" title="Snelheid">1×</button>
+    <button id="volg" aria-pressed="true" title="Volg het laatste moment (L)">Volg live</button>
+    <button id="naarverdict" title="Council Verdict (V)">Verdict</button>
+    <button id="taal" title="English / Nederlands (E)">EN</button>
+  </div>
+</header>
+<main>
+  <aside><h2 id="k-hyp"></h2><div id="hypothese"></div><h2 id="k-vragen" style="margin-top:16px"></h2><div id="vragen"></div></aside>
+  <svg class="zaal" viewBox="0 0 1200 660" role="img" aria-label="De raadszaal" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="kr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3b8ff"/><stop offset=".5" stop-color="#c44bff"/><stop offset="1" stop-color="#6b2bd9"/></linearGradient>
+      <radialGradient id="vloer" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#2a1a48"/><stop offset="1" stop-color="#0e0a18" stop-opacity="0"/></radialGradient>
+    </defs>
+    <ellipse cx="600" cy="350" rx="590" ry="320" fill="url(#vloer)"/>
+    <g id="draden"></g><g id="kern"></g><g id="zetels"></g>
+  </svg>
+  <aside><h2 id="k-bewijs"></h2><div id="bewijs"></div></aside>
+  <section class="vonnis" id="vonnis"></section>
+</main>
+<footer id="voet"><div class="wie" id="wie" style="--kleur:var(--zacht)">De zaal wacht</div><div class="zegt" id="zegt"></div></footer>
+<dialog id="venster"><div id="venstertekst"></div><div class="rij"><button id="schrap"></button><button id="sluit">Sluiten</button></div></dialog>
+
+<script>
+const NAMEN = { archmage: "Archmage", engineer: "Engineer", guardian_keeper: "Guardian Keeper", historian: "Historian", oracle: "Oracle", beast_master: "Beast Master", koning: "Koning", mens: "Mens" };
+const PREFIX = { ARC: "archmage", ENG: "engineer", GUA: "guardian_keeper", HIS: "historian", ORA: "oracle", BEA: "beast_master" };
+const VOLGORDE = ["archmage", "engineer", "guardian_keeper", "historian", "oracle", "beast_master"];
+const SLOTS = { ingreep: "Ingreep", mechanisme: "Mechanisme", verloop: "Verloop" };
+const BUDGET = 10, ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)[-‐-―−](\d{3})\b/g;
+const WOORD = {
+  nl: { wacht: "WACHT", live: "LIVE", opname: "OPNAME VAN DE RUN", beurten: (n, m) => `${n} van ${m} beurten`, vrij: "nog vrij", speel: "Speel af", pauze: "Pauze", volg: "Volg live",
+    hyp: "Hypothese van de Koning", vragen: "Open vragen", bewijs: "Bewijs in het debat", geenhyp: "Nog geen hypothese.", geenvragen: "Geen open vragen.", geenbewijs: "Nog geen records ingebracht.",
+    koningleest: "leest geen Kennisbron", sprak: (n, r) => `${n} ${n === 1 ? "beurt" : "beurten"}, ${r} records`, nietgehoord: "nog niet gehoord", toetst: "toetst",
+    zaalwacht: "De zaal wacht", start: "Start de Council met <code>uv run council</code>.", denkt: r => `${r} denkt na…`, weegt: r => `${r} weegt het debat…`, leest: r => `${r} leest de eigen Kennisbron…`,
+    woordaan: "geeft het woord aan", waarom: "Waarom", sluit: "sluit het debat", na: (n, m) => `na ${n} van ${m} beurten`, leestbron: "leest de eigen Kennisbron", blind: "onafhankelijke getuigenis, zonder het debat te zien",
+    herkansing: "antwoord één keer teruggestuurd door de bewijscontrole", nietinbron: "Niet in de bron gevonden, telt niet mee:", weegtbewijs: "De Koning weegt het bewijs", geschil: "Geschil", beslecht: "Beslecht", nietbeslecht: "Niet beslecht",
+    valt: "valt: geen bewijs over", wankel: n => `wankel: nog één Rol (${n} ${n > 1 ? "records" : "record"})`, staat: (r, n) => `staat: ${r} Rollen, ${n} records`, onbekendeerlijk: "eerlijk onbekend", zekerheid: "zekerheid",
+    oorzaak: "De oorzaak", plan: "Herstelplan", alsniemand: "Als niemand ingrijpt", dag: "Dag", risicos: "Risico's", tip: "Klik op een record om het te lezen of te schrappen: het Verdict rekent meteen na wat nog overeind staat.", herstel: n => `${n} geschrapt, herstel alles`,
+    bronvan: r => `Kennisbron van de ${r}`, nietgenoemd: "Niet genoemd in een bericht.", schrap: "Schrap dit record", terug: "Herstel dit record", sluiten: "Sluiten", noot: "",
+    ingreep: "Ingreep", mechanisme: "Mechanisme", verloop: "Verloop", onbekend: "onbekend", vermoeden: "vermoeden", getoetst: "getoetst", koning: "Koning", mens: "Mens" },
+  en: { wacht: "WAITING", live: "LIVE", opname: "RECORDED RUN", beurten: (n, m) => `${n} of ${m} turns`, vrij: "unused", speel: "Play", pauze: "Pause", volg: "Follow live",
+    hyp: "The King's hypothesis", vragen: "Open questions", bewijs: "Evidence in the debate", geenhyp: "No hypothesis yet.", geenvragen: "No open questions.", geenbewijs: "No records cited yet.",
+    koningleest: "reads no source", sprak: (n, r) => `${n} ${n === 1 ? "turn" : "turns"}, ${r} records`, nietgehoord: "not heard yet", toetst: "tests",
+    zaalwacht: "The chamber waits", start: "Start the Council with <code>uv run council</code>.", denkt: r => `${r} is thinking…`, weegt: r => `${r} weighs the debate…`, leest: r => `${r} reads their own source…`,
+    woordaan: "gives the floor to", waarom: "Why", sluit: "closes the debate", na: (n, m) => `after ${n} of ${m} turns`, leestbron: "reads their own source", blind: "independent testimony, without seeing the debate",
+    herkansing: "answer sent back once by the evidence check", nietinbron: "Not found in the source, does not count:", weegtbewijs: "The King weighs the evidence", geschil: "Dispute", beslecht: "Settled", nietbeslecht: "Not settled",
+    valt: "falls: no evidence left", wankel: n => `shaky: one Role left (${n} ${n > 1 ? "records" : "record"})`, staat: (r, n) => `stands: ${r} Roles, ${n} records`, onbekendeerlijk: "honestly unknown", zekerheid: "certainty",
+    oorzaak: "The cause", plan: "Recovery plan", alsniemand: "If nobody intervenes", dag: "Day", risicos: "Risks", tip: "Click a record to read it or strike it: the verdict recalculates at once what still stands.", herstel: n => `${n} struck, restore all`,
+    bronvan: r => `Source of the ${r}`, nietgenoemd: "Not mentioned in a message.", schrap: "Strike this record", terug: "Restore this record", sluiten: "Close", noot: "Machine translation. The original debate is in Dutch.",
+    ingreep: "Intervention", mechanisme: "Mechanism", verloop: "Pattern", onbekend: "unknown", vermoeden: "suspected", getoetst: "tested", koning: "King", mens: "Human" },
+};
+let taal = "nl", EN = {};
+try { taal = new URLSearchParams(location.search).get("taal") || localStorage.getItem("taal") || "nl"; } catch { }
+if (!WOORD[taal]) taal = "nl";
+const w = (k, ...a) => { const x = WOORD[taal][k]; return typeof x === "function" ? x(...a) : x; };
+const naam = r => (r === "koning" || r === "mens" ? w(r) : NAMEN[r] || r);
+const tr = t => (taal === "en" && typeof t === "string" ? EN[t] ?? t : t);
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const kleur = r => `var(--${NAMEN[r] ? r : "koning"})`;
+const idsIn = t => [...new Set([...String(t ?? "").matchAll(ID_RE)].map(m => `${m[1]}-${m[2]}`))];
+const chip = (id, extra = "") => `<span class="id ${geschrapt.has(id) ? "weg" : ""} ${extra}" tabindex="0" role="button" data-id="${id}" style="--kleur:${kleur(PREFIX[id.slice(0, 3)])}">${id}</span>`;
+const rijk = t => esc(t).replace(ID_RE, (_, p, n) => chip(`${p}-${n}`)).replace(/^#{1,4}\s*(.+)$/gm, "<strong>$1</strong>").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\n{2,}/g, '<span class="wit"></span>').replace(/\n/g, "<br>");
+
+/* Portretten: eigen, eenvoudige vormen per Rol, getekend rond (0,0). */
+const P = {
+  koning: `<path d="M-26 -6 L-30 -40 L-14 -24 L0 -46 L14 -24 L30 -40 L26 -6 Z" fill="var(--koning)"/><circle cx="0" cy="-46" r="4" fill="var(--kristal)"/><path d="M-22 -4 h44 v16 q0 24 -22 30 q-22 -6 -22 -30 Z" fill="#e9d9c4"/><path d="M-22 14 q22 14 44 0 v4 q-2 24 -22 32 q-20 -8 -22 -32 Z" fill="#8f86a0"/><circle cx="-9" cy="6" r="3" fill="#241735"/><circle cx="9" cy="6" r="3" fill="#241735"/>`,
+  archmage: `<path d="M0 -50 L24 0 H-24 Z" fill="var(--archmage)"/><ellipse cx="0" cy="0" rx="33" ry="7" fill="#6b54d6"/><path d="M0 -36 l3 7 7 1 -5 5 1 7 -6 -4 -6 4 1 -7 -5 -5 7 -1 Z" fill="#fff3b0"/><path d="M-17 3 h34 v10 q0 14 -17 17 q-17 -3 -17 -17 Z" fill="#ecd6c0"/><path d="M-17 14 q17 10 34 0 q0 26 -17 36 q-17 -10 -17 -36 Z" fill="#f4f1ff"/><circle cx="-7" cy="10" r="2.6" fill="#241735"/><circle cx="7" cy="10" r="2.6" fill="#241735"/>`,
+  engineer: `<path d="M-26 -8 a26 28 0 0 1 52 0 Z" fill="var(--engineer)"/><rect x="-30" y="-10" width="60" height="7" rx="3" fill="#8a5a12"/><path d="M-21 -3 h42 v14 q0 24 -21 28 q-21 -4 -21 -28 Z" fill="#e2c6ac"/><circle cx="-10" cy="4" r="9" fill="#13263a" stroke="#cfd6e4" stroke-width="3"/><circle cx="10" cy="4" r="9" fill="#13263a" stroke="#cfd6e4" stroke-width="3"/><path d="M-13 2 l6 -4 M7 2 l6 -4" stroke="#7fd0ff" stroke-width="2"/><path d="M-9 25 h18" stroke="#6b4a33" stroke-width="3" stroke-linecap="round"/>`,
+  guardian_keeper: `<path d="M-27 -10 q0 -32 27 -34 q27 2 27 34 v22 q0 18 -27 28 q-27 -10 -27 -28 Z" fill="#8fa9bf"/><path d="M-4 -44 h8 v84 h-8 Z" fill="#6d879d"/><path d="M-20 -8 h40 v9 h-16 v22 h-8 v-22 h-16 Z" fill="#0d1b29"/><path d="M0 -46 q4 -12 18 -10 q-8 4 -12 12 Z" fill="var(--guardian_keeper)"/><circle cx="-10" cy="-3.5" r="2.6" fill="var(--guardian_keeper)"/><circle cx="10" cy="-3.5" r="2.6" fill="var(--guardian_keeper)"/>`,
+  historian: `<path d="M-30 34 q-6 -78 30 -80 q36 2 30 80 q-12 -8 -14 -24 q-16 10 -32 0 q-2 16 -14 24 Z" fill="#8d4527"/><path d="M-17 -14 q17 -18 34 0 v18 q0 16 -17 20 q-17 -4 -17 -20 Z" fill="#e8cfb4"/><circle cx="-8" cy="0" r="6.5" fill="none" stroke="#f3e3c0" stroke-width="2"/><circle cx="8" cy="0" r="6.5" fill="none" stroke="#f3e3c0" stroke-width="2"/><path d="M-1.5 0 h3" stroke="#f3e3c0" stroke-width="2"/><circle cx="-8" cy="0" r="2" fill="#241735"/><circle cx="8" cy="0" r="2" fill="#241735"/><path d="M-22 30 q11 -7 22 0 q11 -7 22 0 v12 q-11 -7 -22 0 q-11 -7 -22 0 Z" fill="#fbf2dc"/>`,
+  oracle: `<path d="M-29 38 q-8 -84 29 -86 q37 2 29 86 Z" fill="#7d2258"/><path d="M-17 -10 q17 -22 34 0 v20 q0 16 -17 22 q-17 -6 -17 -22 Z" fill="#f0d2cf"/><path d="M-18 2 q18 8 36 0 v30 q-18 10 -36 0 Z" fill="var(--oracle)" opacity=".75"/><path d="M-14 -16 q14 -14 28 0 q-14 14 -28 0 Z" fill="#fff"/><circle cx="0" cy="-16" r="5.4" fill="var(--kristal)"/><circle cx="0" cy="-16" r="2" fill="#150b22"/>`,
+  beast_master: `<path d="M-14 -22 q-22 -4 -24 -26 M-27 -32 q-10 0 -13 -8 M14 -22 q22 -4 24 -26 M27 -32 q10 0 13 -8" stroke="#c9a878" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M-24 -4 q0 -28 24 -28 q24 0 24 28 v10 q0 24 -24 34 q-24 -10 -24 -34 Z" fill="#3f7d4f"/><path d="M-16 -6 q16 -16 32 0 v16 q0 14 -16 20 q-16 -6 -16 -20 Z" fill="#e6c9a8"/><path d="M-12 -2 h9 M3 -2 h9" stroke="#241735" stroke-width="3" stroke-linecap="round"/><path d="M0 2 l-4 9 h8 Z" fill="#7a5233"/><path d="M0 -32 q8 8 0 16 q-8 -8 0 -16 Z" fill="var(--beast_master)"/>`,
+};
+const BOEK = `<g class="boek" transform="translate(34 -38)"><circle r="15" fill="var(--nacht)" stroke="var(--kleur)"/><path d="M-8 -5 q4 -3 8 0 q4 -3 8 0 v11 q-4 -3 -8 0 q-4 -3 -8 0 Z" fill="var(--kleur)"/></g>`;
+
+let trace = null, verdict = null, scenes = [], nu = -1, volgt = true, speelt = false, tempo = 1, klok = null, vorige = "", zaalVoor = "";
+const geschrapt = new Set(), plek = {};
+
+function maakScenes() {
+  const uit = [], b = trace.beurten || [];
+  for (let i = 0; i < b.length; i++) {
+    const x = b[i];
+    if (x.soort === "routering") uit.push({ soort: "routering", x, tot: i });
+    else if (x.soort === "toolcall") {
+      const vorig = uit.at(-1);
+      if (vorig?.soort === "lezen" && vorig.rol === x.spreker) { vorig.calls.push(x); vorig.tot = i; }
+      else uit.push({ soort: "lezen", rol: x.spreker, calls: [x], tot: i });
+    } else if (x.soort === "bericht") uit.push({ soort: x.spreker === "koning" ? "oordeel" : "bericht", x, tot: i });
+  }
+  for (const g of trace.geschillen || []) uit.push({ soort: "geschil", g, tot: b.length - 1 });
+  if (verdict && verdict.run_id === trace.run_id && trace.status !== "bezig") uit.push({ soort: "verdict", tot: b.length - 1 });
+  return uit;
+}
+
+function standTot(tot) {
+  const s = { gesproken: [], ids: {}, stand: {}, vragen: [], vorigeVragen: [], laatste: null };
+  for (const x of (trace.beurten || []).slice(0, tot + 1)) {
+    if (x.soort === "routering") {
+      s.laatste = x;
+      if (x.stand) s.stand = x.stand;
+      if (x.hypothese) s.hypothese = x.hypothese;
+      if (x.open_vragen) { s.vorigeVragen = s.vragen; s.vragen = x.open_vragen; }
+    } else if (x.soort === "bericht" && PREFIX_ROL.has(x.spreker)) {
+      s.gesproken.push(x.spreker);
+      s.laatsteIds = x.id_controle?.eigen ?? idsIn(x.tekst).filter(i => PREFIX[i.slice(0, 3)] === x.spreker);
+      (s.ids[x.spreker] ??= new Set());
+      s.laatsteIds.forEach(i => s.ids[x.spreker].add(i));
+    }
+  }
+  return s;
+}
+const PREFIX_ROL = new Set(Object.values(PREFIX));
+
+function bouwZaal() {
+  const rollen = VOLGORDE.filter(r => (trace.raadsleden || []).includes(r)), sleutel = rollen.join();
+  if (sleutel === zaalVoor) return;
+  zaalVoor = sleutel;
+  plek.koning = { x: 600, y: 78 };
+  rollen.forEach((r, i) => { const t = rollen.length < 2 ? .5 : i / (rollen.length - 1); plek[r] = { x: 110 + t * 980, y: 462 + (1 - (2 * t - 1) ** 2) * 66 }; });
+  $("zetels").innerHTML = ["koning", ...rollen].map(r => `<g class="lid" id="lid-${r}" style="--kleur:${kleur(r)}" transform="translate(${plek[r].x} ${plek[r].y})">
+    <circle class="gloed" r="${r === "koning" ? 74 : 92}"/><circle class="schijf" r="62"/><g class="kop">${P[r]}</g>${BOEK}
+    <text class="naam" y="${r === "koning" ? 88 : 90}">${NAMEN[r]}</text><text class="onder" y="110" id="onder-${r}"></text></g>`).join("");
+  const C = [600, 330], R = 94, pt = a => [C[0] + Math.cos(a) * R, C[1] + Math.sin(a) * R], poly = [];
+  ["ingreep", "mechanisme", "verloop"].forEach((s, i) => {
+    const a = -Math.PI / 2 + (i * 2 - 1) * Math.PI / 3, m = a + Math.PI / 3, p = [C, pt(a), pt(m), pt(a + 2 * Math.PI / 3)];
+    poly.push(`<g class="scherf s-onbekend" id="scherf-${s}" data-dx="${Math.cos(m)}" data-dy="${Math.sin(m)}"><polygon points="${p.map(q => q.map(v => v.toFixed(1)).join()).join(" ")}" stroke-width="2"/>
+      <text x="${C[0] + Math.cos(m) * 50}" y="${C[1] + Math.sin(m) * 50}">${SLOTS[s]}</text><text class="st" x="${C[0] + Math.cos(m) * 50}" y="${C[1] + Math.sin(m) * 50 + 17}"></text></g>`);
+  });
+  $("kern").innerHTML = poly.join("");
+}
+
+function boog(a, b, hol = 0) {
+  const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 + hol;
+  return `M${a.x} ${a.y} Q${mx} ${my} ${b.x} ${b.y}`;
+}
+
+function toon() {
+  if (!trace) return;
+  bouwZaal();
+  const sc = scenes[nu], bezig = trace.status === "bezig", aanEind = nu === scenes.length - 1;
+  const s = standTot(sc ? sc.tot : -1);
+  $("badge").className = "badge " + (bezig ? "live" : "klaar");
+  $("badge").textContent = bezig ? w("live") : w("opname");
+  $("badge").title = trace.run_id || "";
+  $("pitten").innerHTML = Array.from({ length: BUDGET }, (_, i) => `<span class="pit ${s.gesproken[i] ? "op" : ""}" style="--kleur:${kleur(s.gesproken[i])}" title="${s.gesproken[i] ? naam(s.gesproken[i]) : w("vrij")}"></span>`).join("");
+  $("beurttekst").textContent = w("beurten", s.gesproken.length, BUDGET);
+  $("teller").textContent = `${nu + 1} / ${scenes.length}`;
+  $("volg").setAttribute("aria-pressed", volgt); $("speel").textContent = speelt ? w("pauze") : w("speel");
+  $("volg").textContent = w("volg"); $("taal").textContent = taal === "en" ? "NL" : "EN"; $("taalnoot").textContent = w("noot"); document.documentElement.lang = taal;
+  $("k-hyp").textContent = w("hyp"); $("k-vragen").textContent = w("vragen"); $("k-bewijs").textContent = w("bewijs"); $("sluit").textContent = w("sluiten");
+
+  // wie doet wat
+  const r = sc?.soort === "routering" ? sc.x : null, spreker = sc?.soort === "bericht" ? sc.x.spreker : sc?.soort === "oordeel" || r ? "koning" : null;
+  const getoetst = new Set(r ? r.toetst || [] : sc?.soort === "bericht" ? s.laatste?.toetst || [] : []);
+  const denkt = bezig && aanEind ? trace.aan_het_woord : null;
+  for (const rol of Object.keys(plek)) {
+    const el = $("lid-" + rol); if (!el) continue;
+    const gehoord = rol === "koning" || s.gesproken.includes(rol);
+    el.setAttribute("class", ["lid", gehoord ? "gehoord" : "stom", spreker === rol && "spreekt", r?.aan === rol && "gekozen", getoetst.has(rol) && "getoetst",
+      ((sc?.soort === "lezen" && sc.rol === rol) || (denkt === rol && rol !== "koning")) && "leest", denkt === "koning" && rol === "koning" && "weegt"].filter(Boolean).join(" "));
+    const n = s.gesproken.filter(x => x === rol).length;
+    $("onder-" + rol).textContent = rol === "koning" ? w("koningleest") : n ? w("sprak", n, s.ids[rol]?.size || 0) : w("nietgehoord");
+    el.querySelector(".naam").textContent = naam(rol);
+  }
+  // draden: Koning naar de gekozen Rol, en van die Rol naar wie ze toetst
+  let d = "";
+  const doel = r?.aan ?? (sc?.soort === "bericht" ? sc.x.spreker : null);
+  if (r?.aan && plek[r.aan]) d += `<path class="draad" pathLength="1" style="--kleur:${kleur("koning")}" d="${boog({ x: plek.koning.x + Math.sign(plek[r.aan].x - 600) * 64, y: plek.koning.y + 10 }, { x: plek[r.aan].x, y: plek[r.aan].y - 66 }, -70)}"/>`;
+  for (const t of getoetst) if (plek[t] && plek[doel]) {
+    const a = { x: plek[doel].x, y: plek[doel].y - 66 }, b = { x: plek[t].x, y: plek[t].y - 66 }, hol = -(54 + Math.abs(a.x - b.x) * .1);
+    d += `<path class="draad toets" pathLength="1" style="--kleur:${kleur(doel)}" d="${boog(a, b, hol)}"/><text class="draadtekst" x="${a.x * .04 + ((a.x + b.x) / 2) * .32 + b.x * .64}" y="${a.y * .04 + ((a.y + b.y) / 2 + hol) * .32 + b.y * .64 - 12}">${w("toetst")} ${naam(t)}</text>`;
+  }
+  $("draden").innerHTML = d;
+  // de kern
+  for (const slot of Object.keys(SLOTS)) {
+    const el = $("scherf-" + slot), st = s.stand[slot] || "onbekend", ver = { onbekend: 30, vermoeden: 14, getoetst: 2 }[st];
+    el.setAttribute("class", "scherf s-" + st);
+    el.style.transform = `translate(${el.dataset.dx * ver}px, ${el.dataset.dy * ver}px)`;
+    el.querySelector(".st").textContent = w(st); el.querySelector("text").textContent = w(slot);
+  }
+  $("hypothese").innerHTML = s.hypothese ? `<div class="hyp">${rijk(tr(s.hypothese))}</div>` : `<p class="niets">${w("geenhyp")}</p>`;
+  // open vragen
+  const weg = s.vorigeVragen.filter(v => !s.vragen.includes(v));
+  $("vragen").innerHTML = s.vragen.map(v => `<div class="vraag ${s.vorigeVragen.includes(v) ? "" : "nieuw"}">${rijk(tr(v))}</div>`).join("")
+    + weg.slice(0, 4).map(v => `<div class="vraag weg">${rijk(tr(v))}</div>`).join("") || `<p class="niets">${w("geenvragen")}</p>`;
+  // bewijs
+  const vers = new Set(sc?.soort === "bericht" ? s.laatsteIds : []);
+  $("bewijs").innerHTML = VOLGORDE.filter(x => s.ids[x]?.size).map(x => `<div class="groep" style="--kleur:${kleur(x)}"><b>${NAMEN[x]}</b>${[...s.ids[x]].sort().map(i => chip(i, vers.has(i) ? "vers" : "")).join("")}</div>`).join("") || `<p class="niets">${w("geenbewijs")}</p>`;
+
+  voet(sc, s, denkt);
+  $("vonnis").classList.toggle("open", sc?.soort === "verdict");
+  if (sc?.soort === "verdict") vonnis();
+}
+
+function voet(sc, s, denkt) {
+  const zet = (k, wie, html, lang) => { $("wie").style.setProperty("--kleur", kleur(k)); $("wie").innerHTML = wie; $("zegt").className = "zegt" + (lang ? " lang" : ""); $("zegt").innerHTML = `<div>${html}</div>`; $("zegt").scrollTop = 0; };
+  $("voet").style.display = sc?.soort === "verdict" ? "none" : "";
+  if (!sc) return zet("koning", w("zaalwacht"), denkt ? w("denkt", naam(denkt)) : w("start"));
+  const extra = denkt ? `<div class="waarom">${w(denkt === "koning" ? "weegt" : "leest", naam(denkt))}</div>` : "";
+  if (sc.soort === "routering") {
+    const x = sc.x;
+    return x.aan ? zet("koning", `${naam(x.spreker)} <small>${w("woordaan")}</small> <span style="color:${kleur(x.aan)}">${naam(x.aan)}</span>`, `${rijk(tr(x.vraag))}<div class="waarom">${w("waarom")}: ${rijk(tr(x.reden))}</div>${extra}`)
+      : zet("koning", `${naam(x.spreker)} ${w("sluit")} <small>${w("na", s.gesproken.length, BUDGET)}</small>`, `${rijk(tr(x.reden))}${extra}`);
+  }
+  if (sc.soort === "lezen") return zet(sc.rol, `${naam(sc.rol)} <small>${w("leestbron")}</small>`, sc.calls.map(c => `<code>${esc(c.tool)}(${esc(Object.values(c.argumenten || {}).map(v => JSON.stringify(v)).join(", "))})</code>`).join(" ") + extra);
+  if (sc.soort === "bericht") {
+    const x = sc.x, m = [];
+    if (x.zicht === "vraag") m.push(w("blind"));
+    if (x.herkansing) m.push(w("herkansing"));
+    return zet(x.spreker, `${naam(x.spreker)} ${m.length ? `<small>${esc(m.join(" · "))}</small>` : ""}`,
+      rijk(tr(x.tekst)) + (x.id_controle?.niet_in_bron?.length ? `<div class="merk">${w("nietinbron")} ${esc(x.id_controle.niet_in_bron.join(", "))}</div>` : "") + extra, x.tekst.length > 700);
+  }
+  if (sc.soort === "oordeel") return zet("koning", w("weegtbewijs"), rijk(tr(sc.x.tekst)) + extra, true);
+  if (sc.soort === "geschil") {
+    const g = sc.g;
+    return zet("koning", `${w("geschil")}: ${esc(tr(g.onderwerp))}`, Object.entries(g.standpunten || {}).map(([r, t]) => `<strong style="color:${kleur(r)}">${esc(naam(r))}:</strong> ${rijk(tr(t))}`).join("<br>")
+      + `<div class="waarom"><strong>${g.uitkomst ? w("beslecht") : w("nietbeslecht")}.</strong> ${rijk(tr(g.uitkomst || ""))} ${(g.bewijs || []).map(i => chip(i)).join("")}</div>`);
+  }
+  zet("koning", "", "");
+}
+
+/* Schrap een record en zie meteen welke delen van het Verdict nog overeind staan. Geen AI-call nodig. */
+function draagkracht(ids) {
+  const over = ids.filter(i => !geschrapt.has(i)), rollen = new Set(over.map(i => i.slice(0, 3)));
+  if (!over.length) return ["valt", "stand-fout", w("valt")];
+  if (rollen.size < 2) return ["wankel", "stand-let", w("wankel", over.length)];
+  return ["", "stand-goed", w("staat", rollen.size, over.length)];
+}
+
+function vonnis() {
+  const v = verdict, slot = k => {
+    const o = v.oorzaak?.[k] || {};
+    if (!o.bewering) return `<div class="kaart"><div class="kop">${w(k)}<span class="tip">${w("onbekendeerlijk")}</span></div></div>`;
+    const [klasse, kl, tekst] = draagkracht(o.bewijs || []);
+    return `<div class="kaart ${klasse}"><div class="kop">${w(k)}<span class="${kl}">${tekst}</span></div><div class="bewering">${rijk(tr(o.bewering))}</div>
+      ${o.zekerheid != null ? `<div class="balk" title="${w("zekerheid")}"><i style="width:${o.zekerheid * 100}%"></i></div><div class="tip">${w("zekerheid")} ${Math.round(o.zekerheid * 100)}%</div>` : ""}${(o.bewijs || []).map(i => chip(i)).join("")}</div>`;
+  };
+  const p = v.voorspelling;
+  $("vonnis").innerHTML = `<div><h2>${w("oorzaak")}</h2><div class="kaart">${rijk(tr(v.samenvatting))}</div>${Object.keys(SLOTS).map(slot).join("")}
+      <p class="tip">${w("tip")}${geschrapt.size ? ` <button id="herstel">${w("herstel", geschrapt.size)}</button>` : ""}</p></div>
+    <div><h2>${w("plan")}</h2><div class="kaart"><ol>${(v.acties || []).map(a => `<li>${rijk(tr(a.actie))}<span>${rijk(tr(a.reden))} ${(a.bewijs || []).map(i => chip(i)).join("")}</span></li>`).join("")}</ol></div></div>
+    <div>${p ? `<h2>${w("alsniemand")}</h2><div class="kaart"><div class="kop">${w("dag")} ${esc(p.dag)}</div>${rijk(tr(p.bewering))}<br>${(p.bewijs || []).map(i => chip(i)).join("")}</div>` : ""}
+      <h2>${w("risicos")}</h2>${(v.risicos || []).map(x => `<div class="kaart"><strong>${rijk(tr(x.risico))}</strong><br>${rijk(tr(x.mitigatie))}</div>`).join("")}</div>`;
+  const h = $("herstel"); if (h) h.onclick = () => { geschrapt.clear(); toon(); };
+}
+
+function toonRecord(id) {
+  const wie = (trace.beurten || []).filter(b => b.soort === "bericht" && idsIn(b.tekst).includes(id));
+  const zin = t => (t.split(/(?<=[.!?])\s+|\n+/).find(z => idsIn(z).includes(id)) || t).trim();
+  $("venstertekst").innerHTML = `<h2 style="font:600 20px var(--titel);margin:0 0 6px;color:${kleur(PREFIX[id.slice(0, 3)])}">${id} <small style="font:14px system-ui;color:var(--zacht)">${w("bronvan", naam(PREFIX[id.slice(0, 3)]))}</small></h2>`
+    + (wie.map(b => `<p><strong style="color:${kleur(b.spreker)}">${naam(b.spreker)}</strong>: ${esc(zin(tr(b.tekst)))}</p>`).join("") || `<p>${w("nietgenoemd")}</p>`);
+  $("schrap").textContent = geschrapt.has(id) ? w("terug") : w("schrap");
+  $("schrap").onclick = () => { geschrapt.has(id) ? geschrapt.delete(id) : geschrapt.add(id); $("venster").close(); toon(); };
+  $("venster").showModal();
+}
+
+function ga(n, zelf = true) {
+  nu = Math.max(0, Math.min(scenes.length - 1, n));
+  if (zelf) volgt = trace.status === "bezig" && nu === scenes.length - 1;
+  toon(); plan();
+}
+function plan() {
+  clearTimeout(klok);
+  if (!speelt) return;
+  if (nu >= scenes.length - 1) { if (trace.status !== "bezig") { speelt = false; toon(); } return; }
+  const sc = scenes[nu], lengte = (sc.x?.tekst || (sc.x?.vraag || "") + (sc.x?.reden || "") || "").length;
+  klok = setTimeout(() => ga(nu + 1, false), (sc.soort === "lezen" ? 1300 : Math.min(15000, 2600 + lengte * 16)) / tempo);
+}
+$("terug").onclick = () => ga(nu - 1); $("verder").onclick = () => ga(nu + 1);
+$("speel").onclick = () => { speelt = !speelt; volgt = false; if (speelt && nu >= scenes.length - 1 && trace?.status !== "bezig") nu = 0; toon(); plan(); };
+$("tempo").onclick = () => { tempo = { 1: 1.5, 1.5: 2, 2: 4, 4: 1 }[tempo]; $("tempo").textContent = String(tempo).replace(".", ",") + "×"; plan(); };
+$("volg").onclick = () => { volgt = !volgt; if (volgt) { speelt = false; ga(scenes.length - 1, false); } else toon(); };
+$("naarverdict").onclick = () => ga(scenes.length - 1);
+$("taal").onclick = () => { taal = taal === "en" ? "nl" : "en"; try { localStorage.setItem("taal", taal); } catch { } laadVertaling().then(toon); };
+$("sluit").onclick = () => $("venster").close();
+document.addEventListener("click", e => { const c = e.target.closest?.(".id[data-id]"); if (c) toonRecord(c.dataset.id); });
+document.addEventListener("keydown", e => {
+  if ($("venster").open) return;
+  if (e.key === "Enter" && e.target.matches?.(".id[data-id]")) return toonRecord(e.target.dataset.id);
+  if (e.target.matches?.("button") && (e.key === " " || e.key === "Enter")) return;
+  const k = { ArrowLeft: "terug", ArrowRight: "verder", " ": "speel", l: "volg", v: "naarverdict", e: "taal" }[e.key];
+  if (k) { e.preventDefault(); $(k).click(); }
+});
+
+async function haal(p) { try { const r = await fetch(p, { cache: "no-store" }); return r.ok ? await r.text() : null; } catch { return null; } }
+let vertaald = "";
+async function laadVertaling() {
+  if (taal !== "en") return false;
+  const t = await haal("vertaling.en.json");
+  if (!t || t === vertaald) return false;
+  try { const d = JSON.parse(t); vertaald = t; EN = !trace || d.run_id === trace.run_id ? d.teksten || {} : {}; return true; } catch { return false; }
+}
+async function lus() {
+  const [t, v] = await Promise.all([haal("trace.json"), haal("verdict.json")]);
+  if (t && t + (v || "") !== vorige) {
+    try {
+      const nieuw = JSON.parse(t);
+      if (trace && nieuw.run_id !== trace.run_id) { nu = -1; volgt = true; speelt = false; geschrapt.clear(); EN = {}; vertaald = ""; }
+      const eerste = !trace;
+      trace = nieuw; verdict = v ? JSON.parse(v) : null; vorige = t + (v || "");
+      scenes = maakScenes();
+      if (eerste && trace.status !== "bezig") volgt = false, nu = Math.min(scenes.length - 1, Number(new URLSearchParams(location.search).get("scene") || 0));
+      else if (volgt) nu = scenes.length - 1;
+      toon(); plan();
+    } catch (e) { console.warn("podium:", e); }
+  }
+  if (await laadVertaling() && trace) { const y = $("zegt").scrollTop; toon(); $("zegt").scrollTop = y; }
+  setTimeout(lus, 1000);
+}
+lus();
+</script>
+</body>
+</html>

@@ -1,4 +1,32 @@
-# Council of Achrona: Starter kit
+# Council of Achrona
+
+Onze inzending voor challenge 113 (Roboest) van Hack The Future 2026, gebouwd op de Starter kit (zie verder in dit bestand).
+
+## Wat wij bouwden
+
+| Deel | Hoe |
+|---|---|
+| **Koning** (`koning.py`) | Een agent die vóór elke beurt het hele debat leest en kiest: wie, welke vraag, waarom. Hij houdt open vragen bij, geeft per deel van de oorzaak aan of het onbekend, een vermoeden of getoetst is, en stopt zelf. Hij heeft geen tools en geen Kennisbron. |
+| **Regels eromheen** (`bewijs.py`) | Code telt beurten, volgt verwijzingen naar records van andere Rollen als open sporen, en keurt ID's af die niet in de gelezen bron stonden. Het model mag zijn antwoord dan één keer verbeteren; dat staat als `herkansing` in de trace. |
+| **Zes Raadsleden** (`raadsleden/`) | Lezen verplicht eerst hun eigen bron via MCP. Een eerste getuigenis is blind (alleen de vraag van de Koning), zodat ze elkaar niet napraten. Daarna zien ze het debat en kunnen ze bevestigen of weerleggen. |
+| **Verdict** | De Koning weegt eerst, schrijft dan. Code aanvaardt alleen records die hun eigen Rol las én inbracht, en begrenst de zekerheid als een deel op één Rol steunt. Zonder bewijs blijft een deel eerlijk `null`. |
+| **Podium** (`podium.html`) | Eigen visualisatie op `/podium`: live of als opname, met avatars, open vragen en bewijs. Schrap een record en zie meteen welk deel van het Verdict nog staat. |
+| **Lekcontrole** (`lek.py`) | Kijkt na dat er geen inhoud uit de Kennisbronnen in prompts, code of documenten staat. |
+| **Vergelijking** (`basislijn.py`) | Eén agent die alles tegelijk leest, als maatstaf. Staat los van de Council. |
+
+```
+uv run viewer                    # podium op http://127.0.0.1:8100/podium, kit-viewer op /
+uv run council                   # schrijft trace.json en verdict.json, kopie in runs/
+uv run validate                  # schema en spelregels
+uv run python lek.py             # geen broninhoud in prompts of code
+uv run --group dev pytest        # volledige run met nepmodel, zonder key
+```
+
+Live demo zonder de ingeleverde bestanden te overschrijven: zet `COUNCIL_UIT=demo` en start `uv run viewer demo`.
+
+---
+
+# De Starter kit
 
 Starter kit voor challenge 113 van Hack The Future 2026, aangeboden door Roboest.
 
@@ -144,7 +172,7 @@ Wat je daarvoor uitzoekt: een chat-call naar hetzelfde endpoint als de Raadslede
 - Meer Raadsleden (minstens 3 Rollen). Meer Rollen geven meer kennis, maar elke beurt telt. De Kennisbronnen verwijzen soms naar andere Rollen: dat zegt je welke Rol je nog mist.
 - Een Koning die het `verdict.json` echt invult: de oorzaak in drie delen (`ingreep`, `mechanisme`, `verloop`), elk met een bewering en record-ID's als bewijs, een geordend herstelplan (`acties`) en minstens één risico. Weet je een deel niet, laat dan `bewering: null`.
 - `geschillen` in de trace: waarover waren de Raadsleden het oneens, en hoe werd het beslecht?
-- Let op: modellen schrijven ID's soms met een speciaal koppelteken (`ORA‑101`). `uv run validate` meldt dat; vervang het door een gewoon `-`.
+- Let op: modellen schrijven ID's soms met een speciaal koppelteken (`XXX‑000`). `uv run validate` meldt dat; vervang het door een gewoon `-`.
 
 ## Jurering
 
