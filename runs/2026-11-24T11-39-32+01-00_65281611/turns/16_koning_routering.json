@@ -1,0 +1,19 @@
+{
+  "nr": 16,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "beast_master",
+  "vraag": "You claimed new forest cables were laid during the Desync. Engineer cites ENG-003 (day 3, 08:30, 'niets gewijzigd') and Historian cites HIS-105 ('zijn sindsdien niet gewijzigd; het register kent geen verlegging en geen vervanging'), and both say no cable change is on record. (1) Which exact record IDs, dates and times support your cable claim, and in which source file do you find them? (2) Did any animal disturbance (onrust) occur on day 10 between 02:00 and 05:00, and on day 22 around 04:00, with specific IDs? (3) Does your woud register contain any entry after day 3 besides HIS-046 (houtkap in het dal, dag 16), and does it show any cable work?",
+  "reden": "The Beast Master has not spoken yet, and the forest-cable claim is a cross-domain accusation that two other roles contradict with specific IDs (ENG-003, HIS-105). It must be answered by the claimant before the mechanism pillar can rule out a physical cause. The Beast Master's perspective is also the only one that could give an independent, non-datanet timing signal for day 10 and day 22, which would help test the Guardian's midpoint-pulse hypothesis and the Historian's record-integrity problem.",
+  "open_vragen": [
+    "Who gave the off-register approval in ENG-105, and does it refer to the Archmage's letter ARC-106 (dag 8, 'Deze brief hoeft niet in het register')?",
+    "Do the Engineer's installatielog IDs (ENG-003, ENG-010, ENG-027, ENG-105) and the Historian's and Guardian's archive IDs (HIS-035, HIS-036, HIS-053, GUA-019, GUA-043) refer to the same records, or to different source files?",
+    "Does the Guardian's midpoint pulse-phase hypothesis (GUA-103, GUA-104) match any offset logs for day 9-10 and day 22? No offset logs have been produced so far.",
+    "What is the exact arithmetic forecast for the next recurrence after day 22 04:15? Only two events exist (day 10 and day 22), so the forecast is not yet supported.",
+    "What are the recovery prerequisites, backup and storage limits (ENG-112, ENG-045, ENG-092), and gradual shutdown rules for the hulpslag? ENG-114 gives only 0.1% steps.",
+    "Does the Oracle's pattern or prophecy add any testable prediction?",
+    "Why do HIS-036 (vastgelegd dag 9 23:55, gebeurd dag 10 04:50) and HIS-053 (vastgelegd dag 22 01:50, gebeurd dag 22 04:15) break the vastgelegd-equals-gebeurd rule in HIS-103, and do they indicate record tampering?",
+    "Which source holds the day-10 pre-activation throughput baseline needed to test the +38% claim?"
+  ]
+}

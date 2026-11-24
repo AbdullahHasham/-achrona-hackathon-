@@ -1,0 +1,9 @@
+{
+  "nr": 20,
+  "ronde": 2,
+  "spreker": "oracle",
+  "soort": "toolcall",
+  "tool": "lees_kennisbron",
+  "argumenten": {},
+  "pad": "https://mcp.findingsolutions.be/oracle/mcp"
+}

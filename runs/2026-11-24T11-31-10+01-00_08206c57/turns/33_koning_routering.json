@@ -1,0 +1,10 @@
+{
+  "nr": 33,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": null,
+  "vraag": null,
+  "reden": "Turn budget reached (10 council member turns).",
+  "open_vragen": []
+}

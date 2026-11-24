@@ -1,0 +1,18 @@
+{
+  "nr": 1,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "engineer",
+  "vraag": "Engineer: Please establish the baseline of the Desync incident on the datanet. Specifically: (1) What are the exact date and time of the first observed Desync onset, and which record IDs document it? (2) Which intervention or configuration change immediately preceded that onset, who authorized it, and was there any off-register or private approval? (3) What measurable log metrics (sync offsets, packet timing, node counts) show the pre-incident baseline versus the onset?",
+  "reden": "No council member has spoken yet, so we need a first grounded anchor for Pillar 1 (intervention and authorization) and the baseline for Pillar 3. The Engineer's perspective is measurable logs from the datatoren, which makes it the most direct source for exact timestamps and record IDs. Its public bias toward datanet progress means we must later cross-check any claim that the network itself was healthy or that an outside actor caused the fault.",
+  "open_vragen": [
+    "Exact date and time of first Desync onset, with record IDs",
+    "Which intervention preceded onset, who authorized it, and whether approval was off-register",
+    "Pre-incident baseline metrics versus onset metrics from logs",
+    "Archmage's claim that Desync is magical corruption must be tested against log evidence",
+    "Guardian Keeper's claim of an intrusion must be tested against log evidence",
+    "Historian must be asked for prior occurrences and their records",
+    "Recovery prerequisites and backup/storage limits remain unexamined"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "nr": 13,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "archmage",
+  "vraag": "The Archmage has not yet spoken, and the magical-corruption claim is still untested against the logs. Please address three points. (1) Historian HIS-106 reports no hapering of the leylijnen in 23 years of datanet use, and HIS-003 and HIS-004 describe the Stille Winter. Does any leyline record show a change on day 10 at 02:40 (ENG-011, ENG-106) or on day 22 at 04:15 (ENG-026, HIS-053)? Give exact dates, times, and record IDs. (2) The Engineer reports only installatielog times and no offset data (ENG-107, ENG-120), and the Guardian's midpoint pulse hypothesis (GUA-103, GUA-104) is unverified. Does any leyline measurement support or contradict a pulse out of step with the Kroonklok? (3) Under what magical mechanism would a corruption of the leylijnen produce the +38% throughput (ENG-012, ENG-120) and the 'half aangekomen' complaint (HIS-036, ENG-107) without any physical breach (GUA-019, GUA-043)? Name the rules or articles you rely on.",
+  "reden": "Four member turns have been used and six remain. The Archmage is the only unspoken role with a direct, untested claim (magical corruption) that bears on the mechanism pillar. Its test requires cross-examination against HIS-106 (no leyline hapering in 23 years), the Guardian's midpoint pulse hypothesis, and the Engineer's admitted lack of offset logs. Oracle and Beast Master can follow later. Beast Master's cable claim is already contradicted by ENG-003 and HIS-105, so it has low remaining value. Oracle's prophecy is untested and can be assessed after the mechanism is clarified.",
+  "open_vragen": [
+    "Who gave the off-register approval in ENG-105, and is there any register entry for it?",
+    "Does the Guardian's midpoint pulse-phase hypothesis (GUA-103, GUA-104) match any offset logs for day 9-10 and day 22?",
+    "What is the exact arithmetic forecast for the next recurrence after day 22 04:15, given the recurrence intervals in the records?",
+    "What are the recovery prerequisites, backup and storage limits (ENG-112, ENG-045, ENG-092), and gradual shutdown rules for the hulpslag?",
+    "Does the Archmage's magical corruption claim hold against the logs (ENG-012, ENG-107, ENG-026, HIS-106)?",
+    "Does the Oracle's pattern or prophecy add any testable prediction, or is it untested?",
+    "Why do HIS-036 (vastgelegd dag 9 23:55, gebeurd dag 10 04:50) and HIS-053 (vastgelegd dag 22 01:50, gebeurd dag 22 04:15) break the vastgelegd-equals-gebeurd rule in HIS-103, and do they indicate record tampering?",
+    "Which source holds the day-10 pre-activation throughput baseline needed to test the +38% claim?"
+  ]
+}

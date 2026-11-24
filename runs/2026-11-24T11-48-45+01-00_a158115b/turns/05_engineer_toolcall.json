@@ -1,0 +1,9 @@
+{
+  "nr": 5,
+  "ronde": 1,
+  "spreker": "engineer",
+  "soort": "toolcall",
+  "tool": "lees_kennisbron",
+  "argumenten": {},
+  "pad": "https://mcp.findingsolutions.be/engineer/mcp"
+}

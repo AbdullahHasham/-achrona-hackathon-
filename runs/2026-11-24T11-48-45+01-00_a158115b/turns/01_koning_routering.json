@@ -1,0 +1,16 @@
+{
+  "nr": 1,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "historian",
+  "vraag": "Please establish the foundational baseline for the Desync at Achrona: (1) which charters, synchronization rules, or archival procedures govern the shared system synchronization, and what shutdown constraints and required prerequisite backups apply before any intervention; (2) the exact date and time of the first recorded anomaly and the pre-incident baseline readings; (3) list every record ID in your archive that documents the intervention, its authorization, and any subsequent adjustments, with exact dates and times.",
+  "reden": "This is the opening turn with no council evidence yet. As King I need the historian's archival view first, since Pillar 4 requires foundational charters, backups and shutdown constraints, and Pillar 1 and 3 require exact dates and record IDs. The historian's public bias toward archive integrity means I must later cross-check any claim of a clean archive against other roles, but a baseline from the archive is the most natural anchor for the timeline.",
+  "open_vragen": [
+    "Which charters and synchronization rules govern the shared system, and what shutdown constraints and prerequisite backups apply?",
+    "What is the exact date and time of the first anomaly, and what was the pre-incident baseline?",
+    "Who authorized the intervention, on what exact date and time, and which record IDs document it?",
+    "What subsequent adjustments or escalations occurred, and what were the exact per-date severity values?",
+    "Does the recurrence period differ from the observed sampling gaps, and what is the exact predicted date of the next occurrence?"
+  ]
+}

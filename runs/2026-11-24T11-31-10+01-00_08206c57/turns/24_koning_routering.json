@@ -1,0 +1,16 @@
+{
+  "nr": 24,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "historian",
+  "vraag": "Historian: (1) The Archmage now admits signing ARC-106 (dag 8, 'Niet ruchtbaar maken tot het draait... Deze brief hoeft niet in het register') and says it matches ENG-105's 'hogerhand' wording. Using your archive, is ARC-106 or any dag 8 brief from the Archmage recorded anywhere in the register or kroniek, and does any charter name a 'hogerhand' authority that could have authorised a second pols? Cite the exact record IDs and articles. (2) HIS-110 says the maat should be restored only after a copy of the register is made. What is the charter article for that backup rule, what storage or operational limit applies to the copy, and how long does it take? Does any rule warn against abrupt shutdown of a second pols, and does it permit gradual fijnregeling in 0,1% steps (ENG-061, ENG-114)? (3) For HIS-036 (vastgelegd dag 9 23:55, gebeurd dag 10 04:50) and HIS-053 (vastgelegd dag 22 01:50, gebeurd dag 22 04:15), do the register or kroniek show the original entry time, or did a later clerk edit the field? Please cite any amendment or correction record.",
+  "reden": "The Historian is the only member who can check the authorisation chain against a register and the recovery rules against charters. The Archmage's self-admission of ARC-106 is a cross-role claim that needs register confirmation, since the Engineer and Guardian Keeper cannot verify ARC IDs. The HIS-110 backup prerequisite and any storage limit are still unanswered, and Pillar 4 (safe recovery) remains open. The timestamp inversions are also still unexplained and need an integrity check from the archive side. The recurrence question is now largely settled at four days by Beast Master, Oracle and the Engineer's concession, so it does not need another turn.",
+  "open_vragen": [
+    "Is ARC-106 (dag 8) recorded in the register, and which named 'hogerhand' authority, if any, could have authorised it?",
+    "What charter article governs the HIS-110 backup-before-restore rule, and what storage or operational limit applies to the register copy?",
+    "Does any charter warn against abrupt shutdown of a second pols and permit gradual 0,1% fijnregeling (ENG-061, ENG-114)?",
+    "Are the vastgelegd-before-gebeurd inversions (HIS-036, HIS-053, HIS-112, HIS-116, GUA-115) edits, clerical errors, or clock artifacts?",
+    "Does GUA-043 (poort oost, dag 22 04:15) confirm an inside-opened shield gap under GUA-104, and is there a gradual control for the second pols?"
+  ]
+}

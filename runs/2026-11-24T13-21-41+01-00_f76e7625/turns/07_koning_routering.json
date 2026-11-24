@@ -1,0 +1,17 @@
+{
+  "nr": 7,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "guardian_keeper",
+  "vraag": "Engineer attributes the dag 22 firewall tightening at 04:20 (ENG-027) to a suspected intrusion, and logged three minutes of packet loss on poort oost at 04:15 (ENG-026, werkboek ENG-110). (1) Do your shield or gate records show any breach, intrusion, or failure on dag 10 or dag 22, and at what exact times? Please cite each record ID separately. (2) Which individual protocol or charter articles govern shield integrity seals and shutdown or reconnection of the shields, and do any of them forbid or constrain a full shutdown during the hulpslag activation on dag 10 at 02:40 (ENG-011)? Give each article its own ID, with no ranges. (3) Did any shield or gate sign off on the dag 9 approval 'Goedkeuring verkregen van hogerhand. Niet ruchtbaar maken tot het draait' (ENG-105), and who signed it?",
+  "reden": "Engineer's firewall attribution is unverified and contradicts the Historian's clerical-error explanation (HIS-112, HIS-116). Guardian Keeper is the only shield authority and has not spoken, so their records can confirm or refute an intrusion and show whether shield failure modes exist. Their shutdown constraints are also needed for Pillar 4, and the off-register approval question has not been traced to a named authority.",
+  "open_vragen": [
+    "Which individual record IDs govern the Desync synchronization rules, and which govern shutdown and reconnection constraints, each stated one by one?",
+    "Who authorized the hulpslag intervention, and is the dag 9 approval (ENG-105) traceable to a named authority?",
+    "What were the exact per-date Desync severity values, and did severity step up after the dag 24 hulpslag adjustments (ENG-029, ENG-062)?",
+    "Which subsystems (shields, energy lines, archive timestamps, wildlife) show failure modes, and which protocol-level rule covers each?",
+    "What is the true recurrence period, and what is the exact arithmetic prediction of the next occurrence day?",
+    "What storage or operational limits and interim security gaps apply to safe recovery, and what mitigations are proposed?"
+  ]
+}

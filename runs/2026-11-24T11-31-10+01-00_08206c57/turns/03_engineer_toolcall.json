@@ -1,0 +1,11 @@
+{
+  "nr": 3,
+  "ronde": 1,
+  "spreker": "engineer",
+  "soort": "toolcall",
+  "tool": "zoek",
+  "argumenten": {
+    "term": "desync"
+  },
+  "pad": "https://mcp.findingsolutions.be/engineer/mcp"
+}

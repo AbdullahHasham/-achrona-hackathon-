@@ -1,0 +1,21 @@
+{
+  "nr": 25,
+  "ronde": 2,
+  "spreker": "historian",
+  "soort": "toolcall",
+  "tool": "toon",
+  "argumenten": {
+    "ids": [
+      "HIS-035",
+      "HIS-036",
+      "HIS-053",
+      "HIS-103",
+      "HIS-109",
+      "HIS-110",
+      "HIS-112",
+      "HIS-114",
+      "HIS-116"
+    ]
+  },
+  "pad": "https://mcp.findingsolutions.be/historian/mcp"
+}

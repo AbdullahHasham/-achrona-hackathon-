@@ -1,0 +1,16 @@
+{
+  "nr": 27,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "archmage",
+  "vraag": "You admit that ARC-106 (dag 8, addressed to 'de datatoren buiten de burchtmuur') reads 'Niet ruchtbaar maken tot het draait' and 'Deze brief hoeft niet in het register', and that it closely matches ENG-105's 'Goedkeuring verkregen van hogerhand' and 'Niet ruchtbaar maken tot het draait'. (1) Who gave you the authority to issue ARC-106, and does your source record any superior, named signatory or hogerhand decision behind it? (2) Your ARC-109 (dag 9) says 'zet het datanet af', while ARC-106 approves the datanet running on its own pulse. Which of these instructions was in force on dag 10 at 02:40 when ENG-011 activated the second pols, and was ARC-109 ever countermanded? (3) Did you send ARC-106 to the datatoren (Engineer's team) directly, and is there any delivery or receipt record for it on dag 8 near 14:10 (ENG-008)?",
+  "reden": "The Engineer's ENG-105 says approval came from 'hogerhand' with no name or register entry, and the Archmage has self-identified ARC-106 as the closest match. Cross-examination is required because the Archmage's account (ARC-106 signed by the Archmage; ARC-109 contradicting it) is the only candidate for the off-register authority, and the approval chain for pillar 1 remains unresolved. Historian and Guardian Keeper confirmed no hogerhand record in their sources, so the Archmage, who sent the letter, is the only role able to answer whether a higher authority existed or whether the Archmage claimed authority they did not hold.",
+  "open_vragen": [
+    "Who, if anyone, is the 'hogerhand' authority cited in ENG-105, and does ARC-106 or any other record name them?",
+    "Which charter article or storage limit governs the backup before merging pols (HIS-110), and where do the 0,1% fijnregeling steps (ENG-061, ENG-114) come from?",
+    "Why do vastgelegd_op values precede gebeurd_op in HIS-036, HIS-053, HIS-112, HIS-116 and GUA-115, and are these edits or clock artifacts?",
+    "Does GUA-043 (poort oost, dag 22 04:15) confirm an inside-opened shield gap under GUA-104 and is there a gradual control for the second pols?",
+    "Is the 4-day recurrence (BEA-113, BEA-091/092, ORA-142, ORA-130) confirmed as the full series, and does dag 22 sit on it?"
+  ]
+}

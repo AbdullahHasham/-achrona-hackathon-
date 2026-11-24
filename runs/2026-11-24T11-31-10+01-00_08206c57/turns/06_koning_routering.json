@@ -1,0 +1,17 @@
+{
+  "nr": 6,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "historian",
+  "vraag": "Engineer reports an off-register approval 'Goedkeuring verkregen van hogerhand' (ENG-105) for a second clock source activated dag 10 02:40 (ENG-011, ENG-106), and claims the first anomalous sync event was dag 10 04:50 (ENG-107) with no installatielog row between ENG-012 (03:00) and ENG-013 (06:15). Please (1) state the exact archive entries (record IDs, dates, times) for any Desync or clock-source precedent, including whether the first recurrence is recorded on dag 10 or elsewhere; (2) identify any archive record matching a dag 9 approval or a dag 8 kristalresonator delivery (ENG-008) and whether a named authority signed it; (3) confirm or refute the 04:50 gap and whether the archive has a row that the installatielog omits.",
+  "reden": "Engineer is the only role that has spoken, and their account rests on a werkboek entry (ENG-107) absent from the installatielog and an approval with no name or register number. Historian holds the archive and is the natural cross-check for both the approval's provenance and the missing 02:40-06:15 window. Engineer also admits their attribution of ENG-026 to hackers (ENG-110) is unsupported, which needs independent historical verification before accepting any timing pattern.",
+  "open_vragen": [
+    "Exact onset date and time of the Desync (first anomalous sync event candidate: dag 10 04:50, ENG-107, unverified)",
+    "Who performed and who authorized the intervention; whether 'hogerhand' approval (ENG-105) is off-register and whether any archive record names the authority",
+    "Record IDs documenting the first anomalous sync event beyond ENG-107 and the missing installatielog window 03:00-06:15",
+    "Whether the recurrence period is consistent across logged events (ENG-026 dag 22 04:15 candidate) or affected by sampling gaps",
+    "Whether ENG-026 (poort oost, pakketverlies) was caused by the clock-beat mismatch rather than hackers (ENG-110), as Engineer now concedes",
+    "Whether fijnregeling steps (ENG-061, ENG-114, 0,1%) are safe under the archive's shutdown charters, and whether a backup prerequisite exists"
+  ]
+}

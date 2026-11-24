@@ -1,0 +1,18 @@
+{
+  "nr": 7,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "guardian_keeper",
+  "vraag": "Guardian Keeper, the Engineer says ENG-027 records firewall rules tightened \"na vermoeden van inbraak\" and shows suspicion, not evidence of intrusion, and the Engineer withdrew the external-hacker explanation for ENG-026 and ENG-110. Please answer three things: (1) Do your shield or perimeter logs for day 9 to day 22 show any breach, bypass, or unauthorized access that would support an intrusion claim, and if so, which record IDs and exact times? (2) Who ordered the firewall tightening recorded in ENG-027, on what date and under which authority, and does that order appear in any register? (3) Does the hulpslag activation at day 10 02:40 (ENG-011, ENG-106) or the approval in ENG-105 (\"Goedkeuring verkregen van hogerhand\") have any link to shield changes, and can you name who on your side was informed of it?",
+  "reden": "The Engineer and Historian have both given evidence on the activation (ENG-011, ENG-106), the approval (ENG-105), and the forest cables (ENG-003, HIS-105), and the Engineer has withdrawn the intrusion claim. The approver is still unidentified, and the only intrusion-related record (ENG-027) is suspicion. The Guardian Keeper is the one unspoken role whose domain covers both intrusion and possible authorization channels for security changes, so this question tests the Pillar 1 authorization gap and the Pillar 4 interim security gap at once. Historian's HIS-036 and HIS-053 timestamp inconsistencies also need a security-side check on whether any record was altered.",
+  "open_vragen": [
+    "Who gave the off-register approval in ENG-105, and is there any register entry for it?",
+    "Did the day-10 hulpslag activation (ENG-011, ENG-106) involve any shield or perimeter change, and who authorized it?",
+    "Is there evidence of intrusion or unauthorized access behind the day-22 packet loss (ENG-026, ENG-110, HIS-053), or is the firewall tightening in ENG-027 only suspicion?",
+    "Does the Archmage's magical corruption claim hold against the logs (ENG-012, ENG-107, ENG-026)?",
+    "Why do HIS-036 and HIS-053 have vastgelegd timestamps earlier than gebeurd, and do they indicate record tampering?",
+    "What are the recovery prerequisites, backup and storage limits, and gradual shutdown rules for the hulpslag?",
+    "What is the exact arithmetic forecast for the next recurrence after day 22 04:15, given the recurrence intervals in the records?"
+  ]
+}

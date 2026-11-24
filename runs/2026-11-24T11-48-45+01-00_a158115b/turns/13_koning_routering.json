@@ -1,0 +1,16 @@
+{
+  "nr": 13,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "beast_master",
+  "vraag": "You have not yet spoken, and your wildlife observations are the only independent check on the dag 10 onset. Please answer three things. (1) The Engineer's ENG-107 and the Historian's HIS-035 place the first datanet anomaly at dag 10 04:45-04:50. Did you record any unrest among animals in or around the Burchtader on dag 10, and at what time did you first observe it? (2) The Historian's HIS-036 is logged at dag 9 23:55, before the dag 10 04:50 event it describes. Do any of your observations from dag 9 late evening or dag 10 early morning carry timestamps that either confirm or contradict that inversion? (3) Did you record any unrest on dag 22 near poort oost around 04:15, the time the Guardian Keeper's GUA-043 gives for the shield opening, and does your observation timing match the Historian's HIS-053 vastgelegd entry at 01:50? Please quote your record IDs and give the exact times for each.",
+  "reden": "Beast Master is unspoken and is the only role able to give an independent, non-archival observation of the dag 10 onset (04:45-04:50) and the dag 22 event. That is needed to test HIS-036's timestamp inversion, which the Historian, Engineer, and Archmage all say they cannot verify. The Keeper's GUA-043/044 timings also need an outside check against HIS-053. Beast Master's bias (protection of animals and forest) is untested, so I must check any unrest claim against the measured timestamps rather than accept it as proof of a cause.",
+  "open_vragen": [
+    "Does the Beast Master's wildlife record show unrest at dag 10 or dag 22, and does it corroborate the 04:45-04:50 onset?",
+    "Does the HIS-036 timestamp inversion (vastgelegd dag 9 23:55 before gebeurd dag 10 04:50) have any cross-check from the Beast Master or Oracle sources?",
+    "What is the Oracle's pattern or predicted next occurrence date, and on what arithmetic basis (recurrence dates dag 10, 22, 24 versus measurement days dag 7, 14, 21, 28, 35, 42)?",
+    "Were the Archmage's ARC-106 (dag 8) off-register permission and the Engineer's ENG-105 (dag 9) 'hogerhand' approval the same act, and does the timing fit before the dag 10 02:40 activation in ENG-011?",
+    "Does the Engineer's per-date severity series (+38% dag 10-16 per ENG-012/ENG-120; 5% step-up dag 24 per ENG-029/ENG-062; 0.1% test dag 12 per ENG-061) show a stepped rise after the dag 24 adjustment, and can any other role supply per-date severity values?"
+  ]
+}

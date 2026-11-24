@@ -1,0 +1,15 @@
+{
+  "nr": 16,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "oracle",
+  "vraag": "Oracle, you have not yet spoken, and Pillar 3 (forecast) is still open. (1) Beast Master cites BEA-118 saying you called dag 33 the heaviest night, but BEA-071 records dag 33 as 'conjunctienacht, alles rustig.' Which record IDs in your source support your dag 33 call, and what per-date intensity did you assign to dags 10, 22 and 42? (2) Beast Master's BEA-113 and BEA-091 show a four-day cycle (dags 10, 14, 18, 22, 26, 30, 34, 38, 42), while the Archmage's CSV reflects a seven-day sampling grid. Does your vision favour a four-day cadence, which would put the next occurrence on dag 46, or a seven-day cadence, which would put it on dag 49, and why? (3) The Historian's HIS-035 and HIS-036 and the Guardian's GUA-019 and GUA-043 place the dag 10 and dag 22 openings near 04:15 and 04:47. Does your source contain any sign that preceded those openings, and which record IDs carry it?",
+  "reden": "Oracle has no turns yet and is the only unspoken role. Pillar 3 needs an exact next-occurrence prediction and per-date severity, which no role has supplied: Engineer, Guardian Keeper and Historian confirm they have no per-date Desync values, and the Archmage has no dag 9, 10 or 22 readings. BEA-118 directly contradicts BEA-071 on dag 33, so I route to Oracle to test that claim before any forecast is accepted. The cadence conflict (four-day BEA-113 versus seven-day CSV) must be settled by a forecaster, not by a further sampling argument.",
+  "open_vragen": [
+    "Oracle: which record IDs support BEA-118's claim that dag 33 was the heaviest night, given BEA-071 records it as calm?",
+    "Oracle: what per-date intensity do you assign to dags 10, 22 and 42, and do the values step up after the dag 24 secondary adjustments (ENG-029, ENG-062)?",
+    "Oracle: does the four-day cycle (next dag 46) or the seven-day grid (next dag 49) fit your vision, and which record IDs support it?",
+    "Oracle: does any sign in your source precede the dag 22 04:15 opening (GUA-043, GUA-115), and which IDs carry it?"
+  ]
+}

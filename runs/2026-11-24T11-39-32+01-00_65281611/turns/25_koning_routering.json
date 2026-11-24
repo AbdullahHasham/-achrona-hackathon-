@@ -1,0 +1,18 @@
+{
+  "nr": 25,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "archmage",
+  "vraag": "You disclosed ARC-106 (dag 8) as an off-register letter from your office that says the net may run 'op eigen maat' and adds 'Niet ruchtbaar maken tot het draait'. The Engineer reports ENG-105 (werkboek.md, dag 9) as 'Goedkeuring verkregen van hogerhand. Niet ruchtbaar maken tot het draait, werd me gezegd', with no name, rank, or time. (1) Did ARC-106 or any other message from your office pass to the Engineer or to the hulpslag team, and on which date and by which channel? (2) Who in your office, or above it, was the 'hogerhand' that ARC-106 relayed, and is that person named in any ARC-101 to ARC-116 entry? (3) Did your office know of the hulpslag activation at dag 10 02:40 (ENG-011), or only of a test or proefopstelling on dag 9 at 16:45 (ENG-010)? Please answer with the exact ARC record IDs, separated by commas.",
+  "reden": "Pillar 1 (intervention and authorization) is still open. The approver is unnamed in ENG-105, and the Archmage's ARC-106 is the only candidate match with the same secrecy wording. The Engineer says the wording match is not a link, and the Archmage has claimed responsibility without naming who relayed the approval. Cross-examining the Archmage directly on the chain of approval, and whether ARC-106 covers the activation itself, is the highest-value next step. Two turns remain, and this closes a contradiction between the Engineer and Archmage before any mechanism or forecast claim is accepted.",
+  "open_vragen": [
+    "Who is the 'hogerhand' in ENG-105, and is that person named in any ARC record?",
+    "Does ARC-106 authorize the hulpslag activation at dag 10 02:40 (ENG-011), or only a dag 9 proefopstelling (ENG-010)?",
+    "Do HIS-036 and HIS-053 refer to the same events as ENG-107 and ENG-026, and are their vastgelegd timestamps tampered?",
+    "Does the Guardian's midpoint-pulse hypothesis (GUA-103, GUA-104) match any offset log for dag 9-10 or dag 22? None has been produced.",
+    "Is the four-day cycle (BEA-113, BEA-019, BEA-046, BEA-091, ORA-110 to ORA-142) real, and what is the arithmetic forecast for the next occurrence after dag 42?",
+    "What pre-activation throughput baseline tests the +38% claim (ENG-012)?",
+    "Which backup, storage, and gradual shutdown rules apply to the hulpslag, given ENG-114 (0.1% steps), ENG-112, ENG-045, and ENG-092?"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "nr": 23,
+  "ronde": 2,
+  "spreker": "engineer",
+  "soort": "toolcall",
+  "tool": "toon",
+  "argumenten": {
+    "ids": [
+      "ENG-105",
+      "ENG-011",
+      "ENG-010"
+    ]
+  },
+  "pad": "https://mcp.findingsolutions.be/engineer/mcp"
+}

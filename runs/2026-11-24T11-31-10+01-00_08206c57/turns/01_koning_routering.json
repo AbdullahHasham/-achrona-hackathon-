@@ -1,0 +1,15 @@
+{
+  "nr": 1,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "engineer",
+  "vraag": "Describe the Desync incident from the datatoren logs: what exact onset date and time is recorded, which intervention or configuration change immediately preceded it, and which record IDs (format like LOG-0001) document the first anomalous synchronization event? Also state who authorized the change and whether that approval appears in the official register or only off-register.",
+  "reden": "No council member has spoken yet, so the first priority is Pillar 1 (intervention) and Pillar 3 (exact onset) from the most measurable source. The Engineer grounds the investigation in logs and can establish a hard timestamp and a record ID baseline before other roles introduce interpretations, which are prone to bias.",
+  "open_vragen": [
+    "Exact onset date and time of the Desync",
+    "Who performed and who authorized the intervention, and whether the approval is off-register",
+    "Record IDs documenting the first anomalous sync event",
+    "Whether the recurrence period is consistent across logged events or affected by sampling gaps"
+  ]
+}

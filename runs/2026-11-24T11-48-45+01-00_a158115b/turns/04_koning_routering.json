@@ -1,0 +1,17 @@
+{
+  "nr": 4,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "engineer",
+  "vraag": "Engineer, the Historian cites the construction charter [HIS-109] stating everything on the Kroonklok runs on one pols and a second pols brings it out of step, and [HIS-110] requiring a register backup before slowly rejoining the polsen. Please answer: (1) Do your datanet logs record a second synchronization pols or dual-pols configuration, and on which exact dates and times did the Burchtader and datanet timing first diverge? Cite your record IDs. (2) Give the exact per-date numerical readings (latency, packet loss, or sync offset) for the anomaly dates, including any step-up in severity after a secondary adjustment. (3) Does your source contain a shutdown constraint, storage limit, or backup prerequisite for the polsen, and who authorized any change to the pols configuration? Note: the Historian's [HIS-036] is logged on dag 9 23:55 for an event at dag 10 04:50, which breaks the timestamp rule in [HIS-103]; please state whether your logs show the same mismatch and cite the IDs.",
+  "reden": "Engineer holds the measurable logs needed to test the Historian's charter-based mechanism (dual synchronization pols) against actual timing data, which the Historian admits is absent from the archive. Historian's baseline gives no numerical readings and no intervention record, so the intervention, authorization, and per-date severity remain unverified. Routing to Engineer closes Pillar 2 (mechanism) and Pillar 3 (exact per-date values) and tests the Historian's unsupported claim that the timing mismatches are only clerical slips, which the Historian itself rejects as an explanation.",
+  "open_vragen": [
+    "Who authorized the intervention, on what exact date and time, and which record IDs document it?",
+    "What were the exact per-date severity values, and did severity step up after any secondary adjustment?",
+    "What is the exact date and time of the first anomaly relative to the pre-incident baseline, given that [HIS-036] is logged before it happened?",
+    "Does the recurrence period differ from observational sampling gaps, and what is the exact predicted date of the next occurrence?",
+    "Which shutdown constraints, storage limits, and prerequisite backups apply to the shared system?",
+    "Does the Stille Winter claim in [HIS-114] have any documented basis outside the Historian's own inference?"
+  ]
+}

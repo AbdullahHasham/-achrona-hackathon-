@@ -1,0 +1,18 @@
+{
+  "nr": 10,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "engineer",
+  "vraag": "Guardian Keeper claims in GUA-103 and GUA-104 that the hulpslag pulse could place outside traffic at Kroonklok midpoints, and that both openings (GUA-019 day 10 04:47, GUA-043 day 22 04:15) fall in the 03:00-06:00 window with no rondes (GUA-106). (1) From your day 9-10 and day 22 offset and timing logs, what was the hulpslag pulse phase relative to the Kroonklok tick at 02:40, 04:15 and 04:47, and does any packet arrive midway between ticks? (2) Your ENG-011 says the hulpslag runs separately from the Kroonklok. What is its interval, and from the ENG-120 day-16 data, is the +38% throughput still present and stable? (3) Using the recurrence dates in HIS-035, HIS-036 and HIS-053 (day 10 and day 22 at 04:15), what is the exact interval, and what does it predict for the next occurrence? Also, what recovery prerequisites, backup and storage limits, and gradual shutdown rules apply to the hulpslag?",
+  "reden": "Guardian Keeper's midpoint hypothesis is the only mechanism that links the shield openings to the hulpslag, and it is untested. It depends on pulse-phase timing data that only the Engineer holds. The Engineer also has to supply the recurrence interval for the forecast, and no role has yet given the recovery prerequisites or backup and storage limits for the hulpslag. Historian and Guardian have not given a reliable interval, so the Engineer is the highest-value next speaker for pillars 2, 3 and 4.",
+  "open_vragen": [
+    "Who gave the off-register approval in ENG-105, and is there any register entry for it?",
+    "Is the Guardian's midpoint pulse-phase hypothesis (GUA-103, GUA-104) supported by the day 9-10 and day 22 offset logs?",
+    "What is the exact arithmetic forecast for the next recurrence after day 22 04:15, given the recurrence intervals in the records?",
+    "What are the recovery prerequisites, backup and storage limits, and gradual shutdown rules for the hulpslag?",
+    "Does the Archmage's magical corruption claim hold against the logs (ENG-012, ENG-107, ENG-026)?",
+    "Does the Oracle's pattern or prophecy add any testable prediction, or is it untested?",
+    "Why do HIS-036 and HIS-053 have vastgelegd timestamps earlier than gebeurd, and do they indicate record tampering?"
+  ]
+}

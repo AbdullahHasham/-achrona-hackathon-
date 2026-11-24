@@ -1,0 +1,18 @@
+{
+  "nr": 4,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "engineer",
+  "vraag": "Engineer, the Historian's HIS-103 states every record is written on the Kroonklok tick so vastgelegd_op always equals gebeurd_op, yet HIS-035, HIS-036 and HIS-053 show vastgelegd_op before or after gebeurd_op by hours (HIS-036 logged dag 9 23:55 for an event at dag 10 04:50; HIS-053 logged dag 22 01:50 for dag 22 04:15). (1) Do your datanet logs show a second time pulse or sync drift on dag 10 and dag 22, and what exact timestamps and per-date Desync severity values do they hold? (2) Which individual record IDs in your source govern the datanet synchronization rules and any shutdown or reconnection constraints, each with its own ID? (3) Did any intervention or secondary adjustment occur on the datanet, who authorized it, and at what exact date and time? Quote the record IDs for each.",
+  "reden": "The Historian blamed the timestamp mismatches on clerical error (HIS-112, HIS-116) while also citing a rule that makes them impossible (HIS-103); that contradiction needs a measurable check. The Engineer's logs are the only independent source that can confirm or refute a second pulse, and Pillar 2 (synchronization rules, each with an individual ID) and Pillar 1 (intervention and authorization) remain unevidenced. The Historian's HIS-110 backup prerequisite also needs the Engineer's shutdown constraints to be assessed.",
+  "open_vragen": [
+    "Which individual record IDs govern the Desync synchronization rules and shutdown constraints, stated one by one?",
+    "Who authorized the intervention, and were there any off-register or private approvals with exact dates and times?",
+    "What is the exact pre-incident baseline and onset date/time of the Desync?",
+    "What were the exact per-date severity values, and did severity step up after any secondary adjustment?",
+    "Which subsystems (shields, energy lines, archive timestamps, wildlife) show failure modes, and which protocol-level rule covers each?",
+    "What is the true recurrence period, and what is the exact arithmetic prediction of the next occurrence day?",
+    "What storage or operational limits and interim security gaps apply to safe recovery, and what mitigations are proposed?"
+  ]
+}

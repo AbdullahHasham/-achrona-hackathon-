@@ -1,0 +1,7 @@
+{
+  "nr": 22,
+  "ronde": 3,
+  "spreker": "koning",
+  "soort": "bericht",
+  "tekst": "Council consensus: the Kroonklok's shared baseline rule (HIS-109, HIS-110) was broken when a second, unsynchronized pols was activated on dag 10 at 02:40 under an off-register permission granted by the Archmage (ARC-106, ENG-105, ENG-011). The Archmage admits this breach of gezag. The Engineer's 5% step-up on dag 24 at 11:00 (ENG-029, ENG-062) escalated the problem. Dag 22 poort oost opened at 04:15 (GUA-043, ENG-026), and the HIS-053 01:50 timestamp is a logging inversion, not the event time. Heavy nights recur every 4 days from dag 10 (ORA-110 to ORA-142), with wolf and herd onset at 04:15 to 04:50 (BEA-019, BEA-046). Dispute resolutions: the hacker attribution is withdrawn (ENG-110 vs ENG-026, ENG-027); the datanet-pollutes-leylines claim remains unverified inference (ARC-109, ARC-116); shield-strength data for the 5% step-up is absent from the Keeper's records (GUA-101 to GUA-110). Recovery order: reject abrupt shutdown, make a full register backup first, then gradual re-synchronization and revert the escalation, then interim patrols for the predicted dag 46 window, then governance safeguards. Forecast: next heavy night on dag 46 (42 plus 4)."
+}

@@ -1,0 +1,18 @@
+{
+  "nr": 22,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "engineer",
+  "vraag": "Archmage ARC-106 (dag 8) says the net may run 'op eigen maat', contains 'Niet ruchtbaar maken tot het draait', and states 'Deze brief hoeft niet in het register', and it is one day before the ENG-105 approval you cite (dag 9, 'Goedkeuring verkregen van hogerhand. Niet ruchtbaar maken tot het draait'). Please answer three things: (1) Quote the full ENG-105 entry with its exact date, time, and any signature, initials, or werkboek field that names the approver. (2) Does ENG-105 mention a letter, a dag 8 reference, or ARC-106, or is the match only in wording? (3) Is ENG-011 (dag 10, 02:40 activation) logged after ENG-105, and does any entry between dag 8 and dag 10 record the approver's identity or rank?",
+  "reden": "Pillar 1 is still open: the approver is unnamed, and the Archmage has disclosed an off-register letter whose wording closely matches ENG-105. The Engineer is the only role that cites ENG-105 as a source, so the Engineer must confirm the full text and any signature field. This cross-examines the Archmage's disclosure against the Engineer's claim and tests whether the approval sequence (dag 8 letter, dag 9 approval, dag 10 activation) holds. The Historian has already said ENG-105 is not in its archive, so the Engineer's own record is the only place to check it.",
+  "open_vragen": [
+    "Who gave the approval in ENG-105, and does it match ARC-106 (dag 8)? Is the approver named in any signature or werkboek field?",
+    "Do ENG-003, ENG-010, ENG-027 and ENG-105 (Engineer) and HIS-035, HIS-036 and HIS-053 (Historian) refer to the same records? The Engineer says they are in its installatielog; the Historian says they are not in its archive.",
+    "Does the Guardian's midpoint-pulse hypothesis (GUA-103, GUA-104) match any offset logs for dag 9-10 and dag 22? None have been produced.",
+    "Is the Beast Master's four-day cycle (BEA-113, BEA-019, BEA-046, BEA-091) real, and does the Oracle's ORA-110 to ORA-142 series confirm it? What is the exact arithmetic forecast for the next recurrence (dag 46 is extrapolation only)?",
+    "What is the dag 10 pre-activation throughput baseline needed to test the +38% claim (ENG-012)?",
+    "Why do HIS-036 and HIS-053 break the vastgelegd-equals-gebeurd rule in HIS-103, and do they indicate record tampering?",
+    "What recovery prerequisites, backup and storage limits (ENG-112, ENG-045, ENG-092), and gradual shutdown rules apply to the hulpslag, given the 0.1% step rule in ENG-114?"
+  ]
+}

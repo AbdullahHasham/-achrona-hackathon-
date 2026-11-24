@@ -1,0 +1,18 @@
+{
+  "nr": 19,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "oracle",
+  "vraag": "Oracle, you are the only unspoken role, so please test your pattern against the record-backed timeline. (1) Beast Master BEA-113 and BEA-019, BEA-046, BEA-055, BEA-091 describe a four-day night cycle of onrust 4-5 at 04:15-04:50 on days 10, 14, 18, 22, 26, 30, 34, 38 and 42, and BEA-071 is an exception on day 33. Engineer ENG-107 and ENG-026 and Historian HIS-036 and HIS-053 give only day 10 04:50 and day 22 04:15, a 12-day gap that fits neither a 4-day nor a 12-day cycle without aliasing. Which, if any, of these periods does your pattern predict, and what exact date and time does it give for the next occurrence after day 22 04:15? (2) Guardian GUA-019 and GUA-043 place the only inside-only shield openings at day 10 04:47 and day 22 04:15, and GUA-106 says no rondes run 03:00-06:00. Does your sign require a particular hour or pulse phase, and can it be falsified against the missing day 14, 18 and 26 shield logs? (3) Historian HIS-103 says vastgelegd always equals gebeurd, yet HIS-036 and HIS-053 break that rule. Does your pattern treat these timestamps as trustworthy, or does it require their original sources to be checked before any prediction is made?",
+  "reden": "Six member turns are used. The chain of custody is now partly closed: the Archmage has claimed ARC-106 (day 8, 'Deze brief hoeft niet in het register', 'Niet ruchtbaar maken tot het draait') as an off-register approval close in wording to ENG-105 (day 9), but the Engineer has not confirmed that the two records match and the approver is still not named. Pillar 2 (mechanism) remains unproven: the Guardian's midpoint-pulse hypothesis (GUA-103, GUA-104) has no offset logs, and the Archmage has withdrawn its leyline-pollution mechanism. Pillar 3 is still open: there are only two verifiable events (day 10 and day 22), the Beast Master's four-day night cycle (BEA-113) is an unverified pattern from its own log, and the Historian's timestamp breaks (HIS-036, HIS-053) cast doubt on the dates. The Oracle has not spoken, and its predictive claim is the only remaining untested forecast, so it is the highest-value next turn. Pillar 4 (recovery) has only the 0.1% step rule (ENG-114) and storage limits (ENG-112, ENG-045, ENG-092), with no shutdown charter yet. Because the sources do not overlap, ID verification also remains open.",
+  "open_vragen": [
+    "Who gave the approval in ENG-105, and does it match ARC-106 (day 8) as the Archmage claims? The approver is still unnamed.",
+    "Do the Engineer's ENG-003, ENG-010, ENG-027, ENG-105 and the Historian's HIS-035, HIS-036, HIS-053 refer to the same records, given that the sources do not overlap?",
+    "Does the Guardian's midpoint-pulse hypothesis (GUA-103, GUA-104) match any offset logs for day 9-10 and day 22? None have been produced.",
+    "Is the Beast Master's four-day night cycle (BEA-113, BEA-019, BEA-046, BEA-091) real, and does it match the 12-day gap between day 10 and day 22? What is the exact arithmetic forecast for the next recurrence?",
+    "What is the day-10 pre-activation throughput baseline needed to test the +38% claim (ENG-012)?",
+    "Why do HIS-036 and HIS-053 break the vastgelegd-equals-gebeurd rule in HIS-103, and do they indicate record tampering?",
+    "What recovery prerequisites, backup and storage limits (ENG-112, ENG-045, ENG-092), and gradual shutdown rules apply to the hulpslag, given the 0.1% step rule in ENG-114?"
+  ]
+}

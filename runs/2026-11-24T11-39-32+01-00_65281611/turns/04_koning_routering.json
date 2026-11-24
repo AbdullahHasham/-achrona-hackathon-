@@ -1,0 +1,17 @@
+{
+  "nr": 4,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "historian",
+  "vraag": "Historian, the Engineer reports that the hulpslag was activated on day 10 at 02:40 (ENG-011, ENG-106) after an approval on day 9 recorded only as 'Goedkeuring verkregen van hogerhand. Niet ruchtbaar maken tot het draait' (ENG-105), with no installatielog entry and no named approver. Please answer three things: (a) does your archive hold the approver's name, or any register entry, for ENG-105 or for the day-9 proefopstelling at 16:45 (ENG-010)? (b) Have any earlier hulpslag activations, or Desync-like packet loss or throughput spikes, occurred in Achrona's records, and if so which record IDs and dates? (c) Do your records confirm or contradict the Engineer's claim that ENG-003 shows the forest cables were unchanged since construction, which the Beast Master disputes?",
+  "reden": "The Historian is unspoken and is the only role that can supply prior occurrences, which the previous open questions explicitly require. The Engineer's ENG-105 approval is unnamed and off-register, so pillar 1 (who authorized the intervention) cannot close without archive evidence. The Engineer also contradicts the Beast Master on the cables, and the Historian's ENG-003 check is the cheapest way to settle that contradiction. Routing here before the Archmage or Guardian Keeper keeps the competing magical and intrusion explanations open until they can be tested against records.",
+  "open_vragen": [
+    "Who gave the approval recorded in ENG-105, and is there any register entry for it?",
+    "Did any earlier hulpslag activation or comparable packet-loss or throughput event occur, with record IDs and dates?",
+    "Is the Engineer's ENG-003 claim that the forest cables were unchanged since construction confirmed by archive records?",
+    "Does the Archmage's claim of magical corruption hold against the logs (ENG-012, ENG-107, ENG-026)?",
+    "Does the Guardian Keeper's intrusion claim survive the Engineer's point that ENG-027 shows only suspicion, not evidence?",
+    "What are the recovery prerequisites, backup and storage limits, and gradual shutdown rules for the hulpslag?"
+  ]
+}

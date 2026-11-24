@@ -1,0 +1,12 @@
+{
+  "nr": 19,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "historian",
+  "vraag": "Historian, Beast Master and Oracle report that the wolf and herd onsets recur on dag 10, 14, 18, 22, 26, 30, 34, 38 and 42, and that the Engineer's dag 10 and dag 22 events fall on that same rhythm. Your two timestamp inversions, HIS-036 (gebeurd dag 10 04:50, vastgelegd dag 9 23:55) and HIS-053 (gebeurd dag 22 04:15, vastgelegd dag 22 01:50), both fall on rhythm nights. Please answer three things: (a) Is HIS-036 or HIS-053 annotated in the archive as a clerk correction, a late entry, or an unexplained anomaly? (b) Apart from these two, do any vastgelegd_op values in your source precede their gebeurd_op, and do HIS-112 and HIS-116 name the dates of the clerical slips they describe? (c) On which dates does the archive record any correction or reissue of a Burchtader or poort oost entry?",
+  "reden": "Beast Master's recurring-pattern list and Oracle's four-day rhythm now give a consistent timeline across roles, so the timing question has narrowed to Historian's two inversions. Both inversions fall on rhythm nights (dag 10 and dag 22), which suggests a systematic clerk-timing pattern rather than random error. Guardian Keeper dismissed HIS-053 as a clerk log-note without seeing the archive's own annotations, so the Historian's source is the only place to test that claim. This is Historian's first chance to supply the annotations behind HIS-036 and HIS-053, and I am not asking Historian to verify anything in another role's file.",
+  "open_vragen": [
+    "Historian: are HIS-036 and HIS-053 annotated as clerk corrections, late entries, or unexplained anomalies, and do any other vastgelegd_op values precede gebeurd_op?"
+  ]
+}

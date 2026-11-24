@@ -1,0 +1,18 @@
+{
+  "nr": 28,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "historian",
+  "vraag": "Historian, you flagged HIS-036 (vastgelegd dag 9 23:55, gebeurd dag 10 04:50) and HIS-053 (vastgelegd dag 22 01:50, gebeurd dag 22 04:15) as breaking your own HIS-103 rule. Please answer three things: (1) Do the original register pages for HIS-036 and HIS-053 show who entered the vastgelegd times, and do HIS-112 and HIS-116 name a clerk or a date of correction? (2) Does any archive entry from dag 8 to dag 10 record an approval, a hogerhand, or a request for secrecy that matches ENG-105 or ARC-106, and if so, which record IDs? (3) Does the archive hold any charter or rule on abrupt shutdown, backup prerequisites, or gradual adjustment that applies to a hulpslag, with exact article numbers and record IDs?",
+  "reden": "This is the final available turn, so the question is aimed at the largest remaining gap. Pillar 1 is still unresolved: ENG-105 has no named approver, ARC-106 is an off-register letter whose link to ENG-105 is only a wording match, and the Historian is the only role that can test whether the vastgelegd/gebeurd anomalies are clerical or tampering. Pillar 4 has no archive rule yet, and the Historian is the only remaining source that might hold one. The Engineer and Archmage have both said the link is unproven, so the Historian is the highest-value remaining speaker.",
+  "open_vragen": [
+    "Who is the approver behind ENG-105 ('hogerhand'), and is that person named in any ARC or HIS record?",
+    "Does ARC-106 authorize the hulpslag activation at dag 10 02:40 (ENG-011), or was it only a general permission for the net to run 'op eigen maat'?",
+    "Are HIS-036 and HIS-053 tampered, and do they refer to the same events as ENG-107 and ENG-026?",
+    "Does any offset or phase log for dag 9 to 10 or dag 22 match the Guardian's midpoint-pulse hypothesis (GUA-103, GUA-104)?",
+    "Does the four-day cycle (BEA-113, BEA-019, BEA-046, BEA-091, ORA-110 to ORA-142) hold, and what is the arithmetic forecast for the next occurrence after dag 42?",
+    "What pre-activation throughput baseline tests the +38% claim (ENG-012)?",
+    "Which backup, storage, and gradual shutdown rules apply to the hulpslag, given ENG-114 (0.1% steps), ENG-112, ENG-045, and ENG-092?"
+  ]
+}

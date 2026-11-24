@@ -1,0 +1,17 @@
+{
+  "nr": 12,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "archmage",
+  "vraag": "Archmage: The Engineer (ENG-011, ENG-106) claims a second unsynchronised pols was activated at dag 10 02:40 and that a 'hogerhand' approval (ENG-105) exists, while the Historian (HIS-109, HIS-110) cites the Kroonklok bouwakte warning that 'een tweede pols ernaast brengt het uit de maat' and that such a pols is only readable on itself. Please state, with exact record IDs and dates, (a) whether any magical authority, leyline register, or Kroonklok charter authorizes a second pulse source and who could have granted 'hogerhand' approval, (b) whether the leylines show any disturbance at dag 10 02:40, 04:45, 04:50 and dag 22 04:15 that matches the 38% throughput spike (ENG-012) and the 3-minute poort oost event (ENG-026, HIS-053, GUA-043), and (c) whether the vastgelegd timestamps earlier than gebeurd_op (HIS-036 dag 9 23:55, HIS-053 dag 22 01:50, GUA-115 01:50) could indicate magical tampering with the record itself.",
+  "reden": "The Engineer and Guardian Keeper both rely on the 'hogerhand' authorization and an unnamed authority without a register entry; the Archmage has not yet been heard on whether any magical authority or leyline register can confirm or refute it. The Historian's claim that the 04:50 gap is an integrity anomaly also needs a magical explanation check. The Archmage is the only unspoken role with direct domain over the authority question and the disturbance mechanism, so this is the highest-value next turn before the Oracle's pattern forecast.",
+  "open_vragen": [
+    "Who performed and who authorized the intervention; is 'hogerhand' (ENG-105) an off-register approval, and does any archive, guardian or leyline record name the authority?",
+    "Do leyline or magical records confirm the onset at dag 10 02:40 (ENG-011) versus first anomaly at 04:45 (HIS-035) / 04:50 (ENG-107, HIS-036)?",
+    "Are the vastgelegd-before-gebeurd timestamps (HIS-036, HIS-053, HIS-112, HIS-116, GUA-115) an integrity breach or a clock-beat artifact?",
+    "Is the fijnregeling in 0,1% steps (ENG-061, ENG-114) safe under the shutdown charters, and does a backup prerequisite exist with stated storage limits?",
+    "Recurrence dag 10 04:50 to dag 22 04:15: is the 12-day interval consistent, and what is the arithmetic forecast for the next occurrence?",
+    "Does the Oracle's pattern reading (dag 10 04:50 plus 12 days) agree with the Engineer's and Historian's records?"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "nr": 26,
+  "ronde": 2,
+  "spreker": "archmage",
+  "soort": "toolcall",
+  "tool": "toon",
+  "argumenten": {
+    "ids": [
+      "ARC-101",
+      "ARC-102",
+      "ARC-103",
+      "ARC-104",
+      "ARC-105",
+      "ARC-106",
+      "ARC-107",
+      "ARC-108",
+      "ARC-109",
+      "ARC-110",
+      "ARC-111",
+      "ARC-112",
+      "ARC-113",
+      "ARC-114",
+      "ARC-115",
+      "ARC-116"
+    ]
+  },
+  "pad": "https://mcp.findingsolutions.be/archmage/mcp"
+}

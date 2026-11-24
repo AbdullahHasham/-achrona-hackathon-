@@ -1,0 +1,18 @@
+{
+  "nr": 15,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "beast_master",
+  "vraag": "Beast Master: Oracle and you have not yet spoken, and the recurrence dag 10 04:50 to dag 22 04:15 remains unchecked. Please report (1) any animal unrest or disturbance records in the burcht or benedenstad around dag 10 04:45-04:50 and dag 22 04:15, with exact timestamps and record IDs; (2) whether animal behaviour logs show a rhythm of disturbance matching a 12-day interval or any other period between dag 10 and dag 22; and (3) whether any animal records cite the datatoren kelder, the Burchtader, or a poort oost event, with record IDs, since the Archmage's ARC-106 and the Guardian Keeper's GUA-043 both leave the cross-domain link unproven.",
+  "reden": "Pillar 3 (verloop) and the cross-domain symptom question are still open. The Beast Master is the only unspoken role that could provide an independent early-warning timestamp for the 04:45-04:50 window, which would test whether HIS-035/HIS-036 and ENG-107 describe a real event or a clock artifact. Routing here avoids a repeat of the Engineer's untested hacker hypothesis (ENG-110) and the Archmage's unverified leyline link (ARC-109, ARC-116).",
+  "open_vragen": [
+    "Who performed and who authorized the intervention; does ARC-106 match ENG-105 'hogerhand' wording, and who signed it?",
+    "Do independent records confirm onset at dag 10 02:40 (ENG-011) versus first anomaly at 04:45 (HIS-035) / 04:50 (HIS-036, ENG-107)?",
+    "Are the vastgelegd-before-gebeurd timestamps (HIS-036, HIS-053, HIS-112, HIS-116, GUA-115) an integrity breach or a clock-beat artifact?",
+    "Is fijnregeling in 0,1% steps (ENG-061, ENG-114) safe under the shutdown charters, and does a backup prerequisite with storage limits exist?",
+    "Recurrence dag 10 04:50 to dag 22 04:15: is the 12-day interval consistent, and what is the arithmetic forecast for the next occurrence?",
+    "Does the Oracle's pattern reading agree with the Engineer's and Historian's records?",
+    "Animal disturbance timestamps around dag 10 04:45-04:50 and dag 22 04:15 (Beast Master)?"
+  ]
+}

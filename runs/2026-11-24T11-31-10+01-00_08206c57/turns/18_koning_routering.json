@@ -1,0 +1,16 @@
+{
+  "nr": 18,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "oracle",
+  "vraag": "The Oracle is the only unspoken role and the Previous open questions ask whether the pattern reading agrees with the Engineer's and Historian's records. Please address: (1) Does your pattern reading support a 12-day recurrence (ENG-107, HIS-036 at dag 10 04:50 and HIS-053/GUA-043 at dag 22 04:15, i.e. dag 22 minus dag 10 = 12 days) or the 4-day animal rhythm claimed in BEA-113 (\"Elke vierde nacht hetzelfde, sinds dag 10\") and BEA-091/092 at dag 42? (2) Do any signs or visions link the 02:40 activation (ENG-011, ENG-012 +38%) to the 04:45-04:50 anomalies (HIS-035, HIS-036, ENG-107, BEA-019, BEA-020)? (3) Can your visions explain the timestamp inversions (HIS-036 vastgelegd dag 9 23:55 before gebeurd dag 10 04:50; HIS-053 vastgelegd dag 22 01:50 before gebeurd 04:15; GUA-115) and the 'hogerhand' approval in ENG-105 versus ARC-106?",
+  "reden": "The Oracle has not spoken and is the only unheard role, so the pattern/recurrence question (12-day versus 4-day rhythm) cannot be closed without it. The Beast Master's 4-day rhythm (BEA-113) conflicts with the 12-day arithmetic the Engineer and Historian rely on (dag 10 to dag 22), and the Oracle is the appropriate arbiter of the pattern. The Oracle's reading must also be cross-checked against the Historian's inversions and the Archmage's self-admitted ARC-106 approval, so no single role's theory goes unchallenged.",
+  "open_vragen": [
+    "Does the Oracle's pattern reading support a 12-day recurrence (dag 10 04:50 to dag 22 04:15) or the Beast Master's 4-day animal rhythm (BEA-113, BEA-091/092)?",
+    "Is ARC-106 (dag 8, 'Niet ruchtbaar maken tot het draait') the same off-register 'hogerhand' approval as ENG-105, and who signed it?",
+    "Are the vastgelegd-before-gebeurd timestamps (HIS-036, HIS-053, HIS-112, HIS-116, GUA-115) an integrity breach or a clock-beat artifact?",
+    "Is fijnregeling in 0,1% steps (ENG-061, ENG-114) safe under the shutdown charters, and does a backup prerequisite with storage limits exist?",
+    "Does GUA-043 poort oost (dag 22 04:15) confirm an inside-opened shield gap under GUA-104, and is there a gradual control for the second pols?"
+  ]
+}

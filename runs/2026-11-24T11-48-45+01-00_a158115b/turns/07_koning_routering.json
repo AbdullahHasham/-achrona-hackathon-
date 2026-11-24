@@ -1,0 +1,18 @@
+{
+  "nr": 7,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "archmage",
+  "vraag": "The Engineer records an own pols for the datanet activated at dag 10 02:40 (ENG-011, ENG-103, ENG-106) and says the Historian's charter (HIS-109, HIS-110) describes a single-pols rule. Does your source document any leyline or Burchtader divergence, interruption, or pols-split on dag 9 or dag 10, and if so, which exact record IDs and times? Also, who authorized the Kroonklok to be run on more than one pols, and does your source name any authority or approval record for that decision (the Engineer cites an unnamed 'hogerhand' approval in ENG-105)?",
+  "reden": "Pillar 1 (intervention and authorization) and Pillar 2 (mechanism) remain unevidenced by any role except the Engineer's unnamed 'hogerhand' approval. The Archmage holds leyline records and has not spoken yet, so it is the highest-value next speaker to test whether the magical side independently shows the dag 10 divergence and who sanctioned it. Their public bias toward the purity of magic makes them a useful test of whether the leyline anomaly is a real pols split or a convenient framing.",
+  "open_vragen": [
+    "Who authorized the intervention (the second pols activation), on what exact date and time, and which record IDs document it?",
+    "What were the exact per-date severity values, and did severity step up after any secondary adjustment (ENG-029/ENG-062 at dag 24 vs. the dag 12 fine-tuning test ENG-061)?",
+    "Does the recurrence period differ from observational sampling gaps, and what is the exact predicted date of the next occurrence?",
+    "Which shutdown constraints, storage limits, and prerequisite backups apply to the shared system, and was a register backup made before the dag 10 activation (ENG-011)?",
+    "When did the Burchtader itself diverge from the Kroonklok, given that the Engineer cannot date it and the Historian's HIS-036 is logged before its event?",
+    "Does the Stille Winter claim in HIS-114 have any documented basis outside the Historian's own inference?",
+    "Which role's bias (Engineer: datanet progress; Historian: archive integrity) is distorting the timeline, and what does the Guardian Keeper's shield record show for the dag 22 poort oost loss (HIS-053, ENG-026)?"
+  ]
+}

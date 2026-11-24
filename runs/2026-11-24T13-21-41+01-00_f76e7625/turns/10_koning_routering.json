@@ -1,0 +1,17 @@
+{
+  "nr": 10,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "archmage",
+  "vraag": "Archmage: Engineer (ENG-011, ENG-105) and Guardian Keeper (GUA-019, GUA-043) both record intervention and breach events on dag 10 and dag 22, while Historian's HIS-036 and HIS-053 log entries before they happened. Please state from your source: (1) Does your register record any leylijn disruption, surge or anomaly on dag 9, dag 10 (02:40 to 05:00) or dag 22 (01:50 to 05:00), with exact times and record IDs such as individual ARC IDs? (2) Who in your register authorized any change to the leylijnen or magical pulses around dag 9 'hogerhand' (ENG-105), and is any approver named? (3) Do your rules on pulse alignment or magical sealing have individual article IDs covering trigger conditions, and do they say what should happen when a second pulse is added, including any shutdown or reconnection constraint and any backup prerequisite before reconnecting?",
+  "reden": "Pillar 2 (mechanism) and Pillar 1 (authorization) still lack any source outside Engineer, Guardian Keeper and Historian. Engineer's ENG-105 names no approver and Guardian Keeper finds no sign-off, so Archmage must be asked whether the magical register holds a matching approval or off-register order. Historian's clock-contradiction (HIS-103 versus HIS-036/HIS-053) and Guardian Keeper's 01:50 melding in GUA-115 could also be a magic-side timing source, which the Archmage is the only unspoken role able to check. Shutdown and reconnection rules remain entirely unevidenced, so Archmage's individual article IDs are needed before any stop.",
+  "open_vragen": [
+    "Which individual record IDs govern the Desync synchronization rules, and which govern shutdown and reconnection constraints, each stated one by one?",
+    "Who authorized the hulpslag intervention, and is the dag 9 approval (ENG-105) traceable to a named authority?",
+    "What were the exact per-date Desync severity values, and did severity step up after the dag 24 hulpslag adjustments (ENG-029, ENG-062)?",
+    "Which subsystems (shields, energy lines, archive timestamps, wildlife) show failure modes, and which protocol-level rule covers each?",
+    "What is the true recurrence period, and what is the exact arithmetic prediction of the next occurrence day?",
+    "What storage or operational limits and interim security gaps apply to safe recovery, and what mitigations are proposed?"
+  ]
+}

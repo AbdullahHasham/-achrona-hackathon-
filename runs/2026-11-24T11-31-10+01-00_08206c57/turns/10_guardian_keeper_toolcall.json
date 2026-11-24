@@ -1,0 +1,9 @@
+{
+  "nr": 10,
+  "ronde": 1,
+  "spreker": "guardian_keeper",
+  "soort": "toolcall",
+  "tool": "lees_kennisbron",
+  "argumenten": {},
+  "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp"
+}

@@ -1,0 +1,18 @@
+{
+  "nr": 1,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "historian",
+  "vraag": "Please provide the foundational charters and synchronization rules governing the Achrona archive, including the shutdown constraints and required prerequisite backups before any Desync intervention. For each relevant rule, cite its individual record ID (no collapsed ranges). Also: what is the pre-incident baseline of archive timestamp integrity, and which exact dates and times in the archive record the intervention, any authorization (including off-register approvals), and subsequent adjustments? Please list each date, time, and the per-date severity values if recorded.",
+  "reden": "As the opening speaker, the Historian holds the archive and historical charters needed for Pillar 2 (mechanism, individual rule IDs) and Pillar 3 (baseline and recurrence). The Historian's public bias toward archival integrity means their account must be cross-checked later, especially for any off-register approvals. No other role has spoken yet, so we start with the foundational records and the timeline.",
+  "open_vragen": [
+    "Which individual record IDs govern the Desync synchronization rules and shutdown constraints, stated one by one?",
+    "Who authorized the intervention, and were there any off-register or private approvals with exact dates and times?",
+    "What is the exact pre-incident baseline and onset date/time of the Desync?",
+    "What were the exact per-date severity values, and did severity step up after any secondary adjustment?",
+    "Which subsystems (shields, energy lines, archive timestamps, wildlife) show failure modes, and which protocol-level rule covers each?",
+    "What is the true recurrence period, and what is the exact arithmetic prediction of the next occurrence day?",
+    "What storage or operational limits and interim security gaps apply to safe recovery, and what mitigations are proposed?"
+  ]
+}

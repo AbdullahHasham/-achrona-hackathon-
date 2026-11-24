@@ -1,0 +1,18 @@
+{
+  "nr": 9,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "guardian_keeper",
+  "vraag": "Guardian Keeper: Engineer reports that the datanet has run on two unsynchronised pulses since dag 10 02:40 (ENG-011, ENG-106, ENG-012 +38% doorvoer), and that the 'hogerhand' approval in ENG-105 is off-register and unnamed. Historian's HIS-035 (dag 10 04:45, Burchtader stokte) and HIS-036 (dag 10 04:50, half aangekomen berichten) both fall in the installatielog gap 03:00-06:15 that Engineer says has no row. (1) Do your shield or perimeter logs for dag 10 between 02:40 and 06:15 show any breach, lek or forced access near the datatoren, the kelder, or the Burchtader, and do they record any entry under a record ID? (2) Do you have any record of a 'hogerhand' authority, a named signatory, or a goedkeuring for the kelder proefopstelling on dag 9 (ENG-010, dag 9 16:45) or the component delivery on dag 8 14:10 (ENG-008)? (3) Are the poort oost leaks (ENG-026, HIS-053 dag 22 04:15, 3 minuten) recorded in your shield logs at the same minute, and do they match the Engineer's clock-beat explanation rather than an intrusion?",
+  "reden": "Engineer has a bias toward blaming outsiders (hackers in ENG-110) which it has now partly conceded, and the Historian has a bias toward archive integrity that makes it dismiss clerical mismatches too readily. The Guardian Keeper sees every leak as a breach that someone caused, so their account is needed to test whether the 04:50 and dag 22 04:15 events show intrusion or a timing mismatch. Cross-examination: Engineer's claim that the approval is 'hogerhand' and off-register (ENG-105) needs an independent check against guardian and access records, and the Historian's gap at HIS-035/HIS-036 needs the shield-side timeline to confirm the window.",
+  "open_vragen": [
+    "Exact onset date and time of the Desync (dag 10 02:40 activation per ENG-011 vs first anomaly at 04:45 HIS-035 / 04:50 ENG-107 HIS-036)",
+    "Who performed and who authorized the intervention; whether 'hogerhand' (ENG-105) is off-register and whether any archive or guardian record names the authority",
+    "Record IDs documenting the anomalies inside the installatielog gap 03:00-06:15 on dag 10",
+    "Whether the recurrence period (dag 10 04:50 to dag 22 04:15) is consistent or affected by sampling gaps",
+    "Whether ENG-026 / HIS-053 (poort oost, 3 minuten) is clock-beat mismatch or intrusion",
+    "Why vastgelegd timestamps precede gebeurd_op (HIS-036, HIS-053, HIS-112, HIS-116) and whether this is an integrity breach",
+    "Whether fijnregeling steps (ENG-061, ENG-114, 0,1%) are safe under shutdown charters, and whether a backup prerequisite exists"
+  ]
+}

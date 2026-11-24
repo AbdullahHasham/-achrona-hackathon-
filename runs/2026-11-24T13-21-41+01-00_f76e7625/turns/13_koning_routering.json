@@ -1,0 +1,15 @@
+{
+  "nr": 13,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "beast_master",
+  "vraag": "You have not spoken yet, and the Engineer cites your claim ENG-108 that the woudkabels are the source of the disturbance. Please answer three things from your own source only: (1) For dag 10 and dag 22, what animal unrest did you observe, at which exact dates and times, and which record IDs hold those observations? Did any unrest begin before the dag 10 02:40 hulpslag activation (ENG-011) or the dag 9 test (ENG-010)? (2) Quote each of your record IDs that supports the cable claim ENG-108, and state whether your source says anything about the leylijnen, the hulpslag, or Desync, since the Historian (HIS-106) and the Engineer (ENG-108) both assume it does not. (3) Give each governing wildlife or woud rule its own individual ID, with its trigger condition and any shutdown or reconnection constraint, and state whether you have any observation or rule for dag 42 or for the 40-day Stille Winter (HIS-003, HIS-004).",
+  "reden": "The Beast Master is the only unspoken member besides the Oracle, and wildlife unrest is the one symptom family in Pillar 2 with no record yet, so their observations can test whether the disturbance started before the hulpslag activation. The Engineer's ENG-108 claim is a cross-role mention that needs the Beast Master's own record IDs. The Historian and Engineer both say they have no shutdown or reconnection constraint, and the Guardian Keeper has none either, so those items are removed from open_vragen as source-absent evidence limits and the wildlife rule question is kept because it is still unanswered.",
+  "open_vragen": [
+    "Which individual wildlife or woud rules and record IDs cover animal unrest, and do they have their own trigger condition?",
+    "Did animal unrest precede the dag 10 02:40 hulpslag activation (ENG-011) or the dag 22 inside-openings (GUA-043, GUA-115)?",
+    "What is the exact arithmetic prediction of the next occurrence day, and does the recurrence period hold for the dag 10 and dag 22 events?",
+    "Does the approval ENG-105 trace to the off-register letter ARC-106 by the Archmage, and who is the higher authority named in 'hogerhand'?"
+  ]
+}

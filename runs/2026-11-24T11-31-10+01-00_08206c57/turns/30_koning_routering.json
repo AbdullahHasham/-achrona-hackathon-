@@ -1,0 +1,17 @@
+{
+  "nr": 30,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "engineer",
+  "vraag": "Final turn: (1) Quote verbatim ENG-061 and ENG-114 and state whether either contains a storage limit, duration, or operational cap on the backup before merging pols, citing the exact article or procedure; if none, say so explicitly. (2) Give the exact date, time, and vastgelegd_op of ENG-105 and ENG-010, and state whether they carry any vastgelegd_op field. (3) Using only the 4-day series you cite (ORA-142 dag 42 04:30, BEA-091/092), state the arithmetic prediction of the next occurrence day and whether any log in your source confirms or contradicts dag 46.",
+  "reden": "Pillar 4 (safe recovery) and Pillar 3 (forecast) remain unsupported. The Engineer is the only role that cites a 0,1% fijnregeling and claimed storage limits (ENG-061, ENG-114), which the Historian could not confirm in the archive. Verbatim text and the origin of those figures must be checked before any gradual recovery is recommended. The Engineer also holds the ENG-105 timestamp needed to test the off-register approval against ARC-106. The forecast needs an explicit day, which the four-day series implies as dag 46, but this has not been stated by any role. This is the final available turn, so the question is packed to yield the most verifiable answers.",
+  "open_vragen": [
+    "Who, if anyone, is the 'hogerhand' authority cited in ENG-105? Neither ARC-106 nor any other record names them.",
+    "Which charter article or storage limit governs the backup before merging pols (HIS-110)? The source origin of the 0,1% steps (ENG-061, ENG-114) is unconfirmed.",
+    "Why do vastgelegd_op values precede gebeurd_op in HIS-036, HIS-053, HIS-112, HIS-116 and GUA-115, and are these edits or clock artifacts?",
+    "Does GUA-043 (poort oost, dag 22 04:15) confirm an inside-opened shield gap under GUA-104, and is there a gradual control for the second pols?",
+    "Is the 4-day recurrence (BEA-113, BEA-091/092, ORA-142, ORA-130) the full series, and what is the predicted next day after dag 42?",
+    "Does ARC-109 (dag 15) countermand ARC-106 (dag 8), or do both stand in conflict?"
+  ]
+}

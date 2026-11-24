@@ -1,0 +1,18 @@
+{
+  "nr": 10,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": "guardian_keeper",
+  "vraag": "Guardian Keeper, you have not spoken yet. Please answer on your first turn: (1) The Historian cites HIS-053 (lek bij poort oost, dag 22 04:15, vastgelegd dag 22 01:50) and the Engineer cites ENG-026 and ENG-110 (3 minuten pakketverlies on poort oost at 04:15); what do your shield records (exact record IDs) show for poort oost on dag 22, and does the shield loss time match 04:15 or the logged 01:50 entry? (2) The Engineer's ENG-029/ENG-062 record a 5% step-up at dag 24 11:00-11:05; do your shield readings show any change in shield strength on dag 10, dag 12 (ENG-061 fine-tuning test), dag 16, or dag 24, with exact per-date values and record IDs? (3) Please state the foundational shield charter or shutdown/interim-security constraints your source holds, and whether any shield was left without coverage while the polsen were split, with exact dates and times.",
+  "reden": "Pillar 2 (mechanism: shields/gates) and Pillar 4 (interim security gaps) are unevidenced; the Guardian Keeper is the only shield-holding role and has not spoken. The Historian's HIS-053 timestamp inversion (vastgelegd before gebeurd) and the Engineer's 04:15 claim conflict, so only shield records can test which is accurate. Routing here also tests the Archmage's and Engineer's public biases against an independent source.",
+  "open_vragen": [
+    "Who authorized the intervention and on what exact date and time? (Archmage ARC-106 claims personal off-register permission on dag 8; Engineer ENG-105 'hogerhand' is unnamed. Needs confirmation of ARC-106 timing against ENG-011 dag 10 02:40.)",
+    "What were the exact per-date severity values, and did severity step up after the dag 24 5% change (ENG-029/ENG-062) relative to the dag 12 test (ENG-061)?",
+    "Do the Archmage's leyline readings (dag 14 dip to 3.1-3.6; dag 21 recovery) align in time with the datanet onset at dag 10 04:45-04:50, and what is the true recurrence period versus sampling gaps (dag 7, 14, 21, 28, 35, 42)?",
+    "Does the HIS-036 timestamp inversion (vastgelegd dag 9 23:55 before gebeurd dag 10 04:50) have any cross-check from the Oracle or Beast Master sources?",
+    "Does the Beast Master's wildlife record show unrest at dag 10 or dag 22, and does it corroborate the 04:45-04:50 onset?",
+    "What is the Oracle's pattern or predicted next occurrence date, and on what arithmetic basis?",
+    "What shutdown constraints, storage limits, and prerequisite backups apply, and was a register backup made before dag 10 02:40 (ENG-011)?"
+  ]
+}

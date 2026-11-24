@@ -1,0 +1,7 @@
+{
+  "nr": 32,
+  "ronde": 3,
+  "spreker": "koning",
+  "soort": "bericht",
+  "tekst": "The council reached a largely settled picture. An unsynchronized second pulse, the hulpslag, was activated on day 10 at 02:40 under an off-register approval. The recurrence of night disturbances follows a four-day cycle from day 10 at roughly 04:15 to 04:50, and day 46 is the next expected window. Resolved: the forest cables are unchanged (ENG-003, HIS-105, BEA-102), and the Archmage has accepted responsibility for the off-register permission in ARC-106. Unresolved: the approver named in ENG-105 is not confirmed as ARC-106, the timestamp breaches in HIS-036 and HIS-053 need checking against originals, and the midway-traffic shield hypothesis (GUA-104) is untested. Recovery order: first secure a full backup of the register and logs (HIS-110), then gather raw timing logs, then bring the hulpslag into step with the Kroonklok in 0.1% steps (ENG-114) with no abrupt shutdown, and maintain interim monitoring for the day 46 window. Forecast: next recurrence expected on day 46 around 04:15 to 04:50."
+}

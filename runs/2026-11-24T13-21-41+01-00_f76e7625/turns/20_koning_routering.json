@@ -1,0 +1,10 @@
+{
+  "nr": 20,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "aan": null,
+  "vraag": null,
+  "reden": "Stopping at turn 7 of 10. All four pillars have been addressed across roles. Ingreep: the hulpslag activation at dag 10 02:40 (ENG-011, ENG-106) and the dag 24 adjustments (ENG-029, ENG-062) are documented, and the dag 9 approval is traced to ARC-106 and ENG-105 with no named higher approver. Mechanism: the Guardian Keeper gave each article individually (GUA-102 through GUA-108), and no source contains a shutdown or reconnection article. Timeline: the dag 10 and dag 22 openings are recorded (GUA-019, GUA-111, GUA-043, GUA-115), and the four-day heavy-night cadence is supported by ORA-110 through ORA-142 and BEA-113. Forecast: dag 46 follows from arithmetic on the four-day cycle, and the Oracle confirmed it is an extrapolation. The remaining questions cannot be answered from any source: per-date severity values, shutdown constraints, and cross-file confirmation of HIS-035, HIS-036, HIS-053 and HIS-054. Each role has confirmed these are absent or unverifiable, so they are evidence limits rather than answerable questions.",
+  "open_vragen": []
+}
