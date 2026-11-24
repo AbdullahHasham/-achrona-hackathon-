@@ -1,131 +1,181 @@
 {
-  "run_id": "2026-11-24T11:31:10+01:00_08206c57",
-  "samenvatting": "A second pulse source for the datanet was switched on at dag 10 02:40 without a verified register approval. Afterwards anomalies were logged: message degradation at 04:50 on dag 10 (ENG-107), and a poort oost shield opening with 3 minutes of outbound leak at dag 22 04:15 (ENG-026, GUA-043). Recurring 04:xx animal unrest and oracle-noted heavy nights point to a four-day rhythm (BEA-113, ORA-110 to ORA-142). Timestamp inversions in HIS-035, HIS-036 and HIS-053 remain unexplained. The council found no evidence of an intruder, but could not rule out a clock-beat fault or intrusion.",
+  "run_id": "2026-11-24T11:39:32+01:00_65281611",
+  "samenvatting": "Desync onset is most consistent with the hulpslag activation at day 10 02:40 (ENG-011), a second pulse outside the Kroonklok rhythm approved off-register (ENG-105, ARC-106). Within about two hours, the first animal disturbance (BEA-019, 04:40), an inside-opened shield (GUA-019, 04:47), and a lower-town complaint (ENG-107, 04:50) followed. Night disturbances then recur every four days (day 10, 14, 18, 22, 26, 30, 34, 38, 42) around 04:15 to 04:50, with day 33 quiet (BEA-071, ORA-133). Earlier explanations (conjunction, external hackers, leyline pollution, forest cables) were withdrawn or contradicted by the records. Immediate action: backup before any adjustment, gradual re-synchronization, and monitoring of the day 46 window.",
   "oorzaak": {
     "ingreep": {
-      "bewering": "The activation of a second, unsynchronised datanet pulse source at dag 10 02:40 is the triggering intervention.",
+      "bewering": "The primary intervention was the activation of the hulpslag (an auxiliary pulse for the datanet, separate from the Kroonklok) at day 10 02:40 (ENG-011, ENG-106). It was preceded by a day 9 approval recorded as 'Goedkeuring verkregen van hogerhand. Niet ruchtbaar maken tot het draait' (ENG-105) and a day 9 16:45 proefopstelling (ENG-010). The wording matches ARC-106 (day 8, Archmage's off-register permission for the net to run 'op eigen maat'), which the Archmage accepts as their own responsibility, though the link to ENG-105 is not confirmed. A later secondary adjustment was a 5% boost on day 24 that left tempo unchanged (ENG-062), with fine control in 0.1% steps (ENG-114).",
       "bewijs": [
         "ENG-011",
-        "ENG-012",
         "ENG-106",
-        "ENG-105"
+        "ENG-105",
+        "ENG-010",
+        "ARC-106",
+        "ENG-062",
+        "ENG-114"
       ],
       "zekerheid": 0.6
     },
     "mechanisme": {
-      "bewering": "Traffic arriving between two taps of the shield pulse is treated as internal under Art. 3 (GUA-104), so a second pulse can shift timing and let shields open from inside, admitting traffic unchecked.",
+      "bewering": "The shared baseline is the Kroonklok charter: everything runs on one pulse, and a second pulse brings the system out of step (HIS-109). Records written on the other pulse can only be read back on it and are lost if it falls away (HIS-110). Shields are keyed to Kroonklok ticks (GUA-103), and traffic arriving midway between ticks is passed as internal without checking (GUA-104). This is a structural hypothesis, not a finding. The out-of-step hulpslag coincided with a throughput rise of +38% at 03:00 on day 10 (ENG-012), still present on day 16 (ENG-120), with lower-town messages arriving 'half aangekomen' (ENG-107, HIS-036). Shield openings from inside (GUA-019, GUA-043) and night animal disturbances (BEA-019, BEA-046) followed the same window. The 5% boost changed severity, not period (ENG-062, ENG-120).",
       "bewijs": [
+        "HIS-109",
+        "HIS-110",
         "GUA-103",
         "GUA-104",
-        "GUA-105",
-        "GUA-106"
+        "ENG-012",
+        "ENG-120",
+        "ENG-107",
+        "GUA-019",
+        "GUA-043",
+        "BEA-019",
+        "BEA-046",
+        "ENG-062"
       ],
-      "zekerheid": 0.4
+      "zekerheid": 0.45
     },
     "verloop": {
-      "bewering": "After activation, an anomalous synchronisation event occurred at 04:50 on dag 10 (ENG-107, HIS-036), followed by a poort oost shield opening at dag 22 04:15 (ENG-026, GUA-043), with matching animal unrest the same minute (BEA-046).",
+      "bewering": "Calm baseline: day 7 leyline readings were normal (ARC-001 to ARC-014) and day 21 had recovered (ARC-029 to ARC-042). Onset was day 10: the hulpslag was activated at 02:40 (ENG-011), the first animal disturbance was at 04:40 (BEA-019), an inside-opened shield at 04:47 (GUA-019), and a complaint at 04:50 (ENG-107). Day 14 showed low leyline readings and a stalled Burchtader (ARC-015, ARC-109). Recurrence followed every four days (10, 14, 18, 22, 26, 30, 34, 38, 42) in the 04:15 to 04:50 window (ORA-110, ORA-114, ORA-118, ORA-122, ORA-126, ORA-130, ORA-134, ORA-138, ORA-142), with the day 22 event at 04:15 (BEA-046, GUA-043, ENG-026). Day 33 was quiet (BEA-071, ORA-133). Aliasing: weekly leyline sampling (days 7, 14, 21, 28, 35, 42) and the unpatrolled 03:00 to 06:00 shift (GUA-106) meant each role saw only subsets. The Engineer saw only days 10 and 22 (12 days apart, which is three four-day cycles), and the Beast Master's log had gaps 02:00 to 04:40.",
       "bewijs": [
+        "ARC-001",
+        "ARC-029",
+        "ENG-011",
+        "BEA-019",
+        "GUA-019",
         "ENG-107",
-        "ENG-026",
-        "GUA-043",
+        "ARC-015",
+        "ARC-109",
+        "ORA-110",
+        "ORA-114",
+        "ORA-118",
+        "ORA-122",
+        "ORA-126",
+        "ORA-130",
+        "ORA-134",
+        "ORA-138",
+        "ORA-142",
         "BEA-046",
-        "HIS-053"
+        "GUA-043",
+        "ENG-026",
+        "BEA-071",
+        "ORA-133",
+        "GUA-106",
+        "BEA-113"
       ],
-      "zekerheid": 0.5
+      "zekerheid": 0.6
     }
   },
   "acties": [
     {
-      "actie": "Make a full copy of the register and the current pols configuration before any adjustment.",
-      "reden": "HIS-110 requires a backup before merging pols, and warns that sudden loss of a pols destroys records.",
+      "actie": "Before any adjustment, make a full afschrift (backup) of the datanet register and logs, and free or add storage first.",
+      "reden": "HIS-110 requires a backup before re-synchronizing pulses, because records written on the other pulse are lost if it falls away. Disk 4 is nearly full and cannot hold the monthly load.",
       "bewijs": [
         "HIS-110",
-        "HIS-109"
+        "ENG-045",
+        "ENG-112",
+        "ENG-092"
       ]
     },
     {
-      "actie": "Verify the timestamps of HIS-035, HIS-036 and HIS-053 against original sources before relying on them.",
-      "reden": "vastgelegd_op values precede or follow gebeurd_op in ways that violate HIS-103.",
+      "actie": "Obtain raw timing, offset, and packet logs for days 9 to 10 and days 21 to 23, plus the per-line leyline logs for days 8 to 10 and 21 to 23.",
+      "reden": "No role holds offset or phase data, so the mechanism and the midway-traffic hypothesis cannot be tested without them.",
       "bewijs": [
-        "HIS-103",
+        "ENG-011",
+        "ENG-026",
+        "ARC-106",
+        "GUA-104"
+      ]
+    },
+    {
+      "actie": "Identify the approver of the day 9 off-register approval and reconcile ENG-105 with ARC-106, recording the approval in the register.",
+      "reden": "The approver is unnamed in ENG-105. The secrecy phrase matches ARC-106, but the link is unconfirmed, and the Archmage has accepted responsibility for the off-register permission.",
+      "bewijs": [
+        "ENG-105",
+        "ARC-106",
+        "ENG-010"
+      ]
+    },
+    {
+      "actie": "Bring the hulpslag gradually into step with the Kroonklok in 0.1% steps, with no abrupt shutdown.",
+      "reden": "ENG-114 sets the 0.1% gradual-adjustment rule. ENG-111's shutdown suggestion was objected to, and HIS-110 warns against sudden loss of pulses.",
+      "bewijs": [
+        "ENG-114",
+        "ENG-111",
+        "HIS-110"
+      ]
+    },
+    {
+      "actie": "Verify the originals of HIS-036, HIS-053, HIS-035, and HIS-054 against the archive before any timeline is treated as final.",
+      "reden": "Four records breach the vastgelegd-equals-gebeurd rule, and the clerical-error explanation has not been verified.",
+      "bewijs": [
         "HIS-036",
         "HIS-053",
         "HIS-035",
+        "HIS-054",
+        "HIS-103",
         "HIS-112",
         "HIS-116"
       ]
     },
     {
-      "actie": "Adjust the tempo of the hulpslag gradually in steps of 0,1%, without shutting the second pulse off abruptly.",
-      "reden": "ENG-114 sets 0,1% steps so that adjustment proceeds without shock; ENG-062 shows amplification is the wrong knob.",
+      "actie": "Set up interim patrols and monitoring covering 04:00 to 05:00 on day 46, with shield seal checks and animal logs.",
+      "reden": "The four-day cycle predicts day 46 at about 04:15 to 04:50. The 03:00 to 06:00 window has no rondes.",
       "bewijs": [
-        "ENG-114",
-        "ENG-061",
-        "ENG-062"
-      ]
-    },
-    {
-      "actie": "Keep the shields under watch with interim patrols at poort oost and the benedenstad, and resume rounds during 03:00 to 06:00.",
-      "reden": "GUA-106 shows no rounds in that window, and GUA-043 and GUA-019 record internal openings.",
-      "bewijs": [
-        "GUA-106",
-        "GUA-043",
-        "GUA-019",
-        "GUA-044"
-      ]
-    },
-    {
-      "actie": "Monitor the 04:15 to 04:50 window on dag 46 for animal unrest and shield or message anomalies.",
-      "reden": "The four-day series predicts a recurrence at dag 46; verifying it tests the forecast.",
-      "bewijs": [
+        "ORA-142",
         "BEA-113",
-        "BEA-091",
-        "ORA-142"
+        "GUA-106",
+        "GUA-019",
+        "GUA-043"
       ]
     },
     {
-      "actie": "Review the approval chain for the off-register instruction and record the authorising party.",
-      "reden": "ENG-105 gives no name or register entry, and ARC-106 authorised a pulse without recorded higher authority.",
+      "actie": "Review firewall rules (ENG-027) and shield seal logs for inside-only openings on days 14, 18, and 26.",
+      "reden": "The Oracle's prediction can be tested against shield logs, and the firewall tightening was based on suspicion only, not evidence of intrusion.",
       "bewijs": [
-        "ENG-105",
-        "ARC-106",
-        "ARC-109"
+        "ENG-027",
+        "GUA-044",
+        "ORA-114",
+        "ORA-118",
+        "ORA-126"
       ]
     }
   ],
   "risicos": [
     {
-      "risico": "Abrupt shutdown of the second pulse destroys records or disturbs the shields.",
-      "mitigatie": "Copy the register first and change tempo only in 0,1% steps."
+      "risico": "Loss of register records if the hulpslag falls away during re-synchronization.",
+      "mitigatie": "Full afschrift before any change, followed by slow re-synchronization in 0.1% steps (HIS-110, ENG-114)."
     },
     {
-      "risico": "An intruder exploits the internal-traffic gap during pulse shifts.",
-      "mitigatie": "Interim shield patrols, seal inspection, and firewall checks (ENG-027)."
+      "risico": "Storage exhaustion blocks the backup needed before any adjustment.",
+      "mitigatie": "Free space or add capacity on disk 4 before the backup (ENG-045, ENG-112, ENG-092)."
     },
     {
-      "risico": "Conflicting instructions (ARC-106 permits, ARC-109 and ARC-116 advise shutdown) cause inconsistent operations.",
-      "mitigatie": "Issue one written instruction that explicitly withdraws or confirms ARC-106."
+      "risico": "Unauthorized off-register approvals (ENG-105, ARC-106) recur or remain unattributed.",
+      "mitigatie": "Record all approvals in the register with a named approver and time, and require written sign-off for any pulse change."
     },
     {
-      "risico": "Unverified timestamps undermine the forensic record.",
-      "mitigatie": "Audit vastgelegd_op against gebeurd_op for all disputed entries."
+      "risico": "Shield bypass through midway traffic, if the untested hypothesis is correct.",
+      "mitigatie": "Test the shield logic against the offset logs and add a check for traffic between Kroonklok ticks (GUA-103, GUA-104)."
     },
     {
-      "risico": "Political pressure from off-register approval erodes trust in the council.",
-      "mitigatie": "Publish the approval chain and its evidence gaps openly."
+      "risico": "Misreading the cycle from weekly or partial sampling, leading to a missed day 46 event.",
+      "mitigatie": "Sample at the four-day cycle and cover 02:00 to 06:00 with patrols (BEA-113, GUA-106, ARC-106)."
+    },
+    {
+      "risico": "Political or governance pressure to shut the datanet down abruptly or to suppress findings.",
+      "mitigatie": "Follow the charter rule of gradual change, and record every council stance in the dispute log (ENG-111, HIS-110)."
     }
   ],
   "voorspelling": {
     "dag": 46,
-    "bewering": "Four-day rhythm from dag 42: 42 + 4 = 46, with heavy-night and unrest recurrence around 04:30 (ORA-142, BEA-091/092).",
+    "bewering": "Recurrence period is 4 days: 10, 14, 18, 22, 26, 30, 34, 38, 42, and the 12-day gap from day 10 to day 22 is 3 × 4 days. Next expected day is 42 + 4 = 46, at about 04:15 to 04:50.",
     "bewijs": [
-      "ORA-142",
-      "BEA-091",
-      "BEA-113",
       "ORA-110",
-      "ORA-114",
-      "ORA-118",
-      "ORA-122"
+      "ORA-142",
+      "BEA-019",
+      "BEA-046",
+      "BEA-113",
+      "BEA-071",
+      "ORA-133"
     ]
   }
 }
