@@ -104,8 +104,10 @@ def instructies(lid, bestanden, mcp, language: str = "English"):
         "commas (never slash-shorthand or ranges).\n"
         "- NEVER invent, modify, or guess a record ID or number. If something is not in your source, "
         "say honestly that you do not have evidence for it.\n"
-        "- Report exact dates, times, numerical values, rules, and cross-role mentions concisely "
-        "(~200–350 words).\n"
+        "- Report exact dates, times, exact per-date numerical values/levels (never collapse changing "
+        "measurements into pooled ranges), foundational rules/charters, secondary adjustments, and "
+        "cross-role mentions concisely (~200–350 words). Do NOT append wish-lists of external logs you "
+        "wish existed; simply state what your source does and does not contain.\n"
         "- Concede honestly if another member's verified evidence contradicts your initial hypothesis.\n"
         f"- Output language: Respond in {language}, while preserving verbatim record IDs and quoting "
         "key original Dutch terms where helpful."
@@ -116,8 +118,9 @@ def instructies(lid, bestanden, mcp, language: str = "English"):
             "- Call `lees_kennisbron()` ONCE on your first turn — it returns your COMPLETE knowledge source "
             "verbatim. Once you have called `lees_kennisbron()`, do NOT call `zoek`, `toon`, or "
             "`lees_kennisbron()` again in the same turn: answer directly from what you just read.\n"
-            "- On follow-up turns, make at most 1 targeted `toon(ids)` or `zoek(term)` call (or `lees_kennisbron()` "
-            "once if needed), then answer immediately.\n"
+            "- On follow-up turns, if your previously retrieved knowledge source is already provided in the "
+            "prompt below, answer directly from it without calling `lees_kennisbron()` again (make at most "
+            "1 targeted `toon(ids)` or `zoek(term)` call only if truly needed).\n"
             "- NEVER call `zoek_betekenis` (it is unavailable)."
         )
     elif bestanden:
@@ -333,9 +336,17 @@ async def run():
                 break
 
             lid, mcp_url, agent = per_rol[rol]
+            prior_own_block = ""
+            if mcp_url and own_source_texts[rol]:
+                # Strictly isolated: re-supply ONLY this role's own prior MCP retrieval to avoid redundant toolcalls
+                prior_own_block = (
+                    "\n\nYour own previously retrieved knowledge source (already loaded — no need to re-call "
+                    "`lees_kennisbron()`):\n" + own_source_texts[rol][0]
+                )
             prompt = (
                 "Debate so far:\n\n"
                 + ("\n\n".join(debat) or "(no turns yet)")
+                + prior_own_block
                 + f"\n\nQuestion for you: {vraag}"
             )
             trace["aan_het_woord"] = rol
