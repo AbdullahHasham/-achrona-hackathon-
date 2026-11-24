@@ -1,140 +1,170 @@
 {
-  "run_id": "2026-11-24T11:48:45+01:00_a158115b",
-  "samenvatting": "The Kroonklok desync began after an unsynchronized second pols was activated on dag 10 at 02:40 under an off-register permission from the Archmage (ARC-106). Its first measured effects were half-arrived datanet messages on dag 10 at 04:50 (ENG-107, HIS-036) and a Burchtader stall at 04:45 (HIS-035). Wolves and herds reacted on a 4-day rhythm from dag 10 (BEA-019, BEA-020, ORA-110). A 5% escalation on dag 24 at 11:00 (ENG-029, ENG-062) worsened severity without changing the period. Recovery should follow the charter: backup first, gradual re-synchronization, reversal of the escalation, interim patrols before dag 46, and governance safeguards.",
+  "run_id": "2026-11-24T13:21:41+01:00_f76e7625",
+  "samenvatting": "The Desync originates in the deliberate introduction of an unsynchronised second pulse (hulpslag) activated on dag 10 at 02:40, after an off-register approval on dag 8 and an unnamed 'hogerhand' approval on dag 9. The second pulse disrupted the single-pulse datanet and was followed by recurrent pre-dawn incidents every four days: shields opened from inside with intact seals, animal unrest, and packet loss. Severity stepped up from 4 to 5 on dag 42, after the dag 24 hulpslag adjustment, without changing the period. Historian timestamp anomalies violate the stated archive rule and remain partly unverified. Remediation must avoid abrupt shutdown, back up all records first, re-synchronise gradually, and patrol the unpatrolled 03:00-06:00 window.",
   "oorzaak": {
     "ingreep": {
-      "bewering": "The primary intervention was the Archmage's off-register permission on dag 8 (ARC-106), which allowed the datatoren to run its own pols. The Engineer's log records the activation on dag 10 at 02:40 (ENG-011, ENG-106) and the pols design in the cellar (ENG-103). The Engineer's unnamed 'hogerhand' authorization (ENG-105) is triangulated to the Archmage. A secondary escalation was a 5% increase on dag 24 at 11:00, with tempo unchanged (ENG-029, ENG-062). The earlier 0.1% test on dag 12 was restored to the original setting (ENG-061), so the period stayed unchanged.",
+      "bewering": "The primary intervention was the activation of a second pulse (hulpslag) by the Engineer on dag 10 at 02:40, after a dag 9 test and an off-register approval. The approval wording matches the Archmage's dag 8 letter verbatim. A secondary escalation followed on dag 24: the hulpslag pulse was raised 5% at 11:00 and the versterking set 5% higher at 11:05, with tempo unchanged.",
       "bewijs": [
-        "ARC-106",
-        "ENG-105",
         "ENG-011",
         "ENG-106",
-        "ENG-103",
+        "ENG-010",
+        "ENG-105",
+        "ARC-106",
         "ENG-029",
         "ENG-062",
-        "ENG-061"
+        "ENG-114"
       ],
-      "zekerheid": 0.75
+      "zekerheid": 0.85
     },
     "mechanisme": {
-      "bewering": "The Kroonklok charter requires all processes to run on one pols, and a second pols puts the system out of step (HIS-109). Records written on a split pols are readable only there, and a rushed rejoin risks loss, so a backup must come first (HIS-110). After the split, the datanet failed first with half-arrived messages (ENG-107, HIS-036), then the Burchtader stalled (HIS-035, ARC-015). Shield gates recorded openings on dag 22 at 04:15 (GUA-043, ENG-026). Wildlife reacted at the same hours (BEA-019, BEA-046). The Archmage's claim that the datanet pollutes the leylines is inference and is not isolated by any reading (ARC-109, ARC-116). The Beast Master notes the cause is untested (BEA-113).",
+      "bewering": "The shared baseline is a single Kroonklok pulse, to which every record and shield is synchronised. Introducing a second, unsynchronised pulse put the datanet out of step. Shields opened from inside on dag 10 at 04:47 and on dag 22 at 04:15 with intact outside seals. Animal unrest, packet loss and timestamp anomalies coincided with these openings. The 5% escalation on dag 24 raised severity in the hulpslag subsystem without changing the period.",
       "bewijs": [
+        "HIS-103",
         "HIS-109",
         "HIS-110",
-        "ENG-107",
-        "HIS-036",
-        "HIS-035",
-        "ARC-015",
-        "GUA-043",
-        "ENG-026",
-        "BEA-019",
-        "BEA-046",
-        "ARC-109",
-        "ARC-116"
-      ],
-      "zekerheid": 0.6
-    },
-    "verloop": {
-      "bewering": "The baseline was calm before dag 10 (ARC-104 on dag 5 with no deviation; ARC-001 Burchtader at 7.4 on dag 7). Onset followed the 02:40 activation, with wolves and herds disturbed at 04:40 to 04:50 on dag 10 (BEA-019, BEA-020). Heavy nights recur every 4 days at roughly 04:15 to 04:45 (ORA-110, ORA-114, ORA-118, ORA-122, ORA-126, ORA-130, ORA-134, ORA-138, ORA-142). Dag 9 was calm (ORA-109). Severity before the dag 24 escalation: dag 14 Burchtader 3.6 (ARC-015), recovered by dag 21 at 7.9 (ARC-029). After the escalation: dag 35 at 7.2 (ARC-057), and dag 42 at 3.7 (ARC-071). Aliasing: the Archmage measured weekly on dag 7, 14, 21, 28, 35 and 42, and those days fall between heavy nights except dag 14 and dag 42. The 4-day cycle therefore appeared only partly in the sampled records, and the Beast Master and Oracle each saw only subsets.",
-      "bewijs": [
-        "ARC-104",
-        "ARC-001",
+        "ENG-102",
+        "ENG-011",
         "BEA-019",
         "BEA-020",
-        "ORA-109",
-        "ORA-110",
-        "ORA-114",
-        "ORA-142",
-        "ARC-015",
-        "ARC-029",
-        "ARC-057",
-        "ARC-071",
-        "BEA-113"
+        "GUA-019",
+        "GUA-111",
+        "ENG-107",
+        "HIS-036",
+        "HIS-053",
+        "GUA-115",
+        "GUA-043",
+        "GUA-044",
+        "ENG-026",
+        "ENG-027",
+        "BEA-046",
+        "BEA-047",
+        "ENG-029",
+        "ENG-062",
+        "BEA-091",
+        "BEA-092",
+        "GUA-103",
+        "GUA-106"
       ],
-      "zekerheid": 0.7
+      "zekerheid": 0.8
+    },
+    "verloop": {
+      "bewering": "Pre-incident the datanet and the animals were calm: dag 6 quiet, dag 7 within margin, dag 9 quiet nights. Onset followed the 02:40 activation on dag 10 by about two hours, at 04:40-04:50. Incidents recurred every four days (10, 14, 18, 22, 26, 30, 34, 38, 42) in the 04:15-04:50 window. Severity was 4 on dag 10 and dag 22, and rose to 5 on dag 42 after the dag 24 escalation. The weekly archmage CSV sampled dags 7, 14, 21, 28, 35 and 42, so only dags 14 and 42 fell on the four-day cycle, giving aliased readings. The 03:00-06:00 unmanned window under GUA-106 meant no patrol observed the true onset.",
+      "bewijs": [
+        "BEA-104",
+        "ARC-105",
+        "BEA-017",
+        "ORA-109",
+        "ENG-011",
+        "BEA-019",
+        "BEA-020",
+        "GUA-019",
+        "BEA-046",
+        "BEA-047",
+        "BEA-091",
+        "BEA-092",
+        "BEA-113",
+        "ORA-110",
+        "ORA-122",
+        "ORA-130",
+        "ORA-142",
+        "ARC-109",
+        "ARC-116",
+        "BEA-087",
+        "BEA-088",
+        "GUA-106",
+        "ENG-029"
+      ],
+      "zekerheid": 0.8
     }
   },
   "acties": [
     {
-      "actie": "Explicitly reject abrupt shutdown or ad-hoc freezing of the Kroonklok systems; keep all changes gradual.",
-      "reden": "The charter requires that the pols be rejoined slowly and that a record stays readable only on its own pols, so abrupt action risks data loss.",
+      "actie": "Explicitly reject abrupt shutdown or ad-hoc freezing of the datanet and the hulpslag.",
+      "reden": "The Historian's charter warns that if one pulse drops suddenly, records on it are lost, and the Engineer records a council whisper about switching everything off (ENG-111); the Archmage's shutdown recommendation (ARC-112) is unverified.",
+      "bewijs": [
+        "HIS-110",
+        "ENG-111",
+        "ARC-112"
+      ]
+    },
+    {
+      "actie": "Make a complete archive, register and log backup before any system adjustment.",
+      "reden": "HIS-110 makes a register copy the only backup prerequisite before reconnecting the pulses. Storage limits are not stated in any verified record, so capacity must be confirmed before backup.",
       "bewijs": [
         "HIS-110",
         "HIS-109"
       ]
     },
     {
-      "actie": "Make a complete register and log backup before any system adjustment, and check storage limits (schijf 4 and compressed logs) first.",
-      "reden": "A backup must precede any repair, and storage is already under pressure.",
+      "actie": "Re-synchronise gradually in fine-grained steps and revert the dag 24 5% hulpslag escalation.",
+      "reden": "The fijnregeling adjusts tempo in 0.1% steps (ENG-114, tested ENG-061), while the dag 24 escalation (ENG-029, ENG-062) was followed by severity 5 on dag 42 (BEA-091, BEA-092).",
       "bewijs": [
-        "HIS-110",
-        "ENG-112",
-        "ENG-045",
-        "ENG-092"
-      ]
-    },
-    {
-      "actie": "Carry out gradual technical re-synchronization of the second pols into the Kroonklok pols, and revert the dag 24 5% escalation to its original setting.",
-      "reden": "Joining the pols slowly preserves records, and reverting the escalation lowers severity. The earlier test was restored after use, which shows a reversal path exists.",
-      "bewijs": [
-        "HIS-110",
+        "ENG-114",
+        "ENG-061",
         "ENG-029",
         "ENG-062",
-        "ENG-061"
-      ]
-    },
-    {
-      "actie": "Deploy interim patrols and cross-domain monitoring at the predicted dag 46 window (04:15 to 04:50), covering the Burchtader, poort oost and the wildlife.",
-      "reden": "The 4-day rhythm is the strongest forecast, and heavy nights have recurred at this hour.",
-      "bewijs": [
-        "ORA-142",
         "BEA-091",
-        "BEA-092",
-        "GUA-043"
+        "BEA-092"
       ]
     },
     {
-      "actie": "Institute governance safeguards: require council approval for any off-register permission and require timestamps to match event time.",
-      "reden": "The off-register permission broke gezag and the timestamp rule (HIS-103) was violated in HIS-035, HIS-036 and HIS-053.",
+      "actie": "Deploy interim patrols and cross-domain monitoring covering the predicted dag 46 pre-dawn window and the unmanned 03:00-06:00 interval.",
+      "reden": "Shields opened from inside during the unmanned window (GUA-106, GUA-019, GUA-043), and the four-day cycle predicts dag 46 (ORA-130, BEA-113).",
       "bewijs": [
-        "ARC-106",
+        "GUA-106",
+        "GUA-019",
+        "GUA-043",
+        "ORA-130",
+        "BEA-113",
+        "ORA-142"
+      ]
+    },
+    {
+      "actie": "Institute governance safeguards: name the approver of the dag 9 'hogerhand' approval, register the off-register ARC-106 letter, and audit the HIS-035, HIS-036, HIS-053 and HIS-054 timestamps against the HIS-103 rule.",
+      "reden": "ENG-105 names no approver and matches ARC-106 verbatim; the Historian's anomalies contradict the stated rule (HIS-103), and the dag 22 01:50 melding is corroborated by GUA-115.",
+      "bewijs": [
         "ENG-105",
+        "ARC-106",
         "HIS-103",
-        "HIS-112",
-        "HIS-116"
+        "HIS-035",
+        "HIS-036",
+        "HIS-053",
+        "HIS-054",
+        "GUA-115"
       ]
     }
   ],
   "risicos": [
     {
-      "risico": "Data loss during re-synchronization, since records on the second pols are readable only there.",
-      "mitigatie": "Complete the backup first (HIS-110) and rejoin the pols gradually."
+      "risico": "Uninspected internal shield openings during the unpatrolled pre-dawn window while the desync persists.",
+      "mitigatie": "Interim patrols covering 03:00-06:00 and gate-opening alarms, per GUA-106 and GUA-043."
     },
     {
-      "risico": "Storage overflow on schijf 4 during backups.",
-      "mitigatie": "Check storage limits before backing up and use compressed logs (ENG-092)."
+      "risico": "Data loss if a pulse is removed abruptly or the register is reconnected without a copy.",
+      "mitigatie": "Complete backup first and gradual reconnection, per HIS-110, with storage capacity confirmed beforehand."
     },
     {
-      "risico": "Misattributed causes, such as hacker claims, which led to a withdrawn accusation.",
-      "mitigatie": "Require evidence before attribution and use the firewall record (ENG-027) as the reference."
+      "risico": "Unreliable timestamps (vastgelegd_op earlier than gebeurd_op) undermine forensic evidence.",
+      "mitigatie": "Audit of HIS-035, HIS-036, HIS-053 and HIS-054 against HIS-103, with no clerical-error conclusion accepted without evidence."
     },
     {
-      "risico": "Missed heavy nights due to weekly sampling that aliases the 4-day cycle.",
-      "mitigatie": "Monitor continuously across the 4-day window rather than only on weekly measurement days."
+      "risico": "Political risk from off-register approvals and unnamed higher-authority approval.",
+      "mitigatie": "Require a named signer for ENG-105 and register ARC-106, per the governance safeguard."
     },
     {
-      "risico": "Political damage from off-register authorization and the Archmage's breach of gezag.",
-      "mitigatie": "Publish the permission record and apply governance safeguards before any further change."
+      "risico": "Premature removal of woudkabels based on an unsupported 'new cables' belief could cause new disruption.",
+      "mitigatie": "Do not remove cables before verification; the cables are documented as unchanged (ENG-003, HIS-105)."
     }
   ],
   "voorspelling": {
     "dag": 46,
-    "bewering": "Heavy-night period: dag 10 to dag 42 is 32 days, 32 divided by 8 intervals is 4 days, so the next predicted heavy night is dag 42 plus 4, which equals dag 46 (window 04:15 to 04:45).",
+    "bewering": "Latest observed incident day is dag 42 (BEA-091 at 04:30, BEA-092 at 04:35). Recurrence period is 4 days (10, 14, ..., 42 per ORA-130 and BEA-113). Arithmetic: 42 + 4 = 46. Expected pre-dawn incident window around 04:00-05:00 if unchanged.",
     "bewijs": [
-      "ORA-110",
+      "BEA-091",
+      "BEA-092",
       "ORA-142",
-      "BEA-019",
-      "BEA-091"
+      "ORA-130",
+      "BEA-113"
     ]
   }
 }
