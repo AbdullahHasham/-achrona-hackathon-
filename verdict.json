@@ -1,0 +1,131 @@
+{
+  "run_id": "2026-11-24T11:31:10+01:00_08206c57",
+  "samenvatting": "A second pulse source for the datanet was switched on at dag 10 02:40 without a verified register approval. Afterwards anomalies were logged: message degradation at 04:50 on dag 10 (ENG-107), and a poort oost shield opening with 3 minutes of outbound leak at dag 22 04:15 (ENG-026, GUA-043). Recurring 04:xx animal unrest and oracle-noted heavy nights point to a four-day rhythm (BEA-113, ORA-110 to ORA-142). Timestamp inversions in HIS-035, HIS-036 and HIS-053 remain unexplained. The council found no evidence of an intruder, but could not rule out a clock-beat fault or intrusion.",
+  "oorzaak": {
+    "ingreep": {
+      "bewering": "The activation of a second, unsynchronised datanet pulse source at dag 10 02:40 is the triggering intervention.",
+      "bewijs": [
+        "ENG-011",
+        "ENG-012",
+        "ENG-106",
+        "ENG-105"
+      ],
+      "zekerheid": 0.6
+    },
+    "mechanisme": {
+      "bewering": "Traffic arriving between two taps of the shield pulse is treated as internal under Art. 3 (GUA-104), so a second pulse can shift timing and let shields open from inside, admitting traffic unchecked.",
+      "bewijs": [
+        "GUA-103",
+        "GUA-104",
+        "GUA-105",
+        "GUA-106"
+      ],
+      "zekerheid": 0.4
+    },
+    "verloop": {
+      "bewering": "After activation, an anomalous synchronisation event occurred at 04:50 on dag 10 (ENG-107, HIS-036), followed by a poort oost shield opening at dag 22 04:15 (ENG-026, GUA-043), with matching animal unrest the same minute (BEA-046).",
+      "bewijs": [
+        "ENG-107",
+        "ENG-026",
+        "GUA-043",
+        "BEA-046",
+        "HIS-053"
+      ],
+      "zekerheid": 0.5
+    }
+  },
+  "acties": [
+    {
+      "actie": "Make a full copy of the register and the current pols configuration before any adjustment.",
+      "reden": "HIS-110 requires a backup before merging pols, and warns that sudden loss of a pols destroys records.",
+      "bewijs": [
+        "HIS-110",
+        "HIS-109"
+      ]
+    },
+    {
+      "actie": "Verify the timestamps of HIS-035, HIS-036 and HIS-053 against original sources before relying on them.",
+      "reden": "vastgelegd_op values precede or follow gebeurd_op in ways that violate HIS-103.",
+      "bewijs": [
+        "HIS-103",
+        "HIS-036",
+        "HIS-053",
+        "HIS-035",
+        "HIS-112",
+        "HIS-116"
+      ]
+    },
+    {
+      "actie": "Adjust the tempo of the hulpslag gradually in steps of 0,1%, without shutting the second pulse off abruptly.",
+      "reden": "ENG-114 sets 0,1% steps so that adjustment proceeds without shock; ENG-062 shows amplification is the wrong knob.",
+      "bewijs": [
+        "ENG-114",
+        "ENG-061",
+        "ENG-062"
+      ]
+    },
+    {
+      "actie": "Keep the shields under watch with interim patrols at poort oost and the benedenstad, and resume rounds during 03:00 to 06:00.",
+      "reden": "GUA-106 shows no rounds in that window, and GUA-043 and GUA-019 record internal openings.",
+      "bewijs": [
+        "GUA-106",
+        "GUA-043",
+        "GUA-019",
+        "GUA-044"
+      ]
+    },
+    {
+      "actie": "Monitor the 04:15 to 04:50 window on dag 46 for animal unrest and shield or message anomalies.",
+      "reden": "The four-day series predicts a recurrence at dag 46; verifying it tests the forecast.",
+      "bewijs": [
+        "BEA-113",
+        "BEA-091",
+        "ORA-142"
+      ]
+    },
+    {
+      "actie": "Review the approval chain for the off-register instruction and record the authorising party.",
+      "reden": "ENG-105 gives no name or register entry, and ARC-106 authorised a pulse without recorded higher authority.",
+      "bewijs": [
+        "ENG-105",
+        "ARC-106",
+        "ARC-109"
+      ]
+    }
+  ],
+  "risicos": [
+    {
+      "risico": "Abrupt shutdown of the second pulse destroys records or disturbs the shields.",
+      "mitigatie": "Copy the register first and change tempo only in 0,1% steps."
+    },
+    {
+      "risico": "An intruder exploits the internal-traffic gap during pulse shifts.",
+      "mitigatie": "Interim shield patrols, seal inspection, and firewall checks (ENG-027)."
+    },
+    {
+      "risico": "Conflicting instructions (ARC-106 permits, ARC-109 and ARC-116 advise shutdown) cause inconsistent operations.",
+      "mitigatie": "Issue one written instruction that explicitly withdraws or confirms ARC-106."
+    },
+    {
+      "risico": "Unverified timestamps undermine the forensic record.",
+      "mitigatie": "Audit vastgelegd_op against gebeurd_op for all disputed entries."
+    },
+    {
+      "risico": "Political pressure from off-register approval erodes trust in the council.",
+      "mitigatie": "Publish the approval chain and its evidence gaps openly."
+    }
+  ],
+  "voorspelling": {
+    "dag": 46,
+    "bewering": "Four-day rhythm from dag 42: 42 + 4 = 46, with heavy-night and unrest recurrence around 04:30 (ORA-142, BEA-091/092).",
+    "bewijs": [
+      "ORA-142",
+      "BEA-091",
+      "BEA-113",
+      "ORA-110",
+      "ORA-114",
+      "ORA-118",
+      "ORA-122"
+    ]
+  }
+}

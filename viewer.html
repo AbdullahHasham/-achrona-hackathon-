@@ -1,72 +1,465 @@
 <!doctype html>
-<html lang="nl">
+<html lang="nl" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Council-debatviewer</title>
+<title>Council of Achrona — Council Chamber Stage</title>
 <style>
-  :root {
-    --bg: #f6f5f2; --paneel: #ffffff; --tekst: #1d1d1f; --zacht: #6b6b70; --lijn: #e3e1dc;
-    --waarschuwing: #b45309; --fout: #b91c1c; --ok: #15803d;
+  :root, :root[data-theme="dark"] {
+    --bg: #0d1014; --bg-elev: #141920; --paneel: #191f28; --paneel-2: #212834;
+    --tekst: #ece8df; --zacht: #9ca3b0; --lijn: #2c3442;
+    --been: #f3ede1; --staal: #5e6878;
+    --waarschuwing: #f59e0b; --fout: #f87171; --ok: #4ade80;
+    --archmage: #a28bff; --engineer: #fbbf24; --guardian_keeper: #38bdf8; --historian: #d6a35c;
+    --oracle: #f472b6; --beast_master: #4ade80; --koning: #e2c578; --mens: #f87171;
+    --stage-floor-0: #1e2530; --stage-floor-1: #131820; --stage-floor-2: #0d1014;
+    --mask-hi: #f5efe3; --mask-lo: #b8ae9b; --mask-stroke: #5b5346; --eye-fill: #13171e;
+    --shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+    color-scheme: dark;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f2ec; --bg-elev: #ece8de; --paneel: #ffffff; --paneel-2: #f8f6f1;
+    --tekst: #1b1d22; --zacht: #62656e; --lijn: #dedad0;
+    --been: #2b2720; --staal: #7a818d;
+    --waarschuwing: #b45309; --fout: #dc2626; --ok: #15803d;
     --archmage: #6d4aff; --engineer: #c2780a; --guardian_keeper: #0b84c4; --historian: #8a5a12;
-    --oracle: #c0266d; --beast_master: #15803d; --koning: #475569; --mens: #b91c1c;
+    --oracle: #c0266d; --beast_master: #15803d; --koning: #8c6216; --mens: #b91c1c;
+    --stage-floor-0: #ebe6db; --stage-floor-1: #f2efe7; --stage-floor-2: #f7f5f0;
+    --mask-hi: #fffcf5; --mask-lo: #d6cdbc; --mask-stroke: #6c6252; --eye-fill: #1f242c;
+    --shadow: 0 10px 26px rgba(27, 29, 34, 0.08);
+    color-scheme: light;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #141416; --paneel: #1d1d21; --tekst: #ececef; --zacht: #9a9aa3; --lijn: #2e2e34;
-      --waarschuwing: #f59e0b; --fout: #f87171; --ok: #4ade80;
-      --archmage: #a28bff; --engineer: #fbbf24; --guardian_keeper: #38bdf8; --historian: #d6a35c;
-      --oracle: #f472b6; --beast_master: #4ade80; --koning: #a3b1c6; --mens: #f87171;
-    }
-  }
+
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--tekst); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  header { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--lijn); padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
-  header h1 { font-size: 17px; margin: 0; font-weight: 650; }
-  .pil { font-size: 13px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--lijn); background: var(--paneel); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--tekst);
+    font: 14.5px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+
+  /* Header */
+  header.topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--lijn);
+    padding: 10px 18px;
+    display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
+  }
+  header.topbar h1 {
+    font-size: 16.5px; margin: 0; font-weight: 700; letter-spacing: 0.01em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .crown-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--koning);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--koning) 70%, transparent);
+  }
+  .pil {
+    font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+    border: 1px solid var(--lijn); background: var(--paneel);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
   .pil.bezig { border-color: var(--waarschuwing); color: var(--waarschuwing); }
+  .pil.bezig::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--waarschuwing);
+    animation: dotpulse 1.2s ease-in-out infinite;
+  }
   .pil.klaar { border-color: var(--ok); color: var(--ok); }
+  .pil.bonus {
+    border-color: color-mix(in srgb, var(--koning) 65%, var(--lijn));
+    color: var(--koning);
+    background: color-mix(in srgb, var(--koning) 14%, var(--paneel));
+  }
   .runid { color: var(--zacht); font-size: 12px; font-family: ui-monospace, monospace; word-break: break-all; }
-  main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; padding: 16px; max-width: 1400px; margin: 0 auto; }
-  @media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); } aside { order: -1; } }
-  .ronde { margin: 18px 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--zacht); }
-  .beurt { background: var(--paneel); border: 1px solid var(--lijn); border-left: 4px solid var(--kleur); border-radius: 10px; padding: 10px 14px; margin: 8px 0; }
-  .beurt .wie { font-weight: 650; color: var(--kleur); font-size: 14px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .header-actions { margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .btn {
+    background: var(--paneel); border: 1px solid var(--lijn); border-radius: 7px;
+    padding: 5px 11px; font-size: 13px; font-weight: 550;
+    display: inline-flex; align-items: center; gap: 5px;
+    transition: border-color .15s, background .15s, transform .1s;
+  }
+  .btn:hover:not(:disabled) { border-color: var(--zacht); background: var(--paneel-2); }
+  .btn:active:not(:disabled) { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.4; cursor: default; }
+  .btn.active {
+    border-color: var(--koning);
+    background: color-mix(in srgb, var(--koning) 18%, var(--paneel));
+    color: var(--tekst);
+  }
+  .btn.live-on {
+    border-color: var(--ok);
+    background: color-mix(in srgb, var(--ok) 16%, var(--paneel));
+    color: var(--ok);
+  }
+  .btn.dispute-on {
+    border-color: var(--fout);
+    background: color-mix(in srgb, var(--fout) 15%, var(--paneel));
+    color: var(--fout);
+  }
+
+  /* Layout */
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 375px;
+    gap: 16px;
+    padding: 16px;
+    max-width: 1520px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  @media (max-width: 1020px) {
+    main { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* Council Chamber Stage Card */
+  .stage-card {
+    background: var(--paneel);
+    border: 1px solid var(--lijn);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+  .stage-wrap {
+    position: relative;
+    background: radial-gradient(ellipse at 50% 28%, var(--stage-floor-0) 0%, var(--stage-floor-1) 58%, var(--stage-floor-2) 100%);
+    border-bottom: 1px solid var(--lijn);
+  }
+  svg#chamber {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 415px;
+    user-select: none;
+  }
+
+  /* SVG Chamber styling */
+  .ring-line { fill: none; stroke: var(--lijn); stroke-width: 1; opacity: 0.65; }
+  .seat-tether { fill: none; stroke: var(--lijn); stroke-width: 1; stroke-dasharray: 3 5; opacity: 0.55; }
+  .beam-glow {
+    fill: none; stroke-linecap: round; opacity: 0.28;
+    filter: blur(5px);
+  }
+  .beam-core {
+    fill: none; stroke-width: 3; stroke-linecap: round;
+    stroke-dasharray: 10 8;
+    animation: beamflow 0.95s linear infinite;
+  }
+  @keyframes beamflow {
+    from { stroke-dashoffset: 36; }
+    to { stroke-dashoffset: 0; }
+  }
+  .dispute-arc {
+    fill: none; stroke: var(--fout); stroke-width: 2; stroke-dasharray: 6 5; opacity: 0.78;
+    animation: beamflow 2.2s linear infinite;
+  }
+  .dispute-node circle { fill: var(--bg-elev); stroke: var(--fout); stroke-width: 1.6; }
+  .dispute-node text { fill: var(--fout); font-size: 11px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+
+  .king-halo {
+    fill: none; stroke: var(--koning); stroke-width: 1.8; opacity: 0.45;
+  }
+  .king-halo.is-pulsing {
+    animation: halopulse 1.4s ease-in-out infinite;
+  }
+  .king-crown {
+    fill: color-mix(in srgb, var(--koning) 26%, var(--bg-elev));
+    stroke: var(--koning); stroke-width: 2.2; stroke-linejoin: round;
+  }
+  .king-label {
+    fill: var(--koning); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-anchor: middle;
+  }
+
+  .mask-group { transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer; }
+  .mask-group.is-dim { opacity: 0.48; }
+  .mask-group:hover { opacity: 1; }
+  .mask-glow { fill: var(--hue); opacity: 0; filter: blur(18px); transition: opacity 0.35s; }
+  .mask-group.is-active .mask-glow { opacity: 0.45; }
+  .mask-pulse-ring {
+    fill: none; stroke: var(--hue); stroke-width: 2.5; opacity: 0;
+  }
+  .mask-group.is-thinking .mask-pulse-ring {
+    opacity: 0.9;
+    animation: halopulse 1.3s ease-in-out infinite;
+  }
+  .mask-group.is-tool .mask-pulse-ring {
+    opacity: 0.85;
+    stroke-dasharray: 6 4;
+    animation: spinring 8s linear infinite;
+  }
+  @keyframes halopulse {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.13); opacity: 0.25; }
+  }
+  @keyframes spinring {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes dotpulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.75); }
+  }
+  .mask-face { fill: url(#porcelainGrad); stroke: var(--mask-stroke); stroke-width: 1.3; }
+  .mask-shade { fill: #000000; opacity: 0.12; }
+  .mask-line { fill: none; stroke: var(--mask-stroke); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .mask-sigil { fill: none; stroke: var(--hue); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .mask-sigil-fill { fill: var(--hue); opacity: 0.22; stroke: var(--hue); stroke-width: 2; }
+  .mask-eye { fill: var(--eye-fill); transition: fill 0.25s; }
+  .mask-group.is-active .mask-eye { fill: var(--hue); }
+  .mask-crack { fill: none; stroke: var(--mask-stroke); stroke-width: 1.4; opacity: 0.6; stroke-linejoin: round; }
+  .mask-mend {
+    fill: none; stroke: var(--hue); stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 1; transition: stroke-dashoffset 0.7s ease-out;
+  }
+  .mask-name {
+    fill: var(--tekst); font-size: 13px; font-weight: 700; text-anchor: middle;
+  }
+  .mask-meta {
+    fill: var(--zacht); font-size: 10.5px; text-anchor: middle; font-variant-numeric: tabular-nums;
+  }
+  .tool-pill rect {
+    fill: var(--bg-elev); stroke: var(--hue); stroke-width: 1.4;
+  }
+  .tool-pill.is-error rect { stroke: var(--fout); }
+  .tool-pill text {
+    fill: var(--tekst); font-family: ui-monospace, monospace; font-size: 10.2px; text-anchor: middle;
+  }
+
+  /* Playback Scrubber Bar */
+  .controls-bar {
+    display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center;
+    padding: 10px 14px;
+    background: var(--bg-elev);
+    border-bottom: 1px solid var(--lijn);
+  }
+  .transport { display: flex; gap: 5px; align-items: center; }
+  .scrubber-wrap {
+    flex: 1; min-width: 160px; display: flex; align-items: center; gap: 10px;
+  }
+  .scrubber-wrap input[type="range"] {
+    flex: 1; accent-color: var(--koning); cursor: pointer; height: 6px;
+  }
+  .step-counter {
+    font-size: 12.5px; color: var(--zacht); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .kbd-hint {
+    font-size: 11px; color: var(--zacht); white-space: nowrap;
+  }
+  .kbd {
+    display: inline-block; padding: 0 5px; border: 1px solid var(--lijn); border-radius: 4px;
+    background: var(--paneel); font-family: ui-monospace, monospace; font-size: 10.5px;
+  }
+
+  /* Active Turn Spotlight */
+  .spotlight {
+    padding: 14px 18px;
+    border-left: 5px solid var(--kleur, var(--koning));
+    background: var(--paneel);
+    min-height: 78px;
+  }
+  .spotlight-head {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px;
+  }
+  .spotlight-role { font-weight: 750; font-size: 15px; color: var(--kleur, var(--koning)); }
+  .spotlight-tag {
+    font-size: 11.5px; padding: 1px 8px; border-radius: 999px;
+    border: 1px solid var(--lijn); color: var(--zacht); background: var(--bg-elev);
+  }
+  .spotlight-body { font-size: 15px; line-height: 1.52; overflow-wrap: anywhere; }
+
+  /* Transcript */
+  .transcript-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 8px 0 6px;
+  }
+  .transcript-header h2 {
+    font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--zacht); margin: 0;
+  }
+  .ronde {
+    margin: 18px 0 8px; font-size: 11.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .09em; color: var(--zacht);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ronde::after { content: ""; flex: 1; height: 1px; background: var(--lijn); }
+  .beurt {
+    background: var(--paneel); border: 1px solid var(--lijn); border-left: 4px solid var(--kleur);
+    border-radius: 10px; padding: 10px 14px; margin: 8px 0; cursor: pointer;
+    transition: border-color .15s, box-shadow .15s, opacity .2s, transform .15s;
+  }
+  .beurt:hover { border-color: color-mix(in srgb, var(--kleur) 55%, var(--lijn)); }
+  .beurt.actief {
+    box-shadow: 0 0 0 1px var(--kleur), 0 6px 20px color-mix(in srgb, var(--kleur) 18%, transparent);
+    background: color-mix(in srgb, var(--kleur) 5%, var(--paneel));
+  }
+  .beurt.toekomst { opacity: 0.42; }
+  .beurt .wie {
+    font-weight: 650; color: var(--kleur); font-size: 14px;
+    display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;
+  }
   .beurt .nr { color: var(--zacht); font-weight: 400; font-size: 12px; }
   .beurt .tekst { margin-top: 4px; overflow-wrap: anywhere; }
-  .klein { background: transparent; border-style: dashed; padding: 6px 12px; font-size: 13px; color: var(--zacht); }
-  .klein code { color: var(--tekst); }
-  .vlag { color: var(--fout); font-weight: 600; font-size: 12px; }
-  .id { display: inline-block; font-family: ui-monospace, monospace; font-size: 12px; padding: 0 5px; border-radius: 5px; background: color-mix(in srgb, var(--kleur-id) 16%, transparent); color: var(--kleur-id); border: 1px solid color-mix(in srgb, var(--kleur-id) 40%, transparent); }
+  .klein { background: transparent; border-style: dashed; padding: 7px 12px; font-size: 13px; color: var(--zacht); }
+  .klein code { color: var(--tekst); font-family: ui-monospace, monospace; font-size: 12.5px; }
+  .open-vragen {
+    margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--lijn);
+    font-size: 12.5px; color: var(--zacht);
+  }
+  .open-vragen strong { color: var(--tekst); }
+  .vlag { color: var(--fout); font-weight: 700; font-size: 12px; margin-left: 6px; }
+  .id {
+    display: inline-block; font-family: ui-monospace, monospace; font-size: 12px;
+    padding: 0 5px; border-radius: 5px;
+    background: color-mix(in srgb, var(--kleur-id) 16%, transparent);
+    color: var(--kleur-id);
+    border: 1px solid color-mix(in srgb, var(--kleur-id) 42%, transparent);
+  }
   .id.raar { outline: 2px dotted var(--waarschuwing); }
-  .denkt { border-style: dashed; animation: puls 1.4s ease-in-out infinite; }
+  .denkt { border-style: dashed; animation: puls 1.4s ease-in-out infinite; cursor: default; }
   @keyframes puls { 50% { opacity: .55; } }
-  aside section { background: var(--paneel); border: 1px solid var(--lijn); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
-  aside h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--zacht); margin: 0 0 8px; }
-  .lid { display: grid; grid-template-columns: 12px 1fr auto; gap: 8px; align-items: center; font-size: 14px; padding: 2px 0; }
-  .stip { width: 12px; height: 12px; border-radius: 50%; background: var(--kleur); }
+
+  .geschil-kaart {
+    background: color-mix(in srgb, var(--fout) 6%, var(--paneel));
+    border: 1px solid color-mix(in srgb, var(--fout) 35%, var(--lijn));
+    border-left: 4px solid var(--fout);
+    border-radius: 10px; padding: 11px 14px; margin: 8px 0;
+  }
+  .geschil-kaart .wie { color: var(--fout); font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+
+  /* Right Sidebar */
+  aside section {
+    background: var(--paneel); border: 1px solid var(--lijn); border-radius: 12px;
+    padding: 13px 15px; margin-bottom: 12px;
+  }
+  aside h2 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--zacht); margin: 0 0 10px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .lid { display: grid; grid-template-columns: 11px 1fr auto; gap: 8px; align-items: center; font-size: 13.5px; padding: 3px 0; }
+  .stip { width: 11px; height: 11px; border-radius: 50%; background: var(--kleur); }
   .getal { color: var(--zacht); font-size: 12px; font-variant-numeric: tabular-nums; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
-  td { padding: 2px 0; } td:last-child { text-align: right; }
-  .check { font-size: 13px; padding: 2px 0; }
-  .check.ok::before { content: "✓ "; color: var(--ok); }
-  .check.fout::before { content: "✗ "; color: var(--fout); }
-  .check.let::before { content: "! "; color: var(--waarschuwing); }
-  .slot { margin: 6px 0; font-size: 13px; }
-  .slot b { display: block; font-size: 12px; color: var(--zacht); text-transform: uppercase; letter-spacing: .05em; }
+  td { padding: 3px 0; }
+  td:last-child { text-align: right; }
+  .check { font-size: 13px; padding: 2.5px 0; }
+  .check.ok::before { content: "✓ "; color: var(--ok); font-weight: 700; }
+  .check.fout::before { content: "✗ "; color: var(--fout); font-weight: 700; }
+  .check.let::before { content: "! "; color: var(--waarschuwing); font-weight: 700; }
+
+  /* Verdict Sidebar Styling */
+  .slot { margin: 10px 0; font-size: 13.5px; }
+  .slot-head {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;
+  }
+  .slot-head b {
+    font-size: 11.5px; color: var(--zacht); text-transform: uppercase; letter-spacing: .06em;
+  }
+  .zekerheid-pct {
+    font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--tekst);
+  }
+  .zekerheid-bar {
+    height: 6px; border-radius: 999px; background: var(--paneel-2);
+    border: 1px solid var(--lijn); overflow: hidden; margin-bottom: 5px;
+  }
+  .zekerheid-fill {
+    height: 100%; border-radius: 999px;
+    transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .bewijs-rij { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+
+  .forecast-card {
+    margin: 12px 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid color-mix(in srgb, var(--waarschuwing) 50%, var(--lijn));
+    background: color-mix(in srgb, var(--waarschuwing) 10%, var(--paneel-2));
+  }
+  .forecast-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 5px;
+  }
+  .forecast-title {
+    font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--waarschuwing);
+  }
+  .day-badge {
+    font-size: 12px; font-weight: 800; padding: 2px 9px; border-radius: 999px;
+    background: var(--waarschuwing); color: #141416;
+  }
+
+  .verdict-list { padding-left: 18px; margin: 5px 0 0; font-size: 13px; }
+  .verdict-list li { margin-bottom: 8px; }
+  .verdict-sub { font-size: 12px; color: var(--zacht); margin-top: 2px; }
   .leeg { color: var(--zacht); font-style: italic; }
-  ol { padding-left: 18px; margin: 4px 0; font-size: 13px; }
-  .melding { padding: 40px 16px; text-align: center; color: var(--zacht); }
+  .melding { padding: 36px 16px; text-align: center; color: var(--zacht); }
 </style>
 </head>
 <body>
-<header>
-  <h1>Council of Achrona: debatviewer</h1>
+<header class="topbar">
+  <h1><span class="crown-dot"></span>Council of Achrona</h1>
   <span id="status" class="pil">wachten op trace.json…</span>
+  <span id="early-bonus" class="pil bonus" style="display:none"></span>
   <span id="runid" class="runid"></span>
+  <div class="header-actions">
+    <button id="btn-disputes" class="btn" type="button" title="Toon/verberg geschil-bogen op het podium">⚔ Geschillen</button>
+    <button id="btn-voices" class="btn" type="button" title="Offline browser-spraak per rol">🔇 Voices Off</button>
+    <button id="btn-theme" class="btn" type="button" title="Wissel donker / licht thema">☀️ Light</button>
+  </div>
 </header>
+
 <main>
-  <div id="debat"><p class="melding">Nog geen <code>trace.json</code>. Start je Council met <code>uv run council</code>; het debat verschijnt hier live.</p></div>
+  <div class="stage-col">
+    <section class="stage-card" aria-label="Council Chamber Stage">
+      <div class="stage-wrap">
+        <svg id="chamber" viewBox="0 0 1000 390" role="img" aria-label="Council Chamber met raadsleden en koning">
+          <defs>
+            <linearGradient id="porcelainGrad" x1="0.1" y1="0" x2="0.85" y2="1">
+              <stop offset="0%" stop-color="var(--mask-hi)" />
+              <stop offset="100%" stop-color="var(--mask-lo)" />
+            </linearGradient>
+            <marker id="beamArrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 9 5 L 0 9 z" fill="context-stroke" />
+            </marker>
+          </defs>
+          <g id="chamber-floor"></g>
+          <g id="chamber-disputes"></g>
+          <g id="chamber-beam"></g>
+          <g id="chamber-king"></g>
+          <g id="chamber-seats"></g>
+        </svg>
+      </div>
+
+      <div class="controls-bar">
+        <div class="transport">
+          <button id="btn-start" class="btn" type="button" title="Begin van debat">⏮ Start</button>
+          <button id="btn-prev" class="btn" type="button" title="Vorige stap (Pijl links)">◀ Prev</button>
+          <button id="btn-play" class="btn" type="button" title="Afspelen / Pauzeren (Spatie)">▶ Play</button>
+          <button id="btn-next" class="btn" type="button" title="Volgende stap (Pijl rechts)">▶ Next</button>
+          <button id="btn-live" class="btn live-on" type="button" title="Spring naar einde & volg live">⏭ End (Live)</button>
+        </div>
+        <div class="scrubber-wrap">
+          <input id="scrubber" type="range" min="0" max="0" value="0" aria-label="Debat-tijdlijn">
+          <span id="step-counter" class="step-counter">Stap 0 / 0</span>
+        </div>
+        <span class="kbd-hint"><span class="kbd">Space</span> · <span class="kbd">←</span> <span class="kbd">→</span></span>
+      </div>
+
+      <div id="spotlight" class="spotlight" style="--kleur:var(--koning)">
+        <div class="spotlight-head">
+          <span class="spotlight-role">Koning</span>
+          <span class="spotlight-tag">Stand-by</span>
+        </div>
+        <div class="spotlight-body leeg">Wachten op debatstappen uit trace.json…</div>
+      </div>
+    </section>
+
+    <div class="transcript-header">
+      <h2>Debatverloop &amp; Routering</h2>
+      <span id="transcript-hint" class="getal">Klik op een kaart om naar dat moment te springen</span>
+    </div>
+    <div id="debat"><p class="melding">Nog geen <code>trace.json</code>. Start je Council; het debat verschijnt hier live.</p></div>
+  </div>
+
   <aside>
     <section><h2>Raadsleden</h2><div id="leden"></div></section>
     <section><h2>Spelregels</h2><div id="checks"></div></section>
@@ -74,13 +467,66 @@
     <section><h2>Council Verdict</h2><div id="verdict"><span class="leeg">nog geen verdict.json</span></div></section>
   </aside>
 </main>
+
 <script>
-const NAMEN = { archmage: "Archmage", engineer: "Engineer", guardian_keeper: "Guardian Keeper", historian: "Historian",
-  oracle: "Oracle", beast_master: "Beast Master", koning: "Koning", mens: "Mens" };
+const NAMEN = {
+  archmage: "Archmage",
+  engineer: "Engineer",
+  guardian_keeper: "Guardian Keeper",
+  historian: "Historian",
+  oracle: "Oracle",
+  beast_master: "Beast Master",
+  koning: "Koning",
+  mens: "Mens"
+};
+const STANDAARD_ROLLEN = ["archmage", "engineer", "guardian_keeper", "historian", "oracle", "beast_master"];
 const BEURTENBUDGET = 10;
 const PREFIX = { ARC: "archmage", ENG: "engineer", GUA: "guardian_keeper", HIS: "historian", ORA: "oracle", BEA: "beast_master" };
 const ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)([-\u2010-\u2015\u2212])(\d{3})\b/g;
-let vorige = "";
+
+const VOICE_PROFILES = {
+  koning: { pitch: 0.76, rate: 0.94 },
+  engineer: { pitch: 1.06, rate: 1.05 },
+  historian: { pitch: 0.88, rate: 0.92 },
+  oracle: { pitch: 1.24, rate: 0.92 },
+  archmage: { pitch: 1.12, rate: 0.95 },
+  beast_master: { pitch: 0.84, rate: 0.98 },
+  guardian_keeper: { pitch: 0.80, rate: 0.99 },
+  mens: { pitch: 1.00, rate: 1.02 }
+};
+
+const MASK_FACE = "M50 2 C80 2 95 24 94 54 C93 88 72 126 50 126 C28 126 7 88 6 54 C5 24 20 2 50 2 Z";
+const MASK_SHADE = "M50 2 C80 2 95 24 94 54 C93 88 72 126 50 126 C64 100 66 40 50 2 Z";
+const MASK_CRACKS = [
+  "M61 3 L56 20 L66 34 L60 48",
+  "M93 62 L80 66 L72 60 L64 70",
+  "M8 44 L20 40 L26 46 L34 42",
+  "M30 118 L36 104 L30 94 L38 84",
+  "M74 112 L68 100 L74 90 L66 82"
+];
+
+const SIGILS = {
+  archmage: `<path class="mask-sigil" d="M50 14 V44 M35 29 H65 M40 19 L60 39 M60 19 L40 39" /><circle class="mask-sigil-fill" cx="50" cy="29" r="5" />`,
+  engineer: `<circle class="mask-sigil-fill" cx="50" cy="29" r="8" /><path class="mask-sigil" d="M50 15 V19 M50 39 V43 M36 29 H40 M60 29 H64 M40 19 L43 22 M57 36 L60 39 M60 19 L57 22 M43 36 L40 39 M46 39 V25 L50 20 L54 25 V39" />`,
+  guardian_keeper: `<path class="mask-sigil-fill" d="M39 18 H61 V29 C61 37 50 43 50 43 C50 43 39 37 39 29 Z" /><path class="mask-sigil" d="M50 19 V41 M41 28 H59" />`,
+  historian: `<path class="mask-sigil-fill" d="M41 18 H59 L41 40 H59 Z" /><path class="mask-sigil" d="M38 18 H62 M38 40 H62" />`,
+  oracle: `<circle class="mask-sigil" cx="45" cy="29" r="7" /><circle class="mask-sigil" cx="55" cy="29" r="7" /><path class="mask-sigil" d="M36 29 Q50 19 64 29 Q50 39 36 29 Z" /><circle cx="50" cy="29" r="2.5" fill="var(--hue)" />`,
+  beast_master: `<path class="mask-sigil" d="M44 29 C38 24 35 19 37 14 M39 22 L33 19 M56 29 C62 24 65 19 63 14 M61 22 L67 19" /><circle class="mask-sigil-fill" cx="50" cy="34" r="5" /><circle cx="44" cy="26" r="1.8" fill="var(--hue)" /><circle cx="50" cy="24" r="1.8" fill="var(--hue)" /><circle cx="56" cy="26" r="1.8" fill="var(--hue)" />`
+};
+
+const state = {
+  trace: null,
+  verdict: null,
+  vorige: "",
+  liveMode: true,
+  cursor: -1,
+  isPlaying: false,
+  playTimer: null,
+  voicesOn: false,
+  showDisputes: true,
+  speechSupported: typeof window !== "undefined" && "speechSynthesis" in window,
+  lastSpokenKey: null
+};
 
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const kleur = rol => `var(--${NAMEN[rol] ? rol : "koning"})`;
@@ -89,9 +535,9 @@ function opmaak(tekst) {
   return esc(tekst)
     .replace(/^#{1,4}\s*(.+)$/gm, "<strong>$1</strong>")
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(ID_RE, (m, p, streep, n) => {
+    .replace(ID_RE, (m, p, streep) => {
       const raar = streep !== "-";
-      return `<span class="id${raar ? " raar" : ""}" style="--kleur-id:${kleur(PREFIX[p])}" title="${raar ? "Geen gewoon koppelteken: dit ID faalt op het schema" : NAMEN[PREFIX[p]]}">${p}-${n}</span>`;
+      return `<span class="id${raar ? " raar" : ""}" style="--kleur-id:${kleur(PREFIX[p])}" title="${raar ? "Geen gewoon koppelteken: dit ID faalt op het schema" : NAMEN[PREFIX[p]]}">${p}-${m.slice(-3)}</span>`;
     })
     .replace(/\n/g, "<br>");
 }
@@ -100,67 +546,488 @@ function ids(tekst) {
   return [...String(tekst ?? "").matchAll(ID_RE)].map(m => ({ id: `${m[1]}-${m[3]}`, raar: m[2] !== "-" }));
 }
 
+function cleanSpeechText(tekst) {
+  return String(tekst ?? "")
+    .replace(/^#{1,4}\s*/gm, "")
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function stopSpeech() {
+  if (state.playTimer) {
+    clearTimeout(state.playTimer);
+    state.playTimer = null;
+  }
+  if (state.speechSupported) {
+    try { window.speechSynthesis.cancel(); } catch {}
+  }
+}
+
+function pickDutchVoice() {
+  if (!state.speechSupported) return null;
+  const voices = window.speechSynthesis.getVoices() || [];
+  return voices.find(v => /^nl/i.test(v.lang)) || voices.find(v => /dutch|nederlands/i.test(v.name)) || null;
+}
+
+function speakStep(step, onDone) {
+  if (!state.voicesOn || !state.speechSupported || !step) {
+    if (onDone) onDone(false);
+    return;
+  }
+  let tekst = "";
+  if (step.soort === "bericht") tekst = cleanSpeechText(step.tekst);
+  else if (step.soort === "routering") {
+    tekst = step.aan
+      ? `${NAMEN[step.aan] || step.aan}: ${cleanSpeechText(step.vraag || step.reden)}`
+      : `Koning sluit het debat. ${cleanSpeechText(step.reden)}`;
+  } else if (step.soort === "toolcall") {
+    tekst = `${NAMEN[step.spreker] || step.spreker} raadpleegt ${step.tool}.`;
+  } else if (step.soort === "bestand") {
+    tekst = `${NAMEN[step.spreker] || step.spreker} leest bronbestand.`;
+  }
+  if (!tekst) {
+    if (onDone) onDone(false);
+    return;
+  }
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(tekst.slice(0, 700));
+    const prof = VOICE_PROFILES[step.spreker] || VOICE_PROFILES.koning;
+    const nlVoice = pickDutchVoice();
+    if (nlVoice) u.voice = nlVoice;
+    u.lang = nlVoice ? nlVoice.lang : "nl-NL";
+    u.pitch = prof.pitch;
+    u.rate = prof.rate;
+
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(fallbackTimer);
+      if (onDone) onDone(true);
+    };
+    const fallbackMs = Math.min(28000, Math.max(2500, tekst.length * 75));
+    const fallbackTimer = setTimeout(finish, fallbackMs);
+    u.onend = finish;
+    u.onerror = finish;
+    window.speechSynthesis.speak(u);
+  } catch {
+    if (onDone) onDone(false);
+  }
+}
+
+function getSeatPositions(roles) {
+  const list = roles && roles.length ? roles : STANDAARD_ROLLEN;
+  const n = list.length;
+  const cx = 500, cy = 104, rx = 392, ry = 196;
+  const map = {};
+  list.forEach((rol, i) => {
+    const t = n === 1 ? 0.5 : i / (n - 1);
+    const angle = (162 - t * 144) * Math.PI / 180;
+    map[rol] = {
+      rol,
+      x: Math.round(cx + Math.cos(angle) * rx),
+      y: Math.round(cy + Math.sin(angle) * ry)
+    };
+  });
+  return map;
+}
+
+function renderStage() {
+  const trace = state.trace;
+  const beurten = trace?.beurten || [];
+  const roles = trace?.raadsleden?.length ? trace.raadsleden : STANDAARD_ROLLEN;
+  const seats = getSeatPositions(roles);
+  const bezig = trace?.status === "bezig";
+  const maxIdx = Math.max(0, beurten.length - 1);
+  if (state.liveMode) {
+    state.cursor = beurten.length ? maxIdx : -1;
+  } else if (beurten.length) {
+    state.cursor = Math.max(0, Math.min(state.cursor, maxIdx));
+  } else {
+    state.cursor = -1;
+  }
+
+  const cursor = state.cursor;
+  const curStep = cursor >= 0 ? beurten[cursor] : null;
+
+  // Compute state up to cursor
+  const upToStats = {};
+  for (const r of roles) upToStats[r] = { ids: new Set(), tools: 0, berichten: 0 };
+  let lastRoutedTo = null;
+  for (let i = 0; i <= cursor; i++) {
+    const b = beurten[i];
+    if (!b) continue;
+    if (b.soort === "routering") lastRoutedTo = b.aan;
+    const st = upToStats[b.spreker];
+    if (st) {
+      if (b.soort === "bericht") {
+        st.berichten++;
+        for (const x of ids(b.tekst)) st.ids.add(x.id);
+      } else if (b.soort === "toolcall" || b.soort === "bestand") {
+        st.tools++;
+      }
+    }
+  }
+
+  let activeSpeaker = null;
+  let beamTarget = null;
+  let thinkingRole = null;
+  let toolStep = null;
+
+  if (state.liveMode && bezig && trace?.aan_het_woord) {
+    activeSpeaker = trace.aan_het_woord;
+    thinkingRole = trace.aan_het_woord;
+    beamTarget = trace.aan_het_woord !== "koning" ? trace.aan_het_woord : lastRoutedTo;
+  } else if (curStep) {
+    if (curStep.soort === "routering") {
+      beamTarget = curStep.aan;
+      activeSpeaker = curStep.aan || "koning";
+    } else if (curStep.soort === "bericht") {
+      activeSpeaker = curStep.spreker;
+      beamTarget = curStep.spreker !== "koning" && curStep.spreker !== "mens" ? curStep.spreker : lastRoutedTo;
+    } else {
+      activeSpeaker = curStep.spreker;
+      toolStep = curStep;
+      beamTarget = curStep.spreker !== "koning" ? curStep.spreker : lastRoutedTo;
+    }
+  }
+
+  // Floor geometry
+  const kingX = 500, kingY = 96;
+  const floorEl = document.getElementById("chamber-floor");
+  floorEl.innerHTML =
+    `<circle class="ring-line" cx="${kingX}" cy="${kingY}" r="74" />` +
+    `<ellipse class="ring-line" cx="${kingX}" cy="${kingY + 34}" rx="340" ry="175" />` +
+    `<ellipse class="ring-line" cx="${kingX}" cy="${kingY + 34}" rx="455" ry="230" />` +
+    roles.map(r => {
+      const s = seats[r];
+      return `<line class="seat-tether" x1="${kingX}" y1="${kingY + 26}" x2="${s.x}" y2="${s.y - 36}" />`;
+    }).join("");
+
+  // Dispute arcs
+  const disputesEl = document.getElementById("chamber-disputes");
+  const geschillen = trace?.geschillen || [];
+  const disputeBtn = document.getElementById("btn-disputes");
+  disputeBtn.textContent = `⚔ Geschillen${geschillen.length ? ` (${geschillen.length})` : ""}`;
+  disputeBtn.className = "btn" + (state.showDisputes && geschillen.length ? " dispute-on" : "");
+
+  if (state.showDisputes && geschillen.length) {
+    let dHtml = "";
+    geschillen.forEach((g, idx) => {
+      const participants = Object.keys(g.standpunten || {}).filter(r => seats[r]);
+      for (let i = 0; i < participants.length; i++) {
+        for (let j = i + 1; j < participants.length; j++) {
+          const a = seats[participants[i]];
+          const b = seats[participants[j]];
+          const mx = (a.x + b.x) / 2;
+          const my = Math.min(358, (a.y + b.y) / 2 + 44 + (idx % 2) * 18);
+          const qx = mx, qy = my + 24;
+          const tip = esc(`${g.onderwerp}${g.uitkomst ? " — " + g.uitkomst : " (niet beslecht)"}`);
+          dHtml += `<g class="dispute-arc-wrap"><title>${tip}</title>` +
+            `<path class="dispute-arc" d="M ${a.x} ${a.y + 12} Q ${qx} ${qy} ${b.x} ${b.y + 12}" />` +
+            `<g class="dispute-node" transform="translate(${mx} ${(a.y + b.y) / 4 + qy / 2})"><circle r="10" /><text>⚔</text></g></g>`;
+        }
+      }
+    });
+    disputesEl.innerHTML = dHtml;
+  } else {
+    disputesEl.innerHTML = "";
+  }
+
+  // King Routing Beam
+  const beamEl = document.getElementById("chamber-beam");
+  if (beamTarget && seats[beamTarget]) {
+    const t = seats[beamTarget];
+    const dx = t.x - kingX;
+    const dy = (t.y - 44) - (kingY + 26);
+    const len = Math.hypot(dx, dy) || 1;
+    const sx = kingX + (dx / len) * 42;
+    const sy = kingY + 26 + (dy / len) * 20;
+    const ex = t.x - (dx / len) * 44;
+    const ey = t.y - (dy / len) * 44;
+    const cx = (sx + ex) / 2;
+    const cy = (sy + ey) / 2 - 22;
+    const c = kleur(beamTarget);
+    const d = `M ${sx.toFixed(1)} ${sy.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+    beamEl.innerHTML =
+      `<path class="beam-glow" d="${d}" stroke="${c}" stroke-width="11" />` +
+      `<path class="beam-core" d="${d}" stroke="${c}" marker-end="url(#beamArrow)" />`;
+  } else {
+    beamEl.innerHTML = "";
+  }
+
+  // King Crown Emblem
+  const kingActive = activeSpeaker === "koning" || (curStep?.soort === "routering" && curStep.aan === null);
+  const kingEl = document.getElementById("chamber-king");
+  kingEl.innerHTML = `
+    <g transform="translate(${kingX} ${kingY})">
+      <circle class="king-halo ${kingActive || (bezig && state.liveMode && !thinkingRole) ? "is-pulsing" : ""}" r="42" />
+      <circle r="34" fill="var(--bg-elev)" stroke="var(--koning)" stroke-width="${kingActive ? 2.4 : 1.4}" stroke-opacity="${kingActive ? 1 : 0.55}" />
+      <path class="king-crown" d="M-20 12 L-23 -8 L-9 0 L0 -17 L9 0 L23 -8 L20 12 Z" />
+      <rect x="-20" y="13" width="40" height="4" rx="2" fill="var(--koning)" />
+      <circle cx="0" cy="-19" r="2.4" fill="var(--koning)" />
+      <circle cx="-23" cy="-10" r="2" fill="var(--koning)" />
+      <circle cx="23" cy="-10" r="2" fill="var(--koning)" />
+      <text class="king-label" y="-44">KONING</text>
+    </g>
+  `;
+
+  // 6 Council Porcelain-Mask Avatars
+  const seatsEl = document.getElementById("chamber-seats");
+  const hasFocus = Boolean(activeSpeaker && activeSpeaker !== "koning" && seats[activeSpeaker]);
+  seatsEl.innerHTML = roles.map(rol => {
+    const s = seats[rol];
+    const isAct = activeSpeaker === rol;
+    const isThink = thinkingRole === rol;
+    const isTool = toolStep && toolStep.spreker === rol;
+    const isDim = hasFocus && !isAct && !isThink;
+    const stats = upToStats[rol] || { ids: new Set(), tools: 0, berichten: 0 };
+    const mended = Math.min(5, stats.ids.size);
+    const cls = [
+      "mask-group",
+      isAct ? "is-active" : "",
+      isThink ? "is-thinking" : "",
+      isTool ? "is-tool" : "",
+      isDim ? "is-dim" : ""
+    ].filter(Boolean).join(" ");
+
+    let toolBadgeHtml = "";
+    if (isTool) {
+      let label = "";
+      let isErr = false;
+      if (toolStep.soort === "toolcall") {
+        const argVal = Object.values(toolStep.argumenten || {})[0];
+        const argStr = argVal !== undefined ? String(argVal) : "";
+        const shortArg = argStr.length > 14 ? argStr.slice(0, 13) + "…" : argStr;
+        label = `🔎 ${toolStep.tool}(${shortArg})`;
+        isErr = Boolean(toolStep.pad && !toolStep.pad.includes(`/${rol}/`));
+      } else {
+        const fname = (toolStep.bestand || "").split("/").pop();
+        label = `📄 ${fname.length > 18 ? fname.slice(0, 17) + "…" : fname}`;
+        isErr = Boolean(toolStep.bestand && !toolStep.bestand.startsWith(rol + "/"));
+      }
+      const w = Math.max(106, Math.min(206, label.length * 6.5 + 18));
+      toolBadgeHtml = `
+        <g class="tool-pill ${isErr ? "is-error" : ""}" transform="translate(0 -58)">
+          <rect x="${-w / 2}" y="-11" width="${w}" height="21" rx="10" />
+          <text y="3">${esc(label)}</text>
+        </g>`;
+    }
+
+    const cracksHtml = MASK_CRACKS.map((d, idx) =>
+      `<path class="mask-crack" d="${d}" />` +
+      `<path class="mask-mend" d="${d}" pathLength="1" style="stroke-dashoffset:${idx < mended ? 0 : 1}" />`
+    ).join("");
+
+    return `
+      <g class="${cls}" data-role="${rol}" transform="translate(${s.x} ${s.y})" style="--hue:${kleur(rol)}">
+        <ellipse class="mask-glow" cx="0" cy="-2" rx="48" ry="54" />
+        <circle class="mask-pulse-ring" cx="0" cy="-2" r="44" />
+        <g transform="scale(0.62) translate(-50 -64)">
+          <path class="mask-face" d="${MASK_FACE}" />
+          <path class="mask-shade" d="${MASK_SHADE}" />
+          ${SIGILS[rol] || ""}
+          <path class="mask-line" d="M50 56 L46 78 L53 81 M40 100 q10 5 20 0" />
+          <path class="mask-eye" d="M20 58 q12 -11 24 0 q-12 8 -24 0 Z" />
+          <path class="mask-eye" d="M58 58 q12 -11 24 0 q-12 8 -24 0 Z" />
+          ${cracksHtml}
+        </g>
+        ${toolBadgeHtml}
+        <text class="mask-name" y="54">${esc(NAMEN[rol] || rol)}</text>
+        <text class="mask-meta" y="69">${stats.tools} bron · ${stats.ids.size} ID's</text>
+      </g>
+    `;
+  }).join("");
+
+  // Controls & Scrubber
+  const scrubber = document.getElementById("scrubber");
+  scrubber.max = String(maxIdx);
+  scrubber.value = String(Math.max(0, cursor));
+  scrubber.disabled = beurten.length === 0;
+
+  const counter = document.getElementById("step-counter");
+  counter.textContent = beurten.length
+    ? `Stap ${cursor + 1} / ${beurten.length}${curStep ? ` · Ronde ${curStep.ronde}` : ""}`
+    : "Stap 0 / 0";
+
+  document.getElementById("btn-start").disabled = beurten.length === 0 || cursor <= 0;
+  document.getElementById("btn-prev").disabled = beurten.length === 0 || cursor <= 0;
+  document.getElementById("btn-next").disabled = beurten.length === 0 || cursor >= maxIdx;
+  const playBtn = document.getElementById("btn-play");
+  playBtn.disabled = beurten.length === 0;
+  playBtn.textContent = state.isPlaying ? "⏸ Pause" : "▶ Play";
+  playBtn.className = "btn" + (state.isPlaying ? " active" : "");
+
+  const liveBtn = document.getElementById("btn-live");
+  liveBtn.className = "btn" + (state.liveMode ? " live-on" : "");
+  liveBtn.textContent = state.liveMode ? "● Live" : "⏭ End (Live)";
+
+  // Spotlight
+  renderSpotlight(curStep, trace, bezig);
+
+  // Sync active/future classes in transcript
+  document.querySelectorAll("#debat .beurt[data-idx]").forEach(el => {
+    const idx = Number(el.dataset.idx);
+    el.classList.toggle("actief", idx === cursor);
+    el.classList.toggle("toekomst", cursor >= 0 && idx > cursor);
+  });
+}
+
+function renderSpotlight(step, trace, bezig) {
+  const spot = document.getElementById("spotlight");
+  if (!step) {
+    spot.style.setProperty("--kleur", "var(--koning)");
+    spot.innerHTML = `
+      <div class="spotlight-head">
+        <span class="spotlight-role">Koning</span>
+        <span class="spotlight-tag">${bezig ? "Debat gestart" : "Stand-by"}</span>
+      </div>
+      <div class="spotlight-body leeg">${bezig ? "Wachten op de eerste stap…" : "Nog geen trace.json geladen."}</div>`;
+    return;
+  }
+  const rolKleur = kleur(step.spreker);
+  spot.style.setProperty("--kleur", rolKleur);
+  const wie = esc(NAMEN[step.spreker] || step.spreker);
+  let tag = `#${step.nr} · Ronde ${step.ronde}`;
+  let body = "";
+
+  if (step.soort === "routering") {
+    tag += " · Routering";
+    const open = (step.open_vragen || []).length
+      ? `<div class="open-vragen"><strong>Open vragen:</strong> ${step.open_vragen.map(v => opmaak(v)).join(" · ")}</div>`
+      : "";
+    body = step.aan
+      ? `→ <b style="color:${kleur(step.aan)}">${esc(NAMEN[step.aan] || step.aan)}</b>: ${opmaak(step.vraag)}<div class="verdict-sub"><b>Waarom:</b> ${opmaak(step.reden)}</div>${open}`
+      : `Koning stopt het debat. <div class="verdict-sub"><b>Waarom:</b> ${opmaak(step.reden)}</div>${open}`;
+  } else if (step.soort === "bericht") {
+    tag += step.aan ? ` → ${NAMEN[step.aan] || step.aan}` : " · Inbreng";
+    body = opmaak(step.tekst);
+  } else if (step.soort === "toolcall") {
+    tag += " · MCP Toolcall";
+    const args = Object.entries(step.argumenten || {}).map(([k, v]) => `${k}=${JSON.stringify(v)}`).join(", ");
+    body = `🔎 <code>${esc(step.tool)}(${esc(args)})</code>`;
+  } else {
+    tag += " · Bronbestand";
+    body = `📄 <code>${esc(step.bestand)}</code> in de prompt`;
+  }
+
+  const thinkPill = (state.liveMode && bezig && trace?.aan_het_woord)
+    ? `<span class="spotlight-tag" style="color:var(--waarschuwing);border-color:var(--waarschuwing)">⏳ ${esc(NAMEN[trace.aan_het_woord] || trace.aan_het_woord)} denkt na…</span>`
+    : "";
+
+  spot.innerHTML = `
+    <div class="spotlight-head">
+      <span class="spotlight-role">${wie}</span>
+      <span class="spotlight-tag">${esc(tag)}</span>
+      ${thinkPill}
+    </div>
+    <div class="spotlight-body">${body}</div>`;
+}
+
 function render(trace, verdict) {
+  state.trace = trace;
+  state.verdict = verdict;
+
   const status = document.getElementById("status");
   const bezig = trace.status === "bezig";
   status.className = "pil " + (bezig ? "bezig" : "klaar");
-  status.textContent = bezig ? `bezig${trace.aan_het_woord ? " · " + (NAMEN[trace.aan_het_woord] || trace.aan_het_woord) + " is aan het woord" : ""}` : "klaar";
+  status.textContent = bezig
+    ? `bezig${trace.aan_het_woord ? " · " + (NAMEN[trace.aan_het_woord] || trace.aan_het_woord) + " is aan het woord" : ""}`
+    : "klaar";
   document.getElementById("runid").textContent = trace.run_id || "";
 
-  // Debat per ronde
+  // Debat per ronde + jury telling
   const beurten = trace.beurten || [];
   let html = "", ronde = null;
   const telling = {}, padfouten = [], koningTools = [], vreemdeIds = [], zonderRoutering = [];
-  let toegewezen = null, raadslidBeurten = 0;
-  for (const b of beurten) {
+  let toegewezen = null, raadslidBeurten = 0, laatsteRoutering = null;
+
+  beurten.forEach((b, idx) => {
     if (b.ronde !== ronde) {
       ronde = b.ronde;
       html += `<div class="ronde">${ronde === 0 ? "Voorbereiding" : b.spreker === "koning" && b.soort === "bericht" ? "Koning" : "Ronde " + ronde}</div>`;
     }
     const t = telling[b.spreker] ??= { berichten: 0, tools: 0, ids: new Set() };
     const stijl = `style="--kleur:${kleur(b.spreker)}"`;
+
     if (b.soort === "routering") {
       toegewezen = b.aan;
+      laatsteRoutering = b;
       const wie = `<span style="color:${kleur(b.spreker)}">${esc(NAMEN[b.spreker] || b.spreker)}</span>`;
-      const open = (b.open_vragen || []).length ? `<br>Open vragen: ${b.open_vragen.map(v => opmaak(v)).join(" · ")}` : "";
+      const open = (b.open_vragen || []).length
+        ? `<div class="open-vragen"><strong>Open vragen:</strong> ${b.open_vragen.map(v => opmaak(v)).join(" · ")}</div>`
+        : "";
       html += b.aan
-        ? `<div class="beurt klein" ${stijl}>${wie} → <b style="color:${kleur(b.aan)}">${esc(NAMEN[b.aan] || b.aan)}</b>: ${opmaak(b.vraag)}<br>Waarom: ${opmaak(b.reden)}${open}</div>`
-        : `<div class="beurt klein" ${stijl}>${wie} stopt het debat. Waarom: ${opmaak(b.reden)}${open}</div>`;
-      continue;
+        ? `<div class="beurt klein" data-idx="${idx}" ${stijl}>${wie} → <b style="color:${kleur(b.aan)}">${esc(NAMEN[b.aan] || b.aan)}</b>: ${opmaak(b.vraag)}<br>Waarom: ${opmaak(b.reden)}${open}</div>`
+        : `<div class="beurt klein" data-idx="${idx}" ${stijl}>${wie} stopt het debat. Waarom: ${opmaak(b.reden)}${open}</div>`;
+      return;
     }
+
     if (b.soort === "bericht" && NAMEN[b.spreker] && !["koning", "mens"].includes(b.spreker)) {
       raadslidBeurten++;
       if (toegewezen !== b.spreker) zonderRoutering.push(b.nr);
       toegewezen = null;
     }
+
     if (b.soort === "bericht") {
       t.berichten++;
-      for (const x of ids(b.tekst)) { t.ids.add(x.id); if (x.raar) vreemdeIds.push(x.id); }
-      html += `<div class="beurt" ${stijl}><div class="wie">${esc(NAMEN[b.spreker] || b.spreker)}<span class="nr">#${b.nr}${b.aan ? " → " + esc(NAMEN[b.aan] || b.aan) : ""}</span></div><div class="tekst">${opmaak(b.tekst)}</div></div>`;
+      for (const x of ids(b.tekst)) {
+        t.ids.add(x.id);
+        if (x.raar) vreemdeIds.push(x.id);
+      }
+      html += `<div class="beurt" data-idx="${idx}" ${stijl}><div class="wie">${esc(NAMEN[b.spreker] || b.spreker)}<span class="nr">#${b.nr}${b.aan ? " → " + esc(NAMEN[b.aan] || b.aan) : ""}</span></div><div class="tekst">${opmaak(b.tekst)}</div></div>`;
     } else {
       t.tools++;
       let vlag = "";
       if (b.soort === "toolcall") {
-        if (b.spreker === "koning") { koningTools.push(b.nr); vlag = ` <span class="vlag">Koning leest een Kennisbron</span>`; }
-        else if (b.pad && !b.pad.includes(`/${b.spreker}/`)) { padfouten.push(b.nr); vlag = ` <span class="vlag">pad van een andere Rol</span>`; }
+        if (b.spreker === "koning") {
+          koningTools.push(b.nr);
+          vlag = ` <span class="vlag">Koning leest een Kennisbron</span>`;
+        } else if (b.pad && !b.pad.includes(`/${b.spreker}/`)) {
+          padfouten.push(b.nr);
+          vlag = ` <span class="vlag">pad van een andere Rol</span>`;
+        }
       }
-      if (b.soort === "bestand" && b.bestand && !b.bestand.startsWith(b.spreker + "/")) { padfouten.push(b.nr); vlag = ` <span class="vlag">bestand van een andere Rol</span>`; }
+      if (b.soort === "bestand") {
+        if (b.spreker === "koning") {
+          koningTools.push(b.nr);
+          vlag = ` <span class="vlag">Koning leest een Kennisbron</span>`;
+        } else if (b.bestand && !b.bestand.startsWith(b.spreker + "/")) {
+          padfouten.push(b.nr);
+          vlag = ` <span class="vlag">bestand van een andere Rol</span>`;
+        }
+      }
       const wat = b.soort === "toolcall"
         ? `🔎 <code>${esc(b.tool)}(${esc(Object.entries(b.argumenten || {}).map(([k, v]) => `${k}=${JSON.stringify(v)}`).join(", "))})</code>`
         : `📄 <code>${esc(b.bestand)}</code> in de prompt`;
-      html += `<div class="beurt klein" ${stijl}><span style="color:${kleur(b.spreker)}">${esc(NAMEN[b.spreker] || b.spreker)}</span> · ${wat}${vlag}</div>`;
+      html += `<div class="beurt klein" data-idx="${idx}" ${stijl}><span style="color:${kleur(b.spreker)}">${esc(NAMEN[b.spreker] || b.spreker)}</span> · ${wat}${vlag}</div>`;
     }
-  }
+  });
+
   if (bezig && trace.aan_het_woord) {
     html += `<div class="beurt denkt" style="--kleur:${kleur(trace.aan_het_woord)}"><div class="wie">${esc(NAMEN[trace.aan_het_woord] || trace.aan_het_woord)}</div><div class="tekst leeg">denkt na…</div></div>`;
   }
+
   for (const g of trace.geschillen || []) {
-    html += `<div class="ronde">Geschil</div><div class="beurt" style="--kleur:var(--koning)"><div class="wie">${esc(g.onderwerp)}</div><div class="tekst">${Object.entries(g.standpunten || {}).map(([r, s]) => `<b style="color:${kleur(r)}">${esc(NAMEN[r] || r)}</b>: ${opmaak(s)}`).join("<br>")}<br><b>Uitkomst:</b> ${g.uitkomst ? opmaak(g.uitkomst) : '<span class="leeg">niet beslecht</span>'} ${(g.bewijs || []).map(i => opmaak(i)).join(" ")}</div></div>`;
+    html += `<div class="ronde">Geschil</div><div class="geschil-kaart"><div class="wie">⚔ ${esc(g.onderwerp)}</div><div class="tekst">${Object.entries(g.standpunten || {}).map(([r, s]) => `<b style="color:${kleur(r)}">${esc(NAMEN[r] || r)}</b>: ${opmaak(s)}`).join("<br>")}<br><b>Uitkomst:</b> ${g.uitkomst ? opmaak(g.uitkomst) : '<span class="leeg">niet beslecht</span>'} ${(g.bewijs || []).map(i => opmaak(i)).join(" ")}</div></div>`;
   }
+
   const debat = document.getElementById("debat");
   const onderaan = window.innerHeight + window.scrollY >= document.body.scrollHeight - 80;
   debat.innerHTML = html || '<p class="melding">De run is gestart; de eerste beurt komt eraan.</p>';
-  if (bezig && onderaan) window.scrollTo(0, document.body.scrollHeight);
+  if (bezig && state.liveMode && onderaan) window.scrollTo(0, document.body.scrollHeight);
+
+  // Early Stop Bonus pill
+  const earlyBonusEl = document.getElementById("early-bonus");
+  const earlyStop = Boolean(laatsteRoutering && laatsteRoutering.aan === null && raadslidBeurten < BEURTENBUDGET);
+  if (earlyStop) {
+    earlyBonusEl.style.display = "inline-flex";
+    earlyBonusEl.textContent = `⚡ Early Stop Bonus (${raadslidBeurten}/${BEURTENBUDGET} beurten)`;
+  } else {
+    earlyBonusEl.style.display = "none";
+  }
 
   // Raadsleden
   document.getElementById("leden").innerHTML = [...(trace.raadsleden || []), "koning"].map(r => {
@@ -168,7 +1035,7 @@ function render(trace, verdict) {
     return `<div class="lid" style="--kleur:${kleur(r)}"><span class="stip"></span><span>${esc(NAMEN[r] || r)}</span><span class="getal">${t.berichten} ber · ${t.tools} bron · ${t.ids.size} ID's</span></div>`;
   }).join("");
 
-  // Spelregels
+  // 7 Spelregels Checks
   const zonderBron = (trace.raadsleden || []).filter(r => !(telling[r]?.tools));
   const checks = [
     [padfouten.length ? "fout" : "ok", padfouten.length ? `Kennisbron van een andere Rol gelezen (beurt ${padfouten.join(", ")})` : "Elk Raadslid las alleen de eigen Kennisbron"],
@@ -177,7 +1044,7 @@ function render(trace, verdict) {
     [vreemdeIds.length ? "let" : "ok", vreemdeIds.length ? `ID's met een vreemd koppelteken: ${[...new Set(vreemdeIds)].join(", ")}` : "ID's in de juiste vorm"],
     [(trace.raadsleden || []).length >= 3 ? "ok" : "let", `${(trace.raadsleden || []).length} Rollen (minimum 3)`],
     [raadslidBeurten > BEURTENBUDGET ? "fout" : "ok", `${raadslidBeurten} van ${BEURTENBUDGET} Raadslid-beurten (Beurtenbudget)`],
-    [zonderRoutering.length ? "fout" : "ok", zonderRoutering.length ? `Raadslid-beurt zonder Routering ervoor (beurt ${zonderRoutering.join(", ")})` : "Elke Raadslid-beurt had een Routering"],
+    [zonderRoutering.length ? "fout" : "ok", zonderRoutering.length ? `Raadslid-beurt zonder Routering ervoor (beurt ${zonderRoutering.join(", ")})` : "Elke Raadslid-beurt had een Routering"]
   ];
   document.getElementById("checks").innerHTML = checks.map(([k, t]) => `<div class="check ${k}">${esc(t)}</div>`).join("");
 
@@ -192,27 +1059,252 @@ function render(trace, verdict) {
   if (!verdict || verdict.run_id !== trace.run_id) {
     vd.innerHTML = `<span class="leeg">${verdict ? "verdict.json hoort bij een andere run" : bezig ? "komt na de Koning" : "geen verdict.json"}</span>`;
   } else {
-    const slot = (naam, s) => `<div class="slot"><b>${naam}</b>${s?.bewering ? opmaak(s.bewering) + " " + (s.bewijs || []).map(i => opmaak(i)).join(" ") : '<span class="leeg">onbekend (null)</span>'}</div>`;
+    const slot = (naam, s) => {
+      const hasConf = typeof s?.zekerheid === "number" && !Number.isNaN(s.zekerheid);
+      const pct = hasConf ? Math.max(0, Math.min(100, Math.round(s.zekerheid * 100))) : null;
+      const barColor = pct === null ? "var(--staal)" : pct >= 75 ? "var(--ok)" : pct >= 45 ? "var(--waarschuwing)" : "var(--fout)";
+      const barHtml = pct !== null
+        ? `<div class="zekerheid-bar" title="Zekerheid: ${pct}%"><div class="zekerheid-fill" style="width:${pct}%;background:${barColor}"></div></div>`
+        : "";
+      const bewijsHtml = (s?.bewijs || []).length
+        ? `<div class="bewijs-rij">${s.bewijs.map(i => opmaak(i)).join("")}</div>`
+        : "";
+      return `
+        <div class="slot">
+          <div class="slot-head">
+            <b>${naam}</b>
+            ${pct !== null ? `<span class="zekerheid-pct">${pct}%</span>` : ""}
+          </div>
+          ${barHtml}
+          <div>${s?.bewering ? opmaak(s.bewering) : '<span class="leeg">onbekend (null)</span>'}</div>
+          ${bewijsHtml}
+        </div>`;
+    };
+
     const o = verdict.oorzaak || {};
-    vd.innerHTML = `<div class="slot"><b>Samenvatting</b>${verdict.samenvatting === "TODO" ? '<span class="leeg">TODO</span>' : opmaak(verdict.samenvatting)}</div>`
-      + slot("Ingreep", o.ingreep) + slot("Mechanisme", o.mechanisme) + slot("Verloop", o.verloop)
-      + `<div class="slot"><b>Herstelplan</b><ol>${(verdict.acties || []).map(a => `<li>${opmaak(a.actie)}</li>`).join("")}</ol></div>`
-      + `<div class="slot"><b>Risico's</b><ol>${(verdict.risicos || []).map(r => `<li>${opmaak(r.risico)}</li>`).join("")}</ol></div>`;
+    const voorspellingHtml = verdict.voorspelling
+      ? `<div class="forecast-card">
+          <div class="forecast-head">
+            <span class="forecast-title">🔮 Voorspelling</span>
+            <span class="day-badge">Day ${esc(verdict.voorspelling.dag)}</span>
+          </div>
+          <div>${opmaak(verdict.voorspelling.bewering)}</div>
+          ${(verdict.voorspelling.bewijs || []).length ? `<div class="bewijs-rij">${verdict.voorspelling.bewijs.map(i => opmaak(i)).join("")}</div>` : ""}
+        </div>`
+      : "";
+
+    const actiesHtml = (verdict.acties || []).map(a =>
+      `<li>
+        <div>${opmaak(a.actie)}</div>
+        ${a.reden ? `<div class="verdict-sub">${opmaak(a.reden)}</div>` : ""}
+        ${(a.bewijs || []).length ? `<div class="bewijs-rij">${a.bewijs.map(i => opmaak(i)).join("")}</div>` : ""}
+      </li>`
+    ).join("");
+
+    const risicosHtml = (verdict.risicos || []).map(r =>
+      `<li>
+        <div>${opmaak(r.risico)}</div>
+        ${r.mitigatie ? `<div class="verdict-sub"><b>Mitigatie:</b> ${opmaak(r.mitigatie)}</div>` : ""}
+      </li>`
+    ).join("");
+
+    vd.innerHTML =
+      `<div class="slot"><div class="slot-head"><b>Samenvatting</b></div><div>${verdict.samenvatting === "TODO" ? '<span class="leeg">TODO</span>' : opmaak(verdict.samenvatting)}</div></div>` +
+      slot("Ingreep", o.ingreep) +
+      slot("Mechanisme", o.mechanisme) +
+      slot("Verloop", o.verloop) +
+      voorspellingHtml +
+      `<div class="slot"><div class="slot-head"><b>Herstelplan</b></div><ol class="verdict-list">${actiesHtml}</ol></div>` +
+      `<div class="slot"><div class="slot-head"><b>Risico's</b></div><ol class="verdict-list">${risicosHtml}</ol></div>`;
+  }
+
+  const prevLen = state.lastSpokenKey;
+  renderStage();
+
+  // If live mode + voices on + new turn arrived, speak it
+  const curIdx = state.cursor;
+  if (state.liveMode && state.voicesOn && curIdx >= 0 && beurten[curIdx]) {
+    const key = `${trace.run_id}:${curIdx}`;
+    if (key !== prevLen) {
+      state.lastSpokenKey = key;
+      speakStep(beurten[curIdx]);
+    }
   }
 }
 
+/* Playback & Interaction */
+function goToStep(idx, opts = {}) {
+  const beurten = state.trace?.beurten || [];
+  if (!beurten.length) return;
+  stopSpeech();
+  if (!opts.keepPlaying) state.isPlaying = false;
+  state.liveMode = Boolean(opts.live);
+  state.cursor = Math.max(0, Math.min(idx, beurten.length - 1));
+  renderStage();
+
+  if (opts.scrollTranscript) {
+    const card = document.querySelector(`#debat .beurt[data-idx="${state.cursor}"]`);
+    if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  const step = beurten[state.cursor];
+  state.lastSpokenKey = `${state.trace?.run_id}:${state.cursor}`;
+  if (state.voicesOn && !opts.silent) {
+    speakStep(step, () => {
+      if (state.isPlaying) scheduleNextPlayTick(450);
+    });
+  } else if (state.isPlaying) {
+    const delay = step.soort === "toolcall" || step.soort === "bestand" ? 1300 : 3200;
+    scheduleNextPlayTick(delay);
+  }
+}
+
+function scheduleNextPlayTick(ms) {
+  if (state.playTimer) clearTimeout(state.playTimer);
+  state.playTimer = setTimeout(() => {
+    if (!state.isPlaying) return;
+    const beurten = state.trace?.beurten || [];
+    if (state.cursor >= beurten.length - 1) {
+      state.isPlaying = false;
+      state.liveMode = true;
+      renderStage();
+      return;
+    }
+    goToStep(state.cursor + 1, { keepPlaying: true, scrollTranscript: true });
+  }, ms);
+}
+
+function togglePlay() {
+  const beurten = state.trace?.beurten || [];
+  if (!beurten.length) return;
+  if (state.isPlaying) {
+    state.isPlaying = false;
+    stopSpeech();
+    renderStage();
+    return;
+  }
+  state.isPlaying = true;
+  state.liveMode = false;
+  const startIdx = state.cursor >= beurten.length - 1 ? 0 : state.cursor + 1;
+  goToStep(startIdx, { keepPlaying: true, scrollTranscript: true });
+}
+
+function initControls() {
+  const btnStart = document.getElementById("btn-start");
+  const btnPrev = document.getElementById("btn-prev");
+  const btnPlay = document.getElementById("btn-play");
+  const btnNext = document.getElementById("btn-next");
+  const btnLive = document.getElementById("btn-live");
+  const scrubber = document.getElementById("scrubber");
+  const btnVoices = document.getElementById("btn-voices");
+  const btnDisputes = document.getElementById("btn-disputes");
+  const btnTheme = document.getElementById("btn-theme");
+
+  btnStart.addEventListener("click", () => goToStep(0, { scrollTranscript: true }));
+  btnPrev.addEventListener("click", () => goToStep(state.cursor - 1, { scrollTranscript: true }));
+  btnPlay.addEventListener("click", togglePlay);
+  btnNext.addEventListener("click", () => goToStep(state.cursor + 1, { scrollTranscript: true }));
+  btnLive.addEventListener("click", () => {
+    const len = (state.trace?.beurten || []).length;
+    goToStep(Math.max(0, len - 1), { live: true, scrollTranscript: true, silent: true });
+  });
+
+  scrubber.addEventListener("input", e => {
+    goToStep(Number(e.target.value), { silent: true, scrollTranscript: true });
+  });
+
+  document.getElementById("debat").addEventListener("click", e => {
+    const card = e.target.closest(".beurt[data-idx]");
+    if (card) goToStep(Number(card.dataset.idx));
+  });
+
+  document.getElementById("chamber-seats").addEventListener("click", e => {
+    const mask = e.target.closest(".mask-group[data-role]");
+    if (!mask || !state.trace?.beurten) return;
+    const rol = mask.dataset.role;
+    const beurten = state.trace.beurten;
+    let next = beurten.findIndex((b, i) => i > state.cursor && b.spreker === rol);
+    if (next < 0) next = beurten.findIndex(b => b.spreker === rol);
+    if (next >= 0) goToStep(next, { scrollTranscript: true });
+  });
+
+  if (!state.speechSupported) {
+    btnVoices.disabled = true;
+    btnVoices.title = "Browser ondersteunt geen SpeechSynthesis";
+  } else {
+    btnVoices.addEventListener("click", () => {
+      state.voicesOn = !state.voicesOn;
+      btnVoices.textContent = state.voicesOn ? "🔊 Voices On" : "🔇 Voices Off";
+      btnVoices.className = "btn" + (state.voicesOn ? " active" : "");
+      if (!state.voicesOn) {
+        stopSpeech();
+      } else {
+        const beurten = state.trace?.beurten || [];
+        if (state.cursor >= 0 && beurten[state.cursor]) {
+          speakStep(beurten[state.cursor], () => {
+            if (state.isPlaying) scheduleNextPlayTick(450);
+          });
+        }
+      }
+    });
+  }
+
+  btnDisputes.addEventListener("click", () => {
+    state.showDisputes = !state.showDisputes;
+    renderStage();
+  });
+
+  const applyTheme = theme => {
+    document.documentElement.setAttribute("data-theme", theme);
+    btnTheme.textContent = theme === "dark" ? "☀️ Light" : "🌙 Dark";
+    try { localStorage.setItem("council-viewer-theme", theme); } catch {}
+  };
+  let savedTheme = "dark";
+  try { savedTheme = localStorage.getItem("council-viewer-theme") || "dark"; } catch {}
+  applyTheme(savedTheme === "light" ? "light" : "dark");
+  btnTheme.addEventListener("click", () => {
+    const cur = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+    applyTheme(cur === "dark" ? "light" : "dark");
+  });
+
+  window.addEventListener("keydown", e => {
+    if (e.target && ["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName)) return;
+    if (e.code === "Space") {
+      e.preventDefault();
+      togglePlay();
+    } else if (e.code === "ArrowRight") {
+      e.preventDefault();
+      goToStep(state.cursor + 1, { scrollTranscript: true });
+    } else if (e.code === "ArrowLeft") {
+      e.preventDefault();
+      goToStep(state.cursor - 1, { scrollTranscript: true });
+    }
+  });
+}
+
 async function haal(pad) {
-  try { const r = await fetch(pad, { cache: "no-store" }); return r.ok ? await r.text() : null; } catch { return null; }
+  try {
+    const r = await fetch(pad, { cache: "no-store" });
+    return r.ok ? await r.text() : null;
+  } catch {
+    return null;
+  }
 }
 
 async function lus() {
   const [t, v] = await Promise.all([haal("trace.json"), haal("verdict.json")]);
-  if (t && t + (v || "") !== vorige) {
-    vorige = t + (v || "");
-    try { render(JSON.parse(t), v ? JSON.parse(v) : null); } catch { /* bestand half geschreven: volgende ronde opnieuw */ }
+  if (t && t + (v || "") !== state.vorige) {
+    state.vorige = t + (v || "");
+    try {
+      render(JSON.parse(t), v ? JSON.parse(v) : null);
+    } catch {
+      /* bestand half geschreven: volgende ronde opnieuw */
+    }
   }
   setTimeout(lus, 1500);
 }
+
+initControls();
+renderStage();
 lus();
 </script>
 </body>
