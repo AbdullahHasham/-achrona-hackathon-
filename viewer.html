@@ -1,424 +1,2130 @@
 <!doctype html>
-<html lang="nl" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Council of Achrona — Council Chamber Stage</title>
+<title>TEAM HAZARDOUS // Council of Achrona — Tactical HUD</title>
 <style>
-  :root, :root[data-theme="dark"] {
-    --bg: #0d1014; --bg-elev: #141920; --paneel: #191f28; --paneel-2: #212834;
-    --tekst: #ece8df; --zacht: #9ca3b0; --lijn: #2c3442;
-    --been: #f3ede1; --staal: #5e6878;
-    --waarschuwing: #f59e0b; --fout: #f87171; --ok: #4ade80;
-    --archmage: #a28bff; --engineer: #fbbf24; --guardian_keeper: #38bdf8; --historian: #d6a35c;
-    --oracle: #f472b6; --beast_master: #4ade80; --koning: #e2c578; --mens: #f87171;
-    --stage-floor-0: #1e2530; --stage-floor-1: #131820; --stage-floor-2: #0d1014;
-    --mask-hi: #f5efe3; --mask-lo: #b8ae9b; --mask-stroke: #5b5346; --eye-fill: #13171e;
-    --shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  :root {
+    --bg: #0A0B0F;
+    --bg-panel: #10131A;
+    --bg-elev: #151A24;
+    --bg-deep: #07080B;
+    --line: #232B3A;
+    --line-hi: #36435A;
+    --amber: #FFB800;
+    --amber-dim: rgba(255, 184, 0, 0.16);
+    --crimson: #FF2E54;
+    --crimson-dim: rgba(255, 46, 84, 0.16);
+    --mint: #00E58B;
+    --mint-dim: rgba(0, 229, 139, 0.14);
+    --text: #EEF2F6;
+    --muted: #8B95A5;
+    --steel: #586375;
+
+    --archmage: #A27BFF;
+    --engineer: #FFB800;
+    --guardian_keeper: #00D4FF;
+    --historian: #E89B54;
+    --oracle: #FF4D9D;
+    --beast_master: #00E58B;
+    --koning: #FFB800;
+    --mens: #FF2E54;
+
+    --font-hud: "Consolas", "Cascadia Mono", "Courier New", monospace;
+    --font-body: "Segoe UI", system-ui, -apple-system, sans-serif;
     color-scheme: dark;
-  }
-  :root[data-theme="light"] {
-    --bg: #f4f2ec; --bg-elev: #ece8de; --paneel: #ffffff; --paneel-2: #f8f6f1;
-    --tekst: #1b1d22; --zacht: #62656e; --lijn: #dedad0;
-    --been: #2b2720; --staal: #7a818d;
-    --waarschuwing: #b45309; --fout: #dc2626; --ok: #15803d;
-    --archmage: #6d4aff; --engineer: #c2780a; --guardian_keeper: #0b84c4; --historian: #8a5a12;
-    --oracle: #c0266d; --beast_master: #15803d; --koning: #8c6216; --mens: #b91c1c;
-    --stage-floor-0: #ebe6db; --stage-floor-1: #f2efe7; --stage-floor-2: #f7f5f0;
-    --mask-hi: #fffcf5; --mask-lo: #d6cdbc; --mask-stroke: #6c6252; --eye-fill: #1f242c;
-    --shadow: 0 10px 26px rgba(27, 29, 34, 0.08);
-    color-scheme: light;
   }
 
   * { box-sizing: border-box; }
-  body {
+
+  html, body {
     margin: 0;
-    background: var(--bg);
-    color: var(--tekst);
-    font: 14.5px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 0;
+    min-height: 100%;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(255, 184, 0, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 184, 0, 0.035) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-x: hidden;
   }
+
   button, input { font: inherit; color: inherit; }
   button { cursor: pointer; }
 
-  /* Header */
-  header.topbar {
-    position: sticky; top: 0; z-index: 20;
-    background: color-mix(in srgb, var(--bg) 92%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--lijn);
-    padding: 10px 18px;
-    display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
-  }
-  header.topbar h1 {
-    font-size: 16.5px; margin: 0; font-weight: 700; letter-spacing: 0.01em;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .crown-dot {
-    width: 10px; height: 10px; border-radius: 50%; background: var(--koning);
-    box-shadow: 0 0 10px color-mix(in srgb, var(--koning) 70%, transparent);
-  }
-  .pil {
-    font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
-    border: 1px solid var(--lijn); background: var(--paneel);
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .pil.bezig { border-color: var(--waarschuwing); color: var(--waarschuwing); }
-  .pil.bezig::before {
-    content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--waarschuwing);
-    animation: dotpulse 1.2s ease-in-out infinite;
-  }
-  .pil.klaar { border-color: var(--ok); color: var(--ok); }
-  .pil.bonus {
-    border-color: color-mix(in srgb, var(--koning) 65%, var(--lijn));
-    color: var(--koning);
-    background: color-mix(in srgb, var(--koning) 14%, var(--paneel));
-  }
-  .runid { color: var(--zacht); font-size: 12px; font-family: ui-monospace, monospace; word-break: break-all; }
-  .header-actions { margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .btn {
-    background: var(--paneel); border: 1px solid var(--lijn); border-radius: 7px;
-    padding: 5px 11px; font-size: 13px; font-weight: 550;
-    display: inline-flex; align-items: center; gap: 5px;
-    transition: border-color .15s, background .15s, transform .1s;
-  }
-  .btn:hover:not(:disabled) { border-color: var(--zacht); background: var(--paneel-2); }
-  .btn:active:not(:disabled) { transform: translateY(1px); }
-  .btn:disabled { opacity: 0.4; cursor: default; }
-  .btn.active {
-    border-color: var(--koning);
-    background: color-mix(in srgb, var(--koning) 18%, var(--paneel));
-    color: var(--tekst);
-  }
-  .btn.live-on {
-    border-color: var(--ok);
-    background: color-mix(in srgb, var(--ok) 16%, var(--paneel));
-    color: var(--ok);
-  }
-  .btn.dispute-on {
-    border-color: var(--fout);
-    background: color-mix(in srgb, var(--fout) 15%, var(--paneel));
-    color: var(--fout);
+  /* Subtle CRT Scanlines Overlay */
+  body.crt-on::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.18) 0px,
+        rgba(0, 0, 0, 0.18) 1px,
+        transparent 1px,
+        transparent 3px
+      ),
+      radial-gradient(ellipse at center, transparent 62%, rgba(0, 0, 0, 0.42) 100%);
   }
 
-  /* Layout */
-  main {
+  /* Hazard Diagonal Stripes (Animated Scroll) */
+  .hazard-stripe {
+    height: 12px;
+    width: 100%;
+    flex-shrink: 0;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #FFB800 0px,
+      #FFB800 12px,
+      #0A0B0F 12px,
+      #0A0B0F 24px
+    );
+    background-size: 33.94px 33.94px;
+    animation: hazardScroll 1.6s linear infinite;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+  .hazard-stripe-thin {
+    height: 6px;
+    width: 100%;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #FFB800 0px,
+      #FFB800 8px,
+      #0A0B0F 8px,
+      #0A0B0F 16px
+    );
+    background-size: 22.63px 22.63px;
+    animation: hazardScrollSm 2.4s linear infinite;
+  }
+  .hazard-stripe-crimson {
+    height: 6px;
+    width: 100%;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #FF2E54 0px,
+      #FF2E54 8px,
+      #0A0B0F 8px,
+      #0A0B0F 16px
+    );
+    background-size: 22.63px 22.63px;
+    animation: hazardScrollSm 2.1s linear infinite;
+  }
+  @keyframes hazardScroll {
+    from { background-position: 0 0; }
+    to { background-position: 33.94px 0; }
+  }
+  @keyframes hazardScrollSm {
+    from { background-position: 0 0; }
+    to { background-position: 22.63px 0; }
+  }
+
+  /* =========================================================
+     PRESS START ARCADE SPLASH OVERLAY + 1.2s CRT BOOT REVEAL
+     ========================================================= */
+  .splash-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(6, 7, 10, 0.97);
+    background-image:
+      radial-gradient(circle at 50% 25%, rgba(255, 184, 0, 0.13), transparent 58%),
+      linear-gradient(rgba(255, 184, 0, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 184, 0, 0.04) 1px, transparent 1px);
+    background-size: 100% 100%, 32px 32px, 32px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+    clip-path: inset(0% 0% 0% 0%);
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), clip-path 0.55s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s ease, visibility 0.55s ease;
+  }
+  .splash-overlay.is-exiting {
+    opacity: 0;
+    transform: scale(1.06);
+    clip-path: inset(46% 0% 46% 0%);
+    filter: brightness(1.65) contrast(1.15);
+    pointer-events: none;
+  }
+  .splash-overlay.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* CRT Power-On Phosphor Flash Line */
+  .crt-boot-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 1010;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(255, 226, 138, 0.92) 0%, rgba(255, 184, 0, 0.32) 38%, transparent 72%);
+    opacity: 0;
+  }
+  .splash-overlay.is-booting .crt-boot-flash {
+    animation: crtFlash 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes crtFlash {
+    0% { opacity: 1; transform: scaleX(0.05) scaleY(0.008); }
+    28% { opacity: 0.95; transform: scaleX(1) scaleY(0.014); }
+    58% { opacity: 0.55; transform: scaleX(1) scaleY(1); }
+    100% { opacity: 0; transform: scaleX(1) scaleY(1); }
+  }
+
+  .splash-inner {
+    max-width: 1220px;
+    width: 100%;
+    margin: auto;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .splash-overlay.is-booting .splash-inner {
+    animation: crtExpand 0.52s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes crtExpand {
+    0% { opacity: 0; transform: scaleX(0.92) scaleY(0.04); filter: brightness(2.4); }
+    45% { opacity: 1; transform: scaleX(1.01) scaleY(0.96); filter: brightness(1.35); }
+    100% { opacity: 1; transform: scaleX(1) scaleY(1); filter: brightness(1); }
+  }
+
+  .splash-hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .splash-kicker {
+    font-family: var(--font-hud);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--amber);
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border: 1px solid rgba(255, 184, 0, 0.45);
+    background: rgba(255, 184, 0, 0.08);
+  }
+  .splash-overlay.is-booting .splash-kicker {
+    animation: fadeSlideDown 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+  }
+
+  .splash-emblem-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .splash-overlay.is-booting .splash-emblem-row {
+    animation: titleLockIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+  }
+  @keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes titleLockIn {
+    0% { opacity: 0; transform: scale(1.14); letter-spacing: 0.22em; filter: brightness(1.8); }
+    100% { opacity: 1; transform: scale(1); letter-spacing: 0.08em; filter: brightness(1); }
+  }
+
+  .splash-title {
+    margin: 0;
+    font-family: var(--font-hud);
+    font-size: clamp(32px, 5.2vw, 58px);
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1.05;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    text-shadow:
+      0 0 24px rgba(255, 184, 0, 0.38),
+      3px 3px 0 #000000,
+      4px 4px 0 rgba(255, 184, 0, 0.5);
+  }
+
+  .team-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .splash-overlay.is-booting .team-bar {
+    animation: teamGlowLock 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both;
+  }
+  @keyframes teamGlowLock {
+    0% { opacity: 0; transform: translateY(10px) scale(0.94); filter: drop-shadow(0 0 22px rgba(255, 184, 0, 0.9)); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: drop-shadow(0 0 6px rgba(255, 184, 0, 0.3)); }
+  }
+
+  .team-badge {
+    font-family: var(--font-hud);
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    color: #0A0B0F;
+    background: var(--amber);
+    padding: 5px 14px;
+    border: 2px solid #FFE28A;
+    box-shadow: 0 0 18px rgba(255, 184, 0, 0.45);
+  }
+
+  .team-names {
+    font-family: var(--font-hud);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--text);
+  }
+  .team-names span { color: var(--amber); margin: 0 6px; }
+
+  .roster-heading {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-hud);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .roster-heading::before,
+  .roster-heading::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-hi), transparent);
+  }
+
+  .splash-roster {
+    width: 100%;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 375px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+  }
+  @media (max-width: 1080px) {
+    .splash-roster { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .splash-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  .char-slot {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(22, 27, 38, 0.95) 0%, rgba(12, 15, 21, 0.98) 100%);
+    border: 1px solid var(--line-hi);
+    border-top: 3px solid var(--hue);
+    padding: 12px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.16s ease, box-shadow 0.18s ease;
+  }
+  .splash-overlay.is-booting .char-slot {
+    animation: cardPopIn 0.44s cubic-bezier(0.16, 1, 0.3, 1) calc(0.36s + var(--idx, 0) * 0.085s) both;
+  }
+  @keyframes cardPopIn {
+    0% { opacity: 0; transform: translateY(22px) scale(0.92); filter: brightness(1.5); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); }
+  }
+  .char-slot::before {
+    content: attr(data-code);
+    position: absolute;
+    top: 6px;
+    left: 7px;
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--hue);
+    opacity: 0.85;
+  }
+  .char-slot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 35%, color-mix(in srgb, var(--hue) 22%, transparent) 50%, transparent 65%);
+    transform: translateX(-120%);
+    transition: transform 0.48s ease;
+    pointer-events: none;
+  }
+  .char-slot:hover::after {
+    transform: translateX(120%);
+  }
+  .char-slot:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: var(--hue);
+    box-shadow: 0 0 26px color-mix(in srgb, var(--hue) 40%, transparent), inset 0 0 12px color-mix(in srgb, var(--hue) 16%, transparent);
+  }
+
+  .splash-overlay.is-booting .splash-cta-wrap {
+    animation: ctaRiseIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.92s both;
+  }
+  @keyframes ctaRiseIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Stage Reveal Animation after Press Start */
+  main.tactical-grid.is-entering {
+    animation: stageReveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes stageReveal {
+    0% { opacity: 0; transform: translateY(18px) scale(0.985); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  main.tactical-grid.is-entering .seat-node {
+    animation: seatFanIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) calc(0.12s + var(--seat-idx, 0) * 0.065s) both;
+  }
+  @keyframes seatFanIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  .char-portrait-box {
+    width: 72px;
+    height: 72px;
+    border: 1px solid color-mix(in srgb, var(--hue) 55%, var(--line));
+    background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--hue) 18%, #0A0B0F) 0%, #07080B 85%);
+    display: grid;
+    place-items: center;
+    margin-top: 6px;
+  }
+
+  .char-name {
+    font-family: var(--font-hud);
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #FFFFFF;
+    text-transform: uppercase;
+  }
+  .char-spec {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+  .char-bias {
+    width: 100%;
+    font-family: var(--font-hud);
+    font-size: 10px;
+    line-height: 1.25;
+    padding: 4px 6px;
+    background: rgba(255, 46, 84, 0.1);
+    border: 1px solid rgba(255, 46, 84, 0.35);
+    color: #FF8DA2;
+    text-transform: uppercase;
+  }
+  .char-status {
+    margin-top: auto;
+    width: 100%;
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 6px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-deep);
+    color: var(--mint);
+    text-transform: uppercase;
+  }
+  .char-status.is-speaking {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: rgba(255, 184, 0, 0.12);
+    animation: hudblink 1s step-end infinite;
+  }
+
+  .splash-cta-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .btn-start-arcade {
+    font-family: var(--font-hud);
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0A0B0F;
+    background: var(--amber);
+    border: 2px solid #FFF2B8;
+    padding: 14px 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 0 26px rgba(255, 184, 0, 0.45), inset 0 0 0 2px #0A0B0F;
+    animation: ctabeat 1.8s ease-in-out infinite;
+    transition: transform 0.12s ease, background 0.12s ease;
+  }
+  .btn-start-arcade:hover {
+    background: #FFC933;
+    transform: scale(1.02);
+  }
+  .btn-start-arcade:active {
+    transform: scale(0.99);
+  }
+
+  .splash-hint {
+    font-family: var(--font-hud);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  @keyframes ctabeat {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 184, 0, 0.45), inset 0 0 0 2px #0A0B0F; }
+    50% { box-shadow: 0 0 38px rgba(255, 184, 0, 0.85), inset 0 0 0 2px #0A0B0F; }
+  }
+  @keyframes hudblink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+  }
+
+  /* =========================================================
+     TOP HAZARD HUD BAR
+     ========================================================= */
+  header.hud-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 11, 15, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid var(--amber);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.65);
+  }
+
+  .hud-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 8px 16px;
+    max-width: 1640px;
+    margin: 0 auto;
+  }
+
+  .brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 4px;
+  }
+  .brand-icon {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    background: var(--amber);
+    color: #0A0B0F;
+    border: 1px solid #FFE28A;
+    flex-shrink: 0;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .brand-title {
+    font-family: var(--font-hud);
+    font-size: 13.5px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: #FFFFFF;
+    text-transform: uppercase;
+  }
+  .brand-title span { color: var(--amber); }
+  .brand-sub {
+    font-family: var(--font-hud);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .hud-pill {
+    font-family: var(--font-hud);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-panel);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .hud-pill.is-live {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: rgba(255, 184, 0, 0.12);
+  }
+  .hud-pill.is-live .pulse-sq {
+    width: 7px;
+    height: 7px;
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber);
+    animation: hudblink 1s ease-in-out infinite;
+  }
+  .hud-pill.is-locked {
+    border-color: var(--mint);
+    color: var(--mint);
+    background: rgba(0, 229, 139, 0.1);
+  }
+  .hud-pill.is-locked .pulse-sq {
+    width: 7px;
+    height: 7px;
+    background: var(--mint);
+  }
+  .hud-pill.is-bonus {
+    border-color: var(--mint);
+    color: #0A0B0F;
+    background: var(--mint);
+    box-shadow: 0 0 14px rgba(0, 229, 139, 0.35);
+  }
+
+  /* Segmented Arcade HP Turn Budget Meter */
+  .budget-hud {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-deep);
+    font-family: var(--font-hud);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+  .budget-cells {
+    display: inline-flex;
+    gap: 2px;
+  }
+  .budget-cell {
+    width: 7px;
+    height: 12px;
+    background: #1B2230;
+    border: 1px solid #2C3648;
+  }
+  .budget-cell.filled {
+    background: var(--mint);
+    border-color: #80FFC8;
+    box-shadow: 0 0 6px rgba(0, 229, 139, 0.45);
+  }
+  .budget-cell.filled.warn {
+    background: var(--amber);
+    border-color: #FFE082;
+    box-shadow: 0 0 6px rgba(255, 184, 0, 0.45);
+  }
+  .budget-cell.filled.over {
+    background: var(--crimson);
+    border-color: #FF8AA0;
+    box-shadow: 0 0 6px rgba(255, 46, 84, 0.5);
+  }
+
+  .hud-actions {
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hud-btn {
+    font-family: var(--font-hud);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-panel);
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: border-color 0.14s, background 0.14s, color 0.14s, transform 0.08s;
+  }
+  .hud-btn:hover:not(:disabled) {
+    border-color: var(--amber);
+    background: var(--bg-elev);
+    color: #FFFFFF;
+  }
+  .hud-btn:active:not(:disabled) { transform: translateY(1px); }
+  .hud-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .hud-btn.is-on {
+    border-color: var(--amber);
+    background: var(--amber-dim);
+    color: var(--amber);
+  }
+  .hud-btn.is-mint {
+    border-color: var(--mint);
+    background: var(--mint-dim);
+    color: var(--mint);
+  }
+  .hud-btn.is-crimson {
+    border-color: var(--crimson);
+    background: var(--crimson-dim);
+    color: var(--crimson);
+  }
+
+  .svg-ic {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* =========================================================
+     MAIN 3-ZONE ARCADE LAYOUT
+     ========================================================= */
+  main.tactical-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 410px;
     gap: 16px;
-    padding: 16px;
-    max-width: 1520px;
+    padding: 14px 16px 32px;
+    max-width: 1640px;
     margin: 0 auto;
     align-items: start;
   }
-  @media (max-width: 1020px) {
-    main { grid-template-columns: minmax(0, 1fr); }
+  @media (max-width: 1120px) {
+    main.tactical-grid { grid-template-columns: minmax(0, 1fr); }
   }
 
-  /* Council Chamber Stage Card */
-  .stage-card {
-    background: var(--paneel);
-    border: 1px solid var(--lijn);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    margin-bottom: 16px;
+  .stage-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
   }
-  .stage-wrap {
+
+  /* Tactical Panel Frame */
+  .tactical-panel {
     position: relative;
-    background: radial-gradient(ellipse at 50% 28%, var(--stage-floor-0) 0%, var(--stage-floor-1) 58%, var(--stage-floor-2) 100%);
-    border-bottom: 1px solid var(--lijn);
+    background: var(--bg-panel);
+    border: 1px solid var(--line-hi);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
   }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 13px;
+    background: var(--bg-elev);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .panel-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-header-meta {
+    font-size: 10.5px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* =========================================================
+     SVG TACTICAL COUNCIL CHAMBER
+     ========================================================= */
+  .chamber-stage {
+    position: relative;
+    background:
+      radial-gradient(ellipse at 50% 34%, rgba(255, 184, 0, 0.08) 0%, rgba(16, 19, 26, 0.94) 55%, #07080B 100%);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .chamber-corner {
+    position: absolute;
+    font-family: var(--font-hud);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(255, 184, 0, 0.65);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .chamber-corner.tl { top: 8px; left: 12px; }
+  .chamber-corner.tr { top: 8px; right: 12px; }
+
   svg#chamber {
     display: block;
     width: 100%;
     height: auto;
-    max-height: 415px;
+    max-height: 410px;
     user-select: none;
   }
 
-  /* SVG Chamber styling */
-  .ring-line { fill: none; stroke: var(--lijn); stroke-width: 1; opacity: 0.65; }
-  .seat-tether { fill: none; stroke: var(--lijn); stroke-width: 1; stroke-dasharray: 3 5; opacity: 0.55; }
-  .beam-glow {
-    fill: none; stroke-linecap: round; opacity: 0.28;
-    filter: blur(5px);
-  }
+  .grid-ring { fill: none; stroke: rgba(255, 184, 0, 0.14); stroke-width: 1; }
+  .grid-ring-dashed { fill: none; stroke: rgba(139, 149, 165, 0.2); stroke-width: 1; stroke-dasharray: 4 6; }
+  .seat-tether { fill: none; stroke: rgba(139, 149, 165, 0.22); stroke-width: 1; stroke-dasharray: 3 5; }
+
+  .beam-glow { fill: none; stroke-linecap: round; opacity: 0.35; filter: blur(6px); }
   .beam-core {
-    fill: none; stroke-width: 3; stroke-linecap: round;
-    stroke-dasharray: 10 8;
-    animation: beamflow 0.95s linear infinite;
+    fill: none;
+    stroke-width: 3.2;
+    stroke-linecap: round;
+    stroke-dasharray: 12 8;
+    animation: beamflow 0.75s linear infinite;
   }
   @keyframes beamflow {
-    from { stroke-dashoffset: 36; }
+    from { stroke-dashoffset: 40; }
     to { stroke-dashoffset: 0; }
   }
+
   .dispute-arc {
-    fill: none; stroke: var(--fout); stroke-width: 2; stroke-dasharray: 6 5; opacity: 0.78;
-    animation: beamflow 2.2s linear infinite;
-  }
-  .dispute-node circle { fill: var(--bg-elev); stroke: var(--fout); stroke-width: 1.6; }
-  .dispute-node text { fill: var(--fout); font-size: 11px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
-
-  .king-halo {
-    fill: none; stroke: var(--koning); stroke-width: 1.8; opacity: 0.45;
-  }
-  .king-halo.is-pulsing {
-    animation: halopulse 1.4s ease-in-out infinite;
-  }
-  .king-crown {
-    fill: color-mix(in srgb, var(--koning) 26%, var(--bg-elev));
-    stroke: var(--koning); stroke-width: 2.2; stroke-linejoin: round;
-  }
-  .king-label {
-    fill: var(--koning); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-anchor: middle;
-  }
-
-  .mask-group { transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer; }
-  .mask-group.is-dim { opacity: 0.48; }
-  .mask-group:hover { opacity: 1; }
-  .mask-glow { fill: var(--hue); opacity: 0; filter: blur(18px); transition: opacity 0.35s; }
-  .mask-group.is-active .mask-glow { opacity: 0.45; }
-  .mask-pulse-ring {
-    fill: none; stroke: var(--hue); stroke-width: 2.5; opacity: 0;
-  }
-  .mask-group.is-thinking .mask-pulse-ring {
-    opacity: 0.9;
-    animation: halopulse 1.3s ease-in-out infinite;
-  }
-  .mask-group.is-tool .mask-pulse-ring {
+    fill: none;
+    stroke: var(--crimson);
+    stroke-width: 2.2;
+    stroke-dasharray: 7 5;
     opacity: 0.85;
-    stroke-dasharray: 6 4;
-    animation: spinring 8s linear infinite;
+    animation: beamflow 1.8s linear infinite;
   }
+  .dispute-node-bg { fill: #19080D; stroke: var(--crimson); stroke-width: 1.8; }
+
+  .king-ring-outer { fill: none; stroke: var(--amber); stroke-width: 1.5; stroke-dasharray: 6 4; opacity: 0.6; }
+  .king-ring-outer.is-pulsing { animation: spinring 14s linear infinite; opacity: 1; }
+  .king-halo { fill: none; stroke: var(--amber); stroke-width: 2; opacity: 0.45; }
+  .king-halo.is-pulsing { animation: halopulse 1.3s ease-in-out infinite; }
+  .king-label {
+    fill: var(--amber);
+    font-family: var(--font-hud);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-anchor: middle;
+  }
+
+  .seat-node {
+    cursor: pointer;
+    transition: opacity 0.25s ease;
+  }
+  .seat-node.is-dim { opacity: 0.45; }
+  .seat-node:hover { opacity: 1; }
+  .seat-aura { fill: var(--hue); opacity: 0; filter: blur(16px); transition: opacity 0.3s; }
+  .seat-node.is-active .seat-aura { opacity: 0.38; }
+  .seat-radar {
+    fill: none;
+    stroke: var(--hue);
+    stroke-width: 2.4;
+    opacity: 0;
+  }
+  .seat-node.is-thinking .seat-radar {
+    opacity: 0.95;
+    animation: halopulse 1.2s ease-in-out infinite;
+  }
+  .seat-node.is-tool .seat-radar {
+    opacity: 0.95;
+    stroke-dasharray: 7 4;
+    animation: spinring 6s linear infinite;
+  }
+  .seat-frame {
+    fill: #0C0F16;
+    stroke: var(--line-hi);
+    stroke-width: 2;
+    transition: stroke 0.2s, stroke-width 0.2s;
+  }
+  .seat-node.is-active .seat-frame {
+    stroke: var(--hue);
+    stroke-width: 2.8;
+  }
+  .seat-code {
+    fill: var(--hue);
+    font-family: var(--font-hud);
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-anchor: middle;
+  }
+  .seat-name {
+    fill: #FFFFFF;
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-anchor: middle;
+  }
+  .seat-meta {
+    fill: var(--muted);
+    font-family: var(--font-hud);
+    font-size: 9.8px;
+    text-anchor: middle;
+  }
+
+  .mcp-lock-badge rect {
+    fill: #070A0F;
+    stroke: var(--mint);
+    stroke-width: 1.6;
+  }
+  .mcp-lock-badge.is-error rect {
+    fill: #1A070B;
+    stroke: var(--crimson);
+  }
+  .mcp-lock-badge text {
+    fill: var(--mint);
+    font-family: var(--font-hud);
+    font-size: 9.8px;
+    font-weight: 700;
+  }
+  .mcp-lock-badge.is-error text { fill: var(--crimson); }
+
   @keyframes halopulse {
-    0%, 100% { transform: scale(1); opacity: 0.85; }
-    50% { transform: scale(1.13); opacity: 0.25; }
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.16); opacity: 0.2; }
   }
   @keyframes spinring {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
-  @keyframes dotpulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.35; transform: scale(0.75); }
-  }
-  .mask-face { fill: url(#porcelainGrad); stroke: var(--mask-stroke); stroke-width: 1.3; }
-  .mask-shade { fill: #000000; opacity: 0.12; }
-  .mask-line { fill: none; stroke: var(--mask-stroke); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .mask-sigil { fill: none; stroke: var(--hue); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-  .mask-sigil-fill { fill: var(--hue); opacity: 0.22; stroke: var(--hue); stroke-width: 2; }
-  .mask-eye { fill: var(--eye-fill); transition: fill 0.25s; }
-  .mask-group.is-active .mask-eye { fill: var(--hue); }
-  .mask-crack { fill: none; stroke: var(--mask-stroke); stroke-width: 1.4; opacity: 0.6; stroke-linejoin: round; }
-  .mask-mend {
-    fill: none; stroke: var(--hue); stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round;
-    stroke-dasharray: 1; transition: stroke-dashoffset 0.7s ease-out;
-  }
-  .mask-name {
-    fill: var(--tekst); font-size: 13px; font-weight: 700; text-anchor: middle;
-  }
-  .mask-meta {
-    fill: var(--zacht); font-size: 10.5px; text-anchor: middle; font-variant-numeric: tabular-nums;
-  }
-  .tool-pill rect {
-    fill: var(--bg-elev); stroke: var(--hue); stroke-width: 1.4;
-  }
-  .tool-pill.is-error rect { stroke: var(--fout); }
-  .tool-pill text {
-    fill: var(--tekst); font-family: ui-monospace, monospace; font-size: 10.2px; text-anchor: middle;
-  }
 
-  /* Playback Scrubber Bar */
-  .controls-bar {
-    display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center;
-    padding: 10px 14px;
-    background: var(--bg-elev);
-    border-bottom: 1px solid var(--lijn);
+  /* =========================================================
+     ARCADE PLAYBACK DECK
+     ========================================================= */
+  .playback-deck {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 9px 13px;
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--line);
   }
-  .transport { display: flex; gap: 5px; align-items: center; }
-  .scrubber-wrap {
-    flex: 1; min-width: 160px; display: flex; align-items: center; gap: 10px;
+  .transport-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
   }
-  .scrubber-wrap input[type="range"] {
-    flex: 1; accent-color: var(--koning); cursor: pointer; height: 6px;
+  .scrubber-zone {
+    flex: 1;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
-  .step-counter {
-    font-size: 12.5px; color: var(--zacht); font-variant-numeric: tabular-nums; white-space: nowrap;
+  .scrubber-segments {
+    display: flex;
+    gap: 2px;
+    height: 10px;
+    width: 100%;
+    align-items: stretch;
   }
-  .kbd-hint {
-    font-size: 11px; color: var(--zacht); white-space: nowrap;
+  .scrub-seg {
+    flex: 1;
+    min-width: 3px;
+    background: #1B2230;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.12s, transform 0.12s;
+  }
+  .scrub-seg:hover { transform: scaleY(1.35); background: var(--amber); }
+  .scrub-seg.is-past { background: color-mix(in srgb, var(--seg-hue, var(--amber)) 55%, #111620); }
+  .scrub-seg.is-cur {
+    background: var(--seg-hue, var(--amber));
+    box-shadow: 0 0 8px var(--seg-hue, var(--amber));
+    transform: scaleY(1.25);
+  }
+  .scrubber-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .scrubber-row input[type="range"] {
+    flex: 1;
+    accent-color: var(--amber);
+    height: 5px;
+    cursor: pointer;
+  }
+  .step-readout {
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--amber);
+    white-space: nowrap;
+  }
+  .kbd-row {
+    font-family: var(--font-hud);
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
   }
   .kbd {
-    display: inline-block; padding: 0 5px; border: 1px solid var(--lijn); border-radius: 4px;
-    background: var(--paneel); font-family: ui-monospace, monospace; font-size: 10.5px;
+    display: inline-block;
+    padding: 1px 5px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-panel);
+    color: var(--text);
   }
 
-  /* Active Turn Spotlight */
-  .spotlight {
+  .quick-actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    background: #0B0E14;
+    border-bottom: 1px solid var(--line);
+  }
+  .btn-replay-cta {
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 13px;
+    border: 1px solid #FFE28A;
+    background: var(--amber);
+    color: #0A0B0F;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 0 14px rgba(255, 184, 0, 0.3);
+    transition: transform 0.1s, background 0.14s, box-shadow 0.14s;
+  }
+  .btn-replay-cta:hover:not(:disabled) {
+    background: #FFC933;
+    box-shadow: 0 0 22px rgba(255, 184, 0, 0.55);
+    transform: translateY(-1px);
+  }
+  .btn-replay-cta:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .btn-jump-verdict {
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 13px;
+    border: 1px solid var(--mint);
+    background: rgba(0, 229, 139, 0.14);
+    color: var(--mint);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: transform 0.1s, background 0.14s, box-shadow 0.14s;
+  }
+  .btn-jump-verdict:hover:not(:disabled) {
+    background: rgba(0, 229, 139, 0.24);
+    box-shadow: 0 0 18px rgba(0, 229, 139, 0.35);
+    transform: translateY(-1px);
+  }
+  .btn-jump-verdict:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .controls-guide {
+    margin-left: auto;
+    font-family: var(--font-hud);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  .controls-guide b { color: var(--amber); font-weight: 800; }
+
+  /* =========================================================
+     TACTICAL CODEC / COURTROOM SPOTLIGHT
+     ========================================================= */
+  .spotlight-shell {
+    background: var(--bg-panel);
+  }
+  .spotlight-shell.is-turn-enter .king-summons-banner {
+    animation: codecSlideDown 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .spotlight-shell.is-turn-enter .codec-box {
+    animation: codecSlideIn 0.36s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes codecSlideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes codecSlideIn {
+    from { opacity: 0; transform: translateX(12px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .king-summons-banner {
+    padding: 10px 15px;
+    background: linear-gradient(90deg, rgba(255, 184, 0, 0.14) 0%, rgba(16, 19, 26, 0.96) 72%);
+    border-bottom: 1px solid rgba(255, 184, 0, 0.35);
+    border-left: 4px solid var(--amber);
+  }
+  .summons-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .summons-kicker {
+    font-family: var(--font-hud);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: var(--amber);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .summons-target {
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    padding: 1px 8px;
+    border: 1px solid var(--target-hue, var(--amber));
+    color: var(--target-hue, var(--amber));
+    background: rgba(0, 0, 0, 0.45);
+    text-transform: uppercase;
+  }
+  .summons-question {
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+  }
+  .summons-rationale {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .summons-rationale b {
+    font-family: var(--font-hud);
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .open-q-strip {
+    margin-top: 8px;
+    padding-top: 7px;
+    border-top: 1px dashed rgba(255, 184, 0, 0.28);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  .open-q-label {
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
+  .open-q-tag {
+    font-size: 11.5px;
+    padding: 2px 8px;
+    background: rgba(10, 11, 15, 0.85);
+    border: 1px solid var(--line-hi);
+    color: var(--text);
+  }
+
+  /* Codec Testimony Box */
+  .codec-box {
+    display: grid;
+    grid-template-columns: 188px minmax(0, 1fr);
+    border-left: 4px solid var(--hue, var(--amber));
+    min-height: 180px;
+  }
+  @media (max-width: 720px) {
+    .codec-box { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  .codec-portrait-col {
+    background: linear-gradient(180deg, rgba(21, 26, 36, 0.95), #090B10);
+    border-right: 1px solid var(--line);
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+  }
+  @media (max-width: 720px) {
+    .codec-portrait-col {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      flex-direction: row;
+      flex-wrap: wrap;
+      text-align: left;
+    }
+  }
+
+  .codec-avatar-frame {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    border: 2px solid var(--hue, var(--amber));
+    background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--hue, var(--amber)) 20%, #0A0B0F) 0%, #07080B 88%);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--hue, var(--amber)) 24%, transparent);
+    flex-shrink: 0;
+  }
+  .codec-freq {
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: var(--hue, var(--amber));
+  }
+  .codec-role-name {
+    font-family: var(--font-hud);
+    font-size: 13.5px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: #FFFFFF;
+    text-transform: uppercase;
+  }
+  .codec-bias-chip {
+    width: 100%;
+    font-family: var(--font-hud);
+    font-size: 9.8px;
+    line-height: 1.25;
+    padding: 4px 6px;
+    border: 1px solid rgba(255, 46, 84, 0.4);
+    background: rgba(255, 46, 84, 0.1);
+    color: #FF94A8;
+    text-transform: uppercase;
+  }
+  .codec-stats {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: auto;
+  }
+  .codec-stat {
+    background: var(--bg-deep);
+    border: 1px solid var(--line);
+    padding: 4px 5px;
+    text-align: center;
+  }
+  .codec-stat b {
+    display: block;
+    font-family: var(--font-hud);
+    font-size: 13px;
+    color: var(--hue, var(--amber));
+    line-height: 1.1;
+  }
+  .codec-stat span {
+    font-family: var(--font-hud);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .codec-body-col {
     padding: 14px 18px;
-    border-left: 5px solid var(--kleur, var(--koning));
-    background: var(--paneel);
-    min-height: 78px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
   }
-  .spotlight-head {
-    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px;
+  .codec-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
   }
-  .spotlight-role { font-weight: 750; font-size: 15px; color: var(--kleur, var(--koning)); }
-  .spotlight-tag {
-    font-size: 11.5px; padding: 1px 8px; border-radius: 999px;
-    border: 1px solid var(--lijn); color: var(--zacht); background: var(--bg-elev);
+  .codec-tag {
+    font-family: var(--font-hud);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-deep);
+    color: var(--text);
   }
-  .spotlight-body { font-size: 15px; line-height: 1.52; overflow-wrap: anywhere; }
+  .codec-tag.is-thinking {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: var(--amber-dim);
+    animation: hudblink 1.1s ease-in-out infinite;
+  }
 
-  /* Transcript */
-  .transcript-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin: 8px 0 6px;
+  .codec-speech {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--text);
+    overflow-wrap: anywhere;
   }
-  .transcript-header h2 {
-    font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--zacht); margin: 0;
-  }
-  .ronde {
-    margin: 18px 0 8px; font-size: 11.5px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: .09em; color: var(--zacht);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .ronde::after { content: ""; flex: 1; height: 1px; background: var(--lijn); }
-  .beurt {
-    background: var(--paneel); border: 1px solid var(--lijn); border-left: 4px solid var(--kleur);
-    border-radius: 10px; padding: 10px 14px; margin: 8px 0; cursor: pointer;
-    transition: border-color .15s, box-shadow .15s, opacity .2s, transform .15s;
-  }
-  .beurt:hover { border-color: color-mix(in srgb, var(--kleur) 55%, var(--lijn)); }
-  .beurt.actief {
-    box-shadow: 0 0 0 1px var(--kleur), 0 6px 20px color-mix(in srgb, var(--kleur) 18%, transparent);
-    background: color-mix(in srgb, var(--kleur) 5%, var(--paneel));
-  }
-  .beurt.toekomst { opacity: 0.42; }
-  .beurt .wie {
-    font-weight: 650; color: var(--kleur); font-size: 14px;
-    display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;
-  }
-  .beurt .nr { color: var(--zacht); font-weight: 400; font-size: 12px; }
-  .beurt .tekst { margin-top: 4px; overflow-wrap: anywhere; }
-  .klein { background: transparent; border-style: dashed; padding: 7px 12px; font-size: 13px; color: var(--zacht); }
-  .klein code { color: var(--tekst); font-family: ui-monospace, monospace; font-size: 12.5px; }
-  .open-vragen {
-    margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--lijn);
-    font-size: 12.5px; color: var(--zacht);
-  }
-  .open-vragen strong { color: var(--tekst); }
-  .vlag { color: var(--fout); font-weight: 700; font-size: 12px; margin-left: 6px; }
-  .id {
-    display: inline-block; font-family: ui-monospace, monospace; font-size: 12px;
-    padding: 0 5px; border-radius: 5px;
-    background: color-mix(in srgb, var(--kleur-id) 16%, transparent);
-    color: var(--kleur-id);
-    border: 1px solid color-mix(in srgb, var(--kleur-id) 42%, transparent);
-  }
-  .id.raar { outline: 2px dotted var(--waarschuwing); }
-  .denkt { border-style: dashed; animation: puls 1.4s ease-in-out infinite; cursor: default; }
-  @keyframes puls { 50% { opacity: .55; } }
 
-  .geschil-kaart {
-    background: color-mix(in srgb, var(--fout) 6%, var(--paneel));
-    border: 1px solid color-mix(in srgb, var(--fout) 35%, var(--lijn));
-    border-left: 4px solid var(--fout);
-    border-radius: 10px; padding: 11px 14px; margin: 8px 0;
+  /* Formatted Debate Speech Elements */
+  .fmt-para { margin: 0 0 8px; }
+  .fmt-para:last-child { margin-bottom: 0; }
+  .fmt-heading {
+    font-family: var(--font-hud);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin: 10px 0 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px dashed var(--line-hi);
   }
-  .geschil-kaart .wie { color: var(--fout); font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .fmt-heading:first-child { margin-top: 0; }
+  .fmt-bullet {
+    position: relative;
+    padding-left: 16px;
+    margin: 4px 0;
+  }
+  .fmt-bullet::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: var(--hue, var(--amber));
+  }
+  .fmt-code {
+    font-family: var(--font-hud);
+    font-size: 12.5px;
+    padding: 1px 5px;
+    background: var(--bg-deep);
+    border: 1px solid var(--line-hi);
+    color: #9EE9FF;
+  }
+  .fmt-concession {
+    margin: 9px 0;
+    padding: 9px 12px;
+    background: rgba(0, 229, 139, 0.09);
+    border: 1px solid rgba(0, 229, 139, 0.55);
+    border-left: 4px solid var(--mint);
+  }
+  .fmt-concession-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 4px;
+  }
 
-  /* Right Sidebar */
-  aside section {
-    background: var(--paneel); border: 1px solid var(--lijn); border-radius: 12px;
-    padding: 13px 15px; margin-bottom: 12px;
+  /* Evidence ID Chips */
+  .ev-id {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    padding: 1px 6px;
+    margin: 0 1px;
+    border: 1px solid color-mix(in srgb, var(--id-hue) 65%, transparent);
+    background: color-mix(in srgb, var(--id-hue) 16%, #07080B);
+    color: var(--id-hue);
+    cursor: pointer;
+    vertical-align: baseline;
+    transition: transform 0.1s, box-shadow 0.15s, background 0.15s;
   }
-  aside h2 {
-    font-size: 12px; text-transform: uppercase; letter-spacing: .08em;
-    color: var(--zacht); margin: 0 0 10px; display: flex; justify-content: space-between; align-items: center;
+  .ev-id:hover {
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--id-hue) 28%, #07080B);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--id-hue) 45%, transparent);
   }
-  .lid { display: grid; grid-template-columns: 11px 1fr auto; gap: 8px; align-items: center; font-size: 13.5px; padding: 3px 0; }
-  .stip { width: 11px; height: 11px; border-radius: 50%; background: var(--kleur); }
-  .getal { color: var(--zacht); font-size: 12px; font-variant-numeric: tabular-nums; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
-  td { padding: 3px 0; }
-  td:last-child { text-align: right; }
-  .check { font-size: 13px; padding: 2.5px 0; }
-  .check.ok::before { content: "✓ "; color: var(--ok); font-weight: 700; }
-  .check.fout::before { content: "✗ "; color: var(--fout); font-weight: 700; }
-  .check.let::before { content: "! "; color: var(--waarschuwing); font-weight: 700; }
+  .ev-id.is-malformed {
+    outline: 2px dotted var(--crimson);
+    background: rgba(255, 46, 84, 0.18);
+  }
+  .ev-id.is-pinned {
+    box-shadow: 0 0 0 2px #FFFFFF, 0 0 14px var(--id-hue);
+  }
 
-  /* Verdict Sidebar Styling */
-  .slot { margin: 10px 0; font-size: 13.5px; }
-  .slot-head {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;
+  /* MCP Terminal Packet Readout */
+  .mcp-packet {
+    background: var(--bg-deep);
+    border: 1px solid var(--mint);
+    padding: 12px 14px;
+    font-family: var(--font-hud);
+    font-size: 12.5px;
   }
-  .slot-head b {
-    font-size: 11.5px; color: var(--zacht); text-transform: uppercase; letter-spacing: .06em;
+  .mcp-packet.is-violation {
+    border-color: var(--crimson);
+    background: rgba(255, 46, 84, 0.08);
   }
-  .zekerheid-pct {
-    font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--tekst);
+  .mcp-packet-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--mint);
   }
-  .zekerheid-bar {
-    height: 6px; border-radius: 999px; background: var(--paneel-2);
-    border: 1px solid var(--lijn); overflow: hidden; margin-bottom: 5px;
+  .mcp-packet.is-violation .mcp-packet-head { color: var(--crimson); }
+  .mcp-packet-cmd {
+    color: #FFFFFF;
+    word-break: break-all;
+    margin-bottom: 6px;
   }
-  .zekerheid-fill {
-    height: 100%; border-radius: 999px;
-    transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  .mcp-packet-path {
+    font-size: 11px;
+    color: var(--muted);
   }
-  .bewijs-rij { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
 
-  .forecast-card {
-    margin: 12px 0;
+  /* =========================================================
+     RESOLVED DISPUTES VS MATCHUP CARDS
+     ========================================================= */
+  .disputes-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .vs-card {
+    background: linear-gradient(180deg, rgba(255, 46, 84, 0.08) 0%, #0E1118 100%);
+    border: 1px solid rgba(255, 46, 84, 0.45);
+    border-left: 4px solid var(--crimson);
+    padding: 12px 14px;
+  }
+  .vs-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 46, 84, 0.25);
+  }
+  .vs-matchup {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-hud);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .vs-role-badge {
+    padding: 2px 8px;
+    border: 1px solid var(--hue);
+    color: var(--hue);
+    background: color-mix(in srgb, var(--hue) 14%, #07080B);
+  }
+  .vs-clash-pill {
+    padding: 2px 7px;
+    background: var(--crimson);
+    color: #FFFFFF;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+  }
+  .vs-topic {
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+  }
+  .vs-stances {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .vs-stance {
+    background: var(--bg-deep);
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--hue);
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .vs-stance-role {
+    font-family: var(--font-hud);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--hue);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .vs-outcome {
+    background: rgba(0, 229, 139, 0.08);
+    border: 1px solid rgba(0, 229, 139, 0.4);
+    padding: 8px 11px;
+    font-size: 13px;
+  }
+  .vs-outcome.is-open {
+    background: rgba(255, 184, 0, 0.08);
+    border-color: rgba(255, 184, 0, 0.45);
+  }
+  .vs-outcome-label {
+    font-family: var(--font-hud);
+    font-size: 10.5px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: var(--mint);
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+  .vs-outcome.is-open .vs-outcome-label { color: var(--amber); }
+
+  /* =========================================================
+     COLLAPSIBLE FULL DEBATE LOG
+     ========================================================= */
+  .log-toggle-bar {
+    width: 100%;
+    border: none;
+    background: var(--bg-elev);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-align: left;
+  }
+  .log-toggle-bar:hover { background: #1B2230; color: var(--amber); }
+
+  .debate-log-body {
+    padding: 10px 14px 14px;
+    border-top: 1px solid var(--line);
+    max-height: 520px;
+    overflow-y: auto;
+  }
+  .debate-log-body.is-collapsed { display: none; }
+
+  .round-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0 8px;
+    font-family: var(--font-hud);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .round-divider:first-child { margin-top: 2px; }
+  .round-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line-hi);
+  }
+
+  .log-card {
+    background: var(--bg-deep);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--hue);
+    padding: 8px 11px;
+    margin: 6px 0;
+    cursor: pointer;
+    transition: border-color 0.14s, background 0.14s, opacity 0.2s;
+  }
+  .log-card:hover {
+    border-color: var(--hue);
+    background: #111520;
+  }
+  .log-card.is-active {
+    border-color: var(--hue);
+    background: color-mix(in srgb, var(--hue) 10%, #0A0B0F);
+    box-shadow: 0 0 0 1px var(--hue);
+  }
+  .log-card.is-future { opacity: 0.4; }
+  .log-card.is-compact {
+    border-style: dashed;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .log-card.is-thinking {
+    border-style: dashed;
+    animation: hudblink 1.2s ease-in-out infinite;
+    cursor: default;
+  }
+  .log-card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--hue);
+    margin-bottom: 3px;
+  }
+  .log-card-nr {
+    font-size: 10.5px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .log-card-flag {
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 900;
+    padding: 1px 6px;
+    background: var(--crimson);
+    color: #FFFFFF;
+    text-transform: uppercase;
+  }
+  .log-card-text {
+    font-size: 13px;
+    color: var(--text);
+    overflow-wrap: anywhere;
+  }
+
+  /* =========================================================
+     RIGHT TACTICAL SIDEBAR (STICKY SCROLLABLE)
+     ========================================================= */
+  aside.tactical-sidebar {
+    position: sticky;
+    top: 72px;
+    max-height: calc(100vh - 86px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-right: 2px;
+  }
+  @media (max-width: 1120px) {
+    aside.tactical-sidebar {
+      position: static;
+      max-height: none;
+    }
+  }
+
+  .side-body {
+    padding: 12px 14px;
+  }
+
+  /* Next Strike Forecast Alert Box */
+  .forecast-alert {
+    margin: 10px 0 12px;
+    border: 2px solid var(--amber);
+    background: linear-gradient(135deg, rgba(255, 46, 84, 0.16) 0%, rgba(255, 184, 0, 0.12) 55%, #0D0F15 100%);
+    box-shadow: 0 0 22px rgba(255, 184, 0, 0.2);
+    animation: alertpulse 2.2s ease-in-out infinite;
+  }
+  @keyframes alertpulse {
+    0%, 100% { border-color: var(--amber); box-shadow: 0 0 14px rgba(255, 184, 0, 0.22); }
+    50% { border-color: var(--crimson); box-shadow: 0 0 22px rgba(255, 46, 84, 0.32); }
+  }
+  .forecast-inner {
     padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid color-mix(in srgb, var(--waarschuwing) 50%, var(--lijn));
-    background: color-mix(in srgb, var(--waarschuwing) 10%, var(--paneel-2));
   }
-  .forecast-head {
-    display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 5px;
+  .forecast-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
   }
-  .forecast-title {
-    font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--waarschuwing);
+  .forecast-label {
+    font-family: var(--font-hud);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: var(--amber);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
-  .day-badge {
-    font-size: 12px; font-weight: 800; padding: 2px 9px; border-radius: 999px;
-    background: var(--waarschuwing); color: #141416;
+  .forecast-day {
+    font-family: var(--font-hud);
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
+    background: var(--crimson);
+    padding: 2px 11px;
+    border: 1px solid #FF9AB0;
+    line-height: 1.15;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  }
+  .forecast-claim {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.48;
   }
 
-  .verdict-list { padding-left: 18px; margin: 5px 0 0; font-size: 13px; }
-  .verdict-list li { margin-bottom: 8px; }
-  .verdict-sub { font-size: 12px; color: var(--zacht); margin-top: 2px; }
-  .leeg { color: var(--zacht); font-style: italic; }
-  .melding { padding: 36px 16px; text-align: center; color: var(--zacht); }
+  /* Verdict Sections */
+  .verdict-summary {
+    padding: 10px 11px;
+    background: var(--bg-deep);
+    border: 1px solid var(--line-hi);
+    border-left: 3px solid var(--amber);
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .verdict-kicker {
+    font-family: var(--font-hud);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 5px;
+  }
+
+  .triad-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin: 10px 0 14px;
+  }
+  .triad-card {
+    background: var(--bg-deep);
+    border: 1px solid var(--line-hi);
+    padding: 10px 11px;
+  }
+  .triad-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .triad-title {
+    font-family: var(--font-hud);
+    font-size: 10.5px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
+  .conf-readout {
+    font-family: var(--font-hud);
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--conf-hue, var(--mint));
+  }
+  .conf-bar-track {
+    height: 4px;
+    background: #141A26;
+    border: 1px solid #242E40;
+    margin-bottom: 4px;
+    overflow: hidden;
+  }
+  .conf-bar-fill {
+    height: 100%;
+    width: var(--conf-pct, 0%);
+    background: var(--conf-hue, var(--mint));
+    box-shadow: 0 0 10px color-mix(in srgb, var(--conf-hue, var(--mint)) 65%, transparent);
+    transform-origin: left center;
+    animation: confBarGrow 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes confBarGrow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  .conf-blocks {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 3px;
+    margin-bottom: 7px;
+  }
+  .conf-cell {
+    height: 6px;
+    background: #1A2130;
+    border: 1px solid #263042;
+  }
+  .conf-cell.lit {
+    background: var(--conf-hue, var(--mint));
+    border-color: color-mix(in srgb, var(--conf-hue, var(--mint)) 75%, #FFFFFF);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--conf-hue, var(--mint)) 45%, transparent);
+    animation: confCellPop 0.35s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--cell-i, 0) * 0.045s) both;
+  }
+  @keyframes confCellPop {
+    from { opacity: 0; transform: scaleY(0.2); }
+    to { opacity: 1; transform: scaleY(1); }
+  }
+  .tactical-panel.is-flash-focus {
+    animation: verdictPulseFocus 1.1s ease-out;
+  }
+  @keyframes verdictPulseFocus {
+    0% { box-shadow: 0 0 0 2px var(--mint), 0 0 32px rgba(0, 229, 139, 0.55); }
+    100% { box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5); }
+  }
+  .triad-claim {
+    font-size: 13px;
+    line-height: 1.48;
+    color: var(--text);
+  }
+
+  .ev-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 7px;
+  }
+
+  /* Ordered Recovery Plan */
+  .plan-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 6px 0 14px;
+  }
+  .plan-step {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 9px;
+    background: var(--bg-deep);
+    border: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  .plan-num {
+    font-family: var(--font-hud);
+    font-size: 13px;
+    font-weight: 900;
+    color: #0A0B0F;
+    background: var(--amber);
+    height: 28px;
+    display: grid;
+    place-items: center;
+  }
+  .plan-action {
+    font-size: 13px;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 1.42;
+  }
+  .plan-reason {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+
+  /* Risks & Mitigations */
+  .risk-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .risk-row {
+    background: rgba(255, 46, 84, 0.06);
+    border: 1px solid rgba(255, 46, 84, 0.35);
+    border-left: 3px solid var(--crimson);
+    padding: 8px 10px;
+    font-size: 12.5px;
+  }
+  .risk-label {
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: var(--crimson);
+    text-transform: uppercase;
+    margin-right: 5px;
+  }
+  .mit-line {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.12);
+    color: #C7D1DF;
+  }
+  .mit-label {
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: var(--mint);
+    text-transform: uppercase;
+    margin-right: 5px;
+  }
+
+  /* Compliance Telemetry (7 Rules) */
+  .compliance-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .rule-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 8px;
+    background: var(--bg-deep);
+    border: 1px solid var(--line);
+    font-size: 12px;
+  }
+  .rule-row.ok { border-left: 3px solid var(--mint); }
+  .rule-row.warn { border-left: 3px solid var(--amber); }
+  .rule-row.fail { border-left: 3px solid var(--crimson); background: rgba(255, 46, 84, 0.08); }
+  .rule-text { color: var(--text); line-height: 1.35; }
+  .rule-badge {
+    font-family: var(--font-hud);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    padding: 1px 6px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+  .rule-row.ok .rule-badge {
+    color: var(--mint);
+    border: 1px solid var(--mint);
+    background: rgba(0, 229, 139, 0.12);
+  }
+  .rule-row.warn .rule-badge {
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    background: rgba(255, 184, 0, 0.12);
+  }
+  .rule-row.fail .rule-badge {
+    color: var(--crimson);
+    border: 1px solid var(--crimson);
+    background: rgba(255, 46, 84, 0.15);
+  }
+
+  /* Token Telemetry Table */
+  table.telemetry-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+  }
+  table.telemetry-tbl th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 4px 4px 6px;
+    border-bottom: 1px solid var(--line-hi);
+  }
+  table.telemetry-tbl th:not(:first-child),
+  table.telemetry-tbl td:not(:first-child) { text-align: right; }
+  table.telemetry-tbl td {
+    padding: 5px 4px;
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+  }
+  table.telemetry-tbl tr.total-row td {
+    border-bottom: none;
+    border-top: 1px solid var(--amber);
+    color: var(--amber);
+    font-weight: 800;
+    padding-top: 7px;
+  }
+
+  .muted-note {
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+
+  /* HUD Toast Notification */
+  .hud-toast {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%) translateY(24px);
+    z-index: 900;
+    background: #0A0B0F;
+    border: 1px solid var(--amber);
+    box-shadow: 0 0 22px rgba(255, 184, 0, 0.35);
+    padding: 7px 14px;
+    font-family: var(--font-hud);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    text-transform: uppercase;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .hud-toast.is-show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Scrollbars */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #08090C; }
+  ::-webkit-scrollbar-thumb { background: #262F3F; border: 1px solid #08090C; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--amber); }
 </style>
 </head>
-<body>
-<header class="topbar">
-  <h1><span class="crown-dot"></span>Council of Achrona</h1>
-  <span id="status" class="pil">wachten op trace.json…</span>
-  <span id="early-bonus" class="pil bonus" style="display:none"></span>
-  <span id="runid" class="runid"></span>
-  <div class="header-actions">
-    <button id="btn-disputes" class="btn" type="button" title="Toon/verberg geschil-bogen op het podium">⚔ Geschillen</button>
-    <button id="btn-voices" class="btn" type="button" title="Offline browser-spraak per rol">🔇 Voices Off</button>
-    <button id="btn-theme" class="btn" type="button" title="Wissel donker / licht thema">☀️ Light</button>
+<body class="crt-on">
+
+<!-- =========================================================
+     90s ARCADE "PRESS START" BRIEFING SPLASH OVERLAY
+     ========================================================= -->
+<div id="splash-overlay" class="splash-overlay is-booting" role="dialog" aria-modal="true" aria-label="Team Hazardous Council of Achrona Briefing">
+  <div class="crt-boot-flash" aria-hidden="true"></div>
+  <div class="hazard-stripe"></div>
+  <div class="splash-inner">
+    <div class="splash-hero">
+      <div class="splash-kicker">HACK THE FUTURE 2026 // CHALLENGE 113 // MULTI-AGENT FORENSIC ENGINE</div>
+      <div class="splash-emblem-row">
+        <svg width="56" height="56" viewBox="0 0 64 64" aria-hidden="true">
+          <polygon points="32,4 61,56 3,56" fill="#FFB800" stroke="#FFF2B8" stroke-width="2.5" stroke-linejoin="miter"/>
+          <polygon points="32,12 53,51 11,51" fill="#0A0B0F"/>
+          <circle cx="32" cy="37" r="4.2" fill="#FFB800"/>
+          <path d="M32 31 L26 21 A12 12 0 0 1 38 21 Z" fill="#FFB800"/>
+          <path d="M27 40 L18 45 A12 12 0 0 1 22 33 Z" fill="#FFB800"/>
+          <path d="M37 40 L42 33 A12 12 0 0 1 46 45 Z" fill="#FFB800"/>
+        </svg>
+        <h1 class="splash-title">COUNCIL OF ACHRONA</h1>
+        <svg width="56" height="56" viewBox="0 0 64 64" aria-hidden="true">
+          <polygon points="32,4 61,56 3,56" fill="#FFB800" stroke="#FFF2B8" stroke-width="2.5" stroke-linejoin="miter"/>
+          <polygon points="32,12 53,51 11,51" fill="#0A0B0F"/>
+          <rect x="29" y="21" width="6" height="17" fill="#FFB800"/>
+          <rect x="29" y="42" width="6" height="6" fill="#FFB800"/>
+        </svg>
+      </div>
+      <div class="team-bar">
+        <span class="team-badge">TEAM HAZARDOUS</span>
+        <span class="team-names">HASHAM ABDULLAH <span>&times;</span> OMED EMRAN</span>
+      </div>
+    </div>
+
+    <div class="roster-heading">SELECT COUNCIL OPERATIVE // 6 ISOLATED MCP KNOWLEDGE NODES + SOVEREIGN KING ROUTER</div>
+    <div id="splash-roster" class="splash-roster"></div>
+
+    <div class="splash-cta-wrap">
+      <button id="btn-press-start" class="btn-start-arcade" type="button">
+        <svg class="svg-ic" style="width:16px;height:16px" viewBox="0 0 16 16" aria-hidden="true"><polygon points="3,2 14,8 3,14" fill="currentColor"/></svg>
+        <span>[ PRESS START // ENTER COUNCIL CHAMBER ]</span>
+      </button>
+      <div class="splash-hint">PRESS ENTER OR SPACE TO ENGAGE // CLICK ANY OPERATIVE TO FOCUS THEIR TESTIMONY</div>
+    </div>
+  </div>
+  <div class="hazard-stripe"></div>
+</div>
+
+<!-- =========================================================
+     TOP HAZARD HUD BAR
+     ========================================================= -->
+<header class="hud-header">
+  <div class="hazard-stripe-thin"></div>
+  <div class="hud-bar">
+    <div class="brand-lockup">
+      <div class="brand-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <polygon points="12,2 23,21 1,21" fill="none" stroke="currentColor" stroke-width="2.6"/>
+          <rect x="10.8" y="8.5" width="2.4" height="6.2" fill="currentColor"/>
+          <rect x="10.8" y="16.4" width="2.4" height="2.4" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title"><span>TEAM HAZARDOUS</span> // COUNCIL OF ACHRONA</div>
+        <div id="runid-line" class="brand-sub">RUN_ID: AWAITING TELEMETRY</div>
+      </div>
+    </div>
+
+    <span id="status-pill" class="hud-pill">
+      <span class="pulse-sq"></span>
+      <span>AWAITING TRACE</span>
+    </span>
+
+    <span id="early-bonus" class="hud-pill is-bonus" style="display:none"></span>
+
+    <div id="budget-hud" class="budget-hud" title="Council member turn budget (maximum 10 turns)">
+      <span id="budget-label">[ 0 / 10 TURNS ]</span>
+      <span id="budget-cells" class="budget-cells"></span>
+    </div>
+
+    <div class="hud-actions">
+      <button id="btn-briefing" class="hud-btn" type="button" title="Open Team Hazardous arcade briefing screen">
+        <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="5" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.5"/><line x1="5" y1="10" x2="9" y2="10" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>[ BRIEFING ]</span>
+      </button>
+      <button id="btn-voices" class="hud-btn" type="button" title="Toggle offline browser speech synthesis per role">
+        <span id="voices-icon"></span>
+        <span id="voices-label">[ VOICE: OFF ]</span>
+      </button>
+      <button id="btn-disputes" class="hud-btn" type="button" title="Toggle crimson dispute arcs in the chamber">
+        <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 14 L13 3 M9 2 L14 7 M2 2 L7 7 M14 14 L3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+        <span id="disputes-label">[ DISPUTE ARCS ]</span>
+      </button>
+      <button id="btn-crt" class="hud-btn is-on" type="button" title="Toggle CRT scanline overlay">
+        <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="2" y1="6" x2="14" y2="6" stroke="currentColor" stroke-width="1"/><line x1="2" y1="10" x2="14" y2="10" stroke="currentColor" stroke-width="1"/></svg>
+        <span>[ CRT SCANLINES ]</span>
+      </button>
+    </div>
   </div>
 </header>
 
-<main>
-  <div class="stage-col">
-    <section class="stage-card" aria-label="Council Chamber Stage">
-      <div class="stage-wrap">
-        <svg id="chamber" viewBox="0 0 1000 390" role="img" aria-label="Council Chamber met raadsleden en koning">
+<!-- =========================================================
+     MAIN 3-ZONE ARCADE HUD LAYOUT
+     ========================================================= -->
+<main class="tactical-grid">
+  <!-- LEFT/CENTER MAIN STAGE -->
+  <div class="stage-column">
+
+    <!-- CHAMBER + PLAYBACK + COURTROOM SPOTLIGHT -->
+    <section class="tactical-panel" aria-label="Tactical Council Chamber">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="1" x2="8" y2="15" stroke="currentColor" stroke-width="1"/><line x1="1" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1"/></svg>
+          <span>TACTICAL COUNCIL CHAMBER // LIVE ROUTING MATRIX</span>
+        </div>
+        <span id="chamber-meta" class="panel-header-meta">CLICK ANY OPERATIVE TO JUMP TO THEIR TESTIMONY</span>
+      </div>
+
+      <div class="chamber-stage">
+        <div class="chamber-corner tl">SEC-113 // MCP ISOLATION ENFORCED</div>
+        <div id="chamber-status-corner" class="chamber-corner tr">MODE: LIVE</div>
+        <svg id="chamber" viewBox="0 0 1000 395" role="img" aria-label="Interactive Council of Achrona Chamber">
           <defs>
-            <linearGradient id="porcelainGrad" x1="0.1" y1="0" x2="0.85" y2="1">
-              <stop offset="0%" stop-color="var(--mask-hi)" />
-              <stop offset="100%" stop-color="var(--mask-lo)" />
-            </linearGradient>
-            <marker id="beamArrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 9 5 L 0 9 z" fill="context-stroke" />
+            <marker id="beamArrow" viewBox="0 0 12 12" refX="8" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 1 1 L 11 6 L 1 11 L 4 6 Z" fill="context-stroke"/>
             </marker>
           </defs>
           <g id="chamber-floor"></g>
@@ -429,89 +2135,235 @@
         </svg>
       </div>
 
-      <div class="controls-bar">
-        <div class="transport">
-          <button id="btn-start" class="btn" type="button" title="Begin van debat">⏮ Start</button>
-          <button id="btn-prev" class="btn" type="button" title="Vorige stap (Pijl links)">◀ Prev</button>
-          <button id="btn-play" class="btn" type="button" title="Afspelen / Pauzeren (Spatie)">▶ Play</button>
-          <button id="btn-next" class="btn" type="button" title="Volgende stap (Pijl rechts)">▶ Next</button>
-          <button id="btn-live" class="btn live-on" type="button" title="Spring naar einde & volg live">⏭ End (Live)</button>
+      <!-- ARCADE PLAYBACK DECK -->
+      <div class="playback-deck">
+        <div class="transport-group">
+          <button id="btn-start" class="hud-btn" type="button" title="Jump to start">
+            <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="2" height="10" fill="currentColor"/><polygon points="10,3 4,8 10,13" fill="currentColor"/><polygon points="15,3 9,8 15,13" fill="currentColor"/></svg>
+            <span>START</span>
+          </button>
+          <button id="btn-prev" class="hud-btn" type="button" title="Previous step (Left Arrow)">
+            <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="11,3 4,8 11,13" fill="currentColor"/></svg>
+            <span>PREV</span>
+          </button>
+          <button id="btn-play" class="hud-btn" type="button" title="Play / Pause (Space)">
+            <span id="play-icon"></span>
+            <span id="play-label">PLAY</span>
+          </button>
+          <button id="btn-next" class="hud-btn" type="button" title="Next step (Right Arrow)">
+            <span>NEXT</span>
+            <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="5,3 12,8 5,13" fill="currentColor"/></svg>
+          </button>
+          <button id="btn-live" class="hud-btn is-mint" type="button" title="Jump to latest step &amp; follow live">
+            <span>LIVE</span>
+            <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="1,3 7,8 1,13" fill="currentColor"/><polygon points="6,3 12,8 6,13" fill="currentColor"/><rect x="12" y="3" width="2" height="10" fill="currentColor"/></svg>
+          </button>
         </div>
-        <div class="scrubber-wrap">
-          <input id="scrubber" type="range" min="0" max="0" value="0" aria-label="Debat-tijdlijn">
-          <span id="step-counter" class="step-counter">Stap 0 / 0</span>
+
+        <div class="scrubber-zone">
+          <div id="scrubber-segments" class="scrubber-segments" aria-label="Turn timeline segments"></div>
+          <div class="scrubber-row">
+            <input id="scrubber" type="range" min="0" max="0" value="0" aria-label="Debate timeline scrubber">
+            <span id="step-counter" class="step-readout">STEP 0 / 0</span>
+          </div>
         </div>
-        <span class="kbd-hint"><span class="kbd">Space</span> · <span class="kbd">←</span> <span class="kbd">→</span></span>
       </div>
 
-      <div id="spotlight" class="spotlight" style="--kleur:var(--koning)">
-        <div class="spotlight-head">
-          <span class="spotlight-role">Koning</span>
-          <span class="spotlight-tag">Stand-by</span>
+      <!-- QUICK ACTIONS + 1-LINE CONTROLS GUIDE -->
+      <div class="quick-actions-row">
+        <button id="btn-replay-debate" class="btn-replay-cta" type="button" title="Start animated debate replay from Turn 1">
+          <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="3,2 14,8 3,14" fill="currentColor"/></svg>
+          <span>[ START DEBATE REPLAY ]</span>
+        </button>
+        <button id="btn-jump-verdict" class="btn-jump-verdict" type="button" title="Jump straight to live state and highlight the Final Council Verdict">
+          <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 12 L1 4.5 L5 7.5 L8 2.5 L11 7.5 L15 4.5 L14 12 Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span>[ JUMP TO LIVE / VERDICT ]</span>
+        </button>
+        <div class="controls-guide">
+          <span><b>Space:</b> Play/Pause</span>
+          <span>&middot;</span>
+          <span><b>&larr;/&rarr;:</b> Step Turn</span>
+          <span>&middot;</span>
+          <span>Click Any Character Portrait to Jump</span>
+          <span>&middot;</span>
+          <span>Voice Toggle in Top Bar</span>
         </div>
-        <div class="spotlight-body leeg">Wachten op debatstappen uit trace.json…</div>
+      </div>
+
+      <!-- TACTICAL CODEC / COURTROOM SPOTLIGHT -->
+      <div id="spotlight-shell" class="spotlight-shell"></div>
+    </section>
+
+    <!-- RESOLVED DISPUTES VS MATCHUP CARDS -->
+    <section id="disputes-section" class="tactical-panel" style="display:none" aria-label="Resolved Disputes">
+      <div class="hazard-stripe-crimson"></div>
+      <div class="panel-header" style="color:var(--crimson)">
+        <div class="panel-header-left">
+          <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 14 L13 3 M9 2 L14 7 M2 2 L7 7 M14 14 L3 3" stroke="currentColor" stroke-width="1.8"/></svg>
+          <span>RESOLVED DISPUTES // CLASH TELEMETRY</span>
+        </div>
+        <span id="disputes-count-meta" class="panel-header-meta">0 RECORDED</span>
+      </div>
+      <div id="disputes-list" class="disputes-grid"></div>
+    </section>
+
+    <!-- COMPACT COLLAPSIBLE FULL DEBATE LOG -->
+    <section class="tactical-panel" aria-label="Full Debate Transcript Log">
+      <button id="btn-toggle-log" class="log-toggle-bar" type="button" aria-expanded="false">
+        <span style="display:inline-flex;align-items:center;gap:8px">
+          <span id="log-chevron"></span>
+          <span>FULL DEBATE &amp; ROUTING LOG</span>
+        </span>
+        <span id="log-summary-meta" class="panel-header-meta">0 STEPS // CLICK TO EXPAND</span>
+      </button>
+      <div id="debat" class="debate-log-body is-collapsed">
+        <div class="muted-note">No trace.json detected yet. Start the Council engine to stream live deliberation turns.</div>
       </div>
     </section>
 
-    <div class="transcript-header">
-      <h2>Debatverloop &amp; Routering</h2>
-      <span id="transcript-hint" class="getal">Klik op een kaart om naar dat moment te springen</span>
-    </div>
-    <div id="debat"><p class="melding">Nog geen <code>trace.json</code>. Start je Council; het debat verschijnt hier live.</p></div>
   </div>
 
-  <aside>
-    <section><h2>Raadsleden</h2><div id="leden"></div></section>
-    <section><h2>Spelregels</h2><div id="checks"></div></section>
-    <section><h2>Verbruik</h2><div id="verbruik"></div></section>
-    <section><h2>Council Verdict</h2><div id="verdict"><span class="leeg">nog geen verdict.json</span></div></section>
+  <!-- RIGHT TACTICAL SIDEBAR (STICKY SCROLLABLE) -->
+  <aside class="tactical-sidebar" aria-label="Verdict and Telemetry Sidebar">
+
+    <!-- FINAL COUNCIL VERDICT -->
+    <section id="verdict-panel" class="tactical-panel">
+      <div class="hazard-stripe-thin"></div>
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 12 L1 4 L5 7 L8 2 L11 7 L15 4 L14 12 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter"/></svg>
+          <span>FINAL COUNCIL VERDICT</span>
+        </div>
+        <span id="verdict-status-meta" class="panel-header-meta">PENDING</span>
+      </div>
+      <div id="verdict" class="side-body">
+        <div class="muted-note">Awaiting verdict.json from Sovereign King synthesis...</div>
+      </div>
+    </section>
+
+    <!-- COMPLIANCE TELEMETRY (7/7 JURY RULES) -->
+    <section class="tactical-panel">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 L14 4 V8.5 C14 11.8 11.4 13.8 8 15 C4.6 13.8 2 11.8 2 8.5 V4 Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.2 8.2 L7.2 10.2 L11 6.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span>COMPLIANCE TELEMETRY (7/7)</span>
+        </div>
+        <span id="compliance-score" class="panel-header-meta">0 / 7 PASS</span>
+      </div>
+      <div id="checks" class="side-body">
+        <div class="muted-note">Waiting for trace.json to run 7 jury rule audits...</div>
+      </div>
+    </section>
+
+    <!-- TOKEN TELEMETRY -->
+    <section class="tactical-panel">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polyline points="1,11 5,7 8,10 14,3" fill="none" stroke="currentColor" stroke-width="1.6"/><polyline points="10,3 14,3 14,7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span>TOKEN TELEMETRY</span>
+        </div>
+        <span id="token-total-meta" class="panel-header-meta">0 TOKENS</span>
+      </div>
+      <div id="verbruik" class="side-body">
+        <div class="muted-note">No model calls recorded yet.</div>
+      </div>
+    </section>
+
   </aside>
 </main>
 
+<div id="hud-toast" class="hud-toast" role="status" aria-live="polite"></div>
+
 <script>
-const NAMEN = {
-  archmage: "Archmage",
-  engineer: "Engineer",
-  guardian_keeper: "Guardian Keeper",
-  historian: "Historian",
-  oracle: "Oracle",
-  beast_master: "Beast Master",
-  koning: "Koning",
-  mens: "Mens"
+const ROLE_INFO = {
+  archmage: {
+    name: "Archmage",
+    code: "ARC",
+    freq: "140.15",
+    specialty: "Leylines & Arcane Telemetry",
+    bias: "Authority & purity of magic"
+  },
+  engineer: {
+    name: "Engineer",
+    code: "ENG",
+    freq: "140.48",
+    specialty: "Data Network & Tower Logs",
+    bias: "Advancement of the data network"
+  },
+  guardian_keeper: {
+    name: "Guardian Keeper",
+    code: "GUA",
+    freq: "140.85",
+    specialty: "Citadel Shields & Watch Reports",
+    bias: "Security of the citadel"
+  },
+  historian: {
+    name: "Historian",
+    code: "HIS",
+    freq: "141.12",
+    specialty: "Royal Archives & Chronicles",
+    bias: "Integrity of the archives"
+  },
+  oracle: {
+    name: "Oracle",
+    code: "ORA",
+    freq: "141.52",
+    specialty: "Visions & Prophetic Patterns",
+    bias: "Authority of the prophecies"
+  },
+  beast_master: {
+    name: "Beast Master",
+    code: "BEA",
+    freq: "141.80",
+    specialty: "Forest Fauna & Anomaly Logs",
+    bias: "Protection of wildlife & forest"
+  },
+  koning: {
+    name: "King Sovereign",
+    code: "KNG",
+    freq: "140.00",
+    specialty: "Debate Router & Final Arbiter",
+    bias: "0 direct knowledge-source access"
+  },
+  mens: {
+    name: "Human Operator",
+    code: "OPS",
+    freq: "142.00",
+    specialty: "Live Council Intervention",
+    bias: "External operator command"
+  }
 };
+
 const STANDAARD_ROLLEN = ["archmage", "engineer", "guardian_keeper", "historian", "oracle", "beast_master"];
 const BEURTENBUDGET = 10;
 const PREFIX = { ARC: "archmage", ENG: "engineer", GUA: "guardian_keeper", HIS: "historian", ORA: "oracle", BEA: "beast_master" };
 const ID_RE = /\b(ARC|ENG|GUA|HIS|ORA|BEA)([-\u2010-\u2015\u2212])(\d{3})\b/g;
 
+const CONCESSION_RE = /\b(concede|conceding|withdraw|withdrawing|retract|retracting|yield|yielding|stand corrected|i was wrong|my mistake|i accept|acknowledge that|revise my|revising my|geef toe|trek\b.{0,24}\bin|herzie|herzien|had ongelijk|moet erkennen|sluit me aan|corrigeer mijn|kom terug op|erken dat|laat mijn .{0,20} vallen)\b/i;
+
 const VOICE_PROFILES = {
-  koning: { pitch: 0.76, rate: 0.94 },
-  engineer: { pitch: 1.06, rate: 1.05 },
-  historian: { pitch: 0.88, rate: 0.92 },
-  oracle: { pitch: 1.24, rate: 0.92 },
-  archmage: { pitch: 1.12, rate: 0.95 },
-  beast_master: { pitch: 0.84, rate: 0.98 },
-  guardian_keeper: { pitch: 0.80, rate: 0.99 },
+  koning: { pitch: 0.78, rate: 0.96 },
+  engineer: { pitch: 1.06, rate: 1.06 },
+  historian: { pitch: 0.88, rate: 0.94 },
+  oracle: { pitch: 1.24, rate: 0.93 },
+  archmage: { pitch: 1.12, rate: 0.97 },
+  beast_master: { pitch: 0.84, rate: 1.00 },
+  guardian_keeper: { pitch: 0.80, rate: 1.01 },
   mens: { pitch: 1.00, rate: 1.02 }
 };
 
-const MASK_FACE = "M50 2 C80 2 95 24 94 54 C93 88 72 126 50 126 C28 126 7 88 6 54 C5 24 20 2 50 2 Z";
-const MASK_SHADE = "M50 2 C80 2 95 24 94 54 C93 88 72 126 50 126 C64 100 66 40 50 2 Z";
-const MASK_CRACKS = [
-  "M61 3 L56 20 L66 34 L60 48",
-  "M93 62 L80 66 L72 60 L64 70",
-  "M8 44 L20 40 L26 46 L34 42",
-  "M30 118 L36 104 L30 94 L38 84",
-  "M74 112 L68 100 L74 90 L66 82"
-];
-
-const SIGILS = {
-  archmage: `<path class="mask-sigil" d="M50 14 V44 M35 29 H65 M40 19 L60 39 M60 19 L40 39" /><circle class="mask-sigil-fill" cx="50" cy="29" r="5" />`,
-  engineer: `<circle class="mask-sigil-fill" cx="50" cy="29" r="8" /><path class="mask-sigil" d="M50 15 V19 M50 39 V43 M36 29 H40 M60 29 H64 M40 19 L43 22 M57 36 L60 39 M60 19 L57 22 M43 36 L40 39 M46 39 V25 L50 20 L54 25 V39" />`,
-  guardian_keeper: `<path class="mask-sigil-fill" d="M39 18 H61 V29 C61 37 50 43 50 43 C50 43 39 37 39 29 Z" /><path class="mask-sigil" d="M50 19 V41 M41 28 H59" />`,
-  historian: `<path class="mask-sigil-fill" d="M41 18 H59 L41 40 H59 Z" /><path class="mask-sigil" d="M38 18 H62 M38 40 H62" />`,
-  oracle: `<circle class="mask-sigil" cx="45" cy="29" r="7" /><circle class="mask-sigil" cx="55" cy="29" r="7" /><path class="mask-sigil" d="M36 29 Q50 19 64 29 Q50 39 36 29 Z" /><circle cx="50" cy="29" r="2.5" fill="var(--hue)" />`,
-  beast_master: `<path class="mask-sigil" d="M44 29 C38 24 35 19 37 14 M39 22 L33 19 M56 29 C62 24 65 19 63 14 M61 22 L67 19" /><circle class="mask-sigil-fill" cx="50" cy="34" r="5" /><circle cx="44" cy="26" r="1.8" fill="var(--hue)" /><circle cx="50" cy="24" r="1.8" fill="var(--hue)" /><circle cx="56" cy="26" r="1.8" fill="var(--hue)" />`
+const ICONS = {
+  play: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="4,2 14,8 4,14" fill="currentColor"/></svg>`,
+  pause: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2.5" width="3.5" height="11" fill="currentColor"/><rect x="9.5" y="2.5" width="3.5" height="11" fill="currentColor"/></svg>`,
+  speakerOn: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="2,6 6,6 10,2.5 10,13.5 6,10 2,10" fill="currentColor"/><path d="M12 5.2 A4 4 0 0 1 12 10.8 M13.8 3.2 A6.8 6.8 0 0 1 13.8 12.8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  speakerOff: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="2,6 6,6 10,2.5 10,13.5 6,10 2,10" fill="currentColor"/><line x1="11.5" y1="5.5" x2="15" y2="10.5" stroke="currentColor" stroke-width="1.6"/><line x1="15" y1="5.5" x2="11.5" y2="10.5" stroke="currentColor" stroke-width="1.6"/></svg>`,
+  bolt: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="9,1 3,9 7.5,9 6.5,15 13,7 8.5,7" fill="currentColor"/></svg>`,
+  crown: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 12 L1 4.5 L5 7.5 L8 2.5 L11 7.5 L15 4.5 L14 12 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter"/></svg>`,
+  lock: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7 V5 A2.5 2.5 0 0 1 10.5 5 V7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  hazard: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,1.5 15,14 1,14" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.3" y="5.5" width="1.4" height="4.5" fill="currentColor"/><rect x="7.3" y="11" width="1.4" height="1.4" fill="currentColor"/></svg>`,
+  concession: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2 V14 M3 3 H12.5 L10.5 6 L12.5 9 H3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  chevronRight: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polyline points="5,3 11,8 5,13" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>`,
+  chevronDown: `<svg class="svg-ic" viewBox="0 0 16 16" aria-hidden="true"><polyline points="3,5 8,11 13,5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>`
 };
 
 const state = {
@@ -520,36 +2372,188 @@ const state = {
   vorige: "",
   liveMode: true,
   cursor: -1,
+  lastSpotlightKey: null,
   isPlaying: false,
   playTimer: null,
   voicesOn: false,
   showDisputes: true,
+  crtOn: true,
+  logExpanded: false,
+  splashOpen: true,
+  pinnedId: null,
+  toastTimer: null,
   speechSupported: typeof window !== "undefined" && "speechSynthesis" in window,
   lastSpokenKey: null
 };
 
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const kleur = rol => `var(--${NAMEN[rol] ? rol : "koning"})`;
+const roleName = rol => ROLE_INFO[rol]?.name || rol || "Unknown";
+const roleCode = rol => ROLE_INFO[rol]?.code || "SYS";
+const kleur = rol => `var(--${ROLE_INFO[rol] ? rol : "koning"})`;
 
-function opmaak(tekst) {
-  return esc(tekst)
-    .replace(/^#{1,4}\s*(.+)$/gm, "<strong>$1</strong>")
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(ID_RE, (m, p, streep) => {
-      const raar = streep !== "-";
-      return `<span class="id${raar ? " raar" : ""}" style="--kleur-id:${kleur(PREFIX[p])}" title="${raar ? "Geen gewoon koppelteken: dit ID faalt op het schema" : NAMEN[PREFIX[p]]}">${p}-${m.slice(-3)}</span>`;
-    })
-    .replace(/\n/g, "<br>");
+/* =========================================================
+   CUSTOM GEOMETRIC ARCADE SVG CHARACTER PORTRAITS
+   ========================================================= */
+function portraitInnerSVG(rol) {
+  switch (rol) {
+    case "archmage":
+      return `
+        <path d="M14 58 L20 28 L32 10 L44 28 L50 58 Z" fill="#171226" stroke="var(--hue)" stroke-width="1.8"/>
+        <path d="M22 31 L32 16 L42 31 L39 48 L32 53 L25 48 Z" fill="#0B0914" stroke="var(--hue)" stroke-width="1.4"/>
+        <polygon points="32,6 35,12 32,16 29,12" fill="var(--hue)"/>
+        <polygon points="24,34 30,36 25,38" fill="var(--hue)"/>
+        <polygon points="40,34 34,36 39,38" fill="var(--hue)"/>
+        <path d="M27 45 H37 M32 20 V28 M28 24 H36" stroke="var(--hue)" stroke-width="1.4" fill="none"/>
+      `;
+    case "engineer":
+      return `
+        <rect x="13" y="25" width="5" height="16" fill="var(--hue)" opacity="0.8"/>
+        <rect x="46" y="25" width="5" height="16" fill="var(--hue)" opacity="0.8"/>
+        <path d="M18 58 L20 42 L22 18 H42 L44 42 L46 58 Z" fill="#1B160C" stroke="var(--hue)" stroke-width="1.8"/>
+        <rect x="20" y="27" width="24" height="10" fill="#090A0D" stroke="var(--hue)" stroke-width="1.6"/>
+        <circle cx="27" cy="32" r="3.4" fill="var(--hue)"/>
+        <circle cx="37" cy="32" r="3.4" fill="var(--hue)"/>
+        <path d="M25 18 V12 H39 V18 M25 46 H39 M28 50 H36" stroke="var(--hue)" stroke-width="1.5" fill="none"/>
+      `;
+    case "guardian_keeper":
+      return `
+        <path d="M12 58 L17 44 L18 16 L32 10 L46 16 L47 44 L52 58 Z" fill="#0B1922" stroke="var(--hue)" stroke-width="1.8"/>
+        <path d="M21 26 H43 V32 H34 V46 H30 V32 H21 Z" fill="var(--hue)"/>
+        <path d="M25 16 L32 13 L39 16 L32 22 Z" fill="none" stroke="var(--hue)" stroke-width="1.4"/>
+        <line x1="18" y1="50" x2="46" y2="50" stroke="var(--hue)" stroke-width="1.4"/>
+      `;
+    case "historian":
+      return `
+        <path d="M14 58 L19 38 L21 15 H43 L45 38 L50 58 Z" fill="#1D150E" stroke="var(--hue)" stroke-width="1.8"/>
+        <path d="M24 18 H40 L24 25 H40 Z" fill="none" stroke="var(--hue)" stroke-width="1.3"/>
+        <circle cx="26" cy="34" r="4.5" fill="none" stroke="var(--hue)" stroke-width="1.6"/>
+        <circle cx="26" cy="34" r="1.6" fill="var(--hue)"/>
+        <rect x="35" y="32" width="6" height="3" fill="var(--hue)"/>
+        <path d="M24 44 L32 49 L40 44 M22 52 H42" fill="none" stroke="var(--hue)" stroke-width="1.4"/>
+      `;
+    case "oracle":
+      return `
+        <path d="M13 58 L19 26 C21 14 43 14 45 26 L51 58 Z" fill="#1E0E18" stroke="var(--hue)" stroke-width="1.8"/>
+        <path d="M16 20 A18 18 0 0 1 48 20" fill="none" stroke="var(--hue)" stroke-width="1.3" stroke-dasharray="3 2"/>
+        <polygon points="32,19 36,24 32,29 28,24" fill="var(--hue)"/>
+        <path d="M21 35 Q26 31 30 35 Q26 38 21 35 Z" fill="var(--hue)"/>
+        <path d="M34 35 Q38 31 43 35 Q38 38 34 35 Z" fill="var(--hue)"/>
+        <path d="M26 45 L32 51 L38 45" fill="none" stroke="var(--hue)" stroke-width="1.5"/>
+      `;
+    case "beast_master":
+      return `
+        <path d="M22 20 L13 9 M17 14 L11 16 M42 20 L51 9 M47 14 L53 16" stroke="var(--hue)" stroke-width="2" fill="none" stroke-linecap="square"/>
+        <path d="M15 58 L19 40 L21 19 H43 L45 40 L49 58 Z" fill="#0B1C16" stroke="var(--hue)" stroke-width="1.8"/>
+        <polygon points="23,31 30,34 24,36" fill="var(--hue)"/>
+        <polygon points="41,31 34,34 40,36" fill="var(--hue)"/>
+        <path d="M22 42 L26 46 M26 42 L30 46 M42 42 L38 46 M38 42 L34 46" stroke="var(--hue)" stroke-width="1.5"/>
+        <polygon points="32,48 36,53 28,53" fill="var(--hue)" opacity="0.7"/>
+      `;
+    case "koning":
+      return `
+        <path d="M16 24 L14 10 L24 17 L32 6 L40 17 L50 10 L48 24 Z" fill="var(--hue)" stroke="#FFF2B8" stroke-width="1.4"/>
+        <path d="M17 58 L20 42 L21 25 H43 L44 42 L47 58 Z" fill="#1C160A" stroke="var(--hue)" stroke-width="1.8"/>
+        <rect x="23" y="33" width="18" height="4" fill="#FFFFFF"/>
+        <path d="M24 46 H40 M32 46 V56" stroke="var(--hue)" stroke-width="1.6"/>
+      `;
+    default:
+      return `
+        <rect x="18" y="16" width="28" height="32" fill="#151A24" stroke="var(--hue)" stroke-width="1.8"/>
+        <polyline points="24,28 29,32 24,36" fill="none" stroke="var(--hue)" stroke-width="2"/>
+        <line x1="32" y1="36" x2="40" y2="36" stroke="var(--hue)" stroke-width="2"/>
+      `;
+  }
 }
 
+function renderPortraitSVG(rol, size = 64) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 64 64" style="--hue:${kleur(rol)}" aria-hidden="true">${portraitInnerSVG(rol)}</svg>`;
+}
+
+/* =========================================================
+   TEXT FORMATTING & EVIDENCE ID EXTRACTION
+   ========================================================= */
 function ids(tekst) {
   return [...String(tekst ?? "").matchAll(ID_RE)].map(m => ({ id: `${m[1]}-${m[3]}`, raar: m[2] !== "-" }));
 }
 
+function renderInlineMarkup(raw) {
+  return esc(raw)
+    .replace(/`([^`]+)`/g, `<code class="fmt-code">$1</code>`)
+    .replace(/\*\*(.+?)\*\*/g, `<strong>$1</strong>`)
+    .replace(/\*([^*]+)\*/g, `<em>$1</em>`)
+    .replace(ID_RE, (m, p, streep, digits) => {
+      const raar = streep !== "-";
+      const cleanId = `${p}-${digits}`;
+      const role = PREFIX[p];
+      const pinned = state.pinnedId === cleanId ? " is-pinned" : "";
+      const tip = raar
+        ? `Malformed Unicode hyphen detected in ${cleanId} (schema violation)`
+        : `${roleName(role)} evidence record ${cleanId} — click to locate in debate`;
+      return `<button type="button" class="ev-id${raar ? " is-malformed" : ""}${pinned}" data-ev-id="${cleanId}" style="--id-hue:${kleur(role)}" title="${esc(tip)}">[${cleanId}]</button>`;
+    });
+}
+
+function formatDebateBody(tekst) {
+  const src = String(tekst ?? "").replace(/\r\n/g, "\n").trim();
+  if (!src) return `<span class="muted-note">No statement content.</span>`;
+
+  const lines = src.split("\n");
+  let out = "";
+  let paraBuf = [];
+
+  const flushPara = () => {
+    if (!paraBuf.length) return;
+    const joined = paraBuf.join(" ").trim();
+    paraBuf = [];
+    if (!joined) return;
+    if (CONCESSION_RE.test(joined)) {
+      out += `<div class="fmt-concession"><div class="fmt-concession-badge">${ICONS.concession}<span>CONCESSION / POSITION UPDATE</span></div><div>${renderInlineMarkup(joined)}</div></div>`;
+    } else {
+      out += `<p class="fmt-para">${renderInlineMarkup(joined)}</p>`;
+    }
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) {
+      flushPara();
+      continue;
+    }
+    const hMatch = line.match(/^#{1,4}\s*(.+)$/);
+    if (hMatch) {
+      flushPara();
+      out += `<div class="fmt-heading">${renderInlineMarkup(hMatch[1].replace(/\*\*/g, ""))}</div>`;
+      continue;
+    }
+    const bMatch = line.match(/^(?:[-*]|\d+[.)])\s+(.+)$/);
+    if (bMatch) {
+      flushPara();
+      const itemText = bMatch[1];
+      if (CONCESSION_RE.test(itemText)) {
+        out += `<div class="fmt-concession"><div class="fmt-concession-badge">${ICONS.concession}<span>CONCESSION / POSITION UPDATE</span></div><div>${renderInlineMarkup(itemText)}</div></div>`;
+      } else {
+        out += `<div class="fmt-bullet">${renderInlineMarkup(itemText)}</div>`;
+      }
+      continue;
+    }
+    paraBuf.push(line);
+  }
+  flushPara();
+  return out;
+}
+
+function formatCompactText(tekst) {
+  return renderInlineMarkup(String(tekst ?? "").replace(/^#{1,4}\s*/gm, "").replace(/\n+/g, " "));
+}
+
+/* =========================================================
+   OFFLINE ENGLISH VOICE SYNTHESIS
+   ========================================================= */
 function cleanSpeechText(tekst) {
   return String(tekst ?? "")
     .replace(/^#{1,4}\s*/gm, "")
     .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -564,10 +2568,16 @@ function stopSpeech() {
   }
 }
 
-function pickDutchVoice() {
+function pickEnglishVoice() {
   if (!state.speechSupported) return null;
   const voices = window.speechSynthesis.getVoices() || [];
-  return voices.find(v => /^nl/i.test(v.lang)) || voices.find(v => /dutch|nederlands/i.test(v.name)) || null;
+  return (
+    voices.find(v => /^en-US/i.test(v.lang)) ||
+    voices.find(v => /^en-GB/i.test(v.lang)) ||
+    voices.find(v => /^en/i.test(v.lang)) ||
+    voices[0] ||
+    null
+  );
 }
 
 function speakStep(step, onDone) {
@@ -576,15 +2586,16 @@ function speakStep(step, onDone) {
     return;
   }
   let tekst = "";
-  if (step.soort === "bericht") tekst = cleanSpeechText(step.tekst);
-  else if (step.soort === "routering") {
+  if (step.soort === "bericht") {
+    tekst = `${roleName(step.spreker)} reports: ${cleanSpeechText(step.tekst)}`;
+  } else if (step.soort === "routering") {
     tekst = step.aan
-      ? `${NAMEN[step.aan] || step.aan}: ${cleanSpeechText(step.vraag || step.reden)}`
-      : `Koning sluit het debat. ${cleanSpeechText(step.reden)}`;
+      ? `King summons ${roleName(step.aan)}. ${cleanSpeechText(step.vraag || step.reden)}`
+      : `King closes the council debate. ${cleanSpeechText(step.reden)}`;
   } else if (step.soort === "toolcall") {
-    tekst = `${NAMEN[step.spreker] || step.spreker} raadpleegt ${step.tool}.`;
+    tekst = `${roleName(step.spreker)} invokes isolated MCP tool ${step.tool}.`;
   } else if (step.soort === "bestand") {
-    tekst = `${NAMEN[step.spreker] || step.spreker} leest bronbestand.`;
+    tekst = `${roleName(step.spreker)} inspects knowledge source file.`;
   }
   if (!tekst) {
     if (onDone) onDone(false);
@@ -592,11 +2603,11 @@ function speakStep(step, onDone) {
   }
   try {
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(tekst.slice(0, 700));
+    const u = new SpeechSynthesisUtterance(tekst.slice(0, 720));
     const prof = VOICE_PROFILES[step.spreker] || VOICE_PROFILES.koning;
-    const nlVoice = pickDutchVoice();
-    if (nlVoice) u.voice = nlVoice;
-    u.lang = nlVoice ? nlVoice.lang : "nl-NL";
+    const enVoice = pickEnglishVoice();
+    if (enVoice) u.voice = enVoice;
+    u.lang = enVoice ? enVoice.lang : "en-US";
     u.pitch = prof.pitch;
     u.rate = prof.rate;
 
@@ -607,7 +2618,7 @@ function speakStep(step, onDone) {
       clearTimeout(fallbackTimer);
       if (onDone) onDone(true);
     };
-    const fallbackMs = Math.min(28000, Math.max(2500, tekst.length * 75));
+    const fallbackMs = Math.min(28000, Math.max(2500, tekst.length * 72));
     const fallbackTimer = setTimeout(finish, fallbackMs);
     u.onend = finish;
     u.onerror = finish;
@@ -617,10 +2628,110 @@ function speakStep(step, onDone) {
   }
 }
 
+/* =========================================================
+   HUD TOAST & EVIDENCE ID JUMPING
+   ========================================================= */
+function showToast(msg) {
+  const el = document.getElementById("hud-toast");
+  el.textContent = msg;
+  el.classList.add("is-show");
+  if (state.toastTimer) clearTimeout(state.toastTimer);
+  state.toastTimer = setTimeout(() => el.classList.remove("is-show"), 2600);
+}
+
+function jumpToEvidenceId(evId) {
+  state.pinnedId = evId;
+  const beurten = state.trace?.beurten || [];
+  const matches = [];
+  beurten.forEach((b, i) => {
+    const hay = `${b.tekst || ""} ${b.vraag || ""} ${b.reden || ""} ${(b.open_vragen || []).join(" ")}`;
+    if (ids(hay).some(x => x.id === evId)) matches.push(i);
+  });
+
+  if (!matches.length) {
+    highlightPinnedChips();
+    showToast(`EVIDENCE ${evId} // CITED IN VERDICT OR DISPUTES`);
+    return;
+  }
+  let target = matches.find(i => i > state.cursor);
+  if (target === undefined) target = matches[0];
+  goToStep(target, { scrollTranscript: state.logExpanded });
+  highlightPinnedChips();
+  const step = beurten[target];
+  showToast(`EVIDENCE ${evId} // STEP #${step.nr} (${roleName(step.spreker).toUpperCase()})`);
+}
+
+function highlightPinnedChips() {
+  document.querySelectorAll(".ev-id[data-ev-id]").forEach(el => {
+    el.classList.toggle("is-pinned", el.dataset.evId === state.pinnedId);
+  });
+}
+
+/* =========================================================
+   SPLASH ROSTER RENDERER
+   ========================================================= */
+function renderSplashRoster(telling = {}, trace = null) {
+  const roles = trace?.raadsleden?.length ? trace.raadsleden : STANDAARD_ROLLEN;
+  const bezig = trace?.status === "bezig";
+  const active = trace?.aan_het_woord;
+  const container = document.getElementById("splash-roster");
+
+  container.innerHTML = roles.map((rol, idx) => {
+    const info = ROLE_INFO[rol] || { name: rol, code: "AGT", specialty: "Council Member", bias: "Role bias active" };
+    const stats = telling[rol] || { berichten: 0, tools: 0, ids: new Set() };
+    const speaking = bezig && active === rol;
+    let statusText = "MCP READY";
+    if (speaking) statusText = "SPEAKING NOW";
+    else if (stats.ids.size > 0) statusText = `${stats.ids.size} VERIFIED IDs`;
+    else if (stats.tools > 0) statusText = `${stats.tools} MCP CALLS`;
+
+    return `
+      <div class="char-slot" data-role="${rol}" data-code="${info.code}" style="--hue:${kleur(rol)};--idx:${idx}">
+        <div class="char-portrait-box">${renderPortraitSVG(rol, 58)}</div>
+        <div class="char-name">${esc(info.name)}</div>
+        <div class="char-spec">${esc(info.specialty)}</div>
+        <div class="char-bias">BIAS: ${esc(info.bias)}</div>
+        <div class="char-status ${speaking ? "is-speaking" : ""}">${esc(statusText)}</div>
+      </div>`;
+  }).join("");
+}
+
+function openSplash() {
+  state.splashOpen = true;
+  const el = document.getElementById("splash-overlay");
+  el.classList.remove("is-hidden", "is-exiting", "is-booting");
+  void el.offsetWidth;
+  el.classList.add("is-booting");
+}
+
+function closeSplash() {
+  if (!state.splashOpen) return;
+  state.splashOpen = false;
+  const el = document.getElementById("splash-overlay");
+  const mainEl = document.querySelector("main.tactical-grid");
+  el.classList.remove("is-booting");
+  el.classList.add("is-exiting");
+  if (mainEl) {
+    mainEl.classList.remove("is-entering");
+    void mainEl.offsetWidth;
+    mainEl.classList.add("is-entering");
+    setTimeout(() => mainEl.classList.remove("is-entering"), 900);
+  }
+  setTimeout(() => {
+    if (!state.splashOpen) {
+      el.classList.add("is-hidden");
+      el.classList.remove("is-exiting");
+    }
+  }, 520);
+}
+
+/* =========================================================
+   CHAMBER SVG STAGE RENDERER
+   ========================================================= */
 function getSeatPositions(roles) {
   const list = roles && roles.length ? roles : STANDAARD_ROLLEN;
   const n = list.length;
-  const cx = 500, cy = 104, rx = 392, ry = 196;
+  const cx = 500, cy = 104, rx = 395, ry = 198;
   const map = {};
   list.forEach((rol, i) => {
     const t = n === 1 ? 0.5 : i / (n - 1);
@@ -641,6 +2752,7 @@ function renderStage() {
   const seats = getSeatPositions(roles);
   const bezig = trace?.status === "bezig";
   const maxIdx = Math.max(0, beurten.length - 1);
+
   if (state.liveMode) {
     state.cursor = beurten.length ? maxIdx : -1;
   } else if (beurten.length) {
@@ -652,14 +2764,21 @@ function renderStage() {
   const cursor = state.cursor;
   const curStep = cursor >= 0 ? beurten[cursor] : null;
 
-  // Compute state up to cursor
+  // Compute cumulative stats up to cursor + latest routing directive
   const upToStats = {};
-  for (const r of roles) upToStats[r] = { ids: new Set(), tools: 0, berichten: 0 };
+  for (const r of [...roles, "koning", "mens"]) {
+    upToStats[r] = { ids: new Set(), tools: 0, berichten: 0 };
+  }
   let lastRoutedTo = null;
+  let lastRoutingStep = null;
+
   for (let i = 0; i <= cursor; i++) {
     const b = beurten[i];
     if (!b) continue;
-    if (b.soort === "routering") lastRoutedTo = b.aan;
+    if (b.soort === "routering") {
+      lastRoutedTo = b.aan;
+      lastRoutingStep = b;
+    }
     const st = upToStats[b.spreker];
     if (st) {
       if (b.soort === "bericht") {
@@ -694,24 +2813,30 @@ function renderStage() {
     }
   }
 
-  // Floor geometry
-  const kingX = 500, kingY = 96;
+  document.getElementById("chamber-status-corner").textContent =
+    state.isPlaying ? "MODE: PLAYBACK" : state.liveMode ? "MODE: LIVE STREAM" : "MODE: INSPECT";
+
+  // Floor tactical radar geometry
+  const kingX = 500, kingY = 92;
   const floorEl = document.getElementById("chamber-floor");
   floorEl.innerHTML =
-    `<circle class="ring-line" cx="${kingX}" cy="${kingY}" r="74" />` +
-    `<ellipse class="ring-line" cx="${kingX}" cy="${kingY + 34}" rx="340" ry="175" />` +
-    `<ellipse class="ring-line" cx="${kingX}" cy="${kingY + 34}" rx="455" ry="230" />` +
+    `<line x1="500" y1="8" x2="500" y2="386" stroke="rgba(255,184,0,0.08)" stroke-width="1"/>` +
+    `<line x1="20" y1="${kingY}" x2="980" y2="${kingY}" stroke="rgba(255,184,0,0.08)" stroke-width="1"/>` +
+    `<circle class="grid-ring" cx="${kingX}" cy="${kingY}" r="72"/>` +
+    `<ellipse class="grid-ring-dashed" cx="${kingX}" cy="${kingY + 34}" rx="345" ry="178"/>` +
+    `<ellipse class="grid-ring" cx="${kingX}" cy="${kingY + 34}" rx="458" ry="234"/>` +
     roles.map(r => {
       const s = seats[r];
-      return `<line class="seat-tether" x1="${kingX}" y1="${kingY + 26}" x2="${s.x}" y2="${s.y - 36}" />`;
+      return `<line class="seat-tether" x1="${kingX}" y1="${kingY + 30}" x2="${s.x}" y2="${s.y - 38}"/>`;
     }).join("");
 
-  // Dispute arcs
+  // Crimson Dispute Arcs
   const disputesEl = document.getElementById("chamber-disputes");
   const geschillen = trace?.geschillen || [];
   const disputeBtn = document.getElementById("btn-disputes");
-  disputeBtn.textContent = `⚔ Geschillen${geschillen.length ? ` (${geschillen.length})` : ""}`;
-  disputeBtn.className = "btn" + (state.showDisputes && geschillen.length ? " dispute-on" : "");
+  document.getElementById("disputes-label").textContent =
+    `[ DISPUTE ARCS${geschillen.length ? `: ${geschillen.length}` : ""} ]`;
+  disputeBtn.className = "hud-btn" + (state.showDisputes && geschillen.length ? " is-crimson" : "");
 
   if (state.showDisputes && geschillen.length) {
     let dHtml = "";
@@ -722,12 +2847,19 @@ function renderStage() {
           const a = seats[participants[i]];
           const b = seats[participants[j]];
           const mx = (a.x + b.x) / 2;
-          const my = Math.min(358, (a.y + b.y) / 2 + 44 + (idx % 2) * 18);
+          const my = Math.min(358, (a.y + b.y) / 2 + 46 + (idx % 2) * 18);
           const qx = mx, qy = my + 24;
-          const tip = esc(`${g.onderwerp}${g.uitkomst ? " — " + g.uitkomst : " (niet beslecht)"}`);
-          dHtml += `<g class="dispute-arc-wrap"><title>${tip}</title>` +
-            `<path class="dispute-arc" d="M ${a.x} ${a.y + 12} Q ${qx} ${qy} ${b.x} ${b.y + 12}" />` +
-            `<g class="dispute-node" transform="translate(${mx} ${(a.y + b.y) / 4 + qy / 2})"><circle r="10" /><text>⚔</text></g></g>`;
+          const midY = (a.y + b.y) / 4 + qy / 2;
+          const tip = esc(`${g.onderwerp}${g.uitkomst ? " — RESOLVED: " + g.uitkomst : " (UNRESOLVED)"}`);
+          dHtml += `
+            <g class="dispute-arc-wrap">
+              <title>${tip}</title>
+              <path class="dispute-arc" d="M ${a.x} ${a.y + 12} Q ${qx} ${qy} ${b.x} ${b.y + 12}"/>
+              <g transform="translate(${mx} ${midY})">
+                <polygon class="dispute-node-bg" points="0,-11 11,0 0,11 -11,0"/>
+                <path d="M-4 -4 L4 4 M4 -4 L-4 4" stroke="#FF2E54" stroke-width="2" stroke-linecap="square"/>
+              </g>
+            </g>`;
         }
       }
     });
@@ -736,63 +2868,63 @@ function renderStage() {
     disputesEl.innerHTML = "";
   }
 
-  // King Routing Beam
+  // Animated King Routing Beam + Energy Spark Orb
   const beamEl = document.getElementById("chamber-beam");
   if (beamTarget && seats[beamTarget]) {
     const t = seats[beamTarget];
     const dx = t.x - kingX;
-    const dy = (t.y - 44) - (kingY + 26);
+    const dy = (t.y - 46) - (kingY + 28);
     const len = Math.hypot(dx, dy) || 1;
-    const sx = kingX + (dx / len) * 42;
-    const sy = kingY + 26 + (dy / len) * 20;
-    const ex = t.x - (dx / len) * 44;
-    const ey = t.y - (dy / len) * 44;
+    const sx = kingX + (dx / len) * 44;
+    const sy = kingY + 28 + (dy / len) * 20;
+    const ex = t.x - (dx / len) * 48;
+    const ey = t.y - (dy / len) * 48;
     const cx = (sx + ex) / 2;
-    const cy = (sy + ey) / 2 - 22;
+    const cy = (sy + ey) / 2 - 24;
     const c = kleur(beamTarget);
     const d = `M ${sx.toFixed(1)} ${sy.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
     beamEl.innerHTML =
-      `<path class="beam-glow" d="${d}" stroke="${c}" stroke-width="11" />` +
-      `<path class="beam-core" d="${d}" stroke="${c}" marker-end="url(#beamArrow)" />`;
+      `<path id="routing-beam-path" class="beam-glow" d="${d}" stroke="${c}" stroke-width="12"/>` +
+      `<path class="beam-core" d="${d}" stroke="${c}" marker-end="url(#beamArrow)"/>` +
+      `<circle r="8.5" fill="${c}" opacity="0.55" style="filter:blur(3px)"><animateMotion dur="1.15s" repeatCount="indefinite" path="${d}"/></circle>` +
+      `<circle r="3.6" fill="#FFFFFF"><animateMotion dur="1.15s" repeatCount="indefinite" path="${d}"/></circle>`;
   } else {
     beamEl.innerHTML = "";
   }
 
-  // King Crown Emblem
+  // Central King Sovereign Crown Node
   const kingActive = activeSpeaker === "koning" || (curStep?.soort === "routering" && curStep.aan === null);
-  const kingEl = document.getElementById("chamber-king");
-  kingEl.innerHTML = `
+  const kingPulse = kingActive || (bezig && state.liveMode && !thinkingRole);
+  document.getElementById("chamber-king").innerHTML = `
     <g transform="translate(${kingX} ${kingY})">
-      <circle class="king-halo ${kingActive || (bezig && state.liveMode && !thinkingRole) ? "is-pulsing" : ""}" r="42" />
-      <circle r="34" fill="var(--bg-elev)" stroke="var(--koning)" stroke-width="${kingActive ? 2.4 : 1.4}" stroke-opacity="${kingActive ? 1 : 0.55}" />
-      <path class="king-crown" d="M-20 12 L-23 -8 L-9 0 L0 -17 L9 0 L23 -8 L20 12 Z" />
-      <rect x="-20" y="13" width="40" height="4" rx="2" fill="var(--koning)" />
-      <circle cx="0" cy="-19" r="2.4" fill="var(--koning)" />
-      <circle cx="-23" cy="-10" r="2" fill="var(--koning)" />
-      <circle cx="23" cy="-10" r="2" fill="var(--koning)" />
-      <text class="king-label" y="-44">KONING</text>
-    </g>
-  `;
+      <circle class="king-ring-outer ${kingPulse ? "is-pulsing" : ""}" r="48"/>
+      <circle class="king-halo ${kingPulse ? "is-pulsing" : ""}" r="40"/>
+      <polygon points="0,-36 31,-18 31,18 0,36 -31,18 -31,-18" fill="#11141C" stroke="var(--amber)" stroke-width="${kingActive ? 2.8 : 1.8}"/>
+      <path d="M-19 11 L-22 -8 L-9 0 L0 -17 L9 0 L22 -8 L19 11 Z" fill="rgba(255,184,0,0.22)" stroke="var(--amber)" stroke-width="2.2" stroke-linejoin="miter"/>
+      <rect x="-19" y="13" width="38" height="4" fill="var(--amber)"/>
+      <circle cx="0" cy="-19" r="2.4" fill="#FFFFFF"/>
+      <text class="king-label" y="-44">KING SOVEREIGN</text>
+    </g>`;
 
-  // 6 Council Porcelain-Mask Avatars
+  // 6 Council Operative Portrait Medallions
   const seatsEl = document.getElementById("chamber-seats");
   const hasFocus = Boolean(activeSpeaker && activeSpeaker !== "koning" && seats[activeSpeaker]);
-  seatsEl.innerHTML = roles.map(rol => {
+  seatsEl.innerHTML = roles.map((rol, seatIdx) => {
     const s = seats[rol];
     const isAct = activeSpeaker === rol;
     const isThink = thinkingRole === rol;
     const isTool = toolStep && toolStep.spreker === rol;
     const isDim = hasFocus && !isAct && !isThink;
     const stats = upToStats[rol] || { ids: new Set(), tools: 0, berichten: 0 };
-    const mended = Math.min(5, stats.ids.size);
     const cls = [
-      "mask-group",
+      "seat-node",
       isAct ? "is-active" : "",
       isThink ? "is-thinking" : "",
       isTool ? "is-tool" : "",
       isDim ? "is-dim" : ""
     ].filter(Boolean).join(" ");
 
+    // MCP Tool Lock Floating Badge
     let toolBadgeHtml = "";
     if (isTool) {
       let label = "";
@@ -800,172 +2932,292 @@ function renderStage() {
       if (toolStep.soort === "toolcall") {
         const argVal = Object.values(toolStep.argumenten || {})[0];
         const argStr = argVal !== undefined ? String(argVal) : "";
-        const shortArg = argStr.length > 14 ? argStr.slice(0, 13) + "…" : argStr;
-        label = `🔎 ${toolStep.tool}(${shortArg})`;
+        const shortArg = argStr.length > 13 ? argStr.slice(0, 12) + "..." : argStr;
+        label = `MCP: ${toolStep.tool}(${shortArg})`;
         isErr = Boolean(toolStep.pad && !toolStep.pad.includes(`/${rol}/`));
       } else {
         const fname = (toolStep.bestand || "").split("/").pop();
-        label = `📄 ${fname.length > 18 ? fname.slice(0, 17) + "…" : fname}`;
+        label = `SRC: ${fname.length > 16 ? fname.slice(0, 15) + "..." : fname}`;
         isErr = Boolean(toolStep.bestand && !toolStep.bestand.startsWith(rol + "/"));
       }
-      const w = Math.max(106, Math.min(206, label.length * 6.5 + 18));
+      const w = Math.max(122, Math.min(230, label.length * 6.4 + 34));
       toolBadgeHtml = `
-        <g class="tool-pill ${isErr ? "is-error" : ""}" transform="translate(0 -58)">
-          <rect x="${-w / 2}" y="-11" width="${w}" height="21" rx="10" />
-          <text y="3">${esc(label)}</text>
+        <g class="mcp-lock-badge ${isErr ? "is-error" : ""}" transform="translate(0 -56)">
+          <rect x="${-w / 2}" y="-12" width="${w}" height="22" rx="0"/>
+          <g transform="translate(${-w / 2 + 8} -6)">
+            <rect x="0" y="5" width="8" height="6" fill="none" stroke="${isErr ? "#FF2E54" : "#00E58B"}" stroke-width="1.4"/>
+            <path d="M1.8 5 V3.2 A2.2 2.2 0 0 1 6.2 3.2 V5" fill="none" stroke="${isErr ? "#FF2E54" : "#00E58B"}" stroke-width="1.4"/>
+          </g>
+          <text x="${-w / 2 + 22}" y="3">${esc(label)}</text>
         </g>`;
     }
 
-    const cracksHtml = MASK_CRACKS.map((d, idx) =>
-      `<path class="mask-crack" d="${d}" />` +
-      `<path class="mask-mend" d="${d}" pathLength="1" style="stroke-dashoffset:${idx < mended ? 0 : 1}" />`
+    // 5-cell evidence progress bar under medallion
+    const filledCells = Math.min(5, stats.ids.size);
+    const barCells = Array.from({ length: 5 }, (_, k) =>
+      `<rect x="${-27 + k * 11}" y="40" width="9" height="4" fill="${k < filledCells ? "var(--hue)" : "#1C2332"}"/>`
     ).join("");
 
     return `
-      <g class="${cls}" data-role="${rol}" transform="translate(${s.x} ${s.y})" style="--hue:${kleur(rol)}">
-        <ellipse class="mask-glow" cx="0" cy="-2" rx="48" ry="54" />
-        <circle class="mask-pulse-ring" cx="0" cy="-2" r="44" />
-        <g transform="scale(0.62) translate(-50 -64)">
-          <path class="mask-face" d="${MASK_FACE}" />
-          <path class="mask-shade" d="${MASK_SHADE}" />
-          ${SIGILS[rol] || ""}
-          <path class="mask-line" d="M50 56 L46 78 L53 81 M40 100 q10 5 20 0" />
-          <path class="mask-eye" d="M20 58 q12 -11 24 0 q-12 8 -24 0 Z" />
-          <path class="mask-eye" d="M58 58 q12 -11 24 0 q-12 8 -24 0 Z" />
-          ${cracksHtml}
+      <g class="${cls}" data-role="${rol}" transform="translate(${s.x} ${s.y})" style="--hue:${kleur(rol)};--seat-idx:${seatIdx}">
+        <circle class="seat-aura" cx="0" cy="-2" r="46"/>
+        <circle class="seat-radar" cx="0" cy="-2" r="45"/>
+        <polygon class="seat-frame" points="0,-40 36,-20 36,20 0,40 -36,20 -36,-20"/>
+        <g transform="translate(-26 -29) scale(0.82)">
+          ${portraitInnerSVG(rol)}
         </g>
+        <rect x="-18" y="-44" width="36" height="12" fill="#07080B" stroke="var(--hue)" stroke-width="1.2"/>
+        <text class="seat-code" y="-35">${esc(roleCode(rol))}</text>
+        ${barCells}
         ${toolBadgeHtml}
-        <text class="mask-name" y="54">${esc(NAMEN[rol] || rol)}</text>
-        <text class="mask-meta" y="69">${stats.tools} bron · ${stats.ids.size} ID's</text>
-      </g>
-    `;
+        <text class="seat-name" y="58">${esc(roleName(rol).toUpperCase())}</text>
+        <text class="seat-meta" y="72">${stats.tools} MCP // ${stats.ids.size} IDs</text>
+      </g>`;
   }).join("");
 
-  // Controls & Scrubber
+  // Playback Controls & Segmented Scrubber
   const scrubber = document.getElementById("scrubber");
   scrubber.max = String(maxIdx);
   scrubber.value = String(Math.max(0, cursor));
   scrubber.disabled = beurten.length === 0;
 
-  const counter = document.getElementById("step-counter");
-  counter.textContent = beurten.length
-    ? `Stap ${cursor + 1} / ${beurten.length}${curStep ? ` · Ronde ${curStep.ronde}` : ""}`
-    : "Stap 0 / 0";
+  const segEl = document.getElementById("scrubber-segments");
+  if (!beurten.length) {
+    segEl.innerHTML = `<div class="scrub-seg" style="cursor:default"></div>`;
+  } else {
+    segEl.innerHTML = beurten.map((b, i) => {
+      const cls = i === cursor ? "scrub-seg is-cur" : i < cursor ? "scrub-seg is-past" : "scrub-seg";
+      return `<button type="button" class="${cls}" data-step-idx="${i}" style="--seg-hue:${kleur(b.spreker)}" title="Step #${b.nr} — ${esc(roleName(b.spreker))} (${esc(b.soort)})"></button>`;
+    }).join("");
+  }
+
+  document.getElementById("step-counter").textContent = beurten.length
+    ? `STEP ${cursor + 1} / ${beurten.length}${curStep ? ` // R${curStep.ronde}` : ""}`
+    : "STEP 0 / 0";
 
   document.getElementById("btn-start").disabled = beurten.length === 0 || cursor <= 0;
   document.getElementById("btn-prev").disabled = beurten.length === 0 || cursor <= 0;
   document.getElementById("btn-next").disabled = beurten.length === 0 || cursor >= maxIdx;
+  document.getElementById("btn-replay-debate").disabled = beurten.length === 0;
+  document.getElementById("btn-jump-verdict").disabled = beurten.length === 0 && !state.verdict;
+
   const playBtn = document.getElementById("btn-play");
   playBtn.disabled = beurten.length === 0;
-  playBtn.textContent = state.isPlaying ? "⏸ Pause" : "▶ Play";
-  playBtn.className = "btn" + (state.isPlaying ? " active" : "");
+  document.getElementById("play-icon").innerHTML = state.isPlaying ? ICONS.pause : ICONS.play;
+  document.getElementById("play-label").textContent = state.isPlaying ? "PAUSE" : "PLAY";
+  playBtn.className = "hud-btn" + (state.isPlaying ? " is-on" : "");
 
   const liveBtn = document.getElementById("btn-live");
-  liveBtn.className = "btn" + (state.liveMode ? " live-on" : "");
-  liveBtn.textContent = state.liveMode ? "● Live" : "⏭ End (Live)";
+  liveBtn.className = "hud-btn" + (state.liveMode ? " is-mint" : "");
 
-  // Spotlight
-  renderSpotlight(curStep, trace, bezig);
+  // Spotlight Codec View
+  renderSpotlight(curStep, lastRoutingStep, upToStats, trace, bezig);
 
-  // Sync active/future classes in transcript
-  document.querySelectorAll("#debat .beurt[data-idx]").forEach(el => {
+  // Sync log highlights
+  document.querySelectorAll("#debat .log-card[data-idx]").forEach(el => {
     const idx = Number(el.dataset.idx);
-    el.classList.toggle("actief", idx === cursor);
-    el.classList.toggle("toekomst", cursor >= 0 && idx > cursor);
+    el.classList.toggle("is-active", idx === cursor);
+    el.classList.toggle("is-future", cursor >= 0 && idx > cursor);
   });
 }
 
-function renderSpotlight(step, trace, bezig) {
-  const spot = document.getElementById("spotlight");
+/* =========================================================
+   TACTICAL CODEC / COURTROOM SPOTLIGHT RENDERER
+   ========================================================= */
+function renderSpotlight(step, lastRoutingStep, upToStats, trace, bezig) {
+  const shell = document.getElementById("spotlight-shell");
+
   if (!step) {
-    spot.style.setProperty("--kleur", "var(--koning)");
-    spot.innerHTML = `
-      <div class="spotlight-head">
-        <span class="spotlight-role">Koning</span>
-        <span class="spotlight-tag">${bezig ? "Debat gestart" : "Stand-by"}</span>
+    shell.innerHTML = `
+      <div class="king-summons-banner">
+        <div class="summons-top">
+          <span class="summons-kicker">${ICONS.crown}<span>KING ROUTING ORDER</span></span>
+          <span class="summons-target">${bezig ? "DELIBERATION INITIALIZING" : "STANDBY"}</span>
+        </div>
+        <div class="summons-question">${bezig ? "Council session started. Awaiting first King routing directive..." : "Awaiting live trace.json telemetry stream..."}</div>
       </div>
-      <div class="spotlight-body leeg">${bezig ? "Wachten op de eerste stap…" : "Nog geen trace.json geladen."}</div>`;
+      <div class="codec-box" style="--hue:var(--amber)">
+        <div class="codec-portrait-col">
+          <div class="codec-avatar-frame">${renderPortraitSVG("koning", 76)}</div>
+          <div class="codec-freq">FREQ 140.00</div>
+          <div class="codec-role-name">KING SOVEREIGN</div>
+          <div class="codec-bias-chip">0 DIRECT SOURCE ACCESS</div>
+        </div>
+        <div class="codec-body-col">
+          <div class="codec-meta-bar">
+            <span class="codec-tag">COURTROOM CODEC READY</span>
+          </div>
+          <div class="codec-speech">
+            <span class="muted-note">Start the Council engine to inspect live routing orders, MCP isolation locks, evidence ID citations, concessions, and the final verdict.</span>
+          </div>
+        </div>
+      </div>`;
     return;
   }
-  const rolKleur = kleur(step.spreker);
-  spot.style.setProperty("--kleur", rolKleur);
-  const wie = esc(NAMEN[step.spreker] || step.spreker);
-  let tag = `#${step.nr} · Ronde ${step.ronde}`;
-  let body = "";
 
-  if (step.soort === "routering") {
-    tag += " · Routering";
-    const open = (step.open_vragen || []).length
-      ? `<div class="open-vragen"><strong>Open vragen:</strong> ${step.open_vragen.map(v => opmaak(v)).join(" · ")}</div>`
+  const activeRouting = step.soort === "routering" ? step : lastRoutingStep;
+  let summonsHtml = "";
+  if (activeRouting) {
+    const targetHue = activeRouting.aan ? kleur(activeRouting.aan) : "var(--mint)";
+    const targetLabel = activeRouting.aan ? roleName(activeRouting.aan).toUpperCase() : "CLOSURE // FINAL VERDICT";
+    const openQs = (activeRouting.open_vragen || []).length
+      ? `<div class="open-q-strip">
+           <span class="open-q-label">ACTIVE OPEN QUESTIONS:</span>
+           ${activeRouting.open_vragen.map(q => `<span class="open-q-tag">${formatCompactText(q)}</span>`).join("")}
+         </div>`
       : "";
-    body = step.aan
-      ? `→ <b style="color:${kleur(step.aan)}">${esc(NAMEN[step.aan] || step.aan)}</b>: ${opmaak(step.vraag)}<div class="verdict-sub"><b>Waarom:</b> ${opmaak(step.reden)}</div>${open}`
-      : `Koning stopt het debat. <div class="verdict-sub"><b>Waarom:</b> ${opmaak(step.reden)}</div>${open}`;
-  } else if (step.soort === "bericht") {
-    tag += step.aan ? ` → ${NAMEN[step.aan] || step.aan}` : " · Inbreng";
-    body = opmaak(step.tekst);
-  } else if (step.soort === "toolcall") {
-    tag += " · MCP Toolcall";
-    const args = Object.entries(step.argumenten || {}).map(([k, v]) => `${k}=${JSON.stringify(v)}`).join(", ");
-    body = `🔎 <code>${esc(step.tool)}(${esc(args)})</code>`;
-  } else {
-    tag += " · Bronbestand";
-    body = `📄 <code>${esc(step.bestand)}</code> in de prompt`;
+    summonsHtml = `
+      <div class="king-summons-banner">
+        <div class="summons-top">
+          <span class="summons-kicker">${ICONS.crown}<span>KING ROUTING ORDER</span></span>
+          <span class="summons-target" style="--target-hue:${targetHue}">TARGET: ${esc(targetLabel)}</span>
+          <span class="codec-tag">ROUND ${activeRouting.ronde} // #${activeRouting.nr}</span>
+        </div>
+        <div class="summons-question">${activeRouting.aan ? formatCompactText(activeRouting.vraag) : "King Sovereign closes the council floor and convenes the Final Verdict."}</div>
+        <div class="summons-rationale"><b>RATIONALE:</b> ${formatCompactText(activeRouting.reden)}</div>
+        ${openQs}
+      </div>`;
   }
 
-  const thinkPill = (state.liveMode && bezig && trace?.aan_het_woord)
-    ? `<span class="spotlight-tag" style="color:var(--waarschuwing);border-color:var(--waarschuwing)">⏳ ${esc(NAMEN[trace.aan_het_woord] || trace.aan_het_woord)} denkt na…</span>`
+  const speaker = step.spreker;
+  const info = ROLE_INFO[speaker] || { name: speaker, code: "AGT", freq: "140.99", bias: "Role bias active" };
+  const stats = upToStats[speaker] || { ids: new Set(), tools: 0, berichten: 0 };
+
+  let kindLabel = "TESTIMONY";
+  let bodyHtml = "";
+
+  if (step.soort === "bericht") {
+    kindLabel = step.aan ? `TESTIMONY TO ${roleName(step.aan).toUpperCase()}` : "MEMBER TESTIMONY";
+    bodyHtml = formatDebateBody(step.tekst);
+  } else if (step.soort === "routering") {
+    kindLabel = step.aan ? `SUMMONS -> ${roleName(step.aan).toUpperCase()}` : "DEBATE CLOSURE";
+    bodyHtml = `
+      <p class="fmt-para"><strong>Directive:</strong> ${step.aan ? renderInlineMarkup(step.vraag) : "Close deliberation and synthesize Final Council Verdict."}</p>
+      <p class="fmt-para"><strong>Tactical Rationale:</strong> ${renderInlineMarkup(step.reden)}</p>`;
+  } else if (step.soort === "toolcall") {
+    kindLabel = "ISOLATED MCP QUERY";
+    const args = Object.entries(step.argumenten || {}).map(([k, v]) => `${k}=${JSON.stringify(v)}`).join(", ");
+    const violation = speaker === "koning" || (step.pad && !step.pad.includes(`/${speaker}/`));
+    bodyHtml = `
+      <div class="mcp-packet ${violation ? "is-violation" : ""}">
+        <div class="mcp-packet-head">
+          <span style="display:inline-flex;align-items:center;gap:6px">${ICONS.lock}<span>MCP DATA ISOLATION CHANNEL</span></span>
+          <span>${violation ? "[ VIOLATION DETECTED ]" : "[ ISOLATION VERIFIED ]"}</span>
+        </div>
+        <div class="mcp-packet-cmd">&gt; ${esc(step.tool)}(${esc(args)})</div>
+        <div class="mcp-packet-path">ENDPOINT: ${esc(step.pad || "local-mcp")}</div>
+      </div>`;
+  } else {
+    kindLabel = "KNOWLEDGE SOURCE ACCESS";
+    const violation = speaker === "koning" || (step.bestand && !step.bestand.startsWith(speaker + "/"));
+    bodyHtml = `
+      <div class="mcp-packet ${violation ? "is-violation" : ""}">
+        <div class="mcp-packet-head">
+          <span style="display:inline-flex;align-items:center;gap:6px">${ICONS.lock}<span>LOCAL SOURCE FALLBACK</span></span>
+          <span>${violation ? "[ VIOLATION DETECTED ]" : "[ ISOLATION VERIFIED ]"}</span>
+        </div>
+        <div class="mcp-packet-cmd">&gt; READ ${esc(step.bestand)}</div>
+      </div>`;
+  }
+
+  const liveThinkingBadge = (state.liveMode && bezig && trace?.aan_het_woord)
+    ? `<span class="codec-tag is-thinking">DELIBERATING: ${esc(roleName(trace.aan_het_woord).toUpperCase())}</span>`
     : "";
 
-  spot.innerHTML = `
-    <div class="spotlight-head">
-      <span class="spotlight-role">${wie}</span>
-      <span class="spotlight-tag">${esc(tag)}</span>
-      ${thinkPill}
-    </div>
-    <div class="spotlight-body">${body}</div>`;
+  shell.innerHTML = `
+    ${summonsHtml}
+    <div class="codec-box" style="--hue:${kleur(speaker)}">
+      <div class="codec-portrait-col">
+        <div class="codec-avatar-frame">${renderPortraitSVG(speaker, 76)}</div>
+        <div class="codec-freq">CODEC // ${esc(info.code)}-${esc(info.freq)}</div>
+        <div class="codec-role-name">${esc(info.name)}</div>
+        <div class="codec-bias-chip">BIAS: ${esc(info.bias)}</div>
+        <div class="codec-stats">
+          <div class="codec-stat"><b>${stats.tools}</b><span>MCP CALLS</span></div>
+          <div class="codec-stat"><b>${stats.ids.size}</b><span>CITED IDs</span></div>
+        </div>
+      </div>
+      <div class="codec-body-col">
+        <div class="codec-meta-bar">
+          <span class="codec-tag">STEP #${step.nr}</span>
+          <span class="codec-tag">ROUND ${step.ronde}</span>
+          <span class="codec-tag" style="border-color:var(--hue);color:var(--hue)">${esc(kindLabel)}</span>
+          ${liveThinkingBadge}
+        </div>
+        <div class="codec-speech">${bodyHtml}</div>
+      </div>
+    </div>`;
+
+  const spotKey = `${trace?.run_id || ""}:${step.nr}:${state.cursor}`;
+  if (spotKey !== state.lastSpotlightKey) {
+    state.lastSpotlightKey = spotKey;
+    shell.classList.remove("is-turn-enter");
+    void shell.offsetWidth;
+    shell.classList.add("is-turn-enter");
+  }
 }
 
+/* =========================================================
+   MAIN DATA RENDER PIPELINE (trace.json + verdict.json)
+   ========================================================= */
 function render(trace, verdict) {
   state.trace = trace;
   state.verdict = verdict;
 
-  const status = document.getElementById("status");
   const bezig = trace.status === "bezig";
-  status.className = "pil " + (bezig ? "bezig" : "klaar");
-  status.textContent = bezig
-    ? `bezig${trace.aan_het_woord ? " · " + (NAMEN[trace.aan_het_woord] || trace.aan_het_woord) + " is aan het woord" : ""}`
-    : "klaar";
-  document.getElementById("runid").textContent = trace.run_id || "";
+  const statusPill = document.getElementById("status-pill");
+  statusPill.className = "hud-pill " + (bezig ? "is-live" : "is-locked");
+  statusPill.innerHTML = bezig
+    ? `<span class="pulse-sq"></span><span>LIVE DELIBERATION${trace.aan_het_woord ? " // " + esc(roleName(trace.aan_het_woord).toUpperCase()) : ""}</span>`
+    : `<span class="pulse-sq"></span><span>VERDICT LOCKED</span>`;
 
-  // Debat per ronde + jury telling
+  document.getElementById("runid-line").textContent = `RUN_ID: ${trace.run_id || "UNKNOWN"}`;
+
+  // Audit all turns + build collapsible log
   const beurten = trace.beurten || [];
-  let html = "", ronde = null;
-  const telling = {}, padfouten = [], koningTools = [], vreemdeIds = [], zonderRoutering = [];
-  let toegewezen = null, raadslidBeurten = 0, laatsteRoutering = null;
+  let logHtml = "";
+  let ronde = null;
+  const telling = {};
+  const padfouten = [];
+  const koningTools = [];
+  const vreemdeIds = [];
+  const zonderRoutering = [];
+  let toegewezen = null;
+  let raadslidBeurten = 0;
+  let laatsteRoutering = null;
 
   beurten.forEach((b, idx) => {
     if (b.ronde !== ronde) {
       ronde = b.ronde;
-      html += `<div class="ronde">${ronde === 0 ? "Voorbereiding" : b.spreker === "koning" && b.soort === "bericht" ? "Koning" : "Ronde " + ronde}</div>`;
+      const rLabel = ronde === 0
+        ? "PREPARATION"
+        : b.spreker === "koning" && b.soort === "bericht"
+          ? "SOVEREIGN SYNTHESIS"
+          : `ROUND ${ronde}`;
+      logHtml += `<div class="round-divider">${rLabel}</div>`;
     }
     const t = telling[b.spreker] ??= { berichten: 0, tools: 0, ids: new Set() };
-    const stijl = `style="--kleur:${kleur(b.spreker)}"`;
+    const hueStyle = `style="--hue:${kleur(b.spreker)}"`;
 
     if (b.soort === "routering") {
       toegewezen = b.aan;
       laatsteRoutering = b;
-      const wie = `<span style="color:${kleur(b.spreker)}">${esc(NAMEN[b.spreker] || b.spreker)}</span>`;
       const open = (b.open_vragen || []).length
-        ? `<div class="open-vragen"><strong>Open vragen:</strong> ${b.open_vragen.map(v => opmaak(v)).join(" · ")}</div>`
+        ? `<div style="margin-top:4px;font-size:11.5px;color:var(--amber)"><b>ACTIVE OPEN QUESTIONS:</b> ${b.open_vragen.map(v => formatCompactText(v)).join(" // ")}</div>`
         : "";
-      html += b.aan
-        ? `<div class="beurt klein" data-idx="${idx}" ${stijl}>${wie} → <b style="color:${kleur(b.aan)}">${esc(NAMEN[b.aan] || b.aan)}</b>: ${opmaak(b.vraag)}<br>Waarom: ${opmaak(b.reden)}${open}</div>`
-        : `<div class="beurt klein" data-idx="${idx}" ${stijl}>${wie} stopt het debat. Waarom: ${opmaak(b.reden)}${open}</div>`;
+      logHtml += b.aan
+        ? `<div class="log-card is-compact" data-idx="${idx}" ${hueStyle}>
+             <div class="log-card-head"><span>KING ROUTING -&gt; ${esc(roleName(b.aan).toUpperCase())}</span><span class="log-card-nr">#${b.nr}</span></div>
+             <div class="log-card-text">${formatCompactText(b.vraag)}<div style="color:var(--muted);margin-top:2px"><b>Rationale:</b> ${formatCompactText(b.reden)}</div>${open}</div>
+           </div>`
+        : `<div class="log-card is-compact" data-idx="${idx}" ${hueStyle}>
+             <div class="log-card-head"><span>KING CLOSES DEBATE</span><span class="log-card-nr">#${b.nr}</span></div>
+             <div class="log-card-text"><b>Rationale:</b> ${formatCompactText(b.reden)}${open}</div>
+           </div>`;
       return;
     }
 
-    if (b.soort === "bericht" && NAMEN[b.spreker] && !["koning", "mens"].includes(b.spreker)) {
+    if (b.soort === "bericht" && ROLE_INFO[b.spreker] && !["koning", "mens"].includes(b.spreker)) {
       raadslidBeurten++;
       if (toegewezen !== b.spreker) zonderRoutering.push(b.nr);
       toegewezen = null;
@@ -977,162 +3229,324 @@ function render(trace, verdict) {
         t.ids.add(x.id);
         if (x.raar) vreemdeIds.push(x.id);
       }
-      html += `<div class="beurt" data-idx="${idx}" ${stijl}><div class="wie">${esc(NAMEN[b.spreker] || b.spreker)}<span class="nr">#${b.nr}${b.aan ? " → " + esc(NAMEN[b.aan] || b.aan) : ""}</span></div><div class="tekst">${opmaak(b.tekst)}</div></div>`;
+      logHtml += `
+        <div class="log-card" data-idx="${idx}" ${hueStyle}>
+          <div class="log-card-head">
+            <span>${esc(roleName(b.spreker).toUpperCase())}</span>
+            <span class="log-card-nr">#${b.nr}${b.aan ? " -&gt; " + esc(roleName(b.aan).toUpperCase()) : ""}</span>
+          </div>
+          <div class="log-card-text">${formatDebateBody(b.tekst)}</div>
+        </div>`;
     } else {
       t.tools++;
-      let vlag = "";
+      let flagHtml = "";
       if (b.soort === "toolcall") {
         if (b.spreker === "koning") {
           koningTools.push(b.nr);
-          vlag = ` <span class="vlag">Koning leest een Kennisbron</span>`;
+          flagHtml = `<span class="log-card-flag">VIOLATION: KING ACCESSED SOURCE</span>`;
         } else if (b.pad && !b.pad.includes(`/${b.spreker}/`)) {
           padfouten.push(b.nr);
-          vlag = ` <span class="vlag">pad van een andere Rol</span>`;
+          flagHtml = `<span class="log-card-flag">VIOLATION: CROSS-ROLE MCP PATH</span>`;
         }
       }
       if (b.soort === "bestand") {
         if (b.spreker === "koning") {
           koningTools.push(b.nr);
-          vlag = ` <span class="vlag">Koning leest een Kennisbron</span>`;
+          flagHtml = `<span class="log-card-flag">VIOLATION: KING ACCESSED SOURCE</span>`;
         } else if (b.bestand && !b.bestand.startsWith(b.spreker + "/")) {
           padfouten.push(b.nr);
-          vlag = ` <span class="vlag">bestand van een andere Rol</span>`;
+          flagHtml = `<span class="log-card-flag">VIOLATION: CROSS-ROLE FILE</span>`;
         }
       }
-      const wat = b.soort === "toolcall"
-        ? `🔎 <code>${esc(b.tool)}(${esc(Object.entries(b.argumenten || {}).map(([k, v]) => `${k}=${JSON.stringify(v)}`).join(", "))})</code>`
-        : `📄 <code>${esc(b.bestand)}</code> in de prompt`;
-      html += `<div class="beurt klein" data-idx="${idx}" ${stijl}><span style="color:${kleur(b.spreker)}">${esc(NAMEN[b.spreker] || b.spreker)}</span> · ${wat}${vlag}</div>`;
+      const argsStr = Object.entries(b.argumenten || {}).map(([k, v]) => `${k}=${JSON.stringify(v)}`).join(", ");
+      const cmd = b.soort === "toolcall"
+        ? `MCP: ${esc(b.tool)}(${esc(argsStr)})`
+        : `SRC: ${esc(b.bestand)}`;
+      logHtml += `
+        <div class="log-card is-compact" data-idx="${idx}" ${hueStyle}>
+          <div class="log-card-head">
+            <span>${esc(roleName(b.spreker).toUpperCase())}</span>
+            <span class="log-card-nr">#${b.nr}</span>
+            ${flagHtml}
+          </div>
+          <div class="log-card-text"><code class="fmt-code">${cmd}</code></div>
+        </div>`;
     }
   });
 
   if (bezig && trace.aan_het_woord) {
-    html += `<div class="beurt denkt" style="--kleur:${kleur(trace.aan_het_woord)}"><div class="wie">${esc(NAMEN[trace.aan_het_woord] || trace.aan_het_woord)}</div><div class="tekst leeg">denkt na…</div></div>`;
+    logHtml += `
+      <div class="log-card is-thinking" style="--hue:${kleur(trace.aan_het_woord)}">
+        <div class="log-card-head"><span>${esc(roleName(trace.aan_het_woord).toUpperCase())}</span></div>
+        <div class="log-card-text muted-note">Synthesizing testimony and cross-checking evidence...</div>
+      </div>`;
   }
 
-  for (const g of trace.geschillen || []) {
-    html += `<div class="ronde">Geschil</div><div class="geschil-kaart"><div class="wie">⚔ ${esc(g.onderwerp)}</div><div class="tekst">${Object.entries(g.standpunten || {}).map(([r, s]) => `<b style="color:${kleur(r)}">${esc(NAMEN[r] || r)}</b>: ${opmaak(s)}`).join("<br>")}<br><b>Uitkomst:</b> ${g.uitkomst ? opmaak(g.uitkomst) : '<span class="leeg">niet beslecht</span>'} ${(g.bewijs || []).map(i => opmaak(i)).join(" ")}</div></div>`;
-  }
+  document.getElementById("debat").innerHTML = logHtml || `<div class="muted-note">Run started; awaiting first turn.</div>`;
+  document.getElementById("log-summary-meta").textContent =
+    `${beurten.length} STEPS // ${state.logExpanded ? "CLICK TO COLLAPSE" : "CLICK TO EXPAND"}`;
 
-  const debat = document.getElementById("debat");
-  const onderaan = window.innerHeight + window.scrollY >= document.body.scrollHeight - 80;
-  debat.innerHTML = html || '<p class="melding">De run is gestart; de eerste beurt komt eraan.</p>';
-  if (bezig && state.liveMode && onderaan) window.scrollTo(0, document.body.scrollHeight);
+  // Update Turn Budget HP Meter
+  document.getElementById("budget-label").textContent = `[ ${raadslidBeurten} / ${BEURTENBUDGET} TURNS ]`;
+  const cellsEl = document.getElementById("budget-cells");
+  const overBudget = raadslidBeurten > BEURTENBUDGET;
+  const nearBudget = raadslidBeurten >= 8 && !overBudget;
+  cellsEl.innerHTML = Array.from({ length: BEURTENBUDGET }, (_, i) => {
+    const filled = i < raadslidBeurten;
+    const tone = overBudget ? "over" : nearBudget ? "warn" : "";
+    return `<span class="budget-cell ${filled ? "filled " + tone : ""}"></span>`;
+  }).join("");
 
-  // Early Stop Bonus pill
+  // Early Stop Bonus Badge
   const earlyBonusEl = document.getElementById("early-bonus");
   const earlyStop = Boolean(laatsteRoutering && laatsteRoutering.aan === null && raadslidBeurten < BEURTENBUDGET);
   if (earlyStop) {
     earlyBonusEl.style.display = "inline-flex";
-    earlyBonusEl.textContent = `⚡ Early Stop Bonus (${raadslidBeurten}/${BEURTENBUDGET} beurten)`;
+    earlyBonusEl.innerHTML = `${ICONS.bolt}<span>EARLY STOP BONUS (${raadslidBeurten}/${BEURTENBUDGET})</span>`;
   } else {
     earlyBonusEl.style.display = "none";
   }
 
-  // Raadsleden
-  document.getElementById("leden").innerHTML = [...(trace.raadsleden || []), "koning"].map(r => {
-    const t = telling[r] || { berichten: 0, tools: 0, ids: new Set() };
-    return `<div class="lid" style="--kleur:${kleur(r)}"><span class="stip"></span><span>${esc(NAMEN[r] || r)}</span><span class="getal">${t.berichten} ber · ${t.tools} bron · ${t.ids.size} ID's</span></div>`;
-  }).join("");
+  // Resolved Disputes VS Matchup Cards
+  const geschillen = trace.geschillen || [];
+  const disputesSection = document.getElementById("disputes-section");
+  if (geschillen.length) {
+    disputesSection.style.display = "block";
+    document.getElementById("disputes-count-meta").textContent = `${geschillen.length} RECORDED`;
+    document.getElementById("disputes-list").innerHTML = geschillen.map(g => {
+      const entries = Object.entries(g.standpunten || {});
+      const matchupHtml = entries.map(([r], i) => {
+        const badge = `<span class="vs-role-badge" style="--hue:${kleur(r)}">${esc(roleName(r))}</span>`;
+        return i < entries.length - 1 ? `${badge}<span class="vs-clash-pill">VS</span>` : badge;
+      }).join("");
 
-  // 7 Spelregels Checks
-  const zonderBron = (trace.raadsleden || []).filter(r => !(telling[r]?.tools));
-  const checks = [
-    [padfouten.length ? "fout" : "ok", padfouten.length ? `Kennisbron van een andere Rol gelezen (beurt ${padfouten.join(", ")})` : "Elk Raadslid las alleen de eigen Kennisbron"],
-    [koningTools.length ? "fout" : "ok", koningTools.length ? `Koning las een Kennisbron (beurt ${koningTools.join(", ")})` : "Koning las geen Kennisbron"],
-    [zonderBron.length ? "let" : "ok", zonderBron.length ? `Zonder bron: ${zonderBron.map(r => NAMEN[r] || r).join(", ")}` : "Elk Raadslid raadpleegde een bron"],
-    [vreemdeIds.length ? "let" : "ok", vreemdeIds.length ? `ID's met een vreemd koppelteken: ${[...new Set(vreemdeIds)].join(", ")}` : "ID's in de juiste vorm"],
-    [(trace.raadsleden || []).length >= 3 ? "ok" : "let", `${(trace.raadsleden || []).length} Rollen (minimum 3)`],
-    [raadslidBeurten > BEURTENBUDGET ? "fout" : "ok", `${raadslidBeurten} van ${BEURTENBUDGET} Raadslid-beurten (Beurtenbudget)`],
-    [zonderRoutering.length ? "fout" : "ok", zonderRoutering.length ? `Raadslid-beurt zonder Routering ervoor (beurt ${zonderRoutering.join(", ")})` : "Elke Raadslid-beurt had een Routering"]
-  ];
-  document.getElementById("checks").innerHTML = checks.map(([k, t]) => `<div class="check ${k}">${esc(t)}</div>`).join("");
+      const stancesHtml = entries.map(([r, s]) => `
+        <div class="vs-stance" style="--hue:${kleur(r)}">
+          <div class="vs-stance-role">${esc(roleName(r))} STANCE</div>
+          <div>${formatCompactText(s)}</div>
+        </div>`).join("");
 
-  // Verbruik
-  const v = trace.verbruik || {};
-  document.getElementById("verbruik").innerHTML = Object.keys(v).length
-    ? `<table>${Object.entries(v).map(([m, x]) => `<tr><td>${esc(m)} · ${x.beurten ?? x.calls} beurten</td><td>${(x.invoer || 0).toLocaleString("nl-BE")} in · ${(x.uitvoer || 0).toLocaleString("nl-BE")} uit</td></tr>`).join("")}</table>`
-    : '<span class="leeg">nog geen calls</span>';
+      const resolved = Boolean(g.uitkomst);
+      const evHtml = (g.bewijs || []).length
+        ? `<div class="ev-row">${g.bewijs.map(id => renderInlineMarkup(id)).join("")}</div>`
+        : "";
 
-  // Verdict
-  const vd = document.getElementById("verdict");
-  if (!verdict || verdict.run_id !== trace.run_id) {
-    vd.innerHTML = `<span class="leeg">${verdict ? "verdict.json hoort bij een andere run" : bezig ? "komt na de Koning" : "geen verdict.json"}</span>`;
+      return `
+        <article class="vs-card">
+          <div class="vs-header">
+            <div class="vs-matchup">${matchupHtml}</div>
+            <span class="codec-tag" style="border-color:${resolved ? "var(--mint)" : "var(--amber)"};color:${resolved ? "var(--mint)" : "var(--amber)"}">${resolved ? "RESOLVED" : "OPEN"}</span>
+          </div>
+          <div class="vs-topic">${esc(g.onderwerp)}</div>
+          <div class="vs-stances">${stancesHtml}</div>
+          <div class="vs-outcome ${resolved ? "" : "is-open"}">
+            <span class="vs-outcome-label">${resolved ? "VERDICT / RESOLUTION:" : "STATUS:"}</span>
+            <span>${resolved ? formatCompactText(g.uitkomst) : "Not yet resolved"}</span>
+            ${evHtml}
+          </div>
+        </article>`;
+    }).join("");
   } else {
-    const slot = (naam, s) => {
+    disputesSection.style.display = "none";
+  }
+
+  // Compliance Telemetry (Exact 7 Jury Rules)
+  const rolesList = trace.raadsleden || [];
+  const zonderBron = rolesList.filter(r => !(telling[r]?.tools));
+  const rules = [
+    [
+      padfouten.length ? "fail" : "ok",
+      padfouten.length
+        ? `Strict role isolation violated (step ${padfouten.join(", ")})`
+        : "Strict role isolation (own MCP only)"
+    ],
+    [
+      koningTools.length ? "fail" : "ok",
+      koningTools.length
+        ? `King accessed knowledge source (step ${koningTools.join(", ")})`
+        : "King 0 knowledge-source calls"
+    ],
+    [
+      zonderBron.length ? "warn" : "ok",
+      zonderBron.length
+        ? `Missing source consultation: ${zonderBron.map(roleName).join(", ")}`
+        : "Every member consulted source"
+    ],
+    [
+      vreemdeIds.length ? "warn" : "ok",
+      vreemdeIds.length
+        ? `Malformed Unicode hyphens in IDs: ${[...new Set(vreemdeIds)].join(", ")}`
+        : "Zero malformed Unicode hyphens"
+    ],
+    [
+      rolesList.length >= 3 ? "ok" : "warn",
+      rolesList.length === 6
+        ? "All 6 roles active (min 3)"
+        : `${rolesList.length} roles active (min 3)`
+    ],
+    [
+      raadslidBeurten > BEURTENBUDGET ? "fail" : "ok",
+      `Turn budget <= ${BEURTENBUDGET} (${raadslidBeurten} / ${BEURTENBUDGET} turns)`
+    ],
+    [
+      zonderRoutering.length ? "fail" : "ok",
+      zonderRoutering.length
+        ? `Unrouted member turn (step ${zonderRoutering.join(", ")})`
+        : "Every turn preceded by King routing"
+    ]
+  ];
+
+  const passCount = rules.filter(([status]) => status === "ok").length;
+  const scoreEl = document.getElementById("compliance-score");
+  scoreEl.textContent = `${passCount} / 7 PASS`;
+  scoreEl.style.color = passCount === 7 ? "var(--mint)" : rules.some(([s]) => s === "fail") ? "var(--crimson)" : "var(--amber)";
+
+  document.getElementById("checks").innerHTML = `<div class="compliance-list">` + rules.map(([status, text]) => {
+    const label = status === "ok" ? "[PASS]" : status === "warn" ? "[WARN]" : "[FAIL]";
+    return `<div class="rule-row ${status}"><span class="rule-text">${esc(text)}</span><span class="rule-badge">${label}</span></div>`;
+  }).join("") + `</div>`;
+
+  // Token Telemetry
+  const v = trace.verbruik || {};
+  const vEntries = Object.entries(v);
+  if (vEntries.length) {
+    let totCalls = 0, totIn = 0, totOut = 0;
+    const rows = vEntries.map(([tier, x]) => {
+      const calls = Number(x.beurten ?? x.calls ?? 0);
+      const inp = Number(x.invoer ?? 0);
+      const out = Number(x.uitvoer ?? 0);
+      totCalls += calls;
+      totIn += inp;
+      totOut += out;
+      return `<tr><td>${esc(tier.toUpperCase())}</td><td>${calls}</td><td>${inp.toLocaleString("en-US")}</td><td>${out.toLocaleString("en-US")}</td></tr>`;
+    }).join("");
+    document.getElementById("token-total-meta").textContent = `${(totIn + totOut).toLocaleString("en-US")} TOKENS`;
+    document.getElementById("verbruik").innerHTML = `
+      <table class="telemetry-tbl">
+        <thead><tr><th>TIER</th><th>CALLS</th><th>IN</th><th>OUT</th></tr></thead>
+        <tbody>
+          ${rows}
+          <tr class="total-row"><td>TOTAL</td><td>${totCalls}</td><td>${totIn.toLocaleString("en-US")}</td><td>${totOut.toLocaleString("en-US")}</td></tr>
+        </tbody>
+      </table>`;
+  } else {
+    document.getElementById("token-total-meta").textContent = "0 TOKENS";
+    document.getElementById("verbruik").innerHTML = `<div class="muted-note">No model calls recorded yet.</div>`;
+  }
+
+  // Final Council Verdict
+  const vd = document.getElementById("verdict");
+  const vdMeta = document.getElementById("verdict-status-meta");
+  if (!verdict || verdict.run_id !== trace.run_id) {
+    vdMeta.textContent = verdict ? "RUN MISMATCH" : bezig ? "DELIBERATING" : "PENDING";
+    vdMeta.style.color = "var(--muted)";
+    vd.innerHTML = `<div class="muted-note">${
+      verdict
+        ? "verdict.json belongs to a different run_id."
+        : bezig
+          ? "Final verdict will lock after the Sovereign King closes deliberation."
+          : "No verdict.json found for this run."
+    }</div>`;
+  } else {
+    vdMeta.textContent = "LOCKED";
+    vdMeta.style.color = "var(--mint)";
+
+    const renderTriadCard = (title, s) => {
       const hasConf = typeof s?.zekerheid === "number" && !Number.isNaN(s.zekerheid);
       const pct = hasConf ? Math.max(0, Math.min(100, Math.round(s.zekerheid * 100))) : null;
-      const barColor = pct === null ? "var(--staal)" : pct >= 75 ? "var(--ok)" : pct >= 45 ? "var(--waarschuwing)" : "var(--fout)";
-      const barHtml = pct !== null
-        ? `<div class="zekerheid-bar" title="Zekerheid: ${pct}%"><div class="zekerheid-fill" style="width:${pct}%;background:${barColor}"></div></div>`
+      const confHue = pct === null ? "var(--steel)" : pct >= 75 ? "var(--mint)" : pct >= 45 ? "var(--amber)" : "var(--crimson)";
+      const litCount = pct === null ? 0 : Math.round(pct / 10);
+      const blocksHtml = pct !== null
+        ? `<div class="conf-bar-track" style="--conf-hue:${confHue};--conf-pct:${pct}%"><div class="conf-bar-fill"></div></div>
+           <div class="conf-blocks" style="--conf-hue:${confHue}" title="Confidence: ${pct}%">${
+            Array.from({ length: 10 }, (_, k) => `<span class="conf-cell ${k < litCount ? "lit" : ""}" style="--cell-i:${k}"></span>`).join("")
+          }</div>`
         : "";
-      const bewijsHtml = (s?.bewijs || []).length
-        ? `<div class="bewijs-rij">${s.bewijs.map(i => opmaak(i)).join("")}</div>`
+      const evHtml = (s?.bewijs || []).length
+        ? `<div class="ev-row">${s.bewijs.map(id => renderInlineMarkup(id)).join("")}</div>`
         : "";
       return `
-        <div class="slot">
-          <div class="slot-head">
-            <b>${naam}</b>
-            ${pct !== null ? `<span class="zekerheid-pct">${pct}%</span>` : ""}
+        <div class="triad-card">
+          <div class="triad-head">
+            <span class="triad-title">${title}</span>
+            ${pct !== null ? `<span class="conf-readout" style="--conf-hue:${confHue}">${pct}%</span>` : ""}
           </div>
-          ${barHtml}
-          <div>${s?.bewering ? opmaak(s.bewering) : '<span class="leeg">onbekend (null)</span>'}</div>
-          ${bewijsHtml}
+          ${blocksHtml}
+          <div class="triad-claim">${s?.bewering ? formatCompactText(s.bewering) : `<span class="muted-note">Unknown (null)</span>`}</div>
+          ${evHtml}
         </div>`;
     };
 
     const o = verdict.oorzaak || {};
-    const voorspellingHtml = verdict.voorspelling
-      ? `<div class="forecast-card">
-          <div class="forecast-head">
-            <span class="forecast-title">🔮 Voorspelling</span>
-            <span class="day-badge">Day ${esc(verdict.voorspelling.dag)}</span>
-          </div>
-          <div>${opmaak(verdict.voorspelling.bewering)}</div>
-          ${(verdict.voorspelling.bewijs || []).length ? `<div class="bewijs-rij">${verdict.voorspelling.bewijs.map(i => opmaak(i)).join("")}</div>` : ""}
-        </div>`
+    const forecastHtml = verdict.voorspelling
+      ? `<div class="forecast-alert">
+           <div class="hazard-stripe-thin"></div>
+           <div class="forecast-inner">
+             <div class="forecast-top">
+               <span class="forecast-label">${ICONS.hazard}<span>NEXT STRIKE FORECAST</span></span>
+               <span class="forecast-day">DAY ${esc(verdict.voorspelling.dag)}</span>
+             </div>
+             <div class="forecast-claim">${formatCompactText(verdict.voorspelling.bewering)}</div>
+             ${(verdict.voorspelling.bewijs || []).length ? `<div class="ev-row">${verdict.voorspelling.bewijs.map(id => renderInlineMarkup(id)).join("")}</div>` : ""}
+           </div>
+         </div>`
       : "";
 
-    const actiesHtml = (verdict.acties || []).map(a =>
-      `<li>
-        <div>${opmaak(a.actie)}</div>
-        ${a.reden ? `<div class="verdict-sub">${opmaak(a.reden)}</div>` : ""}
-        ${(a.bewijs || []).length ? `<div class="bewijs-rij">${a.bewijs.map(i => opmaak(i)).join("")}</div>` : ""}
-      </li>`
-    ).join("");
+    const planHtml = (verdict.acties || []).map((a, idx) => `
+      <div class="plan-step">
+        <div class="plan-num">${String(idx + 1).padStart(2, "0")}</div>
+        <div>
+          <div class="plan-action">${formatCompactText(a.actie)}</div>
+          ${a.reden ? `<div class="plan-reason">${formatCompactText(a.reden)}</div>` : ""}
+          ${(a.bewijs || []).length ? `<div class="ev-row">${a.bewijs.map(id => renderInlineMarkup(id)).join("")}</div>` : ""}
+        </div>
+      </div>`).join("");
 
-    const risicosHtml = (verdict.risicos || []).map(r =>
-      `<li>
-        <div>${opmaak(r.risico)}</div>
-        ${r.mitigatie ? `<div class="verdict-sub"><b>Mitigatie:</b> ${opmaak(r.mitigatie)}</div>` : ""}
-      </li>`
-    ).join("");
+    const risksHtml = (verdict.risicos || []).map(r => `
+      <div class="risk-row">
+        <div><span class="risk-label">RISK:</span>${formatCompactText(r.risico)}</div>
+        ${r.mitigatie ? `<div class="mit-line"><span class="mit-label">MITIGATION:</span>${formatCompactText(r.mitigatie)}</div>` : ""}
+      </div>`).join("");
 
-    vd.innerHTML =
-      `<div class="slot"><div class="slot-head"><b>Samenvatting</b></div><div>${verdict.samenvatting === "TODO" ? '<span class="leeg">TODO</span>' : opmaak(verdict.samenvatting)}</div></div>` +
-      slot("Ingreep", o.ingreep) +
-      slot("Mechanisme", o.mechanisme) +
-      slot("Verloop", o.verloop) +
-      voorspellingHtml +
-      `<div class="slot"><div class="slot-head"><b>Herstelplan</b></div><ol class="verdict-list">${actiesHtml}</ol></div>` +
-      `<div class="slot"><div class="slot-head"><b>Risico's</b></div><ol class="verdict-list">${risicosHtml}</ol></div>`;
+    vd.innerHTML = `
+      <div class="verdict-summary">
+        <div class="verdict-kicker">EXECUTIVE SUMMARY</div>
+        <div>${verdict.samenvatting === "TODO" ? `<span class="muted-note">TODO</span>` : formatCompactText(verdict.samenvatting)}</div>
+      </div>
+      ${forecastHtml}
+      <div class="verdict-kicker">ROOT CAUSE TRIAD</div>
+      <div class="triad-stack">
+        ${renderTriadCard("INTERVENTION (WHO / WHAT / WHEN)", o.ingreep)}
+        ${renderTriadCard("MECHANISM (HOW IT FAILED)", o.mechanisme)}
+        ${renderTriadCard("TIMELINE & PATTERN", o.verloop)}
+      </div>
+      <div class="verdict-kicker">ORDERED RECOVERY PLAN</div>
+      <div class="plan-list">${planHtml || `<div class="muted-note">No actions listed.</div>`}</div>
+      <div class="verdict-kicker">RISKS &amp; MITIGATIONS</div>
+      <div class="risk-list">${risksHtml || `<div class="muted-note">No risks listed.</div>`}</div>`;
   }
 
-  const prevLen = state.lastSpokenKey;
-  renderStage();
+  // Update Splash Roster live status
+  renderSplashRoster(telling, trace);
 
-  // If live mode + voices on + new turn arrived, speak it
+  const prevSpoken = state.lastSpokenKey;
+  renderStage();
+  highlightPinnedChips();
+
+  // Auto-speak incoming live turn if voices are enabled
   const curIdx = state.cursor;
-  if (state.liveMode && state.voicesOn && curIdx >= 0 && beurten[curIdx]) {
+  if (state.liveMode && state.voicesOn && !state.splashOpen && curIdx >= 0 && beurten[curIdx]) {
     const key = `${trace.run_id}:${curIdx}`;
-    if (key !== prevLen) {
+    if (key !== prevSpoken) {
       state.lastSpokenKey = key;
       speakStep(beurten[curIdx]);
     }
   }
 }
 
-/* Playback & Interaction */
+/* =========================================================
+   PLAYBACK & INTERACTION HANDLERS
+   ========================================================= */
 function goToStep(idx, opts = {}) {
   const beurten = state.trace?.beurten || [];
   if (!beurten.length) return;
@@ -1142,10 +3556,11 @@ function goToStep(idx, opts = {}) {
   state.cursor = Math.max(0, Math.min(idx, beurten.length - 1));
   renderStage();
 
-  if (opts.scrollTranscript) {
-    const card = document.querySelector(`#debat .beurt[data-idx="${state.cursor}"]`);
+  if (opts.scrollTranscript && state.logExpanded) {
+    const card = document.querySelector(`#debat .log-card[data-idx="${state.cursor}"]`);
     if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
+
   const step = beurten[state.cursor];
   state.lastSpokenKey = `${state.trace?.run_id}:${state.cursor}`;
   if (state.voicesOn && !opts.silent) {
@@ -1169,7 +3584,7 @@ function scheduleNextPlayTick(ms) {
       renderStage();
       return;
     }
-    goToStep(state.cursor + 1, { keepPlaying: true, scrollTranscript: true });
+    goToStep(state.cursor + 1, { keepPlaying: true, scrollTranscript: state.logExpanded });
   }, ms);
 }
 
@@ -1185,56 +3600,139 @@ function togglePlay() {
   state.isPlaying = true;
   state.liveMode = false;
   const startIdx = state.cursor >= beurten.length - 1 ? 0 : state.cursor + 1;
-  goToStep(startIdx, { keepPlaying: true, scrollTranscript: true });
+  goToStep(startIdx, { keepPlaying: true, scrollTranscript: state.logExpanded });
+}
+
+function focusRoleTurn(rol) {
+  const beurten = state.trace?.beurten || [];
+  if (!beurten.length) return;
+  let next = beurten.findIndex((b, i) => i > state.cursor && b.spreker === rol);
+  if (next < 0) next = beurten.findIndex(b => b.spreker === rol);
+  if (next >= 0) {
+    goToStep(next, { scrollTranscript: state.logExpanded });
+    showToast(`FOCUSED: ${roleName(rol).toUpperCase()} // STEP #${beurten[next].nr}`);
+  } else {
+    showToast(`${roleName(rol).toUpperCase()} HAS NO TURNS YET`);
+  }
+}
+
+function updateVoiceButton() {
+  const btn = document.getElementById("btn-voices");
+  document.getElementById("voices-icon").innerHTML = state.voicesOn ? ICONS.speakerOn : ICONS.speakerOff;
+  document.getElementById("voices-label").textContent = state.voicesOn ? "[ VOICE: ON ]" : "[ VOICE: OFF ]";
+  btn.className = "hud-btn" + (state.voicesOn ? " is-on" : "");
+}
+
+function updateLogToggleUI() {
+  const body = document.getElementById("debat");
+  const btn = document.getElementById("btn-toggle-log");
+  body.classList.toggle("is-collapsed", !state.logExpanded);
+  btn.setAttribute("aria-expanded", String(state.logExpanded));
+  document.getElementById("log-chevron").innerHTML = state.logExpanded ? ICONS.chevronDown : ICONS.chevronRight;
+  const count = (state.trace?.beurten || []).length;
+  document.getElementById("log-summary-meta").textContent =
+    `${count} STEPS // ${state.logExpanded ? "CLICK TO COLLAPSE" : "CLICK TO EXPAND"}`;
 }
 
 function initControls() {
-  const btnStart = document.getElementById("btn-start");
-  const btnPrev = document.getElementById("btn-prev");
-  const btnPlay = document.getElementById("btn-play");
-  const btnNext = document.getElementById("btn-next");
-  const btnLive = document.getElementById("btn-live");
-  const scrubber = document.getElementById("scrubber");
-  const btnVoices = document.getElementById("btn-voices");
-  const btnDisputes = document.getElementById("btn-disputes");
-  const btnTheme = document.getElementById("btn-theme");
+  updateVoiceButton();
+  updateLogToggleUI();
+  renderSplashRoster();
 
-  btnStart.addEventListener("click", () => goToStep(0, { scrollTranscript: true }));
-  btnPrev.addEventListener("click", () => goToStep(state.cursor - 1, { scrollTranscript: true }));
-  btnPlay.addEventListener("click", togglePlay);
-  btnNext.addEventListener("click", () => goToStep(state.cursor + 1, { scrollTranscript: true }));
-  btnLive.addEventListener("click", () => {
+  // Initialize 10-cell empty budget meter
+  document.getElementById("budget-cells").innerHTML =
+    Array.from({ length: BEURTENBUDGET }, () => `<span class="budget-cell"></span>`).join("");
+
+  // Splash Overlay Controls
+  document.getElementById("btn-press-start").addEventListener("click", closeSplash);
+  document.getElementById("btn-briefing").addEventListener("click", () => {
+    stopSpeech();
+    state.isPlaying = false;
+    openSplash();
+  });
+  document.getElementById("splash-roster").addEventListener("click", e => {
+    const slot = e.target.closest(".char-slot[data-role]");
+    if (!slot) return;
+    closeSplash();
+    focusRoleTurn(slot.dataset.role);
+  });
+
+  // Playback Controls
+  document.getElementById("btn-start").addEventListener("click", () => goToStep(0, { scrollTranscript: true }));
+  document.getElementById("btn-prev").addEventListener("click", () => goToStep(state.cursor - 1, { scrollTranscript: true }));
+  document.getElementById("btn-play").addEventListener("click", togglePlay);
+  document.getElementById("btn-next").addEventListener("click", () => goToStep(state.cursor + 1, { scrollTranscript: true }));
+  document.getElementById("btn-live").addEventListener("click", () => {
     const len = (state.trace?.beurten || []).length;
     goToStep(Math.max(0, len - 1), { live: true, scrollTranscript: true, silent: true });
   });
 
-  scrubber.addEventListener("input", e => {
-    goToStep(Number(e.target.value), { silent: true, scrollTranscript: true });
+  document.getElementById("btn-replay-debate").addEventListener("click", () => {
+    const beurten = state.trace?.beurten || [];
+    if (!beurten.length) return;
+    state.isPlaying = true;
+    state.liveMode = false;
+    goToStep(0, { keepPlaying: true, scrollTranscript: state.logExpanded });
+    showToast("DEBATE REPLAY ENGAGED // TURN 1");
   });
 
+  document.getElementById("btn-jump-verdict").addEventListener("click", () => {
+    const len = (state.trace?.beurten || []).length;
+    if (len > 0) {
+      goToStep(len - 1, { live: true, scrollTranscript: false, silent: true });
+    }
+    const vPanel = document.getElementById("verdict-panel");
+    if (vPanel) {
+      vPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      vPanel.classList.remove("is-flash-focus");
+      void vPanel.offsetWidth;
+      vPanel.classList.add("is-flash-focus");
+    }
+    showToast(state.verdict ? "JUMPED TO LIVE // FINAL VERDICT LOCKED" : "JUMPED TO LIVE STREAM");
+  });
+
+  document.getElementById("scrubber").addEventListener("input", e => {
+    goToStep(Number(e.target.value), { silent: true, scrollTranscript: true });
+  });
+  document.getElementById("scrubber-segments").addEventListener("click", e => {
+    const seg = e.target.closest(".scrub-seg[data-step-idx]");
+    if (seg) goToStep(Number(seg.dataset.stepIdx), { scrollTranscript: true });
+  });
+
+  // Chamber Seat Click -> Jump to Operative's Turns
+  document.getElementById("chamber-seats").addEventListener("click", e => {
+    const seat = e.target.closest(".seat-node[data-role]");
+    if (seat) focusRoleTurn(seat.dataset.role);
+  });
+
+  // Collapsible Log Toggle & Card Click
+  document.getElementById("btn-toggle-log").addEventListener("click", () => {
+    state.logExpanded = !state.logExpanded;
+    updateLogToggleUI();
+  });
   document.getElementById("debat").addEventListener("click", e => {
-    const card = e.target.closest(".beurt[data-idx]");
+    if (e.target.closest(".ev-id[data-ev-id]")) return;
+    const card = e.target.closest(".log-card[data-idx]");
     if (card) goToStep(Number(card.dataset.idx));
   });
 
-  document.getElementById("chamber-seats").addEventListener("click", e => {
-    const mask = e.target.closest(".mask-group[data-role]");
-    if (!mask || !state.trace?.beurten) return;
-    const rol = mask.dataset.role;
-    const beurten = state.trace.beurten;
-    let next = beurten.findIndex((b, i) => i > state.cursor && b.spreker === rol);
-    if (next < 0) next = beurten.findIndex(b => b.spreker === rol);
-    if (next >= 0) goToStep(next, { scrollTranscript: true });
+  // Global Click Handler for Evidence ID Chips
+  document.addEventListener("click", e => {
+    const chip = e.target.closest(".ev-id[data-ev-id]");
+    if (!chip) return;
+    e.stopPropagation();
+    jumpToEvidenceId(chip.dataset.evId);
   });
 
+  // Voice Synthesis Toggle
+  const btnVoices = document.getElementById("btn-voices");
   if (!state.speechSupported) {
     btnVoices.disabled = true;
-    btnVoices.title = "Browser ondersteunt geen SpeechSynthesis";
+    btnVoices.title = "Browser does not support SpeechSynthesis";
   } else {
     btnVoices.addEventListener("click", () => {
       state.voicesOn = !state.voicesOn;
-      btnVoices.textContent = state.voicesOn ? "🔊 Voices On" : "🔇 Voices Off";
-      btnVoices.className = "btn" + (state.voicesOn ? " active" : "");
+      updateVoiceButton();
       if (!state.voicesOn) {
         stopSpeech();
       } else {
@@ -1248,26 +3746,30 @@ function initControls() {
     });
   }
 
-  btnDisputes.addEventListener("click", () => {
+  // Dispute Arcs Toggle
+  document.getElementById("btn-disputes").addEventListener("click", () => {
     state.showDisputes = !state.showDisputes;
     renderStage();
   });
 
-  const applyTheme = theme => {
-    document.documentElement.setAttribute("data-theme", theme);
-    btnTheme.textContent = theme === "dark" ? "☀️ Light" : "🌙 Dark";
-    try { localStorage.setItem("council-viewer-theme", theme); } catch {}
-  };
-  let savedTheme = "dark";
-  try { savedTheme = localStorage.getItem("council-viewer-theme") || "dark"; } catch {}
-  applyTheme(savedTheme === "light" ? "light" : "dark");
-  btnTheme.addEventListener("click", () => {
-    const cur = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
-    applyTheme(cur === "dark" ? "light" : "dark");
+  // CRT Scanlines Toggle
+  const btnCrt = document.getElementById("btn-crt");
+  btnCrt.addEventListener("click", () => {
+    state.crtOn = !state.crtOn;
+    document.body.classList.toggle("crt-on", state.crtOn);
+    btnCrt.classList.toggle("is-on", state.crtOn);
   });
 
+  // Keyboard Shortcuts
   window.addEventListener("keydown", e => {
     if (e.target && ["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName)) return;
+    if (state.splashOpen) {
+      if (e.code === "Enter" || e.code === "Space" || e.code === "Escape") {
+        e.preventDefault();
+        closeSplash();
+      }
+      return;
+    }
     if (e.code === "Space") {
       e.preventDefault();
       togglePlay();
@@ -1281,6 +3783,9 @@ function initControls() {
   });
 }
 
+/* =========================================================
+   LIVE POLLING LOOP (trace.json + verdict.json)
+   ========================================================= */
 async function haal(pad) {
   try {
     const r = await fetch(pad, { cache: "no-store" });
@@ -1297,7 +3802,7 @@ async function lus() {
     try {
       render(JSON.parse(t), v ? JSON.parse(v) : null);
     } catch {
-      /* bestand half geschreven: volgende ronde opnieuw */
+      /* File may be mid-write; retry next poll tick */
     }
   }
   setTimeout(lus, 1500);
