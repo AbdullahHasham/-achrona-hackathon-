@@ -114,6 +114,55 @@ graph TD
     class LocalKB,Trace db;
 ```
 
+### **Per-Role MCP Isolation Topology (Zero Cross-Role Data Leakage)**
+
+Each Council Member is strictly bound 1-to-1 to its own Streamable HTTP MCP endpoint on `mcp_server.py` (Port 8200), making cross-department file access physically impossible at the protocol boundary:
+
+```mermaid
+graph LR
+    subgraph Agents [6 Isolated Council Members - Small Model]
+        A1[Archmage]
+        A2[Engineer]
+        A3[Guardian Keeper]
+        A4[Historian]
+        A5[Beast Master]
+        A6[Oracle]
+    end
+
+    subgraph MCP [Self-Hosted Multi-Tenant FastMCP Server - Port 8200]
+        E1((/archmage/mcp))
+        E2((/engineer/mcp))
+        E3((/guardian_keeper/mcp))
+        E4((/historian/mcp))
+        E5((/beast_master/mcp))
+        E6((/oracle/mcp))
+    end
+
+    subgraph Storage [Role-Scoped Knowledge Sources]
+        F1[(archmage/*.md)]
+        F2[(engineer/*.md)]
+        F3[(guardian_keeper/*.md)]
+        F4[(historian/*.md)]
+        F5[(beast_master/*.md)]
+        F6[(oracle/*.md)]
+    end
+
+    A1 <--> E1 <--> F1
+    A2 <--> E2 <--> F2
+    A3 <--> E3 <--> F3
+    A4 <--> E4 <--> F4
+    A5 <--> E5 <--> F5
+    A6 <--> E6 <--> F6
+
+    classDef agent fill:#581C87,stroke:#7E22CE,stroke-width:2px,color:#F8FAFC;
+    classDef tool fill:#1E3A8A,stroke:#2563EB,stroke-width:2px,color:#F8FAFC;
+    classDef db fill:#064E3B,stroke:#059669,stroke-width:2px,color:#F8FAFC;
+
+    class A1,A2,A3,A4,A5,A6 agent;
+    class E1,E2,E3,E4,E5,E6 tool;
+    class F1,F2,F3,F4,F5,F6 db;
+```
+
 ### **The Core Agents & Verification Gates**
 1. **The King Orchestrator (`king.py` — Large Model, Zero Tools):**
    * **Role**: Acts as a forensic judge rather than a voting moderator. On every turn, it outputs a strict Pydantic routing decision (next speaker, targeted forensic question, rationale, live open-questions checklist, and working hypothesis) choosing the single highest-value witness to test or falsify another role's claim. It prunes answered or source-absent questions and triggers an **autonomous early stop** once all forensic pillars and rival hypotheses are settled.
