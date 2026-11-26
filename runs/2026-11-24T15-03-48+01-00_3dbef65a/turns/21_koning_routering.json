@@ -1,0 +1,12 @@
+{
+  "nr": 21,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T15:07:07+01:00",
+  "aan": null,
+  "vraag": null,
+  "reden": "Stopping early. All six roles have spoken (seven member turns used), and the four pillars are substantiated as far as cross-role synthesis allows. Pillar 1: the 02:40 activation (ENG-011) is uncorroborated, but the earliest independently corroborated disturbances are BEA-019 (day 10, 04:40) and HIS-035 (day 10, 04:45), with GUA-019 (day 10, 04:47, inside opening, cause not established). The hogerhand authorization is unrecorded in every other source and cannot be verified further. Pillar 2: the mechanism is supported by the Guardian Keeper's individually cited articles GUA-102 to GUA-108 (inside-origin traffic passes unchecked per GUA-104, seals are the only outside-breach evidence per GUA-105) and by HIS-109 and HIS-102 on the single-pols design. Pillar 3: the day-22 inside opening (GUA-043, 04:15; HIS-053, 04:15; ORA-122, 04:15) is corroborated across roles, and the archive timestamp errors (HIS-036, HIS-053) are flagged. The heavy-night and level-4 rhythm is corroborated by BEA-113 with BEA-019/020, BEA-028/029, BEA-037/038, BEA-046/047, BEA-055/056, BEA-064/065, BEA-073/074, BEA-082/083 and BEA-091/092. This is a four-day cadence on days 10 to 42, and the day-46 prediction follows from that verified series. Pillar 4: the firewall-intrusion claim (ENG-027) is contradicted by GUA-043 and GUA-044, and the cable cause (BEA-109, BEA-115) is unestablished. The day-14 contradiction is resolved by synthesis: the Archmage's low leyline readings (ARC-015 to ARC-028) are corroborated by level-4 unrest on day 14 (BEA-028, BEA-029), while HIS-043 is only a weather entry. Remaining evidence limits, none answerable by another turn: no Engineer latency or sync data, no pre-incident numeric baseline, ARC-106 pacing unverifiable against HIS-106, ARC-112 outcome unrecorded, and no sunrise times.",
+  "open_vragen": [],
+  "duur_ms": 13586
+}

@@ -1,0 +1,17 @@
+{
+  "nr": 16,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T15:06:11+01:00",
+  "aan": "oracle",
+  "vraag": "Oracle, please weigh the recurrence pattern against the verified dates. (1) Beast Master cites BEA-113 for a four-night rhythm of level-4 disturbances on days 10, 14, 18 and 22, and BEA-055, BEA-056, BEA-064, BEA-065, BEA-073, BEA-074, BEA-082, BEA-083, BEA-091 and BEA-092 continue a four-day step to day 42. Do any of your visions or signs record an interval or pre-dawn sign that matches this rhythm, and does it predict day 46? (2) Do your signs record any reading or omen at the 04:15 (GUA-043, HIS-053) or 04:47 (GUA-019) openings, or is any omen tied to the 01:50 timestamp in GUA-115 and HIS-053? (3) Engineer cites ENG-011 for a day-10 02:40 hulpslag activation and ENG-027 for a day-22 04:20 firewall tightening; Guardian Keeper (GUA-043, GUA-044) and Beast Master (BEA-046) find no intrusion or firewall record. Do any of your signs favour a single cause, or does the timing point to a shared origin?",
+  "reden": "Oracle is the only unspoken role and is the sole remaining source for the Pillar 3 voorspelling dimension. Beast Master's BEA-113 four-night rhythm and the day-42 continuation need an independent pattern check before the King can judge whether the next occurrence day can be calculated. Question 2 tests whether the disputed timestamps (GUA-115 at 01:50, HIS-053 at 04:15/01:50, GUA-019 at 04:47) carry any signal. Question 3 cross-examines Engineer's ENG-011 and ENG-027 against Guardian Keeper and Beast Master, which contradict them.",
+  "open_vragen": [
+    "Oracle: does any sign or vision show a recurring pre-dawn interval, and does the BEA-113 four-night rhythm (days 10, 14, 18, 22, continuing to day 42) predict day 46?",
+    "Oracle: do any signs tie the 04:15 and 04:47 openings or the 01:50 GUA-115 timestamp to a single cause?",
+    "Engineer: ENG-011 (day 10 02:40) and ENG-027 (day 22 04:20 firewall) remain unverified by any other source. Which exact record in your source confirms the 02:40 activation time and the firewall change time?",
+    "Historian and Archmage: the hogerhand authorization (ENG-105) and the ARC-112 day-24 switch-off outcome are unrecorded in your sources; confirm this as a known evidence limit."
+  ],
+  "duur_ms": 10791
+}

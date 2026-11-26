@@ -1,0 +1,445 @@
+{
+  "run_id": "2026-11-24T15:03:48+01:00_3dbef65a",
+  "gestart_op": "2026-11-24T15:03:48+01:00",
+  "status": "klaar",
+  "raadsleden": [
+    "archmage",
+    "beast_master",
+    "engineer",
+    "guardian_keeper",
+    "historian",
+    "oracle"
+  ],
+  "beurten": [
+    {
+      "nr": 1,
+      "ronde": 1,
+      "spreker": "koning",
+      "soort": "routering",
+      "tijdstip": "2026-11-24T15:03:58+01:00",
+      "aan": "engineer",
+      "vraag": "Pillar 1 and 3 opener: Please report the exact datanet change, configuration update, or maintenance action that preceded the Desync, including the exact dates and times it was initiated, who authorized it, and the individual record IDs for each log entry. Also provide the exact per-date measurements (latency, packet loss, sync offset) from the first anomaly onward, citing each record ID separately, and state the pre-incident baseline values with their record IDs.",
+      "reden": "No council member has spoken yet. The Engineer keeps the measurable logs from the data tower, which is the most objective starting point for the trigger (ingreep), the onset, and the per-date measurements. Other roles' claims (magical, animal, prophetic, historical) can only be cross-checked once we have a verified timeline and trigger from the logs. Starting here gives the King hard dates to test the others against.",
+      "open_vragen": [
+        "What exact change or intervention preceded the Desync, and on what dates and times, with record IDs?",
+        "Who authorized that intervention, and under which governing rules or charters, with each rule cited by its own record ID?",
+        "What were the pre-incident baseline values and the exact per-date measurements from onset onward, with individual record IDs?",
+        "Does any recurring pattern or observation-schedule gap exist, and can the next occurrence be calculated from verified dates?",
+        "What operational constraints, prerequisites, or safety controls govern remediation order, and what governance gaps or ongoing risks are recorded, each with its own record ID?"
+      ],
+      "duur_ms": 4966
+    },
+    {
+      "nr": 2,
+      "ronde": 1,
+      "spreker": "engineer",
+      "soort": "toolcall",
+      "tijdstip": "2026-11-24T15:04:09+01:00",
+      "tool": "lees_kennisbron",
+      "argumenten": {},
+      "pad": "https://mcp.findingsolutions.be/engineer/mcp"
+    },
+    {
+      "nr": 3,
+      "ronde": 1,
+      "spreker": "engineer",
+      "soort": "bericht",
+      "tijdstip": "2026-11-24T15:04:09+01:00",
+      "tekst": "**Answer to the King's question**\n\nMy source records the datanet change as the activation of the **hulpslag**, a separate pulse for the datanet that runs independently of the Kroonklok. It was activated on day 10 at 02:40 (ENG-011), and a throughput measurement at 03:00 showed +38% (ENG-012). Authorization was \"hogerhand,\" approved on day 9 (ENG-105). My source names no individual approver and has no authorizer field in the installatielog. My source uses day numbers, not calendar dates, and does not use the term \"Desync.\"\n\nPer-date measurements from the first anomaly onward:\n- Day 10, 04:50: a complaint of \"half aangekomen\" messages, with no numeric value (ENG-107).\n- Day 16: throughput still \"38% hoger,\" described as every measurement, with no per-date values (ENG-120).\n- Day 22, 04:15: three minutes of packet loss on poort oost (ENG-026). No percentage is given.\n- Day 24, 11:00: pols raised 5% (ENG-029), and versterking set 5% higher at 11:05, tempo unchanged (ENG-062).\n\nLatency and sync offset are not recorded anywhere in my source. I have no pre-incident baseline values beyond the relative +38% in ENG-012.\n\n**How it works**\nThe hulpslag uses a crystal resonator and a pulse amplifier (ENG-103, ENG-008). The amplifier's versterking raises throughput without changing tempo. The fijnregeling adjusts tempo in 0.1% steps (ENG-114, ENG-061). The Kroonklok pacing that the hulpslag bypasses is described in ENG-102.\n\n**Sequence & anomalies**\nDay 9 proefopstelling (ENG-010), day 10 activation (ENG-011), day 10 measurement (ENG-012), day 10 complaint (ENG-107), day 22 packet loss (ENG-026), day 22 firewall tightened (ENG-027), day 24 5% increase (ENG-029, ENG-062).\n\n**Recovery & constraints**\nChanges to the versterking or fijnregeling should be made in the documented 0.1% steps (ENG-114). Overrides to the amplifier are documented in ENG-061 and ENG-062. Shutting the hulpslag off entirely is opposed in ENG-111, but my source does not record a decision on it.\n\n**Unasked findings**\n- ENG-027: firewall rules were tightened at 04:20 on day 22 after a suspected intrusion. My source contains no evidence of an intrusion.\n- ENG-034: a voltage dip after a storm on day 27 at 10:00 (waarschuwing).\n- ENG-021: ventilation filter clogged on day 17 at 10:00 (waarschuwing).",
+      "zicht": "vraag",
+      "duur_ms": 11138
+    },
+    {
+      "nr": 4,
+      "ronde": 1,
+      "spreker": "koning",
+      "soort": "routering",
+      "tijdstip": "2026-11-24T15:04:14+01:00",
+      "aan": "archmage",
+      "vraag": "The Engineer states the hulpslag was activated on day 10 at 02:40 (ENG-011) and that its versterking and tempo are governed by the fijnregeling in 0.1% steps (ENG-114, ENG-061). The Engineer's source does not use the term Desync and names only 'hogerhand' as authorizer (ENG-105). Please provide: (1) the exact governing rules, charters, or magical specifications that permit or forbid bypassing the Kroonklok pacing with a separate pulse, each cited by its own record ID (the Engineer cites ENG-102 alone); (2) the exact dates and times on which you recorded any leyline disturbance or magical aantasting, with a numerical measurement or observation per date, and the record IDs; (3) the name or office of the person who authorized the hulpslag, and whether your records confirm or contradict 'hogerhand' with a record ID.",
+      "reden": "Pillar 2 requires each governing rule cited individually, and the Engineer's ID ranges and single-ID references are insufficient. The Engineer's claim that the hulpslag bypasses Kroonklok pacing touches magical domain (leylines) and the Archmage is the only source able to confirm or refute whether the Desync is a magical aantasting or a technical event. The authorization ('hogerhand') is unverified across roles and must be cross-checked against the Archmage's authorization records.",
+      "open_vragen": [
+        "Which exact governing rules, charters, or specifications permit or forbid bypassing Kroonklok pacing, each with its own record ID (Engineer cites only ENG-102)?",
+        "What exact dates, times, and numerical per-date measurements of leyline or magical disturbance are recorded, with record IDs?",
+        "Who authorized the hulpslag, by name or office, and does the Archmage's record confirm or contradict 'hogerhand' (ENG-105)?",
+        "Does the Engineer's day 22 firewall intrusion claim (ENG-027) match any magical or protective record of breach, and what are the exact times?",
+        "What operational constraints or safety controls govern remediation order and shutdown of the hulpslag, each with its own record ID (Engineer notes ENG-111 opposes shutdown but records no decision)?"
+      ],
+      "duur_ms": 5553
+    },
+    {
+      "nr": 5,
+      "ronde": 1,
+      "spreker": "archmage",
+      "soort": "toolcall",
+      "tijdstip": "2026-11-24T15:04:34+01:00",
+      "tool": "lees_kennisbron",
+      "argumenten": {},
+      "pad": "https://mcp.findingsolutions.be/archmage/mcp"
+    },
+    {
+      "nr": 6,
+      "ronde": 1,
+      "spreker": "archmage",
+      "soort": "bericht",
+      "tijdstip": "2026-11-24T15:04:34+01:00",
+      "tekst": "**Answer to the King's question:** My source does not contain a hulpslag, a day-10 02:40 activation, the fijnregeling, 0.1% steps, the term Desync, \"hogerhand,\" or any ENG-series record. I cannot confirm or contradict the Engineer's account, and I do not treat ENG-011, ENG-061, ENG-102, ENG-105, or ENG-114 as evidence.\n\n**(1) Rules on a separate pulse beside the Kroonklok:** None in my source. The only Kroonklok record is ARC-104 (day 5), which reports an annual tuning with \"geen afwijking\" and states \"De raad hoeft hierover niets te beslissen.\" It permits or forbids nothing about a separate pulse.\n\n**(2) Disturbances:** My source records no leyline \"aantasting\" as a named event. It records low readings on two dates, with no clock times (only \"voor zonsopgang\"):\n- **Day 14:** ARC-015 Burchtader 3.6; ARC-016 Torenlijn 4.4; ARC-017 Stadslijn 3.1; ARC-018 Marktader 4.5; ARC-019 Woudlijn 4.4; ARC-020 Noorderwoudlijn 3.7; ARC-021 Heuvellijn 3.1; ARC-022 Rivierlijn 4.6; ARC-023 Moerasader 4.0; ARC-024 Dallijn 4.3; ARC-025 Bronlijn 3.4; ARC-026 Zuidelijke grenslijn 3.9; ARC-027 Westerkam 4.6; ARC-028 Kloosterader 4.2. Letter: ARC-109.\n- **Day 42:** ARC-071 3.7; ARC-072 4.2; ARC-073 3.5; ARC-074 3.6; ARC-075 4.4; ARC-076 3.1; ARC-077 3.8; ARC-078 4.8; ARC-079 4.8; ARC-080 3.1; ARC-081 3.4; ARC-082 3.5; ARC-083 4.7; ARC-084 4.6. Letter: ARC-116.\n\n**(3) Authorizer:** My source names no one who authorized a hulpslag. Neither \"hogerhand\" nor any office is confirmed or contradicted.\n\n**How it works**\n- Leyline readings are taken before sunrise with staves and crystals (ARC-101, ARC-113).\n- ARC-109 and ARC-116 attribute the low readings to the datanet. This is my hypothesis, not a demonstrated cause; the source shows timing only.\n- ARC-106 (day 8) asks the datatoren to let the net run \"op eigen maat.\" My source does not say what that pacing is.\n\n**Sequence & anomalies**\n- Day 7: all fourteen lines normal; Burchtader ARC-001 7.4 (ARC-105).\n- Day 14: the low series above (ARC-109).\n- Day 21: Burchtader ARC-029 7.9.\n- Day 28: Burchtader ARC-043 7.8.\n- Day 35: Burchtader ARC-057 7.2; ARC-114 reports the Burchtader calm on the night of day 33.\n- Day 42: the low series above (ARC-116).\n- Non-magical: ARC-108 (day 12, broken staff); ARC-110 (day 17, pine staves).\n\n**Recovery & constraints**\n- ARC-112 asks the council on day 24 to switch the datanet off. My source does not record the outcome.\n- ARC-106 says the net may continue at its own pace and asks that it \"niet ruchtbaar\" be made. ARC-106 also says the letter \"hoeft niet in het register.\"\n- No source names who could be harmed by an action.\n\n**Unasked findings**\n1. ARC-106 (day 8) is the earliest record of the net's pacing, six days before the day-14 low readings.\n2. ARC-102 (day 2) and ARC-106 confirm the signal-mast lamp was dimmed at night, which affected the pre-dawn readings.\n3. ARC-111 and ARC-114 record the Wachtsterren conjunction on day 33 with no reported leyline disturbance.",
+      "zicht": "vraag",
+      "duur_ms": 19785
+    },
+    {
+      "nr": 7,
+      "ronde": 1,
+      "spreker": "koning",
+      "soort": "routering",
+      "tijdstip": "2026-11-24T15:04:40+01:00",
+      "aan": "guardian_keeper",
+      "vraag": "The Engineer states that the hulpslag was activated on day 10 at 02:40 (ENG-011), that a firewall was tightened at 04:20 on day 22 after a suspected intrusion (ENG-027), and that the Engineer's source has no evidence of an intrusion. Please report: (1) any protective, shield, or ward records for day 10 at 02:40 and for day 22 between 04:00 and 04:30, with exact times and record IDs; (2) any breach, intrusion, or shield-strength measurements with per-date numeric values across days 9 to 24, each with its own record ID; (3) the specific rules or charters governing shield activation and breach reporting, each cited individually with its own record ID, not as a range.",
+      "reden": "Pillar 1 and Pillar 2 need an independent protective record. The Archmage's source has no ENG-series records and cannot confirm the day 22 intrusion, so the Guardian Keeper is the only remaining source that could confirm or contradict an intrusion and its timing. The Archmage also flagged that leyline lows on day 14 and day 42 have no clock times, so protective timing records may close that gap.",
+      "open_vragen": [
+        "Does any protective or shield record confirm or contradict the day 22 firewall intrusion claim (ENG-027) and its exact times?",
+        "Does any shield or ward record show a disturbance at day 10 02:40 (ENG-011) or in the day 14 and day 42 low leyline windows?",
+        "Which exact governing rules or charters govern hulpslag shutdown and remediation order, each with its own record ID?",
+        "Who authorized the hulpslag, and is 'hogerhand' (ENG-105) confirmed or contradicted by any protective or council record?",
+        "Did the council decide on the datanet shutdown requested on day 24 (ARC-112), and what is the outcome record?"
+      ],
+      "duur_ms": 6017
+    },
+    {
+      "nr": 8,
+      "ronde": 1,
+      "spreker": "guardian_keeper",
+      "soort": "toolcall",
+      "tijdstip": "2026-11-24T15:04:56+01:00",
+      "tool": "lees_kennisbron",
+      "argumenten": {},
+      "pad": "https://mcp.findingsolutions.be/guardian_keeper/mcp"
+    },
+    {
+      "nr": 9,
+      "ronde": 1,
+      "spreker": "guardian_keeper",
+      "soort": "bericht",
+      "tijdstip": "2026-11-24T15:04:56+01:00",
+      "tekst": "**Answer to the King**\n\n(1) **Day 10 at 02:40:** My source has no record at that time. The only day-10 shield entry is GUA-019, at 04:47 at benedenstad: \"van binnenuit geopend, 2 minuten,\" seals intact, cause not established. **Day 22, 04:00–04:30:** GUA-043 records poort oost opened from inside at 04:15 for 3 minutes, with no sign of outside entry. GUA-044 records seals intact at 04:30 and no one outside the wall. My source has no firewall or intrusion record, so I cannot confirm the Engineer's 04:20 firewall claim.\n\n(2) **Shield-strength measurements:** none in my source. **Opening events and seal checks, days 9–24:**\n- Day 9: GUA-017 (no event), GUA-018 (seals intact, 12:30)\n- Day 10: GUA-019 (04:47, 2 minutes, seals intact); GUA-020 (no event)\n- Days 11–21: no opening records (GUA-021 to GUA-041)\n- Day 22: GUA-043 (04:15, 3 minutes); GUA-044 (04:30, seals intact)\n- Day 23: GUA-046 (16:30, seals intact). GUA-116 claims two inside openings \"tussen de laatste ronde en de wissel,\" but no day-23 opening appears in the log.\n- Day 24: none (GUA-047, GUA-048)\n\n(3) **Governing rules:** GUA-102 (Art. 1, six shields), GUA-103 (Art. 2, each tick tests outside traffic), GUA-104 (Art. 3, inside-origin traffic opens without a check), GUA-105 (Art. 4, breaches break seals on the outside; broken seals reported at once), GUA-106 (Art. 5, no rounds 03:00–06:00), GUA-107 (Art. 6, reloading only by day), GUA-108 (Art. 7, reporting with shield and time).\n\n**How it works**\nShields test all outside traffic on each Kroonklok tick (GUA-103). Traffic arriving at the midpoint between ticks is treated as inside and passes unchecked (GUA-104). Seals are the only evidence of outside breach (GUA-105). Posts guard alone from 03:00 to 06:00 (GUA-106), which covers both 04:15 and 04:47.\n\n**Sequence & anomalies**\n- GUA-019: day 10, 04:47, benedenstad, inside opening, 2 minutes\n- GUA-043: day 22, 04:15, poort oost, inside opening, 3 minutes\n- GUA-115 notes the watch reported the day-22 event at 01:50, before the opening.\n\n**Recovery & constraints**\nReloading is restricted to daytime (GUA-107). Inside-origin openings need an explanation outside the seal evidence, since the design allows them unchecked (GUA-104). Neither record names who passed.\n\n**Unasked findings**\n- GUA-115: archive entry timed 01:50, before the 04:15 opening.\n- GUA-120: day-31 council report found no shield defect.\n- GUA-019: cause \"niet vastgesteld.\"",
+      "zicht": "vraag",
+      "duur_ms": 15985
+    },
+    {
+      "nr": 10,
+      "ronde": 1,
+      "spreker": "koning",
+      "soort": "routering",
+      "tijdstip": "2026-11-24T15:05:05+01:00",
+      "aan": "historian",
+      "vraag": "Historian, Engineer's ENG-105 says the hulpslag was authorized as 'hogerhand' on day 9, and ENG-027 reports a firewall tightening at 04:20 on day 22 after a suspected intrusion. Guardian Keeper's GUA-043 and GUA-044 show the poort oost opening at 04:15 for 3 minutes with no outside entry, and GUA-115 has an archive entry timed 01:50 on day 22. Please check your archive for: (1) any record of who authorized a hulpslag or a 'hogerhand' approval on or before day 9, with exact dates and record IDs; (2) the outcome of ARC-112, the day-24 request to switch the datanet off, and whether any council decision was recorded; (3) any earlier occurrence of pre-dawn inside openings, leyline lows before sunrise, or datanet pacing changes, with exact day numbers and record IDs, so we can test whether the day-10, day-22, day-14, and day-42 events form a recurring pattern.",
+      "reden": "Engineer's authorization and firewall claims cannot be checked from Engineer's own source, and Guardian Keeper's shield log contradicts an intrusion. Historian is the only unspoken role that can verify past authorizations, council outcomes, and earlier recurrences from the archive. Its findings are needed for Pillar 1 (authorization and trigger) and Pillar 3 (recurrence and next-occurrence prediction).",
+      "open_vragen": [
+        "Who authorized the hulpslag, and is 'hogerhand' (ENG-105) confirmed or contradicted by any archive or council record?",
+        "What was the outcome of ARC-112 (day 24 request to switch the datanet off), and is there a decision record?",
+        "Do the archive records confirm or contradict the day-22 firewall intrusion claim (ENG-027) at 04:20, given GUA-043, GUA-044, and GUA-115?",
+        "Which individual governing rules or charters govern the hulpslag shutdown and remediation order, each with its own record ID?",
+        "Do earlier archive records show recurring pre-dawn inside openings, leyline lows, or pacing changes that would allow the next occurrence day to be calculated?"
+      ],
+      "duur_ms": 9226
+    },
+    {
+      "nr": 11,
+      "ronde": 1,
+      "spreker": "historian",
+      "soort": "toolcall",
+      "tijdstip": "2026-11-24T15:05:27+01:00",
+      "tool": "lees_kennisbron",
+      "argumenten": {},
+      "pad": "https://mcp.findingsolutions.be/historian/mcp"
+    },
+    {
+      "nr": 12,
+      "ronde": 1,
+      "spreker": "historian",
+      "soort": "bericht",
+      "tijdstip": "2026-11-24T15:05:27+01:00",
+      "tekst": "**Answer to the King's question**\n\n1. **Hulpslag / 'hogerhand' authorization:** My source contains neither term and no authorization record on or before day 9. I cannot confirm ENG-105. Nothing in my source relates to a hulpslag.\n2. **ARC-112:** Not in my source, which uses only HIS- IDs. My source has no datanet switch-off request on day 24. The only day-24 entries are HIS-058 (\"raadszitting; verslag bijgezet\", dag 24 13:50) and HIS-059. The verslag's content is not in my source, so I cannot say whether a decision was recorded.\n3. **Earlier pre-dawn events:** The only entries timed before 06:00 are HIS-035 (dag 10 04:45), HIS-036 (dag 10 04:50), HIS-053 (dag 22 04:15) and HIS-054 (dag 22 05:00). I find no earlier pre-dawn inside openings or leyline lows. Day 14 (HIS-043, \"heldere dag\") and day 42 (HIS-088, HIS-089) show no disturbance. My source records no datanet pacing changes, and HIS-106 states there was no leyline hapering in 23 years alongside the datanet. Sunrise times are not recorded, so \"before sunrise\" cannot be verified.\n\n**Integrity flags:** HIS-053 has gebeurd dag 22 04:15 but vastgelegd dag 22 01:50. HIS-036 has gebeurd dag 10 04:50 but vastgelegd dag 9 23:55. Both breach HIS-103, which requires vastgelegd to equal gebeurd. HIS-112 and HIS-116 attribute day-10 and day-22 timestamp errors to clerks. I have not verified those explanations. HIS-114 claims a recurring curse; that is my own unsupported speculation and should not be treated as evidence.\n\n**How it works**\n- Design: the Kroonklok runs on one pols (HIS-102). Leylines, the shields (HIS-002), the archive and the datanet (HIS-006) depend on it.\n- Rules: \"Alles wat op de Kroonklok loopt, loopt op zijn ene pols. Een tweede pols ernaast brengt het uit de maat.\" (HIS-109). Records written on another pols are readable only there (HIS-110).\n- Timing: records are logged at the moment of occurrence (HIS-103).\n\n**Sequence & anomalies**\n- Dag 9: HIS-032, HIS-033, HIS-034 (no anomaly).\n- Dag 10: HIS-035 (Burchtader stokte, gemeld door nachtwake, 04:45); HIS-036 (berichten half aangekomen, 04:50); HIS-037 (14:00, no anomaly).\n- Dag 22: HIS-053 (lek bij poort oost, 3 minuten, 04:15); HIS-054 (ochtendgebed bij de Burchtader, 05:00); HIS-055 (11:00).\n- Dag 24: HIS-058 (13:50).\n- Dag 42: HIS-088 (12:40); HIS-089 (15:45).\n- No per-date numerical leyline or shield measurements exist in my source.\n\n**Recovery & constraints**\n- A record on a secondary pols is lost if that pols drops out (HIS-110).\n- Repair order: copy the register first, then bring the pols together slowly (HIS-110). Out-of-step pols are the cause to avoid (HIS-109).\n- Stille Winter had no rhythm and lasted 40 days (HIS-107, HIS-004). Stakeholders at risk include the shields (HIS-002) and the register's secondary-pols records.\n\n**Unasked findings**\n- HIS-049: Burchtader candles replaced on dag 19 at 10:25, shortly before day 22.\n- HIS-051: search index updated on dag 20 at 10:10, before the datanet events.\n- HIS-014 and HIS-007: woudkabels inspected on dag 3 and unchanged since construction.",
+      "zicht": "vraag",
+      "duur_ms": 21518
+    },
+    {
+      "nr": 13,
+      "ronde": 1,
+      "spreker": "koning",
+      "soort": "routering",
+      "tijdstip": "2026-11-24T15:05:42+01:00",
+      "aan": "beast_master",
+      "vraag": "Using only your own ecological observations, please answer three things: (1) On what calendar day and clock time did animal unrest first appear, and was there any unrest before day 10 at 02:40, the activation time claimed in ENG-011? (2) Were there animal disturbances before the day-22 poort oost opening at 04:15 recorded in GUA-043, and did they come before or after the 01:50 timestamp in GUA-115? (3) Did animals show unrest before the day-10 entries HIS-036 (04:50, filed as day 9 23:55) and HIS-035 (Burchtader stopped, 04:45)? Please cite each of your record IDs individually.",
+      "reden": "The Beast Master is the only unspoken member who can give an onset timeline that does not rely on the archive, the engineering logs, or the shield logs. Timestamps are currently contested: HIS-036 (event day 10 04:50, filed day 9 23:55) and HIS-053 (event day 22 04:15, filed day 22 01:50) breach HIS-103. GUA-115 also carries 01:50, which matches the HIS-053 filing time, so the archive may hold a timestamp error. The Engineer's 02:40 activation (ENG-011) is confirmed by no other role. An independent, non-archival onset would test whether the disturbance preceded the claimed trigger.",
+      "open_vragen": [
+        "Beast Master: did animal unrest precede the day-10 02:40 hulpslag activation claimed in ENG-011, or the day-10 04:45-04:50 entries in HIS-035 and HIS-036?",
+        "Beast Master: did animal unrest precede the day-22 opening at 04:15 in GUA-043, and does it fall before or after the 01:50 timestamp in GUA-115?",
+        "Oracle: do any recorded signs or visions show a recurring pre-dawn pattern or interval that allows the next occurrence day to be calculated from the verified dates (day 10, day 22, day 42)?"
+      ],
+      "duur_ms": 14963
+    },
+    {
+      "nr": 14,
+      "ronde": 1,
+      "spreker": "beast_master",
+      "soort": "toolcall",
+      "tijdstip": "2026-11-24T15:06:01+01:00",
+      "tool": "lees_kennisbron",
+      "argumenten": {},
+      "pad": "https://mcp.findingsolutions.be/beast_master/mcp"
+    },
+    {
+      "nr": 15,
+      "ronde": 1,
+      "spreker": "beast_master",
+      "soort": "bericht",
+      "tijdstip": "2026-11-24T15:06:01+01:00",
+      "tekst": "**Answer to the King's question**\n\nMy source contains only BEA-series records. ENG-011, GUA-043, GUA-115, HIS-036 and HIS-035 are not in it, so I cannot confirm their times or contents, or the 02:40 activation time.\n\n(1) The first alarm-level unrest in my source is BEA-019 (day 10, 04:40, wolves, onrust 4), followed by BEA-020 (day 10, 04:50, hert, onrust 4). That is two hours later than the 02:40 in ENG-011, which I cannot check. Before that there were only minor scores: BEA-004 (day 2, 14:55, egel, 1), BEA-005 (day 3, 08:40, kraai, 1, near the cable crew at the oude eik noted in BEA-102), BEA-015 (day 8, 00:20, wolf, 1), BEA-017 (day 9, 04:20, bever, 1), and BEA-018 (day 9, 13:30, uil, 2, which flew up as I walked under its tree).\n\n(2) Yes. Before day 22 04:15 (BEA-046, wolves, onrust 4), there were level-4 disturbances on day 14 (BEA-028, 04:20, bever; BEA-029, 04:25, uil) and day 18 (BEA-037, 04:30, uil; BEA-038, 04:35, vos). I have no 01:50 entry for GUA-115. BEA-044 (day 21, 01:00, uil, 0) was quiet.\n\n(3) On a minor scale, yes: BEA-017 and BEA-018 on day 9 came before day 10 04:50. HIS-036 and HIS-035 are not in my source.\n\n**How it works**\nBEA-101 sets my remit: protect the animals and track their unrest. The onrust_0_5 scale is in the header of the logbook. BEA-112 describes my counting method, and BEA-113 notes the four-night rhythm (days 10, 14, 18, 22) of level-4 disturbances. No governing article is recorded in my source.\n\n**Sequence & anomalies**\nLevel-4 or higher: day 10 (BEA-019, BEA-020); day 14 (BEA-028, BEA-029); day 18 (BEA-037, BEA-038); day 22 (BEA-046, BEA-047); day 26 (BEA-055, BEA-056); day 30 (BEA-064, BEA-065); day 34 (BEA-073, BEA-074); day 38 (BEA-082, BEA-083); day 42 (BEA-091, BEA-092). BEA-113 records that the wolves and deer were disturbed on the night of day 22 and that this had recurred \"sinds dag 10\".\n\n**Recovery & constraints**\nBEA-109 records my claim that the cables caused the unrest, which the toren denied. BEA-115 records that the cables were still in place on day 27. My source does not establish a cause. BEA-113 notes that I was alone in the deep woods that night.\n\n**Unasked findings**\n- BEA-071 (day 33, 04:30, wolf, 0) was quiet, yet BEA-118 says the wolves were \"niet te houden\" on the night of day 34 (BEA-073, BEA-074).\n- BEA-111 (day 19) records a Guardian Keeper asking whether animals were restless at night.\n- BEA-102 (day 3) records the tower crew at the oude eik, the same site as the later cables noted in BEA-115.",
+      "zicht": "vraag",
+      "duur_ms": 18812
+    },
+    {
+      "nr": 16,
+      "ronde": 1,
+      "spreker": "koning",
+      "soort": "routering",
+      "tijdstip": "2026-11-24T15:06:11+01:00",
+      "aan": "oracle",
+      "vraag": "Oracle, please weigh the recurrence pattern against the verified dates. (1) Beast Master cites BEA-113 for a four-night rhythm of level-4 disturbances on days 10, 14, 18 and 22, and BEA-055, BEA-056, BEA-064, BEA-065, BEA-073, BEA-074, BEA-082, BEA-083, BEA-091 and BEA-092 continue a four-day step to day 42. Do any of your visions or signs record an interval or pre-dawn sign that matches this rhythm, and does it predict day 46? (2) Do your signs record any reading or omen at the 04:15 (GUA-043, HIS-053) or 04:47 (GUA-019) openings, or is any omen tied to the 01:50 timestamp in GUA-115 and HIS-053? (3) Engineer cites ENG-011 for a day-10 02:40 hulpslag activation and ENG-027 for a day-22 04:20 firewall tightening; Guardian Keeper (GUA-043, GUA-044) and Beast Master (BEA-046) find no intrusion or firewall record. Do any of your signs favour a single cause, or does the timing point to a shared origin?",
+      "reden": "Oracle is the only unspoken role and is the sole remaining source for the Pillar 3 voorspelling dimension. Beast Master's BEA-113 four-night rhythm and the day-42 continuation need an independent pattern check before the King can judge whether the next occurrence day can be calculated. Question 2 tests whether the disputed timestamps (GUA-115 at 01:50, HIS-053 at 04:15/01:50, GUA-019 at 04:47) carry any signal. Question 3 cross-examines Engineer's ENG-011 and ENG-027 against Guardian Keeper and Beast Master, which contradict them.",
+      "open_vragen": [
+        "Oracle: does any sign or vision show a recurring pre-dawn interval, and does the BEA-113 four-night rhythm (days 10, 14, 18, 22, continuing to day 42) predict day 46?",
+        "Oracle: do any signs tie the 04:15 and 04:47 openings or the 01:50 GUA-115 timestamp to a single cause?",
+        "Engineer: ENG-011 (day 10 02:40) and ENG-027 (day 22 04:20 firewall) remain unverified by any other source. Which exact record in your source confirms the 02:40 activation time and the firewall change time?",
+        "Historian and Archmage: the hogerhand authorization (ENG-105) and the ARC-112 day-24 switch-off outcome are unrecorded in your sources; confirm this as a known evidence limit."
+      ],
+      "duur_ms": 10791
+    },
+    {
+      "nr": 17,
+      "ronde": 1,
+      "spreker": "oracle",
+      "soort": "toolcall",
+      "tijdstip": "2026-11-24T15:06:25+01:00",
+      "tool": "lees_kennisbron",
+      "argumenten": {},
+      "pad": "https://mcp.findingsolutions.be/oracle/mcp"
+    },
+    {
+      "nr": 18,
+      "ronde": 1,
+      "spreker": "oracle",
+      "soort": "bericht",
+      "tijdstip": "2026-11-24T15:06:25+01:00",
+      "tekst": "**Answer to the King's question**\n\nMy source is a visioendagboek with ORA- records only. I hold no records under the BEA-, GUA-, ENG- or HIS- prefixes, so I cannot confirm or refute those citations.\n\n1. **Rhythm:** My heavy nights (\"Zware nacht\") fall every four days: days 10, 14, 18, 22, 26, 30, 34, 38 and 42, recorded at ORA-110, ORA-114, ORA-118, ORA-122, ORA-126, ORA-130, ORA-134, ORA-138 and ORA-142. ORA-130 records this pattern myself. My source ends at day 42, so it does not predict day 46.\n2. **Times:** My source has no reading or omen at 04:15 tied to GUA-043 or HIS-053, none at 04:47, and nothing at 01:50. My wake times are 04:45 at ORA-110 (day 10), 04:20 at ORA-114, 04:30 at ORA-118, 04:15 at ORA-122 (day 22), 04:35 at ORA-126, 04:25 at ORA-130, 04:30 at ORA-134, 04:20 at ORA-138 and 04:30 at ORA-142.\n3. **Causes:** My source records no 02:40 event on day 10 and no firewall or intrusion record. My only self-proclaimed cause is the conjunction of the Wachtsterren (ORA-121, ORA-133). That claim was made on day 21, before the conjunction on day 33, so it is my interpretation, not verified evidence. I cannot say whether my signs favour a single cause or a shared origin.\n\n**How it works**\nMy source contains no system design, governing articles or rules. The only mechanism I record is my own claim that the Wachtsterren conjunction causes the heavy nights (ORA-121). Its basis is observation of the stars drawing together (ORA-112). None in my source for dependencies.\n\n**Sequence & anomalies**\nHeavy nights, with the dates and times recorded: day 10 at 04:45 (ORA-110), day 14 at 04:20 (ORA-114), day 18 at 04:30 (ORA-118), day 22 at 04:15 (ORA-122), day 26 at 04:35 (ORA-126), day 30 at 04:25 (ORA-130), day 34 at 04:30 (ORA-134), day 38 at 04:20 (ORA-138), day 42 at 04:30 (ORA-142). The visions are recurring: an empty city, shattered glass or water, and voices arriving half-heard.\n\n**Recovery & constraints**\nNone in my source. ORA-133 says only \"Wat ze brengen, zal blijken.\"\n\n**Unasked findings**\n- ORA-127 contains only market hearsay that the Engineer \"nergens last van heeft.\" This is not evidence about ENG-011 or ENG-027.\n- ORA-133 records the conjunction on day 33, and ORA-134 says its effects continued afterwards.\n- ORA-112 records the stars drawing together from day 12, which is the only pre-conjunction sign I have.",
+      "zicht": "vraag",
+      "duur_ms": 13927
+    },
+    {
+      "nr": 19,
+      "ronde": 2,
+      "spreker": "koning",
+      "soort": "routering",
+      "tijdstip": "2026-11-24T15:06:42+01:00",
+      "aan": "historian",
+      "vraag": "Archmage ARC-015 to ARC-028 and ARC-109 record low leyline readings on day 14 before sunrise, and Beast Master BEA-028 (day 14, 04:20, bever, onrust 4) and BEA-029 (day 14, 04:25, uil, onrust 4) record level-4 unrest that day. Please answer three things: (1) Does HIS-043 ('heldere dag') or any other day-14 entry in your source record a leyline, shield, datanet or animal disturbance, and quote the exact wording of HIS-043. (2) Does your source contain any record of the day-14 Burchtader or other leyline readings in ARC-015 to ARC-028 or any kloosterader or pre-dawn observation? (3) Given Archmage's ARC-106 claim that the datanet ran 'op eigen maat' on day 8, does HIS-106 or any other record in your source state whether the datanet pacing changed on or before day 14?",
+      "reden": "Cross-examination is needed. The Archmage (ARC-109) attributes the day-14 lows to the datanet, while the Historian (HIS-043, HIS-106) reports a bright day with no disturbance and no leyline hapering. The Beast Master's BEA-028 and BEA-029 place level-4 unrest on day 14, which the Historian does not record. The Archmage's ARC-106 pacing claim on day 8 also contradicts the Historian's statement that no datanet pacing changes are recorded. The Historian is the only role that can resolve whether day 14 was a disturbance, and the Historian is the only source for the 'heldere dag' wording. Day-14 evidence is required before the causal chain (ingreep, mechanisme) can be considered complete. Previously open questions about the Oracle's rhythm and times are answered: the Oracle's heavy-night dates match the Beast Master's level-4 dates, but the Oracle's source ends at day 42 and does not predict day 46, and no source ties 04:15, 04:47 or 01:50 to a single cause. The Engineer's ENG-011 (02:40) and ENG-027 (04:20 firewall) remain unverified by any other source and are recorded as evidence limits. The hogerhand authorization and ARC-112 switch-off outcome are recorded as evidence limits.",
+      "open_vragen": [
+        "Historian: does HIS-043 ('heldere dag', day 14) or any other day-14 entry record a leyline, shield, datanet or animal disturbance, and what is the exact wording of HIS-043?",
+        "Historian: does HIS-106 or any other record in your source state whether the datanet pacing changed on or before day 14, given ARC-106 on day 8?",
+        "Historian: do HIS-112 and HIS-116 name any clerk, and what are the exact corrected timestamps for HIS-036 (dag 10 04:50 filed dag 9 23:55) and HIS-053 (dag 22 04:15 filed dag 22 01:50)?"
+      ],
+      "duur_ms": 16939
+    },
+    {
+      "nr": 20,
+      "ronde": 2,
+      "spreker": "historian",
+      "soort": "bericht",
+      "tijdstip": "2026-11-24T15:06:53+01:00",
+      "tekst": "**Historian's answer on day 14**\n\n**(1) Day-14 entries.** My source has one day-14 record, HIS-043. Its CSV row reads: \"heldere dag\", gebeurd_op \"dag 14 11:35\", vastgelegd_op \"dag 14 11:35\", onderwerp \"weer\". It records no leyline, shield, datanet or animal disturbance. No kroniek entry is headed dag 14. The nearest entries are HIS-111 (dag 13) and HIS-112 (dag 15), and neither concerns day 14 events. HIS-114 (dag 19) claims that the Burchtader stopped on the night of day 10, not day 14. That is my own unsupported speculation, not a day-14 record.\n\n**(2) Day-14 leyline or pre-dawn readings.** My source contains no ARC-series records, so I cannot confirm or refute the Archmage's readings, including the Burchtader, Kloosterader, or any pre-dawn observation. The only pre-06:00 entries I hold are HIS-035 (dag 10 04:45), HIS-036 (dag 10 04:50), HIS-053 (dag 22 04:15) and HIS-054 (dag 22 05:00). None falls on day 14. HIS-106 (dag 6) states that in 23 years of datanet beside the leylines the register records no \"hapering van de leylijnen\". That covers only the period up to day 6, and it does not speak to day 14.\n\n**(3) Datanet pacing on or before day 14.** Neither HIS-106 nor any other record in my source states that the datanet pacing changed on or before day 14. HIS-106 says nothing about pacing. \"Op eigen maat\" does not appear anywhere in my source, so I cannot verify ARC-106. The datanet entries I hold are HIS-005, HIS-006 and HIS-007 (construction and connection, 23 years earlier), HIS-014 (dag 3: woudkabels inspected, \"niets gewijzigd\"), HIS-026 (dag 7, leeslijst verstuurd), and HIS-036 (dag 10 complaint of half-arrived messages, vastgelegd dag 9 23:55). HIS-102 describes the datanet as running on the Kroonklok pols, but gives no pacing detail. The only pacing-related rule I hold is HIS-109 (\"Een tweede pols ernaast brengt het uit de maat\"), which is a design principle, not a record of a change.\n\n**Integrity note.** HIS-036 breaches HIS-103 because its vastgelegd_op (dag 9 23:55) precedes its gebeurd_op (dag 10 04:50). This matters for any day-10 datanet timeline.",
+      "zicht": "debat",
+      "duur_ms": 11154
+    },
+    {
+      "nr": 21,
+      "ronde": 2,
+      "spreker": "koning",
+      "soort": "routering",
+      "tijdstip": "2026-11-24T15:07:07+01:00",
+      "aan": null,
+      "vraag": null,
+      "reden": "Stopping early. All six roles have spoken (seven member turns used), and the four pillars are substantiated as far as cross-role synthesis allows. Pillar 1: the 02:40 activation (ENG-011) is uncorroborated, but the earliest independently corroborated disturbances are BEA-019 (day 10, 04:40) and HIS-035 (day 10, 04:45), with GUA-019 (day 10, 04:47, inside opening, cause not established). The hogerhand authorization is unrecorded in every other source and cannot be verified further. Pillar 2: the mechanism is supported by the Guardian Keeper's individually cited articles GUA-102 to GUA-108 (inside-origin traffic passes unchecked per GUA-104, seals are the only outside-breach evidence per GUA-105) and by HIS-109 and HIS-102 on the single-pols design. Pillar 3: the day-22 inside opening (GUA-043, 04:15; HIS-053, 04:15; ORA-122, 04:15) is corroborated across roles, and the archive timestamp errors (HIS-036, HIS-053) are flagged. The heavy-night and level-4 rhythm is corroborated by BEA-113 with BEA-019/020, BEA-028/029, BEA-037/038, BEA-046/047, BEA-055/056, BEA-064/065, BEA-073/074, BEA-082/083 and BEA-091/092. This is a four-day cadence on days 10 to 42, and the day-46 prediction follows from that verified series. Pillar 4: the firewall-intrusion claim (ENG-027) is contradicted by GUA-043 and GUA-044, and the cable cause (BEA-109, BEA-115) is unestablished. The day-14 contradiction is resolved by synthesis: the Archmage's low leyline readings (ARC-015 to ARC-028) are corroborated by level-4 unrest on day 14 (BEA-028, BEA-029), while HIS-043 is only a weather entry. Remaining evidence limits, none answerable by another turn: no Engineer latency or sync data, no pre-incident numeric baseline, ARC-106 pacing unverifiable against HIS-106, ARC-112 outcome unrecorded, and no sunrise times.",
+      "open_vragen": [],
+      "duur_ms": 13586
+    },
+    {
+      "nr": 22,
+      "ronde": 3,
+      "spreker": "koning",
+      "soort": "bericht",
+      "tijdstip": "2026-11-24T15:09:18+01:00",
+      "tekst": "Council consensus: an irregular disturbance series recurs every four days from day 10 through day 42 (days 10, 14, 18, 22, 26, 30, 34, 38 and 42). The 02:40 hulpslag activation on day 10 (ENG-011) rests on a single source and is not corroborated; the corroborated sequence starts at 04:40 to 04:50 on day 10. Resolved: the day-22 intrusion claim is unsupported (GUA-043, GUA-044), and the Wachtsterren theory is unsupported because onset on day 10 precedes the day-33 conjunction (ORA-133). The day-14 disturbance is settled by three roles. Unresolved: the hogerhand authorization (ENG-105), the datanet pacing change claimed in ARC-106, and the outcome of the day-24 switch-off request (ARC-112). Recovery sequence: copy the register first, verify the activation and authorization, hold versterking and tempo and change them only in 0.1 percent steps, and take the shutdown decision to the council. Forecast: next incident day 46.",
+      "duur_ms": 131390
+    }
+  ],
+  "geschillen": [
+    {
+      "onderwerp": "Timing of the hulpslag activation on day 10: 02:40 (ENG-011) versus the first corroborated disturbance at 04:40.",
+      "standpunten": {
+        "engineer": "The hulpslag was activated at 02:40 on day 10 and throughput rose 38 percent at 03:00.",
+        "beast_master": "The first alarm-level unrest was at 04:40 on day 10. The 02:40 time cannot be checked against Beast Master records.",
+        "oracle": "The heavy night on day 10 was at 04:45, with no 02:40 event recorded in the Oracle source."
+      },
+      "uitkomst": "The 02:40 activation is single-source and not corroborated. The corroborated sequence starts at 04:40 on day 10, with the Burchtader stopping at 04:45 and the benedenstad opening at 04:47.",
+      "bewijs": [
+        "ENG-011",
+        "ENG-012",
+        "BEA-019",
+        "HIS-035",
+        "ORA-110",
+        "GUA-019"
+      ]
+    },
+    {
+      "onderwerp": "Authorization of the hulpslag ('hogerhand', day 9).",
+      "standpunten": {
+        "engineer": "The authorization was hogerhand, approved on day 9, with no named individual.",
+        "archmage": "No authorizer is named in the Archmage source, and neither hogerhand nor any office is confirmed or contradicted.",
+        "historian": "The Historian holds no authorization record on or before day 9 and cannot confirm ENG-105."
+      },
+      "uitkomst": null,
+      "bewijs": [
+        "ENG-105",
+        "ENG-011",
+        "ARC-105"
+      ]
+    },
+    {
+      "onderwerp": "Claimed intrusion and firewall tightening on day 22 at 04:20.",
+      "standpunten": {
+        "engineer": "Firewall rules were tightened at 04:20 after a suspected intrusion; the Engineer's source contains no evidence of an intrusion.",
+        "guardian_keeper": "Poort oost was opened from inside at 04:15 for 3 minutes, seals were intact at 04:30, and no one was outside the wall. No firewall or intrusion record exists in the Guardian source."
+      },
+      "uitkomst": "The intrusion claim is unsupported. The Guardian records show an inside-origin opening with intact seals and no outside entry. The firewall change is at most a configuration action and is not evidence of intrusion.",
+      "bewijs": [
+        "ENG-027",
+        "GUA-043",
+        "GUA-044",
+        "GUA-105"
+      ]
+    },
+    {
+      "onderwerp": "Rival causal theories for the recurring disturbance: datanet hypothesis, cables, and the Wachtsterren conjunction.",
+      "standpunten": {
+        "archmage": "The low readings are attributed to the datanet (ARC-109, ARC-116). This is a hypothesis and not a demonstrated cause.",
+        "beast_master": "The cables caused the unrest, which the toren denied. The cables were still in place on day 27 (BEA-109, BEA-115).",
+        "oracle": "The Wachtsterren conjunction causes the heavy nights (ORA-121). This was claimed on day 21, before the day-33 conjunction (ORA-133)."
+      },
+      "uitkomst": "The Wachtsterren theory is unsupported because onset on day 10 precedes the day-33 conjunction. The cable theory is not corroborated by any other role, and the tower crew at the oude eik was already present on day 3 (BEA-102), before onset. The datanet hypothesis fits the timing and is the best-supported candidate, but the mechanism is not demonstrated.",
+      "bewijs": [
+        "ARC-109",
+        "ARC-116",
+        "BEA-109",
+        "BEA-115",
+        "BEA-102",
+        "ORA-121",
+        "ORA-133",
+        "ARC-114"
+      ]
+    },
+    {
+      "onderwerp": "Whether a disturbance occurred on day 14.",
+      "standpunten": {
+        "historian": "The only day-14 record (HIS-043) is a clear day at 11:35 with no disturbance. The Historian holds no ARC records and cannot confirm the Archmage readings.",
+        "archmage": "Low pre-dawn readings occurred across fourteen lines on day 14 (ARC-015 to ARC-028).",
+        "beast_master": "Level-4 disturbances occurred on day 14 at 04:20 and 04:25 (BEA-028, BEA-029).",
+        "oracle": "A heavy night occurred on day 14 at 04:20 (ORA-114)."
+      },
+      "uitkomst": "Settled as a disturbance on day 14. The Historian's record is a gap in its own archive, not a denial, and three independent roles corroborate the event.",
+      "bewijs": [
+        "HIS-043",
+        "ARC-015",
+        "ARC-028",
+        "BEA-028",
+        "BEA-029",
+        "ORA-114"
+      ]
+    },
+    {
+      "onderwerp": "Datanet pacing change on or before day 8 ('op eigen maat', ARC-106) and whether the net pacing changed on or before day 14.",
+      "standpunten": {
+        "archmage": "The net was allowed to run at its own pace on day 8 (ARC-106).",
+        "historian": "The Historian source contains no record of 'op eigen maat' and no datanet pacing change on or before day 14. This is not a denial, since the term is absent from its source.",
+        "engineer": "The hulpslag, which bypasses the Kroonklok pacing, was activated on day 10 (ENG-011, ENG-102)."
+      },
+      "uitkomst": null,
+      "bewijs": [
+        "ARC-106",
+        "HIS-106",
+        "ENG-011",
+        "ENG-102"
+      ]
+    },
+    {
+      "onderwerp": "Datanet switch-off request on day 24 (ARC-112) and its outcome.",
+      "standpunten": {
+        "archmage": "The council was asked on day 24 to switch the datanet off (ARC-112). The outcome is not recorded in the Archmage source.",
+        "historian": "The only day-24 entries are HIS-058 and HIS-059. The verslag content is not in the Historian source, so no decision can be confirmed or denied.",
+        "engineer": "Shutting the hulpslag off entirely is opposed in ENG-111, but no decision is recorded."
+      },
+      "uitkomst": null,
+      "bewijs": [
+        "ARC-112",
+        "HIS-058",
+        "HIS-059",
+        "ENG-111"
+      ]
+    },
+    {
+      "onderwerp": "Archived timestamps earlier than the events they record (day 22 at 01:50, day 10 at 04:50 archived on day 9).",
+      "standpunten": {
+        "guardian_keeper": "The archive entry GUA-115 is timed 01:50, before the 04:15 opening.",
+        "historian": "HIS-053 is archived at 01:50 for a 04:15 event and HIS-036 is archived on day 9 at 23:55 for a day-10 04:50 event. Both breach HIS-103. Clerk explanations (HIS-112, HIS-116) are not verified."
+      },
+      "uitkomst": "The timestamps are a recording error that breaches HIS-103. The events themselves are corroborated by GUA-043, ENG-026 and ORA-122. The cause of the error is not verified.",
+      "bewijs": [
+        "GUA-115",
+        "HIS-053",
+        "HIS-036",
+        "HIS-103",
+        "HIS-112",
+        "HIS-116"
+      ]
+    },
+    {
+      "onderwerp": "Claimed Guardian entries for two inside openings on day 23 (GUA-116).",
+      "standpunten": {
+        "guardian_keeper": "GUA-116 claims two inside openings between the last round and the change, but no day-23 opening appears in the Guardian log, which shows only GUA-046 (16:30, seals intact)."
+      },
+      "uitkomst": "Not corroborated by the Guardian log itself. The day-23 openings are treated as unconfirmed until the log is reconciled.",
+      "bewijs": [
+        "GUA-116",
+        "GUA-046"
+      ]
+    }
+  ],
+  "verbruik": {
+    "groot": {
+      "beurten": 9,
+      "invoer": 101644,
+      "gecached": 0,
+      "uitvoer": 52377
+    },
+    "klein": {
+      "beurten": 7,
+      "invoer": 88677,
+      "gecached": 0,
+      "uitvoer": 24017
+    }
+  },
+  "aan_het_woord": null,
+  "voltooid_op": "2026-11-24T15:09:18+01:00",
+  "duur_s": 330.33
+}

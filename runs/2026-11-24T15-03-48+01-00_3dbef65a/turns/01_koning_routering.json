@@ -1,0 +1,18 @@
+{
+  "nr": 1,
+  "ronde": 1,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T15:03:58+01:00",
+  "aan": "engineer",
+  "vraag": "Pillar 1 and 3 opener: Please report the exact datanet change, configuration update, or maintenance action that preceded the Desync, including the exact dates and times it was initiated, who authorized it, and the individual record IDs for each log entry. Also provide the exact per-date measurements (latency, packet loss, sync offset) from the first anomaly onward, citing each record ID separately, and state the pre-incident baseline values with their record IDs.",
+  "reden": "No council member has spoken yet. The Engineer keeps the measurable logs from the data tower, which is the most objective starting point for the trigger (ingreep), the onset, and the per-date measurements. Other roles' claims (magical, animal, prophetic, historical) can only be cross-checked once we have a verified timeline and trigger from the logs. Starting here gives the King hard dates to test the others against.",
+  "open_vragen": [
+    "What exact change or intervention preceded the Desync, and on what dates and times, with record IDs?",
+    "Who authorized that intervention, and under which governing rules or charters, with each rule cited by its own record ID?",
+    "What were the pre-incident baseline values and the exact per-date measurements from onset onward, with individual record IDs?",
+    "Does any recurring pattern or observation-schedule gap exist, and can the next occurrence be calculated from verified dates?",
+    "What operational constraints, prerequisites, or safety controls govern remediation order, and what governance gaps or ongoing risks are recorded, each with its own record ID?"
+  ],
+  "duur_ms": 4966
+}

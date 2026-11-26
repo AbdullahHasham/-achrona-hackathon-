@@ -1,0 +1,16 @@
+{
+  "nr": 19,
+  "ronde": 2,
+  "spreker": "koning",
+  "soort": "routering",
+  "tijdstip": "2026-11-24T15:06:42+01:00",
+  "aan": "historian",
+  "vraag": "Archmage ARC-015 to ARC-028 and ARC-109 record low leyline readings on day 14 before sunrise, and Beast Master BEA-028 (day 14, 04:20, bever, onrust 4) and BEA-029 (day 14, 04:25, uil, onrust 4) record level-4 unrest that day. Please answer three things: (1) Does HIS-043 ('heldere dag') or any other day-14 entry in your source record a leyline, shield, datanet or animal disturbance, and quote the exact wording of HIS-043. (2) Does your source contain any record of the day-14 Burchtader or other leyline readings in ARC-015 to ARC-028 or any kloosterader or pre-dawn observation? (3) Given Archmage's ARC-106 claim that the datanet ran 'op eigen maat' on day 8, does HIS-106 or any other record in your source state whether the datanet pacing changed on or before day 14?",
+  "reden": "Cross-examination is needed. The Archmage (ARC-109) attributes the day-14 lows to the datanet, while the Historian (HIS-043, HIS-106) reports a bright day with no disturbance and no leyline hapering. The Beast Master's BEA-028 and BEA-029 place level-4 unrest on day 14, which the Historian does not record. The Archmage's ARC-106 pacing claim on day 8 also contradicts the Historian's statement that no datanet pacing changes are recorded. The Historian is the only role that can resolve whether day 14 was a disturbance, and the Historian is the only source for the 'heldere dag' wording. Day-14 evidence is required before the causal chain (ingreep, mechanisme) can be considered complete. Previously open questions about the Oracle's rhythm and times are answered: the Oracle's heavy-night dates match the Beast Master's level-4 dates, but the Oracle's source ends at day 42 and does not predict day 46, and no source ties 04:15, 04:47 or 01:50 to a single cause. The Engineer's ENG-011 (02:40) and ENG-027 (04:20 firewall) remain unverified by any other source and are recorded as evidence limits. The hogerhand authorization and ARC-112 switch-off outcome are recorded as evidence limits.",
+  "open_vragen": [
+    "Historian: does HIS-043 ('heldere dag', day 14) or any other day-14 entry record a leyline, shield, datanet or animal disturbance, and what is the exact wording of HIS-043?",
+    "Historian: does HIS-106 or any other record in your source state whether the datanet pacing changed on or before day 14, given ARC-106 on day 8?",
+    "Historian: do HIS-112 and HIS-116 name any clerk, and what are the exact corrected timestamps for HIS-036 (dag 10 04:50 filed dag 9 23:55) and HIS-053 (dag 22 04:15 filed dag 22 01:50)?"
+  ],
+  "duur_ms": 16939
+}
