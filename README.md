@@ -13,8 +13,10 @@
 
 ## 📑 Table of Contents
 - [Executive Summary](#executive-summary)
+- [📸 Interactive UI Showcase](#-interactive-ui-showcase)
 - [🛠️ System Architecture & Forensic Multi-Agent Core](#️-system-architecture--forensic-multi-agent-core)
 - [🔄 Forensic Cross-Examination & Two-Pass Synthesis Pipeline](#-forensic-cross-examination--two-pass-synthesis-pipeline)
+- [🛡️ Deterministic Citation Gate & Confidence Calibration](#️-deterministic-citation-gate--confidence-calibration)
 - [The Engineering Journey: From Hackathon Prototype to v2](#the-engineering-journey-from-hackathon-prototype-to-v2)
 - [📊 Benchmark Results & Honest Post-Mortem](#-benchmark-results--honest-post-mortem)
 - [💻 Tech Stack](#-tech-stack)
@@ -35,13 +37,44 @@ Presiding over the council is a 7th agent — **The King** (`MODEL_GROOT`) — w
 
 ---
 
+## 📸 Interactive UI Showcase
+
+![Full-Viewport Tactical Council Chamber](docs/screenshots/02-council-chamber.jpg)
+*Full-Viewport Tactical Council Chamber showing the Zero-Tool King Sovereign orchestrator, 6 isolated MCP nodes, segmented turn timeline, and autonomous early stop at Turn 7/10.*
+
+<details>
+<summary><strong>1. Operative Briefing &amp; Isolated MCP Node Roster (Click to View)</strong></summary>
+
+![Operative Briefing Splash](docs/screenshots/01-briefing-splash.jpg)
+*The 6 isolated Council Members with their domain specialties, institutional biases, and verified citation counts.*
+
+</details>
+
+<details>
+<summary><strong>2. Sealed Royal Decree Envelope (Click to View)</strong></summary>
+
+![Wax-Sealed Royal Decree](docs/screenshots/03-royal-decree-seal.jpg)
+*Stage 1 of the Royal Decree overlay — click the 3D crimson wax seal to break it and unfurl the parchment verdict.*
+
+</details>
+
+<details>
+<summary><strong>3. Unfurled Royal Parchment Verdict &amp; Day 46 Forecast (Click to View)</strong></summary>
+
+![Unfurled Royal Parchment Verdict](docs/screenshots/04-royal-decree-open.jpg)
+*Stage 2 of the Royal Decree — progressive-disclosure parchment judgment with certainty bars, clickable citations, ordered recovery plan, and Day 46 forecast.*
+
+</details>
+
+---
+
 ## 🛠️ System Architecture & Forensic Multi-Agent Core
 
 The platform operates as an **Isolated Multi-Agent System (MAS)** built on **Microsoft Agent Framework** with a **Deterministic Python Verification Boundary** separating LLM generation from state persistence.
 
 ```mermaid
 graph TD
-    User[Reviewer / Operator Browser] -->|1. HTTP Polling / Replay| Viewer[Arcade CRT Viewer: Port 8100]
+    User[Reviewer / Operator Browser] -->|1. HTTP Polling / Replay| Viewer[Interactive Council Viewer: Port 8100]
     
     subgraph Orchestration Layer [Zero-Tool King Orchestrator - Large Model]
         King[King Orchestrator Engine] -->|2. Strict Pydantic Routing Decision| Router{Dynamic Speaker &<br/>Open-Questions Pruning}
@@ -49,18 +82,18 @@ graph TD
     end
     
     subgraph Multi-Agent Council [6 Isolated Council Members - Small Model]
-        Router -->|4. Blind Turn 1 / Full-Debate Follow-Up| Members[Archmage · Engineer · Guardian Keeper<br/>Historian · Beast Master · Oracle]
-        Members -->|5. Read Private Knowledge Source| MCP_Parser[Plain-Text MCP Response Parser]
+        Router -->|4. Blind Turn 1 / Cross-Exam Follow-Up| M1[Archmage] & M2[Engineer] & M3[Guardian Keeper] & M4[Historian] & M5[Beast Master] & M6[Oracle]
+        M1 & M2 & M3 & M4 & M5 & M6 -->|5. Read Private Source| MCP_Parser[Plain-Text MCP Response Parser]
     end
     
     subgraph Isolation Boundary [Self-Hosted Multi-Tenant MCP Server - Port 8200]
-        MCP_Parser <-->|6a. Streamable HTTP MCP| MCP_Srv((6 Isolated MCP Endpoints<br/>/role/mcp))
-        MCP_Srv <-->|6b. Role-Scoped Files| LocalKB[(Synthetic Demo Scenario<br/>or Custom Role Folders)]
+        MCP_Parser <-->|6a. Streamable HTTP| E1((/archmage/mcp)) & E2((/engineer/mcp)) & E3((/guardian_keeper/mcp)) & E4((/historian/mcp)) & E5((/beast_master/mcp)) & E6((/oracle/mcp))
+        E1 & E2 & E3 & E4 & E5 & E6 <-->|6b. Role-Scoped Files| LocalKB[(Synthetic Demo Scenario<br/>or Custom Role Folders)]
     end
     
     subgraph Verification Layer [Deterministic Python Safety Gates]
-        Members -->|7. Draft Testimony + Record IDs| Gate[Deterministic Citation Gate]
-        Gate -->|8. Hallucinated ID -> Auto-Retry Once| Members
+        M1 & M2 & M3 & M4 & M5 & M6 -->|7. Draft Testimony + Record IDs| Gate[Deterministic Citation Gate]
+        Gate -->|8. Hallucinated ID -> Auto-Retry Once| M1
         Gate -->|9. Verified Testimony & Spoken Allow-List| King
         Synth -->|10. Draft Verdict & Disputes| Gate
         Gate -->|11. Strip Unspoken IDs & Cap Confidence| Atomic[Atomic JSON Persistence]
@@ -78,8 +111,8 @@ graph TD
     classDef db fill:#064E3B,stroke:#059669,stroke-width:2px,color:#F8FAFC;
 
     class User,Viewer ui;
-    class King,Router,Synth,Members agent;
-    class MCP_Parser,Gate,Atomic,MCP_Srv tool;
+    class King,Router,Synth,M1,M2,M3,M4,M5,M6 agent;
+    class MCP_Parser,Gate,Atomic,E1,E2,E3,E4,E5,E6 tool;
     class LocalKB,Trace,Verdict db;
 ```
 
@@ -139,6 +172,33 @@ graph TD
     class KingCall,Fallback,BlindPrompt,DebatePrompt,DraftResp,RetryMem,Pass1,Pass2 agent;
     class Decision,Visibility,ToolCall,CiteCheck,Repair1,Compare tool;
     class RecordTurn db;
+```
+
+---
+
+## 🛡️ Deterministic Citation Gate & Confidence Calibration
+
+Every single record ID in the debate and final verdict passes through a **pure-Python deterministic verification pipeline** (`verify_gate.py`) — ensuring zero fabricated IDs and honest uncertainty calibration:
+
+```mermaid
+graph LR
+    RawMCP[1. Raw MCP Payload] --> Unwrap[2. Plain-Text Unwrap<br/>& Hyphen Normalization]
+    Unwrap --> Extract[3. Regex Record ID<br/>Extraction]
+    Extract --> Audit{4. All Cited IDs<br/>in Role Source?}
+    Audit -->|No: Fabricated ID| Retry[5a. Auto-Retry Witness<br/>Once with Exact Diff]
+    Audit -->|Yes: Grounded| Allow[5b. Add to Spoken<br/>Allow-List]
+    Allow --> Filter[6. Strip Unspoken IDs<br/>from Final Verdict]
+    Filter --> Cap[7. Cap Confidence if<br/>Single-Source or Disputed]
+    Cap --> ValidVerdict[(8. Schema-Validated<br/>verdict.json)]
+
+    classDef ui fill:#0F172A,stroke:#1E293B,stroke-width:2px,color:#F8FAFC;
+    classDef agent fill:#581C87,stroke:#7E22CE,stroke-width:2px,color:#F8FAFC;
+    classDef tool fill:#1E3A8A,stroke:#2563EB,stroke-width:2px,color:#F8FAFC;
+    classDef db fill:#064E3B,stroke:#059669,stroke-width:2px,color:#F8FAFC;
+
+    class RawMCP,ValidVerdict db;
+    class Retry agent;
+    class Unwrap,Extract,Audit,Allow,Filter,Cap tool;
 ```
 
 ---
@@ -245,6 +305,7 @@ This section documents the real engineering challenges encountered during the 1-
 
 ```text
 -achrona-hackathon-/
+├── docs/screenshots/                  # UI showcase screenshots embedded in README.md
 ├── demo_scenario/                     # Original synthetic 6-role dataset for live local MCP runs (zero proprietary data)
 ├── raadsleden/                        # 6 modular Council Member definitions (role, name, perspective, bias)
 │   ├── archmage.py
