@@ -74,35 +74,33 @@ The platform operates as an **Isolated Multi-Agent System (MAS)** built on **Mic
 
 ```mermaid
 graph TD
-    User[Reviewer / Operator Browser] -->|1. HTTP Polling / Replay| Viewer[Interactive Council Viewer: Port 8100]
-    
-    subgraph Orchestration Layer [Zero-Tool King Orchestrator - Large Model]
-        King[King Orchestrator Engine] -->|2. Strict Pydantic Routing Decision| Router{Dynamic Speaker &<br/>Open-Questions Pruning}
+    User[Reviewer / Operator Browser] -->|1. Open Replay or Live UI| Viewer[Interactive Council Viewer<br/>Port 8100]
+
+    subgraph Orchestrator [Zero-Tool King Orchestrator - Large Model]
+        King[King Orchestrator Engine] -->|2. Strict Pydantic Decision| Router{Dynamic Speaker &<br/>Open-Questions Pruning}
         Router -->|3. Autonomous Early Stop| Synth[Two-Pass Verdict Synthesizer]
     end
-    
-    subgraph Multi-Agent Council [6 Isolated Council Members - Small Model]
-        Router -->|4. Blind Turn 1 / Cross-Exam Follow-Up| M1[Archmage] & M2[Engineer] & M3[Guardian Keeper] & M4[Historian] & M5[Beast Master] & M6[Oracle]
-        M1 & M2 & M3 & M4 & M5 & M6 -->|5. Read Private Source| MCP_Parser[Plain-Text MCP Response Parser]
+
+    subgraph Council [Isolated Multi-Agent Council - Small Model]
+        Router -->|4. Blind Turn 1 / Cross-Exam| Members[6 Isolated Council Members<br/>Archmage · Engineer · Guardian<br/>Historian · Beast Master · Oracle]
+        Members -->|5. Tool Call per Role| MCP_Parser[Plain-Text MCP Parser]
     end
-    
-    subgraph Isolation Boundary [Self-Hosted Multi-Tenant MCP Server - Port 8200]
-        MCP_Parser <-->|6a. Streamable HTTP| E1((/archmage/mcp)) & E2((/engineer/mcp)) & E3((/guardian_keeper/mcp)) & E4((/historian/mcp)) & E5((/beast_master/mcp)) & E6((/oracle/mcp))
-        E1 & E2 & E3 & E4 & E5 & E6 <-->|6b. Role-Scoped Files| LocalKB[(Synthetic Demo Scenario<br/>or Custom Role Folders)]
+
+    subgraph Isolation [Self-Hosted Multi-Tenant MCP Server - Port 8200]
+        MCP_Parser <-->|6. Streamable HTTP| MCP_Srv((6 Isolated /role/mcp<br/>FastMCP Endpoints))
+        MCP_Srv <-->|7. Role-Scoped Read| LocalKB[(Synthetic Demo Scenario<br/>or Custom Role Folders)]
     end
-    
-    subgraph Verification Layer [Deterministic Python Safety Gates]
-        M1 & M2 & M3 & M4 & M5 & M6 -->|7. Draft Testimony + Record IDs| Gate[Deterministic Citation Gate]
-        Gate -->|8. Hallucinated ID -> Auto-Retry Once| M1
-        Gate -->|9. Verified Testimony & Spoken Allow-List| King
-        Synth -->|10. Draft Verdict & Disputes| Gate
-        Gate -->|11. Strip Unspoken IDs & Cap Confidence| Atomic[Atomic JSON Persistence]
+
+    subgraph Verification [Deterministic Python Safety Gates]
+        Members -->|8. Testimony + Record IDs| Gate[Deterministic Citation Gate]
+        Gate -.->|9. Invalid ID -> Auto-Retry| Members
+        Gate -->|10. Verified Spoken Allow-List| King
+        Synth -->|11. Draft Verdict & Disputes| Gate
     end
-    
-    subgraph Audit & Storage [Immutable Run Artifacts]
-        Atomic -->|12. Persist Turn-by-Turn Telemetry| Trace[(Debate Trace &<br/>Timestamped Run Archive)]
-        Atomic -->|13. Persist Final Judgment| Verdict[(Structured Council Verdict)]
-        Trace & Verdict -->|14. Live Stream / Offline Replay| Viewer
+
+    subgraph Artifacts [Immutable Audit Artifacts]
+        Gate -->|12. Atomic Write| Trace[(trace.json & verdict.json)]
+        Trace -->|13. Live Poll / Offline Replay| Viewer
     end
 
     classDef ui fill:#0F172A,stroke:#1E293B,stroke-width:2px,color:#F8FAFC;
@@ -111,9 +109,9 @@ graph TD
     classDef db fill:#064E3B,stroke:#059669,stroke-width:2px,color:#F8FAFC;
 
     class User,Viewer ui;
-    class King,Router,Synth,M1,M2,M3,M4,M5,M6 agent;
-    class MCP_Parser,Gate,Atomic,E1,E2,E3,E4,E5,E6 tool;
-    class LocalKB,Trace,Verdict db;
+    class King,Router,Synth,Members agent;
+    class MCP_Parser,Gate,MCP_Srv tool;
+    class LocalKB,Trace db;
 ```
 
 ### **The Core Agents & Verification Gates**
